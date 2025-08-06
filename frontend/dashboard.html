@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - MyStore Admin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .tool-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .tool-card h3 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .tool-card p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .tool-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .tool-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .ai-card {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            color: white;
+        }
+
+        .ai-card h3,
+        .ai-card p {
+            color: white;
+        }
+
+        .ai-card .tool-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .stats-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 15px;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4facfe;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏪 MyStore Dashboard</h1>
+            <p>Manage your multi-platform e-commerce business</p>
+        </div>
+
+        <div class="tools-grid">
+            <!-- AI-Powered Lister -->
+            <div class="tool-card ai-card" onclick="window.open('ai-lister.html', '_blank')">
+                <div class="tool-icon">🤖</div>
+                <h3>AI Product Lister</h3>
+                <p>Upload a photo, let AI analyze it, and automatically create eBay listings with generated titles, descriptions, and pricing!</p>
+                <a href="ai-lister.html" class="tool-btn">Launch AI Lister</a>
+            </div>
+
+            <!-- Product Management -->
+            <div class="tool-card" onclick="window.open('admin-full.html', '_blank')">
+                <div class="tool-icon">📦</div>
+                <h3>Product Manager</h3>
+                <p>View, add, edit, and delete products in your inventory. Full CRUD operations with analytics.</p>
+                <a href="admin-full.html" class="tool-btn">Manage Products</a>
+            </div>
+
+            <!-- eBay Helper -->
+            <div class="tool-card" onclick="window.open('ebay-helper.html', '_blank')">
+                <div class="tool-icon">🔍</div>
+                <h3>eBay Helper</h3>
+                <p>Import products from eBay URLs with automatic data extraction and image processing.</p>
+                <a href="ebay-helper.html" class="tool-btn">Import from eBay</a>
+            </div>
+
+            <!-- Store Frontend -->
+            <div class="tool-card" onclick="window.open('store.html', '_blank')">
+                <div class="tool-icon">🛍️</div>
+                <h3>Customer Store</h3>
+                <p>Beautiful storefront where customers can browse and view your products with responsive design.</p>
+                <a href="store.html" class="tool-btn">View Store</a>
+            </div>
+
+            <!-- API Testing -->
+            <div class="tool-card" onclick="testAPI()">
+                <div class="tool-icon">🧪</div>
+                <h3>API Tester</h3>
+                <p>Test your backend APIs including eBay integration, product management, and analytics endpoints.</p>
+                <button class="tool-btn" onclick="testAPI()">Test APIs</button>
+            </div>
+
+            <!-- Analytics -->
+            <div class="tool-card" onclick="loadAnalytics()">
+                <div class="tool-icon">📊</div>
+                <h3>Analytics</h3>
+                <p>View detailed analytics about visits, popular products, and business performance metrics.</p>
+                <button class="tool-btn" onclick="loadAnalytics()">View Analytics</button>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <h3 style="text-align: center; margin-bottom: 20px; color: #333;">Quick Stats</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalProducts">-</div>
+                    <div class="stat-label">Total Products</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="totalVisits">-</div>
+                    <div class="stat-label">Total Visits</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="uniqueVisitors">-</div>
+                    <div class="stat-label">Unique Visitors</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="avgPrice">-</div>
+                    <div class="stat-label">Avg Price</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load quick stats on page load
+        async function loadQuickStats() {
+            try {
+                // Load products
+                const productsRes = await fetch('/api/products');
+                const products = await productsRes.json();
+                document.getElementById('totalProducts').textContent = products.length;
+                
+                if (products.length > 0) {
+                    const avgPrice = products.reduce((sum, p) => sum + p.price, 0) / products.length;
+                    document.getElementById('avgPrice').textContent = '$' + avgPrice.toFixed(2);
+                }
+
+                // Load analytics
+                const analyticsRes = await fetch('/api/analytics');
+                const analytics = await analyticsRes.json();
+                document.getElementById('totalVisits').textContent = analytics.totalVisits || 0;
+                document.getElementById('uniqueVisitors').textContent = analytics.uniqueVisitors || 0;
+
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        async function testAPI() {
+            try {
+                const response = await fetch('/api/test');
+                const result = await response.json();
+                
+                if (result.status === 'working') {
+                    alert('✅ API Test Successful!\n\n' + 
+                          'Status: ' + result.status + '\n' +
+                          'Message: ' + result.message + '\n' +
+                          'Time: ' + new Date(result.timestamp).toLocaleString());
+                } else {
+                    alert('❌ API Test Failed');
+                }
+            } catch (error) {
+                alert('❌ API Connection Error: ' + error.message);
+            }
+        }
+
+        async function loadAnalytics() {
+            try {
+                const response = await fetch('/api/analytics');
+                const analytics = await response.json();
+                
+                let analyticsText = '📊 Analytics Summary\n\n';
+                analyticsText += `Total Visits: ${analytics.totalVisits}\n`;
+                analyticsText += `Unique Visitors: ${analytics.uniqueVisitors}\n\n`;
+                
+                analyticsText += 'Top Pages:\n';
+                Object.entries(analytics.pageViews || {})
+                    .sort(([,a], [,b]) => b - a)
+                    .slice(0, 5)
+                    .forEach(([page, views]) => {
+                        analyticsText += `${page}: ${views} views\n`;
+                    });
+
+                alert(analyticsText);
+            } catch (error) {
+                alert('❌ Analytics Error: ' + error.message);
+            }
+        }
+
+        // Load stats when page loads
+        loadQuickStats();
+
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.tool-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

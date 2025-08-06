@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Product Lister - Auto eBay Listing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .upload-section {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            border: 2px dashed #ddd;
+        }
+
+        .upload-section.dragover {
+            border-color: #4facfe;
+            background: #e8f4ff;
+        }
+
+        .upload-icon {
+            font-size: 4em;
+            color: #4facfe;
+            margin-bottom: 20px;
+        }
+
+        .upload-input {
+            display: none;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .preview-section {
+            display: none;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-section {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4facfe;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .ai-suggested {
+            background: #e8f4ff !important;
+            border-color: #4facfe !important;
+        }
+
+        .ai-badge {
+            background: #4facfe;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .submit-section {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 25px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .result-section {
+            display: none;
+            grid-column: 1 / -1;
+            background: #f0f8ff;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .success {
+            background: #e8f5e8;
+            border-left: 5px solid #4caf50;
+        }
+
+        .error {
+            background: #ffe8e8;
+            border-left: 5px solid #f44336;
+        }
+
+        .ebay-link {
+            display: inline-block;
+            background: #0064d2;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            margin: 10px;
+            transition: background 0.3s;
+        }
+
+        .ebay-link:hover {
+            background: #0052a3;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 AI Product Lister</h1>
+            <p>Upload a photo, let AI analyze it, add your details, and automatically list on eBay!</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Upload Section -->
+            <div class="upload-section" id="uploadSection">
+                <div class="upload-icon">📸</div>
+                <h3>Upload Product Photo</h3>
+                <p>Drag & drop or click to select an image</p>
+                <input type="file" id="imageInput" class="upload-input" accept="image/*">
+                <button class="upload-btn" onclick="document.getElementById('imageInput').click()">
+                    Choose Image
+                </button>
+                
+                <div class="preview-section" id="previewSection">
+                    <img id="previewImage" class="preview-image" alt="Product preview">
+                    <button class="upload-btn" onclick="analyzeImage()">
+                        🤖 Analyze with AI
+                    </button>
+                </div>
+            </div>
+
+            <!-- Form Section -->
+            <div class="form-section">
+                <h3>Product Details</h3>
+                <form id="listingForm">
+                    <div class="form-group">
+                        <label for="title">Product Title <span class="ai-badge" id="titleBadge" style="display:none">AI</span></label>
+                        <input type="text" id="title" name="title" maxlength="80" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description <span class="ai-badge" id="descBadge" style="display:none">AI</span></label>
+                        <textarea id="description" name="description" required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="category">Category <span class="ai-badge" id="catBadge" style="display:none">AI</span></label>
+                            <select id="category" name="category" required>
+                                <option value="">Select Category</option>
+                                <option value="550">Art</option>
+                                <option value="2984">Baby</option>
+                                <option value="625">Cameras & Photo</option>
+                                <option value="11450">Clothing, Shoes & Accessories</option>
+                                <option value="58058">Collectibles</option>
+                                <option value="1">Consumer Electronics</option>
+                                <option value="11232">DVDs & Movies</option>
+                                <option value="6000">eBay Motors</option>
+                                <option value="11233">Music</option>
+                                <option value="1281">Pet Supplies</option>
+                                <option value="267">Books</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="condition">Condition</label>
+                            <select id="condition" name="condition" required>
+                                <option value="NEW_WITH_TAGS">New with tags</option>
+                                <option value="NEW_WITHOUT_TAGS">New without tags</option>
+                                <option value="NEW_WITH_DEFECTS">New with defects</option>
+                                <option value="USED_EXCELLENT">Used - Excellent</option>
+                                <option value="USED_GOOD">Used - Good</option>
+                                <option value="USED_FAIR">Used - Fair</option>
+                                <option value="FOR_PARTS">For parts or not working</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="price">Price (USD) <span class="ai-badge" id="priceBadge" style="display:none">AI</span></label>
+                            <input type="number" id="price" name="price" step="0.01" min="0.01" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="quantity">Quantity</label>
+                            <input type="number" id="quantity" name="quantity" value="1" min="1" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="brand">Brand</label>
+                            <input type="text" id="brand" name="brand">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="size">Size</label>
+                            <input type="text" id="size" name="size">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="color">Color <span class="ai-badge" id="colorBadge" style="display:none">AI</span></label>
+                            <input type="text" id="color" name="color">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="material">Material <span class="ai-badge" id="materialBadge" style="display:none">AI</span></label>
+                            <input type="text" id="material" name="material">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Submit Section -->
+            <div class="submit-section">
+                <button class="submit-btn" id="submitBtn" onclick="createListing()" disabled>
+                    🚀 List on eBay & Save Locally
+                </button>
+                <button class="submit-btn" id="draftBtn" onclick="saveDraft()" disabled style="background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);">
+                    📝 Save as Draft
+                </button>
+                <br>
+                <small>Create a live eBay listing or save as draft for later</small>
+                <br>
+                <a href="drafts.html" style="color: #4facfe; text-decoration: none; font-size: 0.9em;">📋 Manage Drafts</a>
+            </div>
+
+            <!-- Loading Section -->
+            <div class="loading" id="loadingSection">
+                <div class="spinner"></div>
+                <p id="loadingText">Processing...</p>
+            </div>
+
+            <!-- Result Section -->
+            <div class="result-section" id="resultSection">
+                <h3 id="resultTitle"></h3>
+                <p id="resultMessage"></p>
+                <div id="resultActions"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentImageFile = null;
+        let aiAnalysis = null;
+
+        // Drag and drop functionality
+        const uploadSection = document.getElementById('uploadSection');
+        const imageInput = document.getElementById('imageInput');
+        const previewSection = document.getElementById('previewSection');
+        const previewImage = document.getElementById('previewImage');
+
+        uploadSection.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadSection.classList.add('dragover');
+        });
+
+        uploadSection.addEventListener('dragleave', () => {
+            uploadSection.classList.remove('dragover');
+        });
+
+        uploadSection.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadSection.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleImageSelect(files[0]);
+            }
+        });
+
+        imageInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleImageSelect(e.target.files[0]);
+            }
+        });
+
+        function handleImageSelect(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file');
+                return;
+            }
+
+            currentImageFile = file;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImage.src = e.target.result;
+                previewSection.style.display = 'block';
+                document.getElementById('submitBtn').disabled = false;
+                document.getElementById('draftBtn').disabled = false;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function analyzeImage() {
+            if (!currentImageFile) {
+                alert('Please select an image first');
+                return;
+            }
+
+            showLoading('Analyzing image with AI...');
+
+            const formData = new FormData();
+            formData.append('image', currentImageFile);
+
+            try {
+                const response = await fetch('/api/analyze-product-image', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    aiAnalysis = result.analysis;
+                    populateFormWithAI(aiAnalysis);
+                    hideLoading();
+                    
+                    // Show detailed analysis results
+                    let analysisDetails = `🤖 AI Analysis Results:\n\n`;
+                    analysisDetails += `📝 Title: "${aiAnalysis.title}"\n`;
+                    analysisDetails += `💰 Suggested Price: $${aiAnalysis.suggestedPrice}\n`;
+                    analysisDetails += `🏷️ Category: ${getCategoryName(aiAnalysis.category)}\n`;
+                    analysisDetails += `🎨 Color: ${aiAnalysis.color}\n`;
+                    analysisDetails += `🧵 Material: ${aiAnalysis.material}\n\n`;
+                    analysisDetails += `✅ Form fields have been auto-filled with AI suggestions!\n`;
+                    analysisDetails += `👉 Please add Brand and Size, then click Submit to create your listing.`;
+                    
+                    showResult('success', '🤖 AI Analysis Complete!', analysisDetails);
+                    
+                    // Scroll to form to show the auto-filled fields
+                    document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth' });
+                    
+                } else {
+                    throw new Error(result.error || 'Analysis failed');
+                }
+            } catch (error) {
+                hideLoading();
+                showResult('error', '❌ Analysis Failed', error.message);
+            }
+        }
+
+        function populateFormWithAI(analysis) {
+            console.log('🤖 Populating form with AI analysis:', analysis);
+            
+            // Fill form fields with AI suggestions
+            const fields = {
+                'title': analysis.title,
+                'description': analysis.description,
+                'category': analysis.category, // Use the category ID directly
+                'condition': analysis.condition,
+                'price': analysis.suggestedPrice,
+                'color': analysis.color,
+                'material': analysis.material
+            };
+
+            // Add animation and visual feedback
+            let delay = 0;
+            Object.entries(fields).forEach(([fieldId, value]) => {
+                if (value) {
+                    setTimeout(() => {
+                        const field = document.getElementById(fieldId);
+                        const badge = document.getElementById(fieldId + 'Badge');
+                        
+                        if (field) {
+                            // Add typing animation effect
+                            field.style.background = '#e8f4ff';
+                            field.style.border = '2px solid #4facfe';
+                            field.style.transition = 'all 0.3s ease';
+                            
+                            // Set the value
+                            field.value = value;
+                            field.classList.add('ai-suggested');
+                            
+                            // Show AI badge
+                            if (badge) {
+                                badge.style.display = 'inline';
+                                badge.style.animation = 'pulse 1s';
+                            }
+                            
+                            // Brief highlight effect
+                            setTimeout(() => {
+                                field.style.background = '#f0f8ff';
+                                field.style.border = '2px solid #4facfe';
+                            }, 500);
+                            
+                            console.log(`✅ Filled ${fieldId} with: ${value}`);
+                        }
+                    }, delay);
+                    delay += 200; // Stagger the animation
+                }
+            });
+            
+            // Show completion message after all fields are filled
+            setTimeout(() => {
+                console.log('🎉 All AI suggestions have been applied to the form!');
+                // Briefly highlight the brand and size fields that need user input
+                ['brand', 'size'].forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    if (field) {
+                        field.style.background = '#fff3cd';
+                        field.style.border = '2px solid #ffc107';
+                        field.placeholder = field.placeholder + ' (Required)';
+                        setTimeout(() => {
+                            field.style.background = '';
+                            field.style.border = '2px solid #e1e5e9';
+                        }, 2000);
+                    }
+                });
+            }, delay + 500);
+        }
+
+        function getCategoryId(categoryName) {
+            const categoryMap = {
+                'Clothing, Shoes & Accessories': '11450',
+                'Electronics': '1',
+                'Consumer Electronics': '1',
+                'Home & Garden': '11700',
+                'Art': '550',
+                'Baby': '2984',
+                'Collectibles': '58058'
+            };
+            return categoryMap[categoryName] || '';
+        }
+
+        function getCategoryName(categoryId) {
+            const categoryMap = {
+                '11450': 'Clothing, Shoes & Accessories',
+                '1': 'Electronics',
+                '58058': 'Collectibles',
+                '11700': 'Home & Garden',
+                '550': 'Art',
+                '2984': 'Baby',
+                '267': 'Books',
+                '625': 'Cameras & Photo',
+                '1281': 'Pet Supplies'
+            };
+            return categoryMap[categoryId] || 'General Category';
+        }
+
+        async function createListing() {
+            const form = document.getElementById('listingForm');
+            const formData = new FormData(form);
+            
+            // Validate required fields
+            if (!formData.get('title') || !formData.get('description') || 
+                !formData.get('category') || !formData.get('price')) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            showLoading('Creating eBay listing...');
+
+            // Prepare listing data
+            const listingData = {
+                title: formData.get('title'),
+                description: formData.get('description'),
+                category: formData.get('category'),
+                condition: formData.get('condition'),
+                price: parseFloat(formData.get('price')),
+                brand: formData.get('brand'),
+                size: formData.get('size'),
+                color: formData.get('color'),
+                material: formData.get('material'),
+                quantity: parseInt(formData.get('quantity')),
+                images: aiAnalysis ? [previewImage.src] : [] // Use preview image
+            };
+
+            try {
+                const response = await fetch('/api/ebay/create-complete-listing', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(listingData)
+                });
+
+                const result = await response.json();
+                hideLoading();
+
+                if (result.success) {
+                    let message = result.message || 'Listing created successfully!';
+                    let actions = '<button class="submit-btn" onclick="resetForm()">📝 Create Another Listing</button>';
+                    
+                    if (result.ebayUrl) {
+                        message += `\n\n📦 SKU: ${result.sku}\n🔗 eBay Listing ID: ${result.listingId}\n✅ Status: Live on eBay!`;
+                        actions = `
+                            <a href="${result.ebayUrl}" target="_blank" class="ebay-link">
+                                🔗 View Live on eBay
+                            </a>
+                            <button class="submit-btn" onclick="resetForm()">📝 Create Another Listing</button>
+                        `;
+                    }
+
+                    showResult('success', '🎉 Professional eBay Listing Created!', message, actions);
+                } else {
+                    throw new Error(result.error || 'Listing creation failed');
+                }
+            } catch (error) {
+                hideLoading();
+                showResult('error', '❌ Listing Failed', error.message);
+            }
+        }
+
+        function showLoading(text) {
+            document.getElementById('loadingText').textContent = text;
+            document.getElementById('loadingSection').style.display = 'block';
+            document.getElementById('resultSection').style.display = 'none';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingSection').style.display = 'none';
+        }
+
+        function showResult(type, title, message, actions = '') {
+            const resultSection = document.getElementById('resultSection');
+            resultSection.className = `result-section ${type}`;
+            resultSection.style.display = 'block';
+            
+            document.getElementById('resultTitle').textContent = title;
+            document.getElementById('resultMessage').textContent = message;
+            document.getElementById('resultActions').innerHTML = actions;
+        }
+
+        function resetForm() {
+            document.getElementById('listingForm').reset();
+            document.getElementById('resultSection').style.display = 'none';
+            previewSection.style.display = 'none';
+            currentImageFile = null;
+            aiAnalysis = null;
+            
+            // Remove AI styling
+            document.querySelectorAll('.ai-suggested').forEach(el => {
+                el.classList.remove('ai-suggested');
+            });
+            document.querySelectorAll('.ai-badge').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('draftBtn').disabled = true;
+        }
+
+        async function saveDraft() {
+            const form = document.getElementById('listingForm');
+            const formData = new FormData(form);
+            
+            // Validate required fields for draft (only title and description)
+            if (!formData.get('title') || !formData.get('description')) {
+                alert('Please fill in at least the title and description to save as draft');
+                return;
+            }
+
+            showLoading('Saving draft...');
+
+            // Prepare draft data
+            const draftData = {
+                title: formData.get('title'),
+                description: formData.get('description'),
+                category: formData.get('category'),
+                condition: formData.get('condition'),
+                price: parseFloat(formData.get('price')) || 0,
+                brand: formData.get('brand'),
+                size: formData.get('size'),
+                color: formData.get('color'),
+                material: formData.get('material'),
+                quantity: parseInt(formData.get('quantity')) || 1,
+                images: previewImage.src ? [previewImage.src] : []
+            };
+
+            try {
+                const response = await fetch('/api/drafts/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(draftData)
+                });
+
+                const result = await response.json();
+                hideLoading();
+
+                if (result.success) {
+                    let message = `Draft saved successfully!\n\nDraft ID: ${result.draft.id}\nTitle: "${result.draft.title}"\n\nYou can edit and publish this draft later from the Draft Manager.`;
+                    let actions = `
+                        <a href="drafts.html" class="ebay-link">📋 Manage Drafts</a>
+                        <button class="submit-btn" onclick="resetForm()">📝 Create Another Listing</button>
+                    `;
+
+                    showResult('success', '📝 Draft Saved Successfully!', message, actions);
+                } else {
+                    throw new Error(result.error || 'Draft save failed');
+                }
+            } catch (error) {
+                hideLoading();
+                showResult('error', '❌ Draft Save Failed', error.message);
+            }
+        }
+    </script>
+</body>
+</html>

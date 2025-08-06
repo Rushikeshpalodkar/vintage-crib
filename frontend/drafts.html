@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draft Manager - Save & Publish eBay Listings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .main-content {
+            padding: 30px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn.success {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+        }
+
+        .btn.danger {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+        }
+
+        .btn.warning {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border-left: 5px solid #4facfe;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #4facfe;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .drafts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .draft-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            border-left: 5px solid #ddd;
+        }
+
+        .draft-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .draft-card.draft {
+            border-left-color: #ff9800;
+        }
+
+        .draft-card.published {
+            border-left-color: #4caf50;
+        }
+
+        .draft-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .draft-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+
+        .draft-status {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .draft-status.draft {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .draft-status.published {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .draft-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            font-size: 0.9em;
+        }
+
+        .draft-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        .draft-meta span {
+            color: #666;
+        }
+
+        .draft-meta strong {
+            color: #333;
+        }
+
+        .draft-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .draft-actions .btn {
+            font-size: 0.85em;
+            padding: 8px 16px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4facfe;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .drafts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 Draft Manager</h1>
+            <p>Save listings as drafts, edit them later, and publish when ready</p>
+        </div>
+
+        <div class="main-content">
+            <div class="controls">
+                <div>
+                    <a href="ai-lister.html" class="btn">🤖 Create New Listing</a>
+                    <button class="btn success" onclick="openCreateDraftModal()">📝 New Draft</button>
+                </div>
+                <div>
+                    <button class="btn" onclick="loadDrafts()">🔄 Refresh</button>
+                    <a href="admin.html" class="btn">🏠 Admin Dashboard</a>
+                </div>
+            </div>
+
+            <div class="stats" id="statsSection">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalDrafts">0</div>
+                    <div class="stat-label">Total Drafts</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="draftCount">0</div>
+                    <div class="stat-label">Unpublished</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="publishedCount">0</div>
+                    <div class="stat-label">Published</div>
+                </div>
+            </div>
+
+            <div class="loading" id="loadingSection">
+                <div class="spinner"></div>
+                <p>Loading drafts...</p>
+            </div>
+
+            <div class="drafts-grid" id="draftsGrid">
+                <!-- Drafts will be loaded here -->
+            </div>
+
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <h3>📄 No Drafts Yet</h3>
+                <p>Create your first draft to get started</p>
+                <br>
+                <button class="btn success" onclick="openCreateDraftModal()">📝 Create First Draft</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create/Edit Draft Modal -->
+    <div id="draftModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Create New Draft</h2>
+                <span class="close" onclick="closeDraftModal()">&times;</span>
+            </div>
+            
+            <form id="draftForm">
+                <div class="form-group">
+                    <label for="draftTitle">Product Title</label>
+                    <input type="text" id="draftTitle" name="title" maxlength="80" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="draftDescription">Description</label>
+                    <textarea id="draftDescription" name="description" required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="draftCategory">Category</label>
+                        <select id="draftCategory" name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="550">Art</option>
+                            <option value="2984">Baby</option>
+                            <option value="625">Cameras & Photo</option>
+                            <option value="11450">Clothing, Shoes & Accessories</option>
+                            <option value="58058">Collectibles</option>
+                            <option value="1">Consumer Electronics</option>
+                            <option value="11232">DVDs & Movies</option>
+                            <option value="6000">eBay Motors</option>
+                            <option value="11233">Music</option>
+                            <option value="1281">Pet Supplies</option>
+                            <option value="267">Books</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="draftCondition">Condition</label>
+                        <select id="draftCondition" name="condition" required>
+                            <option value="NEW_WITH_TAGS">New with tags</option>
+                            <option value="NEW_WITHOUT_TAGS">New without tags</option>
+                            <option value="NEW_WITH_DEFECTS">New with defects</option>
+                            <option value="USED_EXCELLENT">Used - Excellent</option>
+                            <option value="USED_GOOD">Used - Good</option>
+                            <option value="USED_FAIR">Used - Fair</option>
+                            <option value="FOR_PARTS">For parts or not working</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="draftPrice">Price (USD)</label>
+                        <input type="number" id="draftPrice" name="price" step="0.01" min="0.01">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="draftQuantity">Quantity</label>
+                        <input type="number" id="draftQuantity" name="quantity" value="1" min="1">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="draftBrand">Brand</label>
+                        <input type="text" id="draftBrand" name="brand">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="draftSize">Size</label>
+                        <input type="text" id="draftSize" name="size">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="draftColor">Color</label>
+                        <input type="text" id="draftColor" name="color">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="draftMaterial">Material</label>
+                        <input type="text" id="draftMaterial" name="material">
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px;">
+                    <button type="button" class="btn" onclick="closeDraftModal()">Cancel</button>
+                    <button type="submit" class="btn success" id="saveDraftBtn">📝 Save Draft</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentDraftId = null;
+        let drafts = [];
+
+        // Load drafts on page load
+        window.addEventListener('load', loadDrafts);
+
+        async function loadDrafts() {
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/drafts');
+                const result = await response.json();
+                
+                if (result.success) {
+                    drafts = result.drafts;
+                    updateStats();
+                    displayDrafts();
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                console.error('Error loading drafts:', error);
+                alert('Failed to load drafts: ' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function updateStats() {
+            const totalDrafts = drafts.length;
+            const draftCount = drafts.filter(d => d.status === 'draft').length;
+            const publishedCount = drafts.filter(d => d.status === 'published').length;
+
+            document.getElementById('totalDrafts').textContent = totalDrafts;
+            document.getElementById('draftCount').textContent = draftCount;
+            document.getElementById('publishedCount').textContent = publishedCount;
+        }
+
+        function displayDrafts() {
+            const grid = document.getElementById('draftsGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            if (drafts.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            grid.style.display = 'grid';
+            emptyState.style.display = 'none';
+            
+            grid.innerHTML = drafts.map(draft => createDraftCard(draft)).join('');
+        }
+
+        function createDraftCard(draft) {
+            const createdDate = new Date(draft.createdAt).toLocaleDateString();
+            const updatedDate = new Date(draft.updatedAt).toLocaleDateString();
+            
+            const statusClass = draft.status === 'published' ? 'published' : 'draft';
+            const statusText = draft.status === 'published' ? 'Published' : 'Draft';
+            
+            let actions = '';
+            if (draft.status === 'draft') {
+                actions = `
+                    <button class="btn" onclick="editDraft('${draft.id}')">✏️ Edit</button>
+                    <button class="btn success" onclick="publishDraft('${draft.id}')">🚀 Publish</button>
+                    <button class="btn danger" onclick="deleteDraft('${draft.id}')">🗑️ Delete</button>
+                `;
+            } else {
+                actions = `
+                    <button class="btn" onclick="viewDraft('${draft.id}')">👁️ View</button>
+                    <button class="btn danger" onclick="deleteDraft('${draft.id}')">🗑️ Delete</button>
+                `;
+            }
+
+            return `
+                <div class="draft-card ${statusClass}">
+                    <div class="draft-header">
+                        <div>
+                            <div class="draft-title">${draft.title}</div>
+                        </div>
+                        <div class="draft-status ${statusClass}">${statusText}</div>
+                    </div>
+                    
+                    <div class="draft-description">${draft.description}</div>
+                    
+                    <div class="draft-meta">
+                        <span><strong>Price:</strong> $${draft.price || 'Not set'}</span>
+                        <span><strong>Category:</strong> ${getCategoryName(draft.category)}</span>
+                        <span><strong>Created:</strong> ${createdDate}</span>
+                        <span><strong>Updated:</strong> ${updatedDate}</span>
+                    </div>
+                    
+                    <div class="draft-actions">
+                        ${actions}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getCategoryName(categoryId) {
+            const categoryMap = {
+                '11450': 'Clothing, Shoes & Accessories',
+                '1': 'Consumer Electronics',
+                '58058': 'Collectibles',
+                '11700': 'Home & Garden',
+                '550': 'Art',
+                '2984': 'Baby',
+                '267': 'Books',
+                '625': 'Cameras & Photo',
+                '1281': 'Pet Supplies',
+                '11232': 'DVDs & Movies',
+                '6000': 'eBay Motors',
+                '11233': 'Music'
+            };
+            return categoryMap[categoryId] || 'Unknown Category';
+        }
+
+        function openCreateDraftModal() {
+            currentDraftId = null;
+            document.getElementById('modalTitle').textContent = 'Create New Draft';
+            document.getElementById('saveDraftBtn').textContent = '📝 Save Draft';
+            document.getElementById('draftForm').reset();
+            document.getElementById('draftModal').style.display = 'block';
+        }
+
+        async function editDraft(draftId) {
+            try {
+                const response = await fetch(`/api/drafts/${draftId}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    const draft = result.draft;
+                    currentDraftId = draftId;
+                    
+                    document.getElementById('modalTitle').textContent = 'Edit Draft';
+                    document.getElementById('saveDraftBtn').textContent = '💾 Update Draft';
+                    
+                    // Fill form with draft data
+                    document.getElementById('draftTitle').value = draft.title || '';
+                    document.getElementById('draftDescription').value = draft.description || '';
+                    document.getElementById('draftCategory').value = draft.category || '';
+                    document.getElementById('draftCondition').value = draft.condition || 'NEW_WITH_TAGS';
+                    document.getElementById('draftPrice').value = draft.price || '';
+                    document.getElementById('draftQuantity').value = draft.quantity || 1;
+                    document.getElementById('draftBrand').value = draft.brand || '';
+                    document.getElementById('draftSize').value = draft.size || '';
+                    document.getElementById('draftColor').value = draft.color || '';
+                    document.getElementById('draftMaterial').value = draft.material || '';
+                    
+                    document.getElementById('draftModal').style.display = 'block';
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                alert('Failed to load draft: ' + error.message);
+            }
+        }
+
+        async function viewDraft(draftId) {
+            await editDraft(draftId);
+            // Make all form fields readonly for viewing
+            const form = document.getElementById('draftForm');
+            const inputs = form.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => input.setAttribute('readonly', true));
+            
+            document.getElementById('modalTitle').textContent = 'View Draft';
+            document.getElementById('saveDraftBtn').style.display = 'none';
+        }
+
+        function closeDraftModal() {
+            document.getElementById('draftModal').style.display = 'none';
+            
+            // Reset form and remove readonly attributes
+            const form = document.getElementById('draftForm');
+            form.reset();
+            const inputs = form.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => input.removeAttribute('readonly'));
+            
+            document.getElementById('saveDraftBtn').style.display = 'inline-block';
+            currentDraftId = null;
+        }
+
+        async function publishDraft(draftId) {
+            if (!confirm('Are you sure you want to publish this draft to eBay? This will create a live listing.')) {
+                return;
+            }
+            
+            showLoading();
+            
+            try {
+                const response = await fetch(`/api/drafts/${draftId}/publish`, {
+                    method: 'POST'
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(`✅ Draft published successfully!\n\nSKU: ${result.sku}\nListing ID: ${result.listingId}\n\nYour product is now live on eBay!`);
+                    
+                    if (result.ebayUrl) {
+                        const openListing = confirm('Would you like to view your live eBay listing?');
+                        if (openListing) {
+                            window.open(result.ebayUrl, '_blank');
+                        }
+                    }
+                    
+                    loadDrafts(); // Refresh the list
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                alert('Failed to publish draft: ' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function deleteDraft(draftId) {
+            if (!confirm('Are you sure you want to delete this draft? This action cannot be undone.')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/drafts/${draftId}`, {
+                    method: 'DELETE'
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('Draft deleted successfully');
+                    loadDrafts(); // Refresh the list
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                alert('Failed to delete draft: ' + error.message);
+            }
+        }
+
+        // Handle draft form submission
+        document.getElementById('draftForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const draftData = {
+                title: formData.get('title'),
+                description: formData.get('description'),
+                category: formData.get('category'),
+                condition: formData.get('condition'),
+                price: parseFloat(formData.get('price')) || 0,
+                quantity: parseInt(formData.get('quantity')) || 1,
+                brand: formData.get('brand'),
+                size: formData.get('size'),
+                color: formData.get('color'),
+                material: formData.get('material')
+            };
+            
+            try {
+                let response;
+                if (currentDraftId) {
+                    // Update existing draft
+                    response = await fetch(`/api/drafts/${currentDraftId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(draftData)
+                    });
+                } else {
+                    // Create new draft
+                    response = await fetch('/api/drafts/save', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(draftData)
+                    });
+                }
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(currentDraftId ? 'Draft updated successfully!' : 'Draft saved successfully!');
+                    closeDraftModal();
+                    loadDrafts(); // Refresh the list
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                alert('Failed to save draft: ' + error.message);
+            }
+        });
+
+        function showLoading() {
+            document.getElementById('loadingSection').style.display = 'block';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingSection').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('draftModal');
+            if (event.target == modal) {
+                closeDraftModal();
+            }
+        }
+    </script>
+</body>
+</html>
