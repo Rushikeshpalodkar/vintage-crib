@@ -10,6 +10,15 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Performance optimizations for Render free tier
+app.disable('x-powered-by');
+app.set('trust proxy', 1);
+
+// Memory management
+let productCache = null;
+let cacheExpiry = 0;
+const CACHE_DURATION = 300000; // 5 minutes
+
 // eBay API Configuration
 const eBay = new EBay({
     clientId: process.env.EBAY_APP_ID,
@@ -28,11 +37,22 @@ app.use(express.json());
 // Data file path
 const DATA_FILE = path.join(__dirname, 'data', 'products.json');
 
-// Helper functions
+// Helper functions with caching
 async function readProducts() {
+    // Use cache if available and not expired
+    if (productCache && Date.now() < cacheExpiry) {
+        return productCache;
+    }
+    
     try {
         const data = await fs.readFile(DATA_FILE, 'utf8');
-        return JSON.parse(data);
+        const products = JSON.parse(data);
+        
+        // Cache the results
+        productCache = products;
+        cacheExpiry = Date.now() + CACHE_DURATION;
+        
+        return products;
     } catch (error) {
         console.log('📁 Creating new products.json file');
         await fs.mkdir(path.join(__dirname, 'data'), { recursive: true });
@@ -465,14 +485,50 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
+// Error handling for stability
+process.on('uncaughtException', (error) => {
+    console.error('❌ Uncaught Exception:', error.message);
+    // Don't exit, try to recover
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
+    // Don't exit, try to recover
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+    console.log('🛑 Received SIGTERM, shutting down gracefully');
+    process.exit(0);
+});
+
 // Start server
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log('🚀 Server running on http://localhost:' + PORT);
     console.log('📂 Frontend folder: ./frontend/');
     console.log('🧪 Test API: http://localhost:' + PORT + '/api/test');
     console.log('📦 Products API: http://localhost:' + PORT + '/api/products');
     console.log('🗑️ Delete API: DELETE http://localhost:' + PORT + '/api/products/:id');
 });
+
+// Handle server errors
+server.on('error', (error) => {
+    console.error('❌ Server error:', error.message);
+});
+
+// Keep alive for Render + Memory cleanup
+setInterval(() => {
+    // Light memory cleanup
+    if (global.gc) {
+        global.gc();
+    }
+    
+    // Prevent analytics memory leaks
+    if (analytics.uniqueVisitors.size > 500) {
+        analytics.uniqueVisitors.clear();
+        console.log('🧹 Cleared analytics cache to prevent memory leak');
+    }
+}, 60000); // Every minute
 // Simple analytics storage
 let analytics = {
     totalVisits: 0,
