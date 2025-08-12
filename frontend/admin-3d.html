@@ -692,6 +692,247 @@
             50% { transform: rotateY(180deg) rotateX(90deg); }
             100% { transform: rotateY(360deg) rotateX(0deg); }
         }
+
+        /* 🏺 Product Management Styles */
+        .products-management-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-management-card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-3d-light);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
+            position: relative;
+        }
+
+        .product-management-card:hover {
+            box-shadow: var(--shadow-3d-medium);
+            transform: translateY(-2px);
+        }
+
+        .product-management-card.selected {
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .product-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--gray-100);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .product-select-checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .product-card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn.edit {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .action-btn.edit:hover {
+            background: var(--secondary-dark);
+            transform: scale(1.05);
+        }
+
+        .action-btn.delete {
+            background: var(--danger);
+            color: white;
+        }
+
+        .action-btn.delete:hover {
+            background: #d32f2f;
+            transform: scale(1.05);
+        }
+
+        .product-card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: var(--gray-100);
+        }
+
+        .product-card-content {
+            padding: 1rem;
+        }
+
+        .product-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-card-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-card-description {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        .product-card-category {
+            background: var(--light);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-3d-dark);
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray-500);
+            transition: color 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--gray-900);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .products-management-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -826,7 +1067,127 @@ https://www.ebay.com/itm/345678"></textarea>
                 </button>
             </div>
         </div>
+
+        <!-- 🏺 Advanced Product Management Section -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-box-open"></i>
+                🏺 Product Management
+            </h2>
+            
+            <!-- Product Search and Filters -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                <input type="text" id="adminSearchInput" placeholder="🔍 Search products..." 
+                       style="flex: 1; min-width: 300px; padding: 12px; border: 1px solid var(--gray-300); border-radius: 8px; font-size: 14px;">
+                <select id="adminCategoryFilter" style="padding: 12px; border: 1px solid var(--gray-300); border-radius: 8px;">
+                    <option value="">🏷️ All Categories</option>
+                    <option value="clothing">👕 Clothing</option>
+                    <option value="collectibles">🏺 Collectibles</option>
+                    <option value="electronics">📱 Electronics</option>
+                    <option value="home">🏠 Home & Garden</option>
+                    <option value="vintage">✨ Vintage</option>
+                </select>
+                <button class="btn primary" onclick="addNewProduct()">
+                    <i class="fas fa-plus"></i>
+                    ➕ Add New Product
+                </button>
+            </div>
+
+            <!-- Bulk Operations -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                <button class="btn outline" onclick="selectAllProducts()">
+                    <i class="fas fa-check-square"></i>
+                    ☑️ Select All
+                </button>
+                <button class="btn danger" onclick="bulkDeleteSelected()" id="bulkDeleteBtn" disabled>
+                    <i class="fas fa-trash"></i>
+                    🗑️ Delete Selected (<span id="selectedCount">0</span>)
+                </button>
+                <button class="btn success" onclick="bulkExport()">
+                    <i class="fas fa-download"></i>
+                    📥 Export Products
+                </button>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="productsManagementGrid" class="products-management-grid">
+                <div id="loadingProducts" style="text-align: center; padding: 2rem; color: var(--gray-600);">
+                    <i class="fas fa-spinner fa-spin"></i> Loading products...
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div id="paginationControls" style="text-align: center; margin-top: 2rem;">
+                <button class="btn outline" onclick="prevPage()" id="prevBtn" disabled>← Previous</button>
+                <span id="pageInfo" style="margin: 0 1rem; color: var(--gray-600);">Page 1 of 1</span>
+                <button class="btn outline" onclick="nextPage()" id="nextBtn" disabled>Next →</button>
+            </div>
+        </div>
     </main>
+
+    <!-- 🏺 Product Edit Modal -->
+    <div id="productModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">✏️ Edit Product</h3>
+                <button class="modal-close" onclick="closeProductModal()">&times;</button>
+            </div>
+            <form id="productForm">
+                <div class="form-group">
+                    <label class="form-label">📝 Product Name *</label>
+                    <input type="text" id="productName" class="form-input" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">💰 Price *</label>
+                        <input type="number" id="productPrice" class="form-input" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">🏷️ Category</label>
+                        <select id="productCategory" class="form-select">
+                            <option value="clothing">👕 Clothing</option>
+                            <option value="collectibles">🏺 Collectibles</option>
+                            <option value="electronics">📱 Electronics</option>
+                            <option value="home">🏠 Home & Garden</option>
+                            <option value="vintage">✨ Vintage</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">📸 Main Image URL</label>
+                    <input type="url" id="productImage" class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">📝 Description</label>
+                    <textarea id="productDescription" class="form-textarea" placeholder="Describe this vintage piece..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">🛒 Source URL</label>
+                        <input type="url" id="productSourceUrl" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">💳 Buy Link</label>
+                        <input type="url" id="productBuyLink" class="form-input">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">🖼️ Additional Images (JSON array)</label>
+                    <textarea id="productImages" class="form-textarea" placeholder='["url1", "url2", "url3"]'></textarea>
+                </div>
+
+                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+                    <button type="button" class="btn outline" onclick="closeProductModal()">❌ Cancel</button>
+                    <button type="submit" class="btn primary" id="saveProductBtn">💾 Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script>
         // 3D Interactive Effects
@@ -940,6 +1301,357 @@ https://www.ebay.com/itm/345678"></textarea>
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(animateNumbers, 500);
+            loadProductsForManagement();
+            setupProductSearchAndFilter();
+        });
+
+        // 🏺 Advanced Product Management System
+        let allProducts = [];
+        let filteredProducts = [];
+        let selectedProducts = [];
+        let currentPage = 1;
+        let productsPerPage = 12;
+        let currentEditingProduct = null;
+
+        // Load products for management
+        async function loadProductsForManagement() {
+            try {
+                const response = await fetch('/api/products');
+                const products = await response.json();
+                allProducts = products;
+                filteredProducts = [...allProducts];
+                displayProductsGrid();
+                updatePagination();
+            } catch (error) {
+                console.error('Error loading products:', error);
+                document.getElementById('productsManagementGrid').innerHTML = 
+                    '<div style="text-align: center; padding: 2rem; color: var(--danger);">❌ Error loading products. Please refresh the page.</div>';
+            }
+        }
+
+        // Display products in management grid
+        function displayProductsGrid() {
+            const grid = document.getElementById('productsManagementGrid');
+            const startIndex = (currentPage - 1) * productsPerPage;
+            const endIndex = startIndex + productsPerPage;
+            const productsToShow = filteredProducts.slice(startIndex, endIndex);
+
+            if (productsToShow.length === 0) {
+                grid.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray-600);">🔍 No products found</div>';
+                return;
+            }
+
+            grid.innerHTML = productsToShow.map(product => `
+                <div class="product-management-card ${selectedProducts.includes(product.id) ? 'selected' : ''}" data-product-id="${product.id}">
+                    <div class="product-card-header">
+                        <input type="checkbox" class="product-select-checkbox" 
+                               onchange="toggleProductSelection(${product.id})" 
+                               ${selectedProducts.includes(product.id) ? 'checked' : ''}>
+                        <div class="product-card-actions">
+                            <button class="action-btn edit" onclick="editProduct(${product.id})" title="Edit Product">
+                                ✏️ Edit
+                            </button>
+                            <button class="action-btn delete" onclick="confirmDeleteProduct(${product.id})" title="Delete Product">
+                                🗑️ Delete
+                            </button>
+                        </div>
+                    </div>
+                    <img src="${product.image || 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'}" 
+                         alt="${product.name}" class="product-card-image" 
+                         onerror="this.src='https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'">
+                    <div class="product-card-content">
+                        <div class="product-card-title">${product.name}</div>
+                        <div class="product-card-price">$${parseFloat(product.price || 0).toFixed(2)}</div>
+                        <div class="product-card-description">${(product.description || 'No description available').substring(0, 150)}...</div>
+                        <div class="product-card-meta">
+                            <span class="product-card-category">${product.category || 'uncategorized'}</span>
+                            <span>ID: ${product.id}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Product selection management
+        function toggleProductSelection(productId) {
+            if (selectedProducts.includes(productId)) {
+                selectedProducts = selectedProducts.filter(id => id !== productId);
+            } else {
+                selectedProducts.push(productId);
+            }
+            updateSelectionUI();
+        }
+
+        function selectAllProducts() {
+            const startIndex = (currentPage - 1) * productsPerPage;
+            const endIndex = startIndex + productsPerPage;
+            const productsOnPage = filteredProducts.slice(startIndex, endIndex);
+            
+            const allSelected = productsOnPage.every(p => selectedProducts.includes(p.id));
+            
+            if (allSelected) {
+                selectedProducts = selectedProducts.filter(id => !productsOnPage.find(p => p.id === id));
+            } else {
+                productsOnPage.forEach(product => {
+                    if (!selectedProducts.includes(product.id)) {
+                        selectedProducts.push(product.id);
+                    }
+                });
+            }
+            
+            displayProductsGrid();
+            updateSelectionUI();
+        }
+
+        function updateSelectionUI() {
+            document.getElementById('selectedCount').textContent = selectedProducts.length;
+            document.getElementById('bulkDeleteBtn').disabled = selectedProducts.length === 0;
+            displayProductsGrid();
+        }
+
+        // Edit product functionality
+        function editProduct(productId) {
+            currentEditingProduct = allProducts.find(p => p.id === productId);
+            if (!currentEditingProduct) return;
+
+            document.getElementById('modalTitle').textContent = '✏️ Edit Product';
+            document.getElementById('productName').value = currentEditingProduct.name || '';
+            document.getElementById('productPrice').value = currentEditingProduct.price || '';
+            document.getElementById('productCategory').value = currentEditingProduct.category || 'vintage';
+            document.getElementById('productImage').value = currentEditingProduct.image || '';
+            document.getElementById('productDescription').value = currentEditingProduct.description || '';
+            document.getElementById('productSourceUrl').value = currentEditingProduct.sourceUrl || '';
+            document.getElementById('productBuyLink').value = currentEditingProduct.buyLink || '';
+            document.getElementById('productImages').value = JSON.stringify(currentEditingProduct.images || [], null, 2);
+            document.getElementById('saveProductBtn').textContent = '💾 Update Product';
+
+            openProductModal();
+        }
+
+        // Add new product
+        function addNewProduct() {
+            currentEditingProduct = null;
+            document.getElementById('modalTitle').textContent = '➕ Add New Product';
+            document.getElementById('productForm').reset();
+            document.getElementById('saveProductBtn').textContent = '💾 Create Product';
+            openProductModal();
+        }
+
+        // Modal management
+        function openProductModal() {
+            document.getElementById('productModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            currentEditingProduct = null;
+        }
+
+        // Save product (create or update)
+        document.getElementById('productForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const productData = {
+                name: document.getElementById('productName').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                category: document.getElementById('productCategory').value,
+                image: document.getElementById('productImage').value,
+                description: document.getElementById('productDescription').value,
+                sourceUrl: document.getElementById('productSourceUrl').value,
+                buyLink: document.getElementById('productBuyLink').value,
+                platform: 'manual',
+                dateAdded: new Date().toISOString()
+            };
+
+            // Parse additional images
+            try {
+                const imagesText = document.getElementById('productImages').value.trim();
+                if (imagesText) {
+                    productData.images = JSON.parse(imagesText);
+                }
+            } catch (error) {
+                alert('❌ Invalid JSON format for additional images');
+                return;
+            }
+
+            try {
+                let response;
+                if (currentEditingProduct) {
+                    // Update existing product
+                    response = await fetch(`/api/products/${currentEditingProduct.id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(productData)
+                    });
+                } else {
+                    // Create new product
+                    response = await fetch('/api/products', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(productData)
+                    });
+                }
+
+                if (response.ok) {
+                    closeProductModal();
+                    loadProductsForManagement();
+                    showImportStatus(
+                        currentEditingProduct ? 
+                        '<i class="fas fa-check"></i> ✅ Product updated successfully!' : 
+                        '<i class="fas fa-check"></i> ✅ Product created successfully!', 
+                        'success'
+                    );
+                } else {
+                    throw new Error('Failed to save product');
+                }
+            } catch (error) {
+                console.error('Error saving product:', error);
+                alert('❌ Error saving product. Please try again.');
+            }
+        });
+
+        // Delete product
+        async function confirmDeleteProduct(productId) {
+            const product = allProducts.find(p => p.id === productId);
+            if (!product) return;
+
+            if (confirm(`🗑️ Are you sure you want to delete "${product.name}"? This action cannot be undone.`)) {
+                try {
+                    const response = await fetch(`/api/products/${productId}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (response.ok) {
+                        loadProductsForManagement();
+                        showImportStatus('<i class="fas fa-trash"></i> 🗑️ Product deleted successfully!', 'success');
+                    } else {
+                        throw new Error('Failed to delete product');
+                    }
+                } catch (error) {
+                    console.error('Error deleting product:', error);
+                    alert('❌ Error deleting product. Please try again.');
+                }
+            }
+        }
+
+        // Bulk delete
+        async function bulkDeleteSelected() {
+            if (selectedProducts.length === 0) return;
+
+            if (confirm(`🗑️ Are you sure you want to delete ${selectedProducts.length} selected product(s)? This action cannot be undone.`)) {
+                try {
+                    const deletePromises = selectedProducts.map(id => 
+                        fetch(`/api/products/${id}`, { method: 'DELETE' })
+                    );
+                    
+                    await Promise.all(deletePromises);
+                    selectedProducts = [];
+                    loadProductsForManagement();
+                    showImportStatus('<i class="fas fa-trash"></i> 🗑️ Selected products deleted successfully!', 'success');
+                } catch (error) {
+                    console.error('Error bulk deleting products:', error);
+                    alert('❌ Error deleting products. Please try again.');
+                }
+            }
+        }
+
+        // Export products
+        function bulkExport() {
+            const dataStr = JSON.stringify(filteredProducts, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `vintage-crib-products-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+            showImportStatus('<i class="fas fa-download"></i> 📥 Products exported successfully!', 'success');
+        }
+
+        // Search and filter setup
+        function setupProductSearchAndFilter() {
+            const searchInput = document.getElementById('adminSearchInput');
+            const categoryFilter = document.getElementById('adminCategoryFilter');
+
+            searchInput.addEventListener('input', debounce(filterProducts, 300));
+            categoryFilter.addEventListener('change', filterProducts);
+        }
+
+        function filterProducts() {
+            const searchTerm = document.getElementById('adminSearchInput').value.toLowerCase();
+            const category = document.getElementById('adminCategoryFilter').value;
+
+            filteredProducts = allProducts.filter(product => {
+                const matchesSearch = !searchTerm || 
+                    product.name.toLowerCase().includes(searchTerm) ||
+                    (product.description && product.description.toLowerCase().includes(searchTerm));
+                
+                const matchesCategory = !category || product.category === category;
+
+                return matchesSearch && matchesCategory;
+            });
+
+            currentPage = 1;
+            displayProductsGrid();
+            updatePagination();
+        }
+
+        // Pagination
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+            document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayProductsGrid();
+                updatePagination();
+                selectedProducts = []; // Clear selection on page change
+                updateSelectionUI();
+            }
+        }
+
+        function nextPage() {
+            const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayProductsGrid();
+                updatePagination();
+                selectedProducts = []; // Clear selection on page change
+                updateSelectionUI();
+            }
+        }
+
+        // Utility function for debouncing
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Close modal on outside click
+        document.getElementById('productModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeProductModal();
+            }
+        });
+
+        // Close modal on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('productModal').classList.contains('active')) {
+                closeProductModal();
+            }
         });
     </script>
 </body>
