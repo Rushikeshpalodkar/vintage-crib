@@ -6,18 +6,41 @@ const DATA_FILE = path.join(process.cwd(), 'data', 'products.json');
 
 // Helper functions
 async function readProducts() {
-    // For Vercel deployment, return default products directly
-    console.log('📁 Using default products for Vercel');
-    
-    // Create default products
-        const defaultProducts = [
+    try {
+        // First try to read from the data file
+        const data = await fs.readFile(DATA_FILE, 'utf8');
+        const products = JSON.parse(data);
+        console.log('📁 Loaded', products.length, 'products from data file');
+        return products;
+    } catch (error) {
+        console.log('📁 Data file not found, using your vintage products');
+        
+        // Return your actual vintage products if file not found
+        const vintageProducts = [
             {
-                id: 1, 
-                name: "Vintage Leather Jacket", 
-                price: 89.99, 
-                platform: "curated", 
-                description: "Authentic vintage leather jacket with timeless appeal", 
-                category: "clothing", 
+                id: 1754989743547,
+                name: "Boy Scouts of America Vintage",
+                price: 40,
+                description: "The product is a vintage item related to the Boy Scouts of America, specifically made in the United States. It does not mention if it is signed or not. This vintage piece could hold sentimental value for collectors or former members of the Boy Scouts organization.",
+                category: "collectibles",
+                platform: "ebay",
+                image: "https://i.ebayimg.com/images/g/O0YAAeSwoUZomXZO/s-l400.jpg",
+                images: [
+                    "https://i.ebayimg.com/images/g/O0YAAeSwoUZomXZO/s-l400.jpg",
+                    "https://i.ebayimg.com/images/g/O0YAAeSwoUZomXZO/s-l140.jpg",
+                    "https://i.ebayimg.com/images/g/bGwAAeSwZ4FomXZN/s-l140.jpg"
+                ],
+                sourceUrl: "https://www.ebay.com/itm/336118796146",
+                buyLink: "https://www.ebay.com/itm/336118796146",
+                dateAdded: new Date().toISOString()
+            },
+            {
+                id: 2,
+                name: "Vintage Leather Jacket",
+                price: 89.99,
+                description: "Authentic vintage leather jacket with timeless appeal",
+                category: "clothing",
+                platform: "curated",
                 image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=400&fit=crop",
                 images: ["https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=400&fit=crop"],
                 sourceUrl: "",
@@ -25,47 +48,21 @@ async function readProducts() {
                 dateAdded: new Date().toISOString()
             },
             {
-                id: 2, 
-                name: "Antique Brass Compass", 
-                price: 45.50, 
-                platform: "curated", 
-                description: "Beautiful antique brass compass with original patina", 
-                category: "collectibles", 
+                id: 3,
+                name: "Antique Brass Compass",
+                price: 45.50,
+                description: "Beautiful antique brass compass with original patina",
+                category: "collectibles",
+                platform: "curated",
                 image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
                 images: ["https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop"],
-                sourceUrl: "",
-                buyLink: "",
-                dateAdded: new Date().toISOString()
-            },
-            {
-                id: 3, 
-                name: "Vintage Ceramic Vase", 
-                price: 65.00, 
-                platform: "curated", 
-                description: "Mid-century ceramic vase with unique geometric pattern", 
-                category: "home", 
-                image: "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=400&h=400&fit=crop",
-                images: ["https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=400&h=400&fit=crop"],
-                sourceUrl: "",
-                buyLink: "",
-                dateAdded: new Date().toISOString()
-            },
-            {
-                id: 4, 
-                name: "Retro Vinyl Record Player", 
-                price: 125.99, 
-                platform: "curated", 
-                description: "Restored vintage turntable in excellent working condition", 
-                category: "electronics", 
-                image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop",
-                images: ["https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop"],
                 sourceUrl: "",
                 buyLink: "",
                 dateAdded: new Date().toISOString()
             }
         ];
         
-        return defaultProducts;
+        return vintageProducts;
 }
 
 async function writeProducts(products) {
