@@ -251,7 +251,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**Made with ❤️ by the Vintage Crib team**
+**Made with ❤️ by the Vintage Crib team** | Auto-deploy enabled 🚀
 
 [Website](https://vintagecrib.com) • [Documentation](https://docs.vintagecrib.com) • [Community](https://discord.gg/vintagecrib)
 
