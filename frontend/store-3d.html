@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vintage Crib - Curated Vintage Collection</title>
+    <meta name="description" content="Discover extraordinary vintage pieces with timeless character and authentic stories. Curated collection with stunning 3D design experience.">
+    <meta name="keywords" content="vintage, antiques, curated, collectibles, unique finds, vintage marketplace, authentic vintage">
+    <meta property="og:title" content="Vintage Crib - Curated Vintage Collection">
+    <meta property="og:description" content="Discover extraordinary vintage pieces with timeless character and authentic stories">
+    <meta property="og:image" content="https://vintagecrib.com/og-image.jpg">
+    <meta property="og:url" content="https://vintagecrib.com">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://vintagecrib.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Dark 3D Theme with Shining Accents */
+            --primary: #ff6b6b; /* Coral Red */
+            --primary-dark: #ee5a6f;
+            --secondary: #4ecdc4; /* Mint Green */
+            --secondary-dark: #45b7b8;
+            --accent: #ffe66d; /* Bright Yellow */
+            --accent-dark: #ffd93d;
+            --purple: #a8e6cf; /* Soft Mint Purple */
+            
+            /* Dark Base */
+            --black: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --medium-gray: #2a2a2a;
+            --light-gray: #404040;
+            --off-white: #f8f8f6;
+            --cream: #f4f1eb;
+            
+            /* Vintage Brand */
+            --vintage-gold: #d4af37;
+            --vintage-copper: #ff7675;
+            
+            /* 3D Dark Shadows & Glows */
+            --shadow-3d-dark: 0 12px 40px rgba(0, 0, 0, 0.6);
+            --shadow-3d-glow: 0 8px 32px rgba(255, 107, 107, 0.3);
+            --shadow-3d-mint: 0 8px 32px rgba(78, 205, 196, 0.3);
+            --shadow-3d-gold: 0 8px 32px rgba(255, 230, 109, 0.3);
+            --shadow-inset-dark: inset 0 2px 8px rgba(0, 0, 0, 0.4);
+            
+            /* Glass Effects */
+            --glass-dark: rgba(42, 42, 42, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --backdrop-blur: blur(20px);
+            
+            /* 3D Gradients */
+            --gradient-primary: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 50%, #ff7675 100%);
+            --gradient-secondary: linear-gradient(135deg, #4ecdc4 0%, #45b7b8 50%, #26de81 100%);
+            --gradient-accent: linear-gradient(135deg, #ffe66d 0%, #ffd93d 50%, #f7b731 100%);
+            --gradient-dark: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a2a2a 100%);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%, #0a0a0a 100%);
+            background-size: 400% 400%;
+            animation: darkGradientShift 15s ease infinite;
+            color: var(--off-white);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes darkGradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 3D Dark Floating Elements */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(255, 107, 107, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 85% 25%, rgba(78, 205, 196, 0.06) 0%, transparent 60%),
+                radial-gradient(circle at 50% 85%, rgba(255, 230, 109, 0.1) 0%, transparent 60%),
+                radial-gradient(circle at 25% 60%, rgba(168, 230, 207, 0.07) 0%, transparent 60%);
+            z-index: -2;
+            animation: darkParticleFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes darkParticleFloat {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.4; }
+            50% { transform: translateY(-40px) scale(1.1); opacity: 0.7; }
+        }
+
+        /* 3D Geometric Dark Shapes */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                conic-gradient(from 0deg at 10% 10%, transparent 0deg, rgba(255, 107, 107, 0.03) 90deg, transparent 180deg),
+                conic-gradient(from 90deg at 90% 20%, transparent 0deg, rgba(78, 205, 196, 0.025) 120deg, transparent 240deg),
+                conic-gradient(from 180deg at 20% 90%, transparent 0deg, rgba(255, 230, 109, 0.04) 60deg, transparent 120deg);
+            background-size: 1000px 1000px, 800px 800px, 1200px 1200px;
+            background-position: 0 0, 100% 0, 50% 100%;
+            animation: darkGeometricSpin 25s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes darkGeometricSpin {
+            0% { transform: rotate(0deg) scale(1); opacity: 0.3; }
+            50% { transform: rotate(180deg) scale(1.05); opacity: 0.5; }
+            100% { transform: rotate(360deg) scale(1); opacity: 0.3; }
+        }
+
+        /* 3D Header */
+        .header {
+            background: var(--glass-dark);
+            backdrop-filter: var(--backdrop-blur);
+            border-bottom: 2px solid var(--primary);
+            box-shadow: var(--shadow-3d-dark), var(--shadow-3d-glow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transform-style: preserve-3d;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 85px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--off-white);
+            text-decoration: none;
+            transform: translateZ(10px);
+        }
+
+        .logo-symbol {
+            width: 55px;
+            height: 55px;
+            background: var(--gradient-primary);
+            border: 3px solid var(--vintage-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--off-white);
+            box-shadow: var(--shadow-3d-glow), var(--shadow-inset-dark);
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(15px);
+            animation: logoGlowDark 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoGlowDark {
+            0% { 
+                box-shadow: var(--shadow-3d-glow), 0 0 25px rgba(255, 107, 107, 0.6);
+                transform: translateZ(15px) scale(1);
+            }
+            100% { 
+                box-shadow: var(--shadow-3d-dark), 0 0 50px rgba(255, 107, 107, 0.9);
+                transform: translateZ(20px) scale(1.05);
+            }
+        }
+
+        .logo-symbol::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: conic-gradient(transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: darkLogoSpin 6s linear infinite;
+        }
+
+        @keyframes darkLogoSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            transform: translateZ(8px);
+        }
+
+        .nav-link {
+            color: var(--off-white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            transform: translateZ(5px);
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
+            transform: translateZ(10px) translateY(-2px);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.4s;
+            box-shadow: 0 0 8px rgba(255, 107, 107, 0.6);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* 3D Hero Section */
+        .hero {
+            padding: 6rem 0;
+            text-align: center;
+            background: radial-gradient(circle at center, var(--medium-gray) 0%, var(--black) 70%);
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            transform: translateZ(20px);
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+            animation: heroTitleFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes heroTitleFloat {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-10px) scale(1.02); }
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--cream);
+            margin-bottom: 3rem;
+            font-weight: 400;
+            opacity: 0.9;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .cta-button {
+            background: var(--gradient-accent);
+            color: var(--dark-gray);
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: var(--shadow-3d-gold);
+            transform: translateZ(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateZ(20px) translateY(-5px);
+            box-shadow: var(--shadow-3d-dark), 0 0 40px rgba(255, 230, 109, 0.6);
+        }
+
+        /* 3D Search Section */
+        .search-section {
+            padding: 3rem 0;
+            background: var(--glass-dark);
+            backdrop-filter: var(--backdrop-blur);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-3d-dark);
+        }
+
+        .search-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .search-input {
+            flex: 1;
+            max-width: 500px;
+            padding: 1rem 1.5rem;
+            background: var(--glass-dark);
+            backdrop-filter: var(--backdrop-blur);
+            border: 2px solid var(--glass-border);
+            border-radius: 15px;
+            color: var(--off-white);
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.4s;
+            box-shadow: var(--shadow-inset-dark);
+            transform: translateZ(5px);
+        }
+
+        .search-input:focus {
+            border-color: var(--secondary);
+            box-shadow: var(--shadow-3d-mint), 0 0 0 3px rgba(78, 205, 196, 0.2);
+            transform: translateZ(12px);
+        }
+
+        .search-input::placeholder {
+            color: var(--cream);
+            opacity: 0.7;
+        }
+
+        .filter-select {
+            padding: 1rem 1.5rem;
+            background: var(--glass-dark);
+            backdrop-filter: var(--backdrop-blur);
+            border: 2px solid var(--glass-border);
+            border-radius: 15px;
+            color: var(--off-white);
+            font-size: 1rem;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.4s;
+            transform: translateZ(5px);
+        }
+
+        .filter-select:focus {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-3d-gold);
+            transform: translateZ(10px);
+        }
+
+        /* 3D Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            transform-style: preserve-3d;
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            transform: translateZ(10px);
+        }
+
+        .products-count {
+            font-size: 1.1rem;
+            color: var(--cream);
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        /* 3D Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+            transform-style: preserve-3d;
+        }
+
+        .product-card {
+            background: var(--glass-dark);
+            backdrop-filter: var(--backdrop-blur);
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-3d-dark);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: translateZ(10px);
+        }
+
+        .product-card:hover {
+            transform: translateZ(30px) translateY(-10px) rotateX(5deg);
+            box-shadow: var(--shadow-3d-dark), var(--shadow-3d-glow);
+            border-color: var(--primary);
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .product-image {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            background: var(--medium-gray);
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1) rotateZ(2deg);
+            filter: brightness(1) contrast(1.2);
+        }
+
+        .product-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--gradient-secondary);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: var(--shadow-3d-mint);
+            z-index: 2;
+        }
+
+        .product-info {
+            padding: 2rem;
+            background: var(--glass-dark);
+            backdrop-filter: var(--backdrop-blur);
+        }
+
+        .product-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--off-white);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-price {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(255, 230, 109, 0.3);
+        }
+
+        .product-description {
+            color: var(--cream);
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.5;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            text-align: center;
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(5px);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: var(--white);
+            box-shadow: var(--shadow-3d-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateZ(15px) translateY(-3px);
+            box-shadow: var(--shadow-3d-dark), 0 0 30px rgba(255, 107, 107, 0.7);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+            box-shadow: var(--shadow-3d-mint);
+        }
+
+        .btn-outline:hover {
+            background: var(--gradient-secondary);
+            color: var(--white);
+            transform: translateZ(12px) translateY(-2px);
+        }
+
+        /* 3D Loading State */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+            font-size: 1.3rem;
+            color: var(--cream);
+            transform: translateZ(10px);
+        }
+
+        .spinner-3d {
+            border: 4px solid rgba(78, 205, 196, 0.3);
+            border-top: 4px solid var(--secondary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin3d 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
+            margin-right: 1rem;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes spin3d {
+            0% { transform: rotateY(0deg) rotateX(0deg); }
+            50% { transform: rotateY(180deg) rotateX(90deg); }
+            100% { transform: rotateY(360deg) rotateX(0deg); }
+        }
+
+        /* 3D Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 1rem;
+            color: var(--cream);
+            transform: translateZ(10px);
+        }
+
+        .empty-state i {
+            font-size: 5rem;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+            animation: emptyStateFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes emptyStateFloat {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-15px) scale(1.1); }
+        }
+
+        .empty-state h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--off-white);
+        }
+
+        /* Responsive 3D */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .main-content {
+                padding: 3rem 1rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 2rem;
+            }
+
+            .product-image {
+                height: 250px;
+            }
+
+            .search-container {
+                flex-direction: column;
+            }
+
+            .search-input {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-image {
+                height: 220px;
+            }
+
+            .logo-symbol {
+                width: 45px;
+                height: 45px;
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-symbol">C</div>
+                Vintage Crib
+            </a>
+            <nav class="nav-links">
+                <a href="#" class="nav-link">Collections</a>
+                <a href="#" class="nav-link">Curated</a>
+                <a href="#" class="nav-link">Stories</a>
+                <a href="#" class="nav-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Curated Vintage</h1>
+            <p class="hero-subtitle">Discover extraordinary pieces with timeless character and authentic stories in stunning 3D</p>
+            <a href="#products" class="cta-button">Explore Collection</a>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="search-container">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search vintage collections...">
+            <select class="filter-select" id="sortFilter">
+                <option value="newest">Latest Finds</option>
+                <option value="price-high">Premium First</option>
+                <option value="price-low">Value First</option>
+                <option value="name">A to Z</option>
+            </select>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content" id="products">
+        <div class="products-header">
+            <div class="products-count" id="productsCount">Discovering pieces...</div>
+        </div>
+
+        <div class="loading" id="loadingState">
+            <div class="spinner-3d"></div>
+            Curating vintage finds in 3D...
+        </div>
+
+        <div class="products-grid" id="productsGrid" style="display: none;">
+            <!-- Products will be loaded here -->
+        </div>
+
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <i class="fas fa-gem"></i>
+            <h3>No pieces found</h3>
+            <p>Try adjusting your search to discover more vintage treasures</p>
+        </div>
+    </main>
+
+    <script>
+        let allProducts = [];
+        let filteredProducts = [];
+
+        // 3D Mouse interactions
+        document.addEventListener('mousemove', function(e) {
+            const cards = document.querySelectorAll('.product-card');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            cards.forEach((card, index) => {
+                if (!card.matches(':hover')) {
+                    const xRotation = (mouseY - 0.5) * 5;
+                    const yRotation = (mouseX - 0.5) * 5;
+                    
+                    card.style.transform = `translateZ(10px) rotateX(${xRotation}deg) rotateY(${yRotation}deg)`;
+                }
+            });
+        });
+
+        // Load products from API
+        async function loadProducts() {
+            try {
+                const response = await fetch('/api/products');
+                const products = await response.json();
+                
+                allProducts = products.map(product => ({
+                    ...product,
+                    dateAdded: product.dateAdded || new Date().toISOString()
+                }));
+                
+                allProducts.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
+                filteredProducts = [...allProducts];
+                
+                displayProducts();
+                updateProductsCount();
+                
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('productsGrid').style.display = 'grid';
+                
+            } catch (error) {
+                console.error('Failed to load products:', error);
+                document.getElementById('loadingState').innerHTML = '<div class="spinner-3d"></div>Unable to load collection';
+            }
+        }
+
+        // Display products with 3D effects
+        function displayProducts() {
+            const grid = document.getElementById('productsGrid');
+            
+            if (filteredProducts.length === 0) {
+                grid.style.display = 'none';
+                document.getElementById('emptyState').style.display = 'block';
+                return;
+            }
+            
+            document.getElementById('emptyState').style.display = 'none';
+            grid.style.display = 'grid';
+            
+            grid.innerHTML = filteredProducts.map(product => `
+                <div class="product-card" onclick="viewProduct('${product.sourceUrl || product.buyLink}')">
+                    <div class="product-image">
+                        <img src="${product.image || 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'}" 
+                             alt="${product.name}" 
+                             onerror="this.src='https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'">
+                        <div class="product-overlay"></div>
+                        <div class="product-badge">Vintage</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <div class="product-price">$${parseFloat(product.price || 0).toFixed(2)}</div>
+                        <p class="product-description">${(product.description || 'A unique vintage piece with authentic character and timeless appeal.').substring(0, 120)}...</p>
+                        <div class="product-actions">
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); buyNow('${product.sourceUrl || product.buyLink}')">
+                                Acquire Piece
+                            </button>
+                            <button class="btn btn-outline" onclick="event.stopPropagation(); viewDetails(${product.id})">
+                                Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Add staggered animation
+            const cards = grid.querySelectorAll('.product-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.style.animation = 'cardAppear 0.6s ease forwards';
+            });
+        }
+
+        // Add CSS for card animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes cardAppear {
+                from {
+                    opacity: 0;
+                    transform: translateZ(0px) translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateZ(10px) translateY(0px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Update products count with vintage language
+        function updateProductsCount() {
+            const count = filteredProducts.length;
+            const total = allProducts.length;
+            let countText;
+            
+            if (count === total) {
+                countText = `${total} curated piece${total !== 1 ? 's' : ''} in 3D collection`;
+            } else {
+                countText = `${count} of ${total} piece${total !== 1 ? 's' : ''} displayed`;
+            }
+            
+            document.getElementById('productsCount').textContent = countText;
+        }
+
+        // Filter and sort products
+        function filterProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const sort = document.getElementById('sortFilter').value;
+            
+            // Filter by search
+            filteredProducts = allProducts.filter(product => {
+                return !searchTerm || 
+                    product.name.toLowerCase().includes(searchTerm) ||
+                    (product.description && product.description.toLowerCase().includes(searchTerm));
+            });
+            
+            // Sort products
+            filteredProducts.sort((a, b) => {
+                switch (sort) {
+                    case 'newest':
+                        return new Date(b.dateAdded) - new Date(a.dateAdded);
+                    case 'price-low':
+                        return parseFloat(a.price || 0) - parseFloat(b.price || 0);
+                    case 'price-high':
+                        return parseFloat(b.price || 0) - parseFloat(a.price || 0);
+                    case 'name':
+                        return a.name.localeCompare(b.name);
+                    default:
+                        return 0;
+                }
+            });
+            
+            displayProducts();
+            updateProductsCount();
+        }
+
+        // Product actions
+        function viewProduct(url) {
+            if (url) {
+                window.open(url, '_blank');
+            }
+        }
+
+        function buyNow(url) {
+            if (url) {
+                window.open(url, '_blank');
+            } else {
+                alert('This piece is currently unavailable');
+            }
+        }
+
+        function viewDetails(productId) {
+            console.log('View details for product:', productId);
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterProducts);
+        document.getElementById('sortFilter').addEventListener('change', filterProducts);
+
+        // Smooth scroll to products
+        document.querySelector('.cta-button').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('products').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // Header scroll effect with 3D
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            const scrolled = window.scrollY > 100;
+            
+            if (scrolled) {
+                header.style.background = 'rgba(26, 26, 26, 0.98)';
+                header.style.transform = 'translateZ(20px)';
+            } else {
+                header.style.background = 'rgba(42, 42, 42, 0.8)';
+                header.style.transform = 'translateZ(0px)';
+            }
+        });
+
+        // Load products when page loads
+        document.addEventListener('DOMContentLoaded', loadProducts);
+    </script>
+</body>
+</html>

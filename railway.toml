@@ -1,0 +1,12 @@
+[build]
+cmd = "npm install"
+
+[deploy]
+startCommand = "npm start"
+healthcheckPath = "/api/test"
+healthcheckTimeout = 100
+restartPolicyType = "on_failure"
+
+[env]
+PORT = { default = "3001" }
+NODE_ENV = { default = "production" }

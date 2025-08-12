@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(taskkill:*)",
+      "Bash(npm start)",
+      "Bash(tasklist:*)",
+      "Bash(curl:*)",
+      "Bash(node server.js)",
+      "WebFetch(domain:www.ebay.com)"
+    ],
+    "deny": []
+  }
+}

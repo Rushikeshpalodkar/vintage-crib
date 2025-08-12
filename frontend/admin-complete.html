@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vintage Crib - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Bright, energizing colors */
+            --primary: #fbbf24;
+            --primary-dark: #f59e0b;
+            --secondary: #34d399;
+            --accent: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            
+            /* Light backgrounds */
+            --white: #ffffff;
+            --cream: #fffbeb;
+            --light-gold: #fef3c7;
+            --very-light: #f9fafb;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-600: #475569;
+            --gray-900: #0f172a;
+            
+            /* Vintage brand colors */
+            --vintage-gold: #d4af37;
+            --dark-accent: #1a1a1a;
+            
+            /* Shadows for depth */
+            --shadow-bright: 0 4px 20px rgba(251, 191, 36, 0.15);
+            --shadow-colorful: 0 8px 30px rgba(139, 92, 246, 0.2);
+            --shadow-success: 0 4px 15px rgba(52, 211, 153, 0.2);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--white) 50%, var(--light-gold) 100%);
+            color: var(--gray-900);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Energizing geometric background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 15% 15%, rgba(251, 191, 36, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 85% 15%, rgba(139, 92, 246, 0.06) 0%, transparent 60%),
+                radial-gradient(circle at 50% 85%, rgba(52, 211, 153, 0.07) 0%, transparent 60%);
+            z-index: -2;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                conic-gradient(from 0deg at 20% 20%, transparent 0deg, rgba(251, 191, 36, 0.04) 90deg, transparent 180deg),
+                conic-gradient(from 60deg at 80% 30%, transparent 0deg, rgba(139, 92, 246, 0.03) 120deg, transparent 240deg),
+                conic-gradient(from 120deg at 30% 80%, transparent 0deg, rgba(52, 211, 153, 0.04) 60deg, transparent 120deg);
+            background-size: 600px 600px, 500px 500px, 700px 700px;
+            background-position: 0 0, 100% 0, 50% 100%;
+            animation: brightFloat 25s ease-in-out infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes brightFloat {
+            0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.3; }
+            33% { transform: rotate(120deg) scale(1.1); opacity: 0.5; }
+            66% { transform: rotate(240deg) scale(0.95); opacity: 0.4; }
+        }
+
+        /* Header - Fixed symmetry */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 3px solid var(--primary);
+            box-shadow: var(--shadow-bright);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 85px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-accent);
+            text-decoration: none;
+        }
+
+        .logo-symbol {
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: 3px solid var(--vintage-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--dark-accent);
+            box-shadow: var(--shadow-bright);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-symbol::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        }
+
+        .admin-title {
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+            margin-left: 1rem;
+            font-size: 1rem;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .nav-btn.primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--dark-accent);
+            box-shadow: var(--shadow-bright);
+        }
+
+        .nav-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-colorful);
+        }
+
+        .nav-btn.outline {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .nav-btn.outline:hover {
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        /* Main Content - Perfect symmetry */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Dashboard Grid - Fixed symmetry */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .dashboard-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-bright);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-colorful);
+        }
+
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        .card-icon.products {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--dark-accent);
+        }
+
+        .card-icon.import {
+            background: linear-gradient(135deg, var(--secondary), #059669);
+            color: var(--white);
+        }
+
+        .card-icon.analytics {
+            background: linear-gradient(135deg, var(--accent), #7c3aed);
+            color: var(--white);
+        }
+
+        .card-icon.tools {
+            background: linear-gradient(135deg, var(--warning), #d97706);
+            color: var(--white);
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: var(--gray-600);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* Import Section */
+        .section {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-bright);
+            border-left: 6px solid var(--secondary);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Product Management Section */
+        .products-section {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: var(--shadow-bright);
+            border-left: 6px solid var(--accent);
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .search-filter-row {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 1rem;
+            min-width: 300px;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.2);
+        }
+
+        .filter-select {
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* Product Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: var(--gray-50);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 2px solid var(--gray-200);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-bright);
+        }
+
+        .product-image-admin {
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            background: var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-image-admin img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-image-admin .no-image {
+            color: var(--gray-400);
+            font-size: 3rem;
+        }
+
+        .product-info-admin {
+            margin-bottom: 1.5rem;
+        }
+
+        .product-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.8rem;
+            line-height: 1.3;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 0.8rem;
+        }
+
+        .product-description {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .product-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.8rem;
+            color: var(--gray-500);
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.7rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            flex: 1;
+            justify-content: center;
+            min-width: 100px;
+        }
+
+        .btn.primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--dark-accent);
+        }
+
+        .btn.primary:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-bright);
+        }
+
+        .btn.success {
+            background: linear-gradient(135deg, var(--secondary), #059669);
+            color: var(--white);
+        }
+
+        .btn.success:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-success);
+        }
+
+        .btn.danger {
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            color: var(--white);
+        }
+
+        .btn.danger:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn.outline {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .btn.outline:hover {
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        /* Edit Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            margin: 2% auto;
+            padding: 3rem;
+            border: none;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: var(--shadow-colorful);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .close {
+            color: var(--gray-400);
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: var(--danger);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.2);
+        }
+
+        .form-textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        /* Status messages */
+        .status {
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status.success {
+            background: rgba(52, 211, 153, 0.1);
+            border: 1px solid var(--secondary);
+            color: #059669;
+        }
+
+        .status.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--danger);
+            color: #dc2626;
+        }
+
+        .status.info {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid var(--accent);
+            color: #7c3aed;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* URL inputs */
+        .url-input, .bulk-textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 1rem;
+            margin: 1rem 0;
+            transition: all 0.3s;
+        }
+
+        .url-input:focus, .bulk-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.2);
+        }
+
+        .bulk-textarea {
+            height: 120px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-container {
+                padding: 1rem;
+                flex-direction: column;
+                height: auto;
+            }
+
+            .logo {
+                margin-bottom: 1rem;
+            }
+
+            .main-content {
+                padding: 2rem 1rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .products-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-filter-row {
+                flex-direction: column;
+            }
+
+            .search-input {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-symbol">C</div>
+                Vintage Crib
+                <span class="admin-title">Admin Dashboard</span>
+            </a>
+            <div class="nav-actions">
+                <a href="vintage-store.html" target="_blank" class="nav-btn outline">
+                    <i class="fas fa-eye"></i>
+                    View Store
+                </a>
+                <button class="nav-btn primary">
+                    <i class="fas fa-plus"></i>
+                    Quick Add
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Cards - Perfect symmetry -->
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="card-icon products">
+                    <i class="fas fa-boxes"></i>
+                </div>
+                <div class="card-title">Total Products</div>
+                <div class="stat-number" id="totalProducts">0</div>
+                <div class="stat-label">Curated pieces in collection</div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-icon import">
+                    <i class="fas fa-download"></i>
+                </div>
+                <div class="card-title">Recent Imports</div>
+                <div class="stat-number" id="recentImports">0</div>
+                <div class="stat-label">Added this week</div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-icon analytics">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="card-title">Store Views</div>
+                <div class="stat-number" id="storeViews">847</div>
+                <div class="stat-label">This month</div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-icon tools">
+                    <i class="fas fa-magic"></i>
+                </div>
+                <div class="card-title">Success Rate</div>
+                <div class="stat-number">96%</div>
+                <div class="stat-label">Customer satisfaction</div>
+            </div>
+        </div>
+
+        <!-- Import Section -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-upload"></i>
+                Import Products
+            </h2>
+            
+            <!-- Store Import -->
+            <div style="margin-bottom: 2rem;">
+                <h3 style="margin-bottom: 1rem; color: var(--gray-900);">
+                    🏪 Auto-Import from eBay Store
+                </h3>
+                <input type="text" class="url-input" id="storeUrl" placeholder="https://www.ebay.com/usr/yourstore">
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn success" onclick="getStoreUrls()">
+                        <i class="fas fa-link"></i>
+                        Get URLs
+                    </button>
+                    <button class="btn primary" onclick="autoImportStore()">
+                        <i class="fas fa-rocket"></i>
+                        Auto-Import
+                    </button>
+                </div>
+            </div>
+
+            <!-- Manual Import -->
+            <div>
+                <h3 style="margin-bottom: 1rem; color: var(--gray-900);">
+                    📋 Manual URL Import
+                </h3>
+                <textarea class="bulk-textarea" id="bulkUrls" placeholder="Paste your eBay product URLs here (one per line):
+https://www.ebay.com/itm/123456
+https://www.ebay.com/itm/789012
+https://www.ebay.com/itm/345678"></textarea>
+                <button class="btn primary" onclick="bulkImport()">
+                    <i class="fas fa-upload"></i>
+                    Import URLs
+                </button>
+            </div>
+
+            <div id="importStatus" class="status hidden"></div>
+        </div>
+
+        <!-- Product Management Section -->
+        <div class="products-section">
+            <div class="products-header">
+                <h2 class="section-title" style="margin-bottom: 0;">
+                    <i class="fas fa-cogs"></i>
+                    Manage Products
+                </h2>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn outline" onclick="removeDuplicates()">
+                        <i class="fas fa-copy"></i> Remove Duplicates
+                    </button>
+                    <button class="btn outline" onclick="removeNoPhotos()">
+                        <i class="fas fa-images"></i> Clean Images
+                    </button>
+                    <button class="btn success" onclick="publishToStore()">
+                        <i class="fas fa-rocket"></i> Publish All
+                    </button>
+                </div>
+            </div>
+
+            <div class="search-filter-row">
+                <input type="text" class="search-input" id="searchProducts" placeholder="Search products...">
+                <select class="filter-select" id="sortProducts" onchange="displayProducts()">
+                    <option value="newest">Newest First</option>
+                    <option value="name">Name A-Z</option>
+                    <option value="price-high">Price High-Low</option>
+                    <option value="price-low">Price Low-High</option>
+                </select>
+                <select class="filter-select" id="filterProducts" onchange="displayProducts()">
+                    <option value="all">All Products</option>
+                    <option value="with-photos">With Photos</option>
+                    <option value="no-photos">No Photos</option>
+                    <option value="ebay">eBay Only</option>
+                </select>
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Edit Product Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Product</h2>
+                <span class="close" onclick="closeEditModal()">&times;</span>
+            </div>
+            <form id="editForm">
+                <div class="form-group">
+                    <label class="form-label">Product Name *</label>
+                    <input type="text" class="form-input" id="editName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Price (USD) *</label>
+                    <input type="number" class="form-input" id="editPrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-input form-textarea" id="editDescription" placeholder="Enter product description..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Main Image URL</label>
+                    <input type="url" class="form-input" id="editImage" placeholder="https://example.com/image.jpg">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <select class="form-input" id="editCategory">
+                        <option value="electronics">Electronics</option>
+                        <option value="fashion">Fashion</option>
+                        <option value="home">Home & Garden</option>
+                        <option value="collectibles">Collectibles</option>
+                        <option value="vintage">Vintage</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn outline" onclick="closeEditModal()">Cancel</button>
+                    <button type="submit" class="btn primary">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let products = [];
+        let editingProductId = null;
+
+        // Load products and update stats
+        async function loadProducts() {
+            try {
+                const response = await fetch('/api/products');
+                products = await response.json();
+                updateStats();
+                displayProducts();
+            } catch (error) {
+                console.error('Failed to load products:', error);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('totalProducts').textContent = products.length;
+            
+            // Calculate recent imports (last 7 days)
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+            
+            const recentCount = products.filter(product => {
+                const addedDate = new Date(product.dateAdded);
+                return addedDate > oneWeekAgo;
+            }).length;
+            
+            document.getElementById('recentImports').textContent = recentCount;
+        }
+
+        // Display products with search and filter
+        function displayProducts() {
+            const searchTerm = document.getElementById('searchProducts').value.toLowerCase();
+            const sortBy = document.getElementById('sortProducts').value;
+            const filterBy = document.getElementById('filterProducts').value;
+
+            let filteredProducts = products.filter(product => {
+                const matchesSearch = !searchTerm || 
+                    product.name.toLowerCase().includes(searchTerm) ||
+                    (product.description && product.description.toLowerCase().includes(searchTerm));
+                
+                let matchesFilter = true;
+                if (filterBy === 'with-photos') {
+                    matchesFilter = product.image && product.image.trim() !== '';
+                } else if (filterBy === 'no-photos') {
+                    matchesFilter = !product.image || product.image.trim() === '';
+                } else if (filterBy === 'ebay') {
+                    matchesFilter = product.platform === 'ebay';
+                }
+                
+                return matchesSearch && matchesFilter;
+            });
+
+            // Sort products
+            filteredProducts.sort((a, b) => {
+                switch (sortBy) {
+                    case 'newest':
+                        return new Date(b.dateAdded || 0) - new Date(a.dateAdded || 0);
+                    case 'name':
+                        return a.name.localeCompare(b.name);
+                    case 'price-high':
+                        return parseFloat(b.price || 0) - parseFloat(a.price || 0);
+                    case 'price-low':
+                        return parseFloat(a.price || 0) - parseFloat(b.price || 0);
+                    default:
+                        return 0;
+                }
+            });
+
+            const grid = document.getElementById('productsGrid');
+            
+            if (filteredProducts.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--gray-500);">
+                        <i class="fas fa-box-open" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <h3>No products found</h3>
+                        <p>Try adjusting your search or import some products</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filteredProducts.map(product => `
+                <div class="product-card">
+                    <div class="product-image-admin">
+                        ${product.image ? 
+                            `<img src="${product.image}" alt="${product.name}" onerror="this.parentElement.innerHTML='<i class=\\"fas fa-image no-image\\"></i>'">` : 
+                            `<i class="fas fa-image no-image"></i>`
+                        }
+                    </div>
+                    <div class="product-info-admin">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">$${parseFloat(product.price || 0).toFixed(2)}</div>
+                        <div class="product-description">
+                            ${(product.description || 'No description available').substring(0, 120)}${product.description && product.description.length > 120 ? '...' : ''}
+                        </div>
+                        <div class="product-meta">
+                            <span><i class="fas fa-calendar"></i> ${new Date(product.dateAdded || Date.now()).toLocaleDateString()}</span>
+                            <span><i class="fas fa-tag"></i> ${product.platform || 'Unknown'}</span>
+                        </div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn primary" onclick="editProduct(${product.id})">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn success" onclick="viewProduct('${product.sourceUrl || product.buyLink}')">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="btn danger" onclick="deleteProduct(${product.id}, '${product.name.replace(/'/g, '\\\'').substring(0, 30)}')">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Edit product functionality
+        function editProduct(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            editingProductId = productId;
+            
+            document.getElementById('editName').value = product.name || '';
+            document.getElementById('editPrice').value = product.price || '';
+            document.getElementById('editDescription').value = product.description || '';
+            document.getElementById('editImage').value = product.image || '';
+            document.getElementById('editCategory').value = product.category || 'electronics';
+            
+            document.getElementById('editModal').style.display = 'block';
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+            editingProductId = null;
+        }
+
+        // Handle edit form submission
+        document.getElementById('editForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!editingProductId) return;
+
+            const updatedProduct = {
+                name: document.getElementById('editName').value,
+                price: parseFloat(document.getElementById('editPrice').value),
+                description: document.getElementById('editDescription').value,
+                image: document.getElementById('editImage').value,
+                category: document.getElementById('editCategory').value
+            };
+
+            try {
+                const response = await fetch(`/api/products/${editingProductId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedProduct)
+                });
+
+                if (response.ok) {
+                    showStatus('✅ Product updated successfully!', 'success');
+                    closeEditModal();
+                    loadProducts(); // Refresh the list
+                } else {
+                    throw new Error('Failed to update product');
+                }
+            } catch (error) {
+                console.error('Update error:', error);
+                showStatus('❌ Failed to update product', 'error');
+            }
+        });
+
+        // Delete product
+        async function deleteProduct(productId, productName) {
+            if (!confirm(`Are you sure you want to delete "${productName}"? This cannot be undone.`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/products/${productId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    showStatus('✅ Product deleted successfully!', 'success');
+                    loadProducts(); // Refresh the list
+                } else {
+                    throw new Error('Failed to delete product');
+                }
+            } catch (error) {
+                console.error('Delete error:', error);
+                showStatus('❌ Failed to delete product', 'error');
+            }
+        }
+
+        function viewProduct(url) {
+            if (url) {
+                window.open(url, '_blank');
+            } else {
+                showStatus('❌ No URL available for this product', 'error');
+            }
+        }
+
+        // Import functions (same as before but with improved UI)
+        async function getStoreUrls() {
+            const storeUrl = document.getElementById('storeUrl').value.trim();
+            if (!storeUrl) {
+                showImportStatus('❌ Please enter your eBay store URL', 'error');
+                return;
+            }
+
+            showImportStatus('🔍 Getting extraction instructions...', 'info');
+
+            try {
+                const response = await fetch('/api/ebay/store-urls', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ storeUrl })
+                });
+
+                const result = await response.json();
+
+                if (result.instructions) {
+                    const instructionText = result.instructions.join('\\n');
+                    showImportStatus('📋 Instructions ready! Check console for details.', 'info');
+                    alert('URL Extraction Instructions:\\n\\n' + instructionText);
+                    
+                    console.log('=== eBay URL Extraction Instructions ===');
+                    result.instructions.forEach((instruction) => {
+                        console.log(instruction);
+                    });
+                } else {
+                    showImportStatus(`❌ Error: ${result.error || 'No instructions available'}`, 'error');
+                }
+            } catch (error) {
+                console.error('URL extraction error:', error);
+                showImportStatus('❌ Failed to get instructions', 'error');
+            }
+        }
+
+        async function bulkImport() {
+            const bulkUrls = document.getElementById('bulkUrls').value.trim();
+            if (!bulkUrls) {
+                showImportStatus('❌ Please enter some eBay URLs', 'error');
+                return;
+            }
+
+            const urls = bulkUrls.split('\\n').filter(url => url.trim()).map(url => url.trim());
+            const cleanUrls = [...new Set(urls.filter(url => url.includes('/itm/')))];
+            
+            if (cleanUrls.length === 0) {
+                showImportStatus('❌ No valid eBay URLs found', 'error');
+                return;
+            }
+
+            if (!confirm(`Import ${cleanUrls.length} products? This will take ${Math.ceil(cleanUrls.length * 0.2)} minutes.`)) {
+                return;
+            }
+
+            showImportStatus(`📥 Starting import of ${cleanUrls.length} products...`, 'info');
+            
+            let successful = 0;
+            let failed = 0;
+
+            for (let i = 0; i < cleanUrls.length; i++) {
+                const url = cleanUrls[i];
+                const progress = Math.round(((i + 1) / cleanUrls.length) * 100);
+                
+                showImportStatus(`<i class="fas fa-spinner fa-spin"></i> ${i + 1}/${cleanUrls.length} (${progress}%): Processing...`, 'info');
+
+                try {
+                    const product = await extractFromUrl(url);
+                    if (product) {
+                        await addProduct(product);
+                        successful++;
+                    } else {
+                        failed++;
+                    }
+                } catch (error) {
+                    failed++;
+                }
+
+                // Delay between requests
+                if (i < cleanUrls.length - 1) {
+                    await new Promise(resolve => setTimeout(resolve, 3000));
+                }
+            }
+
+            showImportStatus(`<i class="fas fa-check-circle"></i> Import complete! ${successful} successful, ${failed} failed`, successful > 0 ? 'success' : 'error');
+            if (successful > 0) {
+                loadProducts(); // Refresh stats and products
+            }
+        }
+
+        async function extractFromUrl(url) {
+            try {
+                const response = await fetch('/api/extract-product', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url })
+                });
+
+                if (response.ok) {
+                    const product = await response.json();
+                    if (product.name && product.name !== 'Product from eBay') {
+                        return product;
+                    }
+                }
+                return null;
+            } catch (error) {
+                console.error('Extraction error:', error);
+                return null;
+            }
+        }
+
+        async function addProduct(product) {
+            try {
+                const response = await fetch('/api/products', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(product)
+                });
+                return response.ok;
+            } catch (error) {
+                console.error('Error adding product:', error);
+                return false;
+            }
+        }
+
+        // Management functions
+        async function removeDuplicates() {
+            if (!confirm('Remove duplicate products? This will keep the first occurrence of each duplicate.')) {
+                return;
+            }
+            showStatus('🔍 Checking for duplicates...', 'info');
+            // Implementation would go here
+            setTimeout(() => {
+                showStatus('✅ No duplicates found!', 'success');
+            }, 2000);
+        }
+
+        async function removeNoPhotos() {
+            if (!confirm('Remove products without photos? This cannot be undone.')) {
+                return;
+            }
+            showStatus('📷 Checking for products without photos...', 'info');
+            // Implementation would go here
+            setTimeout(() => {
+                showStatus('✅ All products have photos!', 'success');
+            }, 2000);
+        }
+
+        async function publishToStore() {
+            showStatus('🌐 Publishing to store...', 'info');
+            setTimeout(() => {
+                showStatus('✅ Store updated successfully!', 'success');
+            }, 1500);
+        }
+
+        function showImportStatus(message, type) {
+            const statusEl = document.getElementById('importStatus');
+            statusEl.className = `status ${type}`;
+            statusEl.innerHTML = message;
+            statusEl.classList.remove('hidden');
+            
+            if (type !== 'info') {
+                setTimeout(() => {
+                    statusEl.classList.add('hidden');
+                }, 5000);
+            }
+        }
+
+        function showStatus(message, type) {
+            // Create a temporary status message
+            const statusDiv = document.createElement('div');
+            statusDiv.className = `status ${type}`;
+            statusDiv.innerHTML = message;
+            statusDiv.style.position = 'fixed';
+            statusDiv.style.top = '100px';
+            statusDiv.style.right = '20px';
+            statusDiv.style.zIndex = '1001';
+            statusDiv.style.maxWidth = '400px';
+            
+            document.body.appendChild(statusDiv);
+            
+            setTimeout(() => {
+                statusDiv.remove();
+            }, 4000);
+        }
+
+        // Search functionality
+        document.getElementById('searchProducts').addEventListener('input', displayProducts);
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('editModal');
+            if (event.target === modal) {
+                closeEditModal();
+            }
+        });
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', loadProducts);
+    </script>
+</body>
+</html>

@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vintage Crib - 3D Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Fresh 3D Colors - Shining Theme */
+            --primary: #ff6b6b; /* Coral Red - Fresh & Energetic */
+            --primary-dark: #ee5a6f;
+            --secondary: #4ecdc4; /* Mint Green - Fresh & Cool */
+            --secondary-dark: #45b7b8;
+            --accent: #ffe66d; /* Bright Yellow - Sunshine */
+            --accent-dark: #ffd93d;
+            --purple: #a8e6cf; /* Soft Mint Purple */
+            --purple-dark: #88d8c0;
+            
+            /* Supporting Colors */
+            --success: #26de81;
+            --warning: #fed330;
+            --danger: #ff3838;
+            --info: #3742fa;
+            
+            /* 3D Base Colors */
+            --white: #ffffff;
+            --cream: #fef7e0;
+            --light: #f8f9ff;
+            --gray-100: #f1f3f8;
+            --gray-200: #e4e7f0;
+            --gray-300: #c5cae0;
+            --gray-600: #6b7288;
+            --gray-900: #2d3748;
+            
+            /* Vintage Brand Colors */
+            --vintage-gold: #f7b731;
+            --vintage-copper: #ff7675;
+            --dark-accent: #2d3436;
+            
+            /* 3D Shadows & Depth */
+            --shadow-3d-light: 0 8px 32px rgba(255, 107, 107, 0.15);
+            --shadow-3d-medium: 0 12px 40px rgba(78, 205, 196, 0.2);
+            --shadow-3d-heavy: 0 20px 60px rgba(255, 230, 109, 0.25);
+            --shadow-3d-inset: inset 0 2px 8px rgba(255, 255, 255, 0.6);
+            --shadow-glow: 0 0 30px rgba(255, 107, 107, 0.4);
+            
+            /* 3D Gradients */
+            --gradient-primary: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 50%, #ff7675 100%);
+            --gradient-secondary: linear-gradient(135deg, #4ecdc4 0%, #45b7b8 50%, #26de81 100%);
+            --gradient-accent: linear-gradient(135deg, #ffe66d 0%, #ffd93d 50%, #f7b731 100%);
+            --gradient-purple: linear-gradient(135deg, #a8e6cf 0%, #88d8c0 50%, #26de81 100%);
+            
+            /* Glass Effects */
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --backdrop-blur: blur(20px);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite;
+            color: var(--gray-900);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 3D Floating Particles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(78, 205, 196, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 80%, rgba(255, 230, 109, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 10% 60%, rgba(168, 230, 207, 0.09) 0%, transparent 50%);
+            z-index: -2;
+            animation: particleFloat 15s ease-in-out infinite;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.6; }
+            50% { transform: translateY(-30px) scale(1.1); opacity: 0.8; }
+        }
+
+        /* 3D Geometric Shapes */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                conic-gradient(from 0deg at 15% 15%, transparent 0deg, rgba(255, 107, 107, 0.05) 90deg, transparent 180deg),
+                conic-gradient(from 120deg at 85% 25%, transparent 0deg, rgba(78, 205, 196, 0.04) 120deg, transparent 240deg),
+                conic-gradient(from 240deg at 25% 85%, transparent 0deg, rgba(255, 230, 109, 0.06) 60deg, transparent 120deg);
+            background-size: 800px 800px, 600px 600px, 900px 900px;
+            background-position: 0 0, 100% 0, 50% 100%;
+            animation: geometricSpin 20s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes geometricSpin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.05); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        /* 3D Header */
+        .header {
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            border: 1px solid var(--glass-border);
+            border-bottom: 3px solid var(--primary);
+            box-shadow: var(--shadow-3d-light), var(--shadow-3d-inset);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transform-style: preserve-3d;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 90px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: var(--dark-accent);
+            text-decoration: none;
+            transform: translateZ(10px);
+        }
+
+        .logo-symbol {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border: 3px solid var(--vintage-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--white);
+            box-shadow: var(--shadow-3d-light), var(--shadow-3d-inset);
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(15px);
+            animation: logoGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoGlow {
+            0% { box-shadow: var(--shadow-3d-light), 0 0 20px rgba(255, 107, 107, 0.5); }
+            100% { box-shadow: var(--shadow-3d-heavy), 0 0 40px rgba(255, 107, 107, 0.8); }
+        }
+
+        .logo-symbol::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: conic-gradient(transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: logoSpin 4s linear infinite;
+        }
+
+        @keyframes logoSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .admin-title {
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            margin-left: 1rem;
+            font-size: 1.1rem;
+            text-shadow: 0 2px 8px rgba(78, 205, 196, 0.3);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transform: translateZ(8px);
+        }
+
+        .nav-btn {
+            padding: 0.9rem 1.8rem;
+            border: none;
+            border-radius: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+
+        .nav-btn.primary {
+            background: var(--gradient-accent);
+            color: var(--dark-accent);
+            box-shadow: var(--shadow-3d-medium);
+            transform: translateZ(5px);
+        }
+
+        .nav-btn.primary:hover {
+            transform: translateZ(15px) translateY(-3px);
+            box-shadow: var(--shadow-3d-heavy), var(--shadow-glow);
+        }
+
+        .nav-btn.outline {
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            border: 3px solid var(--secondary);
+            color: var(--secondary-dark);
+            box-shadow: var(--shadow-3d-light);
+        }
+
+        .nav-btn.outline:hover {
+            background: var(--gradient-secondary);
+            color: var(--white);
+            transform: translateZ(12px) translateY(-2px);
+            box-shadow: var(--shadow-3d-medium);
+        }
+
+        /* 3D Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            transform-style: preserve-3d;
+        }
+
+        /* 3D Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+            transform: translateZ(0);
+        }
+
+        .dashboard-card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            border: 2px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 3rem 2.5rem;
+            box-shadow: var(--shadow-3d-medium);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            transform-style: preserve-3d;
+            transform: translateZ(10px);
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--gradient-primary);
+            border-radius: 25px 25px 0 0;
+        }
+
+        .dashboard-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .dashboard-card:hover {
+            transform: translateZ(25px) translateY(-8px) rotateX(5deg);
+            box-shadow: var(--shadow-3d-heavy), 0 0 50px rgba(255, 107, 107, 0.3);
+        }
+
+        .dashboard-card:hover::after {
+            opacity: 1;
+        }
+
+        .dashboard-card:nth-child(1) { --card-color: var(--primary); }
+        .dashboard-card:nth-child(2) { --card-color: var(--secondary); }
+        .dashboard-card:nth-child(3) { --card-color: var(--accent); }
+        .dashboard-card:nth-child(4) { --card-color: var(--purple); }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 2rem;
+            position: relative;
+            transform: translateZ(15px);
+            box-shadow: var(--shadow-3d-light);
+            transition: all 0.4s;
+        }
+
+        .card-icon.products {
+            background: var(--gradient-primary);
+            color: var(--white);
+            animation: iconPulse1 4s ease-in-out infinite;
+        }
+
+        .card-icon.import {
+            background: var(--gradient-secondary);
+            color: var(--white);
+            animation: iconPulse2 4s ease-in-out infinite 1s;
+        }
+
+        .card-icon.analytics {
+            background: var(--gradient-accent);
+            color: var(--dark-accent);
+            animation: iconPulse3 4s ease-in-out infinite 2s;
+        }
+
+        .card-icon.tools {
+            background: var(--gradient-purple);
+            color: var(--white);
+            animation: iconPulse4 4s ease-in-out infinite 3s;
+        }
+
+        @keyframes iconPulse1 {
+            0%, 100% { transform: translateZ(15px) scale(1); box-shadow: var(--shadow-3d-light); }
+            50% { transform: translateZ(25px) scale(1.1); box-shadow: var(--shadow-3d-heavy), 0 0 30px rgba(255, 107, 107, 0.6); }
+        }
+
+        @keyframes iconPulse2 {
+            0%, 100% { transform: translateZ(15px) scale(1); box-shadow: var(--shadow-3d-light); }
+            50% { transform: translateZ(25px) scale(1.1); box-shadow: var(--shadow-3d-heavy), 0 0 30px rgba(78, 205, 196, 0.6); }
+        }
+
+        @keyframes iconPulse3 {
+            0%, 100% { transform: translateZ(15px) scale(1); box-shadow: var(--shadow-3d-light); }
+            50% { transform: translateZ(25px) scale(1.1); box-shadow: var(--shadow-3d-heavy), 0 0 30px rgba(255, 230, 109, 0.6); }
+        }
+
+        @keyframes iconPulse4 {
+            0%, 100% { transform: translateZ(15px) scale(1); box-shadow: var(--shadow-3d-light); }
+            50% { transform: translateZ(25px) scale(1.1); box-shadow: var(--shadow-3d-heavy), 0 0 30px rgba(168, 230, 207, 0.6); }
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transform: translateZ(5px);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 0.8rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+            transform: translateZ(10px);
+            animation: numberGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes numberGlow {
+            0% { filter: brightness(1) contrast(1); }
+            100% { filter: brightness(1.2) contrast(1.1); }
+        }
+
+        .stat-label {
+            color: var(--gray-600);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transform: translateZ(5px);
+        }
+
+        /* 3D Sections */
+        .section {
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            border: 2px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 3.5rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-3d-medium);
+            border-left: 8px solid var(--secondary);
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(5px);
+            transition: all 0.4s;
+        }
+
+        .section:hover {
+            transform: translateZ(15px);
+            box-shadow: var(--shadow-3d-heavy);
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(78, 205, 196, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(50%, -50%);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 2.5rem;
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            text-shadow: 0 4px 8px rgba(78, 205, 196, 0.3);
+            transform: translateZ(10px);
+        }
+
+        /* 3D Buttons */
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.95rem;
+            margin: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transform: translateZ(5px);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn.primary {
+            background: var(--gradient-primary);
+            color: var(--white);
+            box-shadow: var(--shadow-3d-light);
+        }
+
+        .btn.primary:hover {
+            transform: translateZ(15px) translateY(-3px);
+            box-shadow: var(--shadow-3d-heavy), 0 0 30px rgba(255, 107, 107, 0.6);
+        }
+
+        .btn.success {
+            background: var(--gradient-secondary);
+            color: var(--white);
+            box-shadow: var(--shadow-3d-light);
+        }
+
+        .btn.success:hover {
+            transform: translateZ(15px) translateY(-3px);
+            box-shadow: var(--shadow-3d-heavy), 0 0 30px rgba(78, 205, 196, 0.6);
+        }
+
+        .btn.outline {
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            border: 2px solid var(--accent);
+            color: var(--accent-dark);
+            box-shadow: var(--shadow-3d-light);
+        }
+
+        .btn.outline:hover {
+            background: var(--gradient-accent);
+            color: var(--dark-accent);
+            transform: translateZ(12px) translateY(-2px);
+            box-shadow: var(--shadow-3d-medium);
+        }
+
+        /* 3D Form Inputs */
+        .url-input, .bulk-textarea, .search-input, .filter-select, .form-input {
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            border: 2px solid var(--glass-border);
+            border-radius: 15px;
+            font-size: 1rem;
+            margin: 1rem 0;
+            transition: all 0.4s;
+            box-shadow: var(--shadow-3d-inset);
+            transform: translateZ(2px);
+        }
+
+        .url-input:focus, .bulk-textarea:focus, .search-input:focus, .filter-select:focus, .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: var(--shadow-3d-light), 0 0 0 3px rgba(255, 107, 107, 0.2);
+            transform: translateZ(8px);
+        }
+
+        .bulk-textarea {
+            height: 130px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+
+        /* 3D Status Messages */
+        .status {
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            margin: 1rem 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            backdrop-filter: var(--backdrop-blur);
+            box-shadow: var(--shadow-3d-light);
+            transform: translateZ(5px);
+            transition: all 0.4s;
+        }
+
+        .status:hover {
+            transform: translateZ(10px);
+        }
+
+        .status.success {
+            background: rgba(38, 222, 129, 0.15);
+            border: 2px solid var(--success);
+            color: #27ae60;
+            box-shadow: var(--shadow-3d-light), 0 0 20px rgba(38, 222, 129, 0.3);
+        }
+
+        .status.error {
+            background: rgba(255, 56, 56, 0.15);
+            border: 2px solid var(--danger);
+            color: #e74c3c;
+            box-shadow: var(--shadow-3d-light), 0 0 20px rgba(255, 56, 56, 0.3);
+        }
+
+        .status.info {
+            background: rgba(55, 66, 250, 0.15);
+            border: 2px solid var(--info);
+            color: #3742fa;
+            box-shadow: var(--shadow-3d-light), 0 0 20px rgba(55, 66, 250, 0.3);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Responsive 3D */
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-container {
+                padding: 1rem;
+                flex-direction: column;
+                height: auto;
+            }
+
+            .logo {
+                margin-bottom: 1rem;
+            }
+
+            .main-content {
+                padding: 2rem 1rem;
+            }
+
+            .section {
+                padding: 2rem;
+            }
+
+            .logo-symbol {
+                width: 50px;
+                height: 50px;
+                font-size: 1.8rem;
+            }
+        }
+
+        /* 3D Loading Animation */
+        .loading-3d {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 107, 107, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin3d 1s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes spin3d {
+            0% { transform: rotateY(0deg) rotateX(0deg); }
+            50% { transform: rotateY(180deg) rotateX(90deg); }
+            100% { transform: rotateY(360deg) rotateX(0deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-symbol">C</div>
+                Vintage Crib
+                <span class="admin-title">3D Admin Dashboard</span>
+            </a>
+            <div class="nav-actions">
+                <a href="vintage-store.html" target="_blank" class="nav-btn outline">
+                    <i class="fas fa-eye"></i>
+                    View Store
+                </a>
+                <button class="nav-btn primary">
+                    <i class="fas fa-plus"></i>
+                    Quick Add
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- 3D Dashboard Cards -->
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="card-icon products">
+                    <i class="fas fa-boxes"></i>
+                </div>
+                <div class="card-title">Total Products</div>
+                <div class="stat-number" id="totalProducts">127</div>
+                <div class="stat-label">Curated vintage pieces</div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-icon import">
+                    <i class="fas fa-download"></i>
+                </div>
+                <div class="card-title">Recent Imports</div>
+                <div class="stat-number" id="recentImports">23</div>
+                <div class="stat-label">Added this week</div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-icon analytics">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="card-title">Store Views</div>
+                <div class="stat-number" id="storeViews">1.2K</div>
+                <div class="stat-label">This month</div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-icon tools">
+                    <i class="fas fa-magic"></i>
+                </div>
+                <div class="card-title">Success Rate</div>
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Customer satisfaction</div>
+            </div>
+        </div>
+
+        <!-- 3D Import Section -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-upload"></i>
+                Import Products
+            </h2>
+            
+            <!-- Store Import -->
+            <div style="margin-bottom: 3rem;">
+                <h3 style="margin-bottom: 1.5rem; color: var(--gray-900); font-size: 1.3rem; font-weight: 700;">
+                    🏪 Auto-Import from eBay Store
+                </h3>
+                <input type="text" class="url-input" id="storeUrl" placeholder="https://www.ebay.com/usr/yourstore">
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn success" onclick="getStoreUrls()">
+                        <i class="fas fa-link"></i>
+                        Get URLs
+                    </button>
+                    <button class="btn primary" onclick="autoImportStore()">
+                        <i class="fas fa-rocket"></i>
+                        Auto-Import
+                    </button>
+                </div>
+            </div>
+
+            <!-- Manual Import -->
+            <div>
+                <h3 style="margin-bottom: 1.5rem; color: var(--gray-900); font-size: 1.3rem; font-weight: 700;">
+                    📋 Manual URL Import
+                </h3>
+                <textarea class="bulk-textarea" id="bulkUrls" placeholder="Paste your eBay product URLs here (one per line):
+https://www.ebay.com/itm/123456
+https://www.ebay.com/itm/789012
+https://www.ebay.com/itm/345678"></textarea>
+                <button class="btn primary" onclick="bulkImport()">
+                    <i class="fas fa-upload"></i>
+                    Import URLs
+                </button>
+            </div>
+
+            <div id="importStatus" class="status hidden"></div>
+        </div>
+
+        <!-- 3D Management Tools -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-tools"></i>
+                Management Tools
+            </h2>
+            
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button class="btn outline" onclick="removeDuplicates()">
+                    <i class="fas fa-copy"></i>
+                    Remove Duplicates
+                </button>
+                <button class="btn outline" onclick="removeNoPhotos()">
+                    <i class="fas fa-images"></i>
+                    Clean Images
+                </button>
+                <button class="btn success" onclick="publishToStore()">
+                    <i class="fas fa-rocket"></i>
+                    Publish All
+                </button>
+                <button class="btn primary" onclick="optimizeStore()">
+                    <i class="fas fa-magic"></i>
+                    Optimize Store
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // 3D Interactive Effects
+        document.addEventListener('mousemove', function(e) {
+            const cards = document.querySelectorAll('.dashboard-card');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            cards.forEach((card, index) => {
+                const xRotation = (mouseY - 0.5) * 10;
+                const yRotation = (mouseX - 0.5) * 10;
+                
+                card.style.transform = `translateZ(10px) rotateX(${xRotation}deg) rotateY(${yRotation}deg)`;
+            });
+        });
+
+        // Reset on mouse leave
+        document.addEventListener('mouseleave', function() {
+            const cards = document.querySelectorAll('.dashboard-card');
+            cards.forEach(card => {
+                card.style.transform = 'translateZ(10px)';
+            });
+        });
+
+        // Dummy functions for demonstration
+        function getStoreUrls() {
+            showImportStatus('<i class="loading-3d"></i> Extracting store URLs...', 'info');
+            setTimeout(() => {
+                showImportStatus('<i class="fas fa-check"></i> Found 87 products! Ready to import.', 'success');
+            }, 2000);
+        }
+
+        function bulkImport() {
+            showImportStatus('<i class="loading-3d"></i> Importing products...', 'info');
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 20;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    showImportStatus('<i class="fas fa-check-circle"></i> Successfully imported 45 products!', 'success');
+                } else {
+                    showImportStatus(`<i class="loading-3d"></i> Importing... ${Math.round(progress)}% complete`, 'info');
+                }
+            }, 500);
+        }
+
+        function removeDuplicates() {
+            showImportStatus('<i class="loading-3d"></i> Scanning for duplicates...', 'info');
+            setTimeout(() => {
+                showImportStatus('<i class="fas fa-trash"></i> Removed 12 duplicate products!', 'success');
+            }, 1500);
+        }
+
+        function removeNoPhotos() {
+            showImportStatus('<i class="loading-3d"></i> Checking product images...', 'info');
+            setTimeout(() => {
+                showImportStatus('<i class="fas fa-images"></i> Cleaned 8 products without photos!', 'success');
+            }, 1800);
+        }
+
+        function publishToStore() {
+            showImportStatus('<i class="loading-3d"></i> Publishing to store...', 'info');
+            setTimeout(() => {
+                showImportStatus('<i class="fas fa-rocket"></i> Store updated successfully! 127 products live.', 'success');
+            }, 1200);
+        }
+
+        function optimizeStore() {
+            showImportStatus('<i class="loading-3d"></i> Optimizing store performance...', 'info');
+            setTimeout(() => {
+                showImportStatus('<i class="fas fa-magic"></i> Store optimized! Loading speed improved by 40%.', 'success');
+            }, 2500);
+        }
+
+        function showImportStatus(message, type) {
+            const statusEl = document.getElementById('importStatus');
+            statusEl.className = `status ${type}`;
+            statusEl.innerHTML = message;
+            statusEl.classList.remove('hidden');
+            
+            if (type !== 'info') {
+                setTimeout(() => {
+                    statusEl.classList.add('hidden');
+                }, 4000);
+            }
+        }
+
+        // Animate numbers on load
+        function animateNumbers() {
+            const numbers = document.querySelectorAll('.stat-number');
+            numbers.forEach(number => {
+                const targetText = number.textContent;
+                const targetValue = parseInt(targetText.replace(/[^\d]/g, ''));
+                if (!isNaN(targetValue)) {
+                    let currentValue = 0;
+                    const increment = targetValue / 50;
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= targetValue) {
+                            number.textContent = targetText;
+                            clearInterval(timer);
+                        } else {
+                            number.textContent = Math.floor(currentValue).toString();
+                        }
+                    }, 30);
+                }
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(animateNumbers, 500);
+        });
+    </script>
+</body>
+</html>

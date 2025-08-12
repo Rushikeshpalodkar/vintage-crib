@@ -4,9 +4,22 @@ const cors = require('cors');
 const path = require('path');
 const axios = require('axios');
 const cheerio = require('cheerio');
+const EBay = require('ebay-api');
+require('dotenv').config();
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
+
+// eBay API Configuration
+const eBay = new EBay({
+    clientId: process.env.EBAY_APP_ID,
+    clientSecret: process.env.EBAY_CERT_ID,
+    sandbox: process.env.EBAY_ENVIRONMENT === 'sandbox',
+    siteId: EBay.SiteId.EBAY_US
+});
+
+console.log('🏪 eBay API Environment:', process.env.EBAY_ENVIRONMENT || 'sandbox');
+console.log('🔑 eBay Client ID configured:', !!process.env.EBAY_APP_ID);
 
 // Middleware
 app.use(cors());
@@ -209,9 +222,19 @@ app.post('/api/extract-product', async (req, res) => {
         
         const response = await axios.get(url, {
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Accept-Encoding': 'gzip, deflate, br',
+                'DNT': '1',
+                'Connection': 'keep-alive',
+                'Upgrade-Insecure-Requests': '1'
             },
-            timeout: 15000
+            timeout: 15000,
+            maxRedirects: 5,
+            validateStatus: function (status) {
+                return status >= 200 && status < 400; // Accept redirects
+            }
         });
         
         const $ = cheerio.load(response.data);
@@ -310,6 +333,126 @@ app.post('/api/extract-product', async (req, res) => {
             sourceUrl: req.body.url,
             buyLink: req.body.url
         });
+    }
+});
+
+// eBay API - Get item details by ID
+app.get('/api/ebay/item/:itemId', async (req, res) => {
+    try {
+        const { itemId } = req.params;
+        console.log('📦 eBay API Get Item:', itemId);
+
+        const item = await eBay.browse.getItem(itemId);
+        
+        // Transform to our product format
+        const product = {
+            ebayItemId: item.itemId,
+            name: item.title,
+            price: parseFloat(item.price?.value || 0),
+            currency: item.price?.currency || 'USD',
+            description: item.shortDescription || item.description || 'High-quality product from eBay',
+            image: item.image?.imageUrl || '',
+            images: item.additionalImages?.map(img => img.imageUrl) || [],
+            condition: item.condition,
+            platform: 'ebay',
+            sourceUrl: item.itemWebUrl,
+            buyLink: item.itemWebUrl
+        };
+
+        console.log('✅ eBay Item Details Retrieved:', product.name);
+        res.json(product);
+
+    } catch (error) {
+        console.error('❌ eBay Item API Error:', error.message);
+        res.status(500).json({ 
+            error: 'Failed to get eBay item details', 
+            details: error.message 
+        });
+    }
+});
+
+// eBay Store - Get product URLs from store page  
+app.post('/api/ebay/store-urls', async (req, res) => {
+    try {
+        const { storeUrl } = req.body;
+        console.log('🔍 Extracting URLs from store:', storeUrl);
+
+        if (!storeUrl || !storeUrl.includes('ebay.com/usr/')) {
+            return res.status(400).json({ error: 'Invalid eBay store URL' });
+        }
+
+        // Since eBay blocks server-side scraping, return instructions for manual extraction
+        const instructions = {
+            success: false,
+            error: 'eBay blocks automated scraping',
+            instructions: [
+                '1. Open your eBay store in browser: ' + storeUrl,
+                '2. Open browser Developer Tools (F12)',
+                '3. Go to Console tab',
+                '4. Paste this code:',
+                `
+const urls = [];
+document.querySelectorAll('a[href*="/itm/"]').forEach(link => {
+    const href = link.href.split('?')[0];
+    if (href.includes('/itm/') && !urls.includes(href)) {
+        urls.push(href);
+    }
+});
+console.log('Found URLs:', urls);
+copy(urls.join('\\n')); // Copies to clipboard
+                `,
+                '5. The URLs will be copied to your clipboard',
+                '6. Paste them in the text area below and click Import'
+            ]
+        };
+
+        res.json(instructions);
+
+    } catch (error) {
+        console.error('❌ URL Extraction Error:', error.message);
+        res.status(500).json({ 
+            error: 'Failed to extract store URLs', 
+            details: error.message 
+        });
+    }
+});
+
+// Update product
+app.put('/api/products/:id', async (req, res) => {
+    try {
+        const productId = parseInt(req.params.id);
+        const updatedData = req.body;
+        
+        console.log('📝 Updating product:', productId, updatedData);
+        
+        const products = await readProducts();
+        const productIndex = products.findIndex(p => p.id === productId);
+        
+        if (productIndex === -1) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+        
+        // Update product while preserving original data
+        products[productIndex] = {
+            ...products[productIndex],
+            ...updatedData,
+            id: productId, // Ensure ID doesn't change
+            dateAdded: products[productIndex].dateAdded, // Preserve original date
+            dateModified: new Date().toISOString()
+        };
+        
+        await writeProducts(products);
+        
+        console.log('✅ Product updated successfully:', products[productIndex].name);
+        res.json({ 
+            success: true, 
+            message: 'Product updated successfully',
+            product: products[productIndex]
+        });
+        
+    } catch (error) {
+        console.error('❌ Failed to update product:', error);
+        res.status(500).json({ error: error.message });
     }
 });
 
