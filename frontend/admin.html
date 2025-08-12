@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - MyStore</title>
+    <title>🏺 Vintage Crib - Admin Login</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -22,10 +22,13 @@
             max-width: 400px;
             width: 90%;
         }
+        .logo::before {
+            content: '🏺 ';
+        }
         .logo {
             font-size: 2rem;
             margin-bottom: 1rem;
-            color: #667eea;
+            color: #ff6b6b;
         }
         .login-input {
             width: 100%;
@@ -76,7 +79,7 @@
 <body>
     <div class="login-container">
         <div class="logo">🔐 Admin Access</div>
-        <h2>MyStore Admin</h2>
+        <h2>Vintage Crib Admin</h2>
         <p style="color: #666; margin-bottom: 2rem;">Enter your credentials to access the admin dashboard</p>
         
         <form onsubmit="login(event)">
