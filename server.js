@@ -29,6 +29,8 @@ const eBay = new EBay({
 
 console.log('🏪 eBay API Environment:', process.env.EBAY_ENVIRONMENT || 'sandbox');
 console.log('🔑 eBay Client ID configured:', !!process.env.EBAY_APP_ID);
+console.log('🌐 Starting Vintage Crib Server...');
+console.log('📁 Working directory:', __dirname);
 
 // Middleware
 app.use(cors());
