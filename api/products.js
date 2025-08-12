@@ -6,13 +6,10 @@ const DATA_FILE = path.join(process.cwd(), 'data', 'products.json');
 
 // Helper functions
 async function readProducts() {
-    try {
-        const data = await fs.readFile(DATA_FILE, 'utf8');
-        return JSON.parse(data);
-    } catch (error) {
-        console.log('📁 Creating new products.json file');
-        
-        // Create default products
+    // For Vercel deployment, return default products directly
+    console.log('📁 Using default products for Vercel');
+    
+    // Create default products
         const defaultProducts = [
             {
                 id: 1, 
@@ -69,7 +66,6 @@ async function readProducts() {
         ];
         
         return defaultProducts;
-    }
 }
 
 async function writeProducts(products) {
@@ -81,7 +77,7 @@ async function writeProducts(products) {
     }
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
