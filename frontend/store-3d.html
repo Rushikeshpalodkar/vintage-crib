@@ -798,17 +798,53 @@
             });
         });
 
-        // Load products from API
-        async function loadProducts() {
+        // Frontend caching for better performance
+        let productsCache = null;
+        let cacheTimestamp = 0;
+        const FRONTEND_CACHE_DURATION = 300000; // 5 minutes
+        
+        // Load products from API with caching and retry logic
+        async function loadProducts(retry = 0) {
             try {
-                const response = await fetch('/api/products');
+                // Use cache if available and fresh
+                if (productsCache && (Date.now() - cacheTimestamp < FRONTEND_CACHE_DURATION)) {
+                    console.log('🚀 Using cached products for better performance');
+                    allProducts = productsCache;
+                    filteredProducts = [...allProducts];
+                    displayProducts();
+                    updateProductsCount();
+                    
+                    document.getElementById('loadingState').style.display = 'none';
+                    document.getElementById('productsGrid').style.display = 'grid';
+                    return;
+                }
+                
+                // Fetch with timeout
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+                
+                const response = await fetch('/api/products', {
+                    signal: controller.signal,
+                    headers: {
+                        'Cache-Control': 'no-cache'
+                    }
+                });
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
                 const products = await response.json();
                 
-                allProducts = products.map(product => ({
+                // Cache the results
+                productsCache = products.map(product => ({
                     ...product,
                     dateAdded: product.dateAdded || new Date().toISOString()
                 }));
+                cacheTimestamp = Date.now();
                 
+                allProducts = [...productsCache];
                 allProducts.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
                 filteredProducts = [...allProducts];
                 
@@ -819,12 +855,36 @@
                 document.getElementById('productsGrid').style.display = 'grid';
                 
             } catch (error) {
-                console.error('Failed to load products:', error);
-                document.getElementById('loadingState').innerHTML = '<div class="spinner-3d"></div>Unable to load collection';
+                console.error('❌ Failed to load products:', error);
+                
+                // Retry logic for network issues
+                if (retry < 2 && (error.name === 'AbortError' || error.message.includes('fetch'))) {
+                    console.log(`🔄 Retrying... (attempt ${retry + 1}/3)`);
+                    setTimeout(() => loadProducts(retry + 1), 2000 * (retry + 1)); // Exponential backoff
+                    return;
+                }
+                
+                // Show error message with retry option
+                const loadingEl = document.getElementById('loadingState');
+                loadingEl.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--off-white);">
+                        <div class="spinner-3d" style="margin-bottom: 1rem;"></div>
+                        <p style="margin-bottom: 1rem;">Unable to load vintage collection</p>
+                        <button onclick="location.reload()" style="
+                            background: var(--primary); 
+                            color: white; 
+                            border: none; 
+                            padding: 12px 24px; 
+                            border-radius: 8px; 
+                            cursor: pointer;
+                            font-size: 14px;
+                        ">🔄 Retry</button>
+                    </div>
+                `;
             }
         }
 
-        // Display products with 3D effects
+        // Display products with optimized 3D effects and lazy loading
         function displayProducts() {
             const grid = document.getElementById('productsGrid');
             
@@ -837,12 +897,17 @@
             document.getElementById('emptyState').style.display = 'none';
             grid.style.display = 'grid';
             
-            grid.innerHTML = filteredProducts.map(product => `
+            // Performance optimization: Limit initial display for large datasets
+            const maxInitialProducts = 24; // Show first 24 products
+            const productsToShow = filteredProducts.slice(0, maxInitialProducts);
+            
+            grid.innerHTML = productsToShow.map(product => `
                 <div class="product-card" onclick="viewProduct('${product.sourceUrl || product.buyLink}')">
                     <div class="product-image">
                         <img src="${product.image || 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'}" 
                              alt="${product.name}" 
-                             onerror="this.src='https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'">
+                             loading="lazy"
+                             onerror="this.src='https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'; console.warn('⚠️ Image failed to load:', this.alt)">
                         <div class="product-overlay"></div>
                         <div class="product-badge">Vintage</div>
                     </div>
@@ -964,18 +1029,65 @@
             });
         });
 
-        // Header scroll effect with 3D
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('.header');
-            const scrolled = window.scrollY > 100;
-            
-            if (scrolled) {
-                header.style.background = 'rgba(26, 26, 26, 0.98)';
-                header.style.transform = 'translateZ(20px)';
-            } else {
-                header.style.background = 'rgba(42, 42, 42, 0.8)';
-                header.style.transform = 'translateZ(0px)';
+        // Header scroll effect removed - handled by optimized version below
+
+        // Global error handling and performance monitoring
+        window.addEventListener('error', (error) => {
+            console.error('🚨 Global error caught:', error.error?.message || error.message);
+            // Don't let errors crash the page
+        });
+        
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('🚨 Unhandled promise rejection:', event.reason);
+            event.preventDefault(); // Prevent crash
+        });
+        
+        // Performance monitoring
+        let performanceTimer = null;
+        function monitorPerformance() {
+            if (performance.memory) {
+                const memory = performance.memory;
+                if (memory.usedJSHeapSize > 50000000) { // 50MB threshold
+                    console.warn('⚠️ High memory usage detected:', Math.round(memory.usedJSHeapSize / 1024 / 1024) + 'MB');
+                    
+                    // Clear caches if memory is high
+                    if (memory.usedJSHeapSize > 80000000) { // 80MB threshold
+                        console.log('🧹 Clearing caches to free memory');
+                        productsCache = null;
+                        cacheTimestamp = 0;
+                        
+                        // Force garbage collection if available
+                        if (window.gc) {
+                            window.gc();
+                        }
+                    }
+                }
             }
+        }
+        
+        // Monitor performance every 30 seconds
+        setInterval(monitorPerformance, 30000);
+        
+        // Throttled scroll handler for better performance  
+        let scrollTimeout;
+        const originalScrollHandler = window.addEventListener;
+        window.addEventListener('scroll', () => {
+            if (scrollTimeout) return;
+            
+            scrollTimeout = setTimeout(() => {
+                const header = document.querySelector('.header');
+                const scrolled = window.scrollY > 100;
+                
+                if (scrolled) {
+                    header.style.background = 'rgba(26, 26, 26, 0.98)';
+                    header.style.transform = 'translateZ(20px)';
+                } else {
+                    header.style.background = 'rgba(42, 42, 42, 0.8)';
+                    header.style.transform = 'translateZ(0px)';
+                }
+                
+                scrollTimeout = null;
+            }, 16); // ~60fps
         });
 
         // Load products when page loads
