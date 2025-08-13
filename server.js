@@ -723,7 +723,7 @@ app.post('/api/ebay/auto-import-store', async (req, res) => {
             }
 
         } catch (storeError) {
-            console.warn('⚠️ Store scraping failed, using sample products:', storeError.message);
+            console.warn('⚠️ Store scraping failed:', storeError.message);
         }
 
         // If scraping failed, return error instead of fake products
