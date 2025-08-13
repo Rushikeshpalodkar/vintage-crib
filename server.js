@@ -644,7 +644,231 @@ function extractProductData(page, url) {
     }
 }
 
-// Auto-Import eBay Store Products
+// Step 1: Get eBay Store Product URLs (lighter request)
+app.post('/api/ebay/get-store-urls', async (req, res) => {
+    try {
+        const { storeUrl } = req.body;
+        console.log('🔍 Getting product URLs from store:', storeUrl);
+
+        if (!storeUrl || !storeUrl.includes('ebay.com/usr/')) {
+            return res.status(400).json({ error: 'Invalid eBay store URL' });
+        }
+
+        // Extract store name from URL
+        const storeName = storeUrl.split('/usr/')[1];
+        console.log('👤 Store name:', storeName);
+
+        try {
+            // Random user agents to avoid detection
+            const userAgents = [
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0'
+            ];
+            const randomUA = userAgents[Math.floor(Math.random() * userAgents.length)];
+            
+            // Initial delay to be respectful
+            await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
+            
+            const response = await axios.get(storeUrl, {
+                headers: {
+                    'User-Agent': randomUA,
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                    'Accept-Language': 'en-US,en;q=0.5',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'DNT': '1',
+                    'Connection': 'keep-alive',
+                    'Upgrade-Insecure-Requests': '1'
+                },
+                timeout: 15000,
+                maxRedirects: 5
+            });
+
+            const $ = cheerio.load(response.data);
+            
+            // Extract product listings from eBay store
+            const productLinks = [];
+            $('a[href*="/itm/"]').each((i, elem) => {
+                const href = $(elem).attr('href');
+                if (href && href.includes('/itm/') && !productLinks.includes(href)) {
+                    const cleanUrl = href.split('?')[0]; // Remove URL parameters
+                    if (!productLinks.includes(cleanUrl)) {
+                        productLinks.push(cleanUrl);
+                    }
+                }
+            });
+
+            console.log('🔗 Found', productLinks.length, 'product links');
+            
+            if (productLinks.length === 0) {
+                return res.status(400).json({
+                    success: false,
+                    error: 'No products found in store. Please check the store URL or try again later.',
+                    storeUrl: storeUrl,
+                    storeName: storeName
+                });
+            }
+
+            res.json({
+                success: true,
+                message: `Found ${productLinks.length} products in ${storeName} store`,
+                productUrls: productLinks,
+                storeName: storeName,
+                storeUrl: storeUrl,
+                nextStep: 'Use /api/ebay/import-from-urls to import these products'
+            });
+
+        } catch (error) {
+            console.warn('⚠️ Store URL extraction failed:', error.message);
+            res.status(400).json({
+                success: false,
+                error: 'Could not access store. eBay may be blocking requests.',
+                details: error.message,
+                suggestion: 'Try again in a few minutes or check if the store URL is correct'
+            });
+        }
+
+    } catch (error) {
+        console.error('❌ Store URL extraction error:', error.message);
+        res.status(500).json({
+            error: 'Failed to extract store URLs',
+            details: error.message
+        });
+    }
+});
+
+// Step 2: Import products from URLs (heavier request with delays)
+app.post('/api/ebay/import-from-urls', async (req, res) => {
+    try {
+        const { productUrls, storeName, storeUrl, maxProducts = 5 } = req.body;
+        
+        if (!productUrls || !Array.isArray(productUrls)) {
+            return res.status(400).json({ error: 'productUrls array is required' });
+        }
+
+        console.log('🚀 Importing products from', productUrls.length, 'URLs, max:', maxProducts);
+
+        const extractedProducts = [];
+        const userAgents = [
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0'
+        ];
+        
+        // Process only a limited number of URLs to avoid timeouts
+        const linksToProcess = productUrls.slice(0, maxProducts);
+        
+        for (const [index, link] of linksToProcess.entries()) {
+            try {
+                console.log(`🔍 Processing product ${index + 1}/${linksToProcess.length}:`, link.substring(0, 80) + '...');
+                
+                // Random user agent for each product request
+                const randomUA = userAgents[Math.floor(Math.random() * userAgents.length)];
+                
+                // Random delay between 3-6 seconds to be very respectful
+                const randomDelay = 3000 + Math.random() * 3000;
+                console.log(`⏳ Waiting ${Math.round(randomDelay)}ms before request...`);
+                await new Promise(resolve => setTimeout(resolve, randomDelay));
+                
+                const productResponse = await axios.get(link, {
+                    headers: {
+                        'User-Agent': randomUA,
+                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                        'Accept-Language': 'en-US,en;q=0.9',
+                        'Accept-Encoding': 'gzip, deflate, br',
+                        'Cache-Control': 'no-cache',
+                        'Pragma': 'no-cache',
+                        'DNT': '1',
+                        'Connection': 'keep-alive',
+                        'Upgrade-Insecure-Requests': '1',
+                        'Sec-Fetch-Dest': 'document',
+                        'Sec-Fetch-Mode': 'navigate',
+                        'Sec-Fetch-Site': 'none',
+                        'Sec-Fetch-User': '?1'
+                    },
+                    timeout: 15000
+                });
+
+                const productPage = cheerio.load(productResponse.data);
+                
+                // Extract product data
+                const productData = extractProductData(productPage, link);
+                if (productData.name && productData.price > 0) {
+                    extractedProducts.push(productData);
+                    console.log('✅ Extracted:', productData.name.substring(0, 50) + '...');
+                } else {
+                    console.log('⚠️ Product data incomplete:', productData.name || 'No name', '$' + productData.price);
+                }
+                
+            } catch (productError) {
+                console.warn('⚠️ Failed to process product:', link, productError.message);
+                continue;
+            }
+        }
+
+        if (extractedProducts.length === 0) {
+            return res.status(400).json({
+                success: false,
+                error: 'No products could be extracted from the provided URLs',
+                processedUrls: linksToProcess.length
+            });
+        }
+
+        // Read existing products and add new ones
+        const products = await readProducts();
+        let importedCount = 0;
+
+        for (const productData of extractedProducts) {
+            const newProduct = {
+                id: Date.now() + Math.random(), // Unique ID
+                name: productData.name,
+                price: productData.price,
+                description: productData.description,
+                category: productData.category,
+                platform: productData.platform,
+                image: productData.image,
+                images: productData.images,
+                sourceUrl: productData.sourceUrl,
+                buyLink: productData.buyLink,
+                dateAdded: new Date().toISOString(),
+                isVintage: productData.price > 35, // Auto-vintage logic
+                customTags: [],
+                importedFrom: storeUrl || 'eBay Store',
+                storeName: storeName || 'Unknown Store'
+            };
+
+            products.push(newProduct);
+            importedCount++;
+        }
+
+        // Save updated products
+        await writeProducts(products);
+
+        console.log('✅ Import complete:', importedCount, 'products imported');
+        
+        res.json({
+            success: true,
+            message: `Successfully imported ${importedCount} products from ${storeName || 'eBay store'}`,
+            importedCount: importedCount,
+            totalProcessed: linksToProcess.length,
+            remainingUrls: productUrls.length - linksToProcess.length,
+            products: extractedProducts
+        });
+
+    } catch (error) {
+        console.error('❌ Import from URLs error:', error.message);
+        res.status(500).json({
+            error: 'Failed to import products from URLs',
+            details: error.message
+        });
+    }
+});
+
+// Auto-Import eBay Store Products (Combined - for backward compatibility)
 app.post('/api/ebay/auto-import-store', async (req, res) => {
     try {
         const { storeUrl } = req.body;
@@ -664,17 +888,32 @@ app.post('/api/ebay/auto-import-store', async (req, res) => {
         try {
             console.log('🔍 Attempting to fetch store page:', storeUrl);
             
+            // Random user agents to avoid detection
+            const userAgents = [
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0'
+            ];
+            const randomUA = userAgents[Math.floor(Math.random() * userAgents.length)];
+            
+            // Initial delay to be respectful
+            await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
+            
             const response = await axios.get(storeUrl, {
                 headers: {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                    'User-Agent': randomUA,
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
                     'Accept-Language': 'en-US,en;q=0.5',
                     'Accept-Encoding': 'gzip, deflate, br',
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
                     'DNT': '1',
-                    'Connection': 'keep-alive'
+                    'Connection': 'keep-alive',
+                    'Upgrade-Insecure-Requests': '1'
                 },
-                timeout: 10000,
-                maxRedirects: 3
+                timeout: 15000,
+                maxRedirects: 5
             });
 
             const $ = cheerio.load(response.data);
@@ -697,11 +936,31 @@ app.post('/api/ebay/auto-import-store', async (req, res) => {
                 try {
                     console.log('🔍 Processing product:', link.substring(0, 80) + '...');
                     
+                    // Random user agent for each product request
+                    const randomUA = userAgents[Math.floor(Math.random() * userAgents.length)];
+                    
+                    // Random delay between 2-5 seconds to be respectful
+                    const randomDelay = 2000 + Math.random() * 3000;
+                    console.log(`⏳ Waiting ${Math.round(randomDelay)}ms before request...`);
+                    await new Promise(resolve => setTimeout(resolve, randomDelay));
+                    
                     const productResponse = await axios.get(link, {
                         headers: {
-                            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                            'User-Agent': randomUA,
+                            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                            'Accept-Language': 'en-US,en;q=0.9',
+                            'Accept-Encoding': 'gzip, deflate, br',
+                            'Cache-Control': 'no-cache',
+                            'Pragma': 'no-cache',
+                            'DNT': '1',
+                            'Connection': 'keep-alive',
+                            'Upgrade-Insecure-Requests': '1',
+                            'Sec-Fetch-Dest': 'document',
+                            'Sec-Fetch-Mode': 'navigate',
+                            'Sec-Fetch-Site': 'none',
+                            'Sec-Fetch-User': '?1'
                         },
-                        timeout: 8000
+                        timeout: 12000
                     });
 
                     const productPage = cheerio.load(productResponse.data);
@@ -711,13 +970,13 @@ app.post('/api/ebay/auto-import-store', async (req, res) => {
                     if (productData.name && productData.price > 0) {
                         extractedProducts.push(productData);
                         console.log('✅ Extracted:', productData.name.substring(0, 50) + '...');
+                    } else {
+                        console.log('⚠️ Product data incomplete:', productData.name || 'No name', '$' + productData.price);
                     }
-                    
-                    // Small delay between requests
-                    await new Promise(resolve => setTimeout(resolve, 500));
                     
                 } catch (productError) {
                     console.warn('⚠️ Failed to process product:', link, productError.message);
+                    // Continue with next product instead of stopping
                     continue;
                 }
             }
