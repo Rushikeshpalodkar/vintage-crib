@@ -205,6 +205,21 @@ app.get('/api/products', async (req, res) => {
     }
 });
 
+// Get sold products - MUST be before /:id route
+app.get('/api/products/sold', async (req, res) => {
+    try {
+        console.log('📋 Getting sold products');
+        const products = await readProducts();
+        const soldProducts = products.filter(p => p.isSold === true);
+        
+        console.log('💰 Found', soldProducts.length, 'sold products');
+        res.json(soldProducts);
+    } catch (error) {
+        console.error('❌ Error reading sold products:', error);
+        res.status(500).json({ error: 'Failed to read sold products' });
+    }
+});
+
 // GET single product by ID
 app.get('/api/products/:id', async (req, res) => {
     try {
@@ -917,21 +932,6 @@ app.post('/api/products/:id/sold', async (req, res) => {
     } catch (error) {
         console.error('❌ Failed to mark product as sold:', error);
         res.status(500).json({ error: error.message });
-    }
-});
-
-// Get sold products
-app.get('/api/products/sold', async (req, res) => {
-    try {
-        console.log('📋 Getting sold products');
-        const products = await readProducts();
-        const soldProducts = products.filter(p => p.isSold === true);
-        
-        console.log('💰 Found', soldProducts.length, 'sold products');
-        res.json(soldProducts);
-    } catch (error) {
-        console.error('❌ Error reading sold products:', error);
-        res.status(500).json({ error: 'Failed to read sold products' });
     }
 });
 
