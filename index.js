@@ -1,2 +1,2 @@
-// Simple redirect to main app
-module.exports = require('./server.js');
+// Direct server startup for deployment
+require('./server.js');

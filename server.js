@@ -19,13 +19,23 @@ let productCache = null;
 let cacheExpiry = 0;
 const CACHE_DURATION = 300000; // 5 minutes
 
-// eBay API Configuration
-const eBay = new EBay({
-    clientId: process.env.EBAY_APP_ID,
-    clientSecret: process.env.EBAY_CERT_ID,
-    sandbox: process.env.EBAY_ENVIRONMENT === 'sandbox',
-    siteId: EBay.SiteId.EBAY_US
-});
+// eBay API Configuration - with fallback for missing env vars
+let eBay = null;
+try {
+    if (process.env.EBAY_APP_ID && process.env.EBAY_CERT_ID) {
+        eBay = new EBay({
+            clientId: process.env.EBAY_APP_ID,
+            clientSecret: process.env.EBAY_CERT_ID,
+            sandbox: process.env.EBAY_ENVIRONMENT === 'sandbox',
+            siteId: EBay.SiteId.EBAY_US
+        });
+        console.log('✅ eBay API initialized successfully');
+    } else {
+        console.log('⚠️ eBay API credentials not found - running in demo mode');
+    }
+} catch (error) {
+    console.log('⚠️ eBay API initialization failed:', error.message, '- running in demo mode');
+}
 
 console.log('🏪 eBay API Environment:', process.env.EBAY_ENVIRONMENT || 'sandbox');
 console.log('🔑 eBay Client ID configured:', !!process.env.EBAY_APP_ID);
@@ -433,6 +443,13 @@ app.get('/api/ebay/item/:itemId', async (req, res) => {
     try {
         const { itemId } = req.params;
         console.log('📦 eBay API Get Item:', itemId);
+
+        if (!eBay) {
+            return res.status(503).json({ 
+                error: 'eBay API not available - demo mode only',
+                demo: true 
+            });
+        }
 
         const item = await eBay.browse.getItem(itemId);
         
