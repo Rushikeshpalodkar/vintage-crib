@@ -651,29 +651,37 @@
 
         async function loadProduct(id) {
             try {
+                console.log('🔍 Loading product with ID:', id);
                 const response = await fetch(`/api/products/${id}`);
                 
+                console.log('📡 API Response status:', response.status);
+                
                 if (!response.ok) {
-                    throw new Error('Product not found');
+                    console.error('❌ API Error:', response.status, response.statusText);
+                    throw new Error(`Product not found (${response.status})`);
                 }
 
                 const product = await response.json();
+                console.log('✅ Product loaded:', product.name);
                 displayProduct(product);
             } catch (error) {
-                console.error('Error loading product:', error);
+                console.error('❌ Error loading product:', error);
                 showError();
             }
         }
 
         function displayProduct(product) {
-            // Initialize image navigation
-            currentProduct = product;
-            currentImageIndex = 0;
-            totalImages = (product.images && product.images.length > 0) ? product.images.length : 1;
+            try {
+                console.log('🎨 Displaying product:', product.name);
+                
+                // Initialize image navigation
+                currentProduct = product;
+                currentImageIndex = 0;
+                totalImages = (product.images && product.images.length > 0) ? product.images.length : 1;
 
-            // Hide loading, show product
-            document.getElementById('loadingState').style.display = 'none';
-            document.getElementById('productDetail').style.display = 'block';
+                // Hide loading, show product
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('productDetail').style.display = 'block';
 
             // Update page title
             document.title = `🏺 ${product.name} - Vintage Crib`;
@@ -743,6 +751,12 @@
                 buyButton.innerHTML = `🛒 Buy on ${getPlatformName(product.platform)}`;
             } else {
                 buyButton.style.display = 'none';
+            }
+            
+            console.log('✅ Product display completed successfully');
+            } catch (error) {
+                console.error('❌ Error displaying product:', error);
+                showError();
             }
         }
 
