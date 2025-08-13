@@ -1333,6 +1333,59 @@ https://www.ebay.com/itm/345678"></textarea>
             e.preventDefault();
         });
 
+        // Show status message function
+        function showStatus(message, type = 'info') {
+            // Remove existing status messages
+            const existingStatus = document.querySelector('.status-message');
+            if (existingStatus) {
+                existingStatus.remove();
+            }
+            
+            // Create status element
+            const statusElement = document.createElement('div');
+            statusElement.className = `status-message status-${type}`;
+            statusElement.innerHTML = message;
+            
+            // Style the status message
+            statusElement.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 10000;
+                padding: 15px 20px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 500;
+                max-width: 400px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                animation: slideIn 0.3s ease-out;
+                ${type === 'success' ? 'background: linear-gradient(135deg, #4ecdc4, #26de81);' : ''}
+                ${type === 'error' ? 'background: linear-gradient(135deg, #ff6b6b, #ee5a6f);' : ''}
+                ${type === 'info' ? 'background: linear-gradient(135deg, #ffe66d, #ffd93d);color: #333;' : ''}
+            `;
+            
+            // Add animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Add to page
+            document.body.appendChild(statusElement);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (statusElement.parentNode) {
+                    statusElement.style.animation = 'slideIn 0.3s ease-out reverse';
+                    setTimeout(() => statusElement.remove(), 300);
+                }
+            }, 5000);
+        }
+
         // Logout function
         function adminLogout() {
             sessionStorage.removeItem('adminLoggedIn');
