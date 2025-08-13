@@ -32,9 +32,44 @@ console.log('🔑 eBay Client ID configured:', !!process.env.EBAY_APP_ID);
 console.log('🌐 Starting Vintage Crib Server...');
 console.log('📁 Working directory:', __dirname);
 
+// Simple analytics storage
+let analytics = {
+    totalVisits: 0,
+    uniqueVisitors: new Set(),
+    pageViews: {},
+    productClicks: {},
+    lastVisits: []
+};
+
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Middleware to track visits
+app.use((req, res, next) => {
+    const ip = req.ip || req.connection.remoteAddress;
+    const userAgent = req.get('User-Agent');
+    const timestamp = new Date();
+    
+    // Track visit
+    analytics.totalVisits++;
+    analytics.uniqueVisitors.add(ip);
+    analytics.pageViews[req.path] = (analytics.pageViews[req.path] || 0) + 1;
+    
+    // Store recent visits
+    analytics.lastVisits.unshift({
+        ip: ip.substring(0, 10) + '...', // Hide full IP for privacy
+        page: req.path,
+        timestamp: timestamp,
+        userAgent: userAgent
+    });
+    
+    // Keep only last 50 visits
+    analytics.lastVisits = analytics.lastVisits.slice(0, 50);
+    
+    console.log(`📈 Visit: ${req.path} from ${ip.substring(0, 10)}...`);
+    next();
+});
 
 // Data file path
 const DATA_FILE = path.join(__dirname, 'data', 'products.json');
@@ -478,6 +513,43 @@ app.put('/api/products/:id', async (req, res) => {
     }
 });
 
+// 🚀 Health Check & Keep-Alive Endpoint
+app.get('/api/health', (req, res) => {
+    const healthData = {
+        status: 'healthy',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
+        memory: process.memoryUsage(),
+        version: '1.0.0',
+        service: 'Vintage Crib API',
+        keepAlive: true,
+        message: '🏺 Vintage Crib server is running smoothly!'
+    };
+    
+    res.json(healthData);
+});
+
+// 🔄 Wake-up endpoint for external monitoring services
+app.get('/api/wake', (req, res) => {
+    console.log('🔄 Wake-up call received from:', req.ip);
+    res.json({
+        status: 'awake',
+        message: '🚀 Server is active and ready!',
+        timestamp: new Date().toISOString(),
+        products: analytics.totalVisits || 0
+    });
+});
+
+// Analytics API endpoint
+app.get('/api/analytics', (req, res) => {
+    res.json({
+        totalVisits: analytics.totalVisits,
+        uniqueVisitors: analytics.uniqueVisitors.size,
+        pageViews: analytics.pageViews,
+        recentVisits: analytics.lastVisits.slice(0, 10)
+    });
+});
+
 // Static files - AFTER API routes
 app.use(express.static(path.join(__dirname, 'frontend')));
 
@@ -560,74 +632,3 @@ if (keepAliveConfig.enabled) {
     
     console.log(`🔄 Keep-alive system enabled - pinging every ${keepAliveConfig.intervalMinutes} minutes`);
 }
-// Simple analytics storage
-let analytics = {
-    totalVisits: 0,
-    uniqueVisitors: new Set(),
-    pageViews: {},
-    productClicks: {},
-    lastVisits: []
-};
-
-// Middleware to track visits
-app.use((req, res, next) => {
-    const ip = req.ip || req.connection.remoteAddress;
-    const userAgent = req.get('User-Agent');
-    const timestamp = new Date();
-    
-    // Track visit
-    analytics.totalVisits++;
-    analytics.uniqueVisitors.add(ip);
-    analytics.pageViews[req.path] = (analytics.pageViews[req.path] || 0) + 1;
-    
-    // Store recent visits
-    analytics.lastVisits.unshift({
-        ip: ip.substring(0, 10) + '...', // Hide full IP for privacy
-        page: req.path,
-        timestamp: timestamp,
-        userAgent: userAgent
-    });
-    
-    // Keep only last 50 visits
-    analytics.lastVisits = analytics.lastVisits.slice(0, 50);
-    
-    console.log(`📈 Visit: ${req.path} from ${ip.substring(0, 10)}...`);
-    next();
-});
-
-// Analytics API endpoint
-app.get('/api/analytics', (req, res) => {
-    res.json({
-        totalVisits: analytics.totalVisits,
-        uniqueVisitors: analytics.uniqueVisitors.size,
-        pageViews: analytics.pageViews,
-        recentVisits: analytics.lastVisits.slice(0, 10)
-    });
-});
-
-// 🚀 Health Check & Keep-Alive Endpoint
-app.get('/api/health', (req, res) => {
-    const healthData = {
-        status: 'healthy',
-        timestamp: new Date().toISOString(),
-        uptime: process.uptime(),
-        memory: process.memoryUsage(),
-        version: '1.0.0',
-        service: 'Vintage Crib API',
-        keepAlive: true,
-        message: '🏺 Vintage Crib server is running smoothly!'
-    };
-    
-    res.json(healthData);
-});
-
-// 🔄 Wake-up endpoint for external monitoring services
-app.get('/api/wake', (req, res) => {
-    console.log('🔄 Wake-up call received from:', req.ip);
-    res.json({
-        status: 'awake',
-        message: '🚀 Server is active and ready!',
-        timestamp: new Date().toISOString(),
-        products: analytics.totalVisits || 0
-    });
-});
