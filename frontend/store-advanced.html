@@ -846,6 +846,61 @@
             <!-- Products will be loaded here -->
         </div>
 
+        <!-- Pagination Controls -->
+        <div id="paginationControls" style="display: none; text-align: center; margin: 3rem 0; padding: 2rem;">
+            <div style="
+                display: flex; 
+                align-items: center; 
+                justify-content: center; 
+                gap: 1rem; 
+                flex-wrap: wrap;
+                background: var(--glass-dark);
+                backdrop-filter: var(--backdrop-blur);
+                border: 2px solid var(--glass-border);
+                border-radius: 20px;
+                padding: 1.5rem;
+                box-shadow: var(--shadow-3d-dark);
+            ">
+                <button id="prevBtn" onclick="goToPage(currentPage - 1)" style="
+                    background: var(--gradient-secondary);
+                    color: white;
+                    border: none;
+                    padding: 0.8rem 1.5rem;
+                    border-radius: 12px;
+                    cursor: pointer;
+                    font-weight: 600;
+                    box-shadow: var(--shadow-3d-mint);
+                    transition: all 0.3s ease;
+                ">← Previous</button>
+                
+                <div id="pageInfo" style="
+                    color: var(--off-white);
+                    font-weight: 600;
+                    font-size: 1.1rem;
+                    margin: 0 1rem;
+                ">Page 1 of 1</div>
+                
+                <button id="nextBtn" onclick="goToPage(currentPage + 1)" style="
+                    background: var(--gradient-primary);
+                    color: white;
+                    border: none;
+                    padding: 0.8rem 1.5rem;
+                    border-radius: 12px;
+                    cursor: pointer;
+                    font-weight: 600;
+                    box-shadow: var(--shadow-3d-glow);
+                    transition: all 0.3s ease;
+                ">Next →</button>
+                
+                <div id="totalInfo" style="
+                    color: var(--cream);
+                    font-size: 0.9rem;
+                    opacity: 0.9;
+                    margin-left: 1rem;
+                ">Showing 1-24 of 87</div>
+            </div>
+        </div>
+
         <div class="empty-state" id="emptyState" style="display: none;">
             <i class="fas fa-gem"></i>
             <h3>No pieces found</h3>
@@ -856,6 +911,10 @@
     <script>
         let allProducts = [];
         let filteredProducts = [];
+        
+        // Pagination variables
+        let currentPage = 1;
+        let productsPerPage = 24;
 
         // 3D Mouse interactions
         document.addEventListener('mousemove', function(e) {
@@ -972,9 +1031,10 @@
             document.getElementById('emptyState').style.display = 'none';
             grid.style.display = 'grid';
             
-            // Performance optimization: Limit initial display for large datasets
-            const maxInitialProducts = 24; // Show first 24 products
-            const productsToShow = filteredProducts.slice(0, maxInitialProducts);
+            // Pagination: Calculate which products to show
+            const startIndex = (currentPage - 1) * productsPerPage;
+            const endIndex = startIndex + productsPerPage;
+            const productsToShow = filteredProducts.slice(startIndex, endIndex);
             
             grid.innerHTML = productsToShow.map(product => `
                 <div class="product-card" data-product-id="${product.id}">
@@ -1024,6 +1084,9 @@
                 });
                 card.style.cursor = 'pointer';
             });
+            
+            // Update pagination controls
+            updatePagination();
         }
 
         // Add CSS for card animation
@@ -1057,6 +1120,61 @@
             document.getElementById('productsCount').textContent = countText;
         }
 
+        // Pagination functions
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+            const startProduct = (currentPage - 1) * productsPerPage + 1;
+            const endProduct = Math.min(currentPage * productsPerPage, filteredProducts.length);
+            
+            // Update page info
+            document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+            document.getElementById('totalInfo').textContent = `Showing ${startProduct}-${endProduct} of ${filteredProducts.length}`;
+            
+            // Update button states
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages;
+            
+            // Show/hide pagination controls
+            const paginationControls = document.getElementById('paginationControls');
+            if (filteredProducts.length > productsPerPage) {
+                paginationControls.style.display = 'block';
+            } else {
+                paginationControls.style.display = 'none';
+            }
+            
+            // Update button styles for disabled state
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            if (prevBtn.disabled) {
+                prevBtn.style.opacity = '0.5';
+                prevBtn.style.cursor = 'not-allowed';
+            } else {
+                prevBtn.style.opacity = '1';
+                prevBtn.style.cursor = 'pointer';
+            }
+            
+            if (nextBtn.disabled) {
+                nextBtn.style.opacity = '0.5';
+                nextBtn.style.cursor = 'not-allowed';
+            } else {
+                nextBtn.style.opacity = '1';
+                nextBtn.style.cursor = 'pointer';
+            }
+        }
+
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                displayProducts();
+                updatePagination();
+                
+                // Scroll to top of products
+                document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
         // Filter and sort products
         function filterProducts() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
@@ -1084,6 +1202,9 @@
                         return 0;
                 }
             });
+            
+            // Reset to first page when filtering
+            currentPage = 1;
             
             displayProducts();
             updateProductsCount();
