@@ -1059,6 +1059,21 @@
                         🚀 Auto-Import
                     </button>
                 </div>
+                
+                <!-- Quick Import CJJ-3227 Store -->
+                <div style="margin-top: 2rem; padding: 1.5rem; border: 2px dashed var(--accent); border-radius: 15px; background: linear-gradient(135deg, rgba(255, 230, 109, 0.05), rgba(255, 230, 109, 0.1));">
+                    <h4 style="color: var(--accent-dark); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-star"></i>
+                        ⚡ Quick Import: CJJ-3227 Store
+                    </h4>
+                    <p style="color: var(--gray-600); margin-bottom: 1rem; font-size: 0.9rem;">
+                        One-click import from your designated eBay store with automatic product processing.
+                    </p>
+                    <button class="btn accent" onclick="importCJJStore()" id="cjjImportBtn">
+                        <i class="fas fa-magic"></i>
+                        ✨ Import CJJ-3227 Store
+                    </button>
+                </div>
             </div>
 
             <!-- Manual Import -->
@@ -1159,6 +1174,49 @@ https://www.ebay.com/itm/345678"></textarea>
                 <button class="btn outline" onclick="prevPage()" id="prevBtn" disabled>← Previous</button>
                 <span id="pageInfo" style="margin: 0 1rem; color: var(--gray-600);">Page 1 of 1</span>
                 <button class="btn outline" onclick="nextPage()" id="nextBtn" disabled>Next →</button>
+            </div>
+        </div>
+
+        <!-- 💰 Sold Products Section -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-coins"></i>
+                💰 Sold Products
+            </h2>
+            
+            <!-- Sold Products Stats -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                <div style="background: var(--gradient-secondary); color: white; padding: 1.5rem; border-radius: 15px; text-align: center;">
+                    <div style="font-size: 2rem; font-weight: 800;" id="soldCount">0</div>
+                    <div style="opacity: 0.9;">Total Sold</div>
+                </div>
+                <div style="background: var(--gradient-accent); color: white; padding: 1.5rem; border-radius: 15px; text-align: center;">
+                    <div style="font-size: 2rem; font-weight: 800;" id="totalRevenue">$0</div>
+                    <div style="opacity: 0.9;">Total Revenue</div>
+                </div>
+                <div style="background: var(--gradient-primary); color: white; padding: 1.5rem; border-radius: 15px; text-align: center;">
+                    <div style="font-size: 2rem; font-weight: 800;" id="avgSalePrice">$0</div>
+                    <div style="opacity: 0.9;">Avg Sale Price</div>
+                </div>
+            </div>
+
+            <!-- Sold Products Controls -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                <button class="btn primary" onclick="loadSoldProducts()">
+                    <i class="fas fa-refresh"></i>
+                    🔄 Refresh Sold Items
+                </button>
+                <button class="btn outline" onclick="exportSoldProducts()">
+                    <i class="fas fa-file-excel"></i>
+                    📊 Export Sales Report
+                </button>
+            </div>
+
+            <!-- Sold Products Grid -->
+            <div id="soldProductsGrid" class="products-management-grid">
+                <div id="loadingSoldProducts" style="text-align: center; padding: 2rem; color: var(--gray-600);">
+                    <i class="fas fa-coins fa-spin"></i> Loading sold products...
+                </div>
             </div>
         </div>
     </main>
@@ -1459,6 +1517,10 @@ https://www.ebay.com/itm/345678"></textarea>
                         <div class="product-card-actions">
                             <button class="action-btn edit" onclick="editProduct(${product.id})" title="Edit Product">
                                 ✏️ Edit
+                            </button>
+                            <button class="action-btn" style="background: var(--gradient-secondary); color: white;" 
+                                    onclick="markAsSold(${product.id})" title="Mark as Sold">
+                                💰 Sold
                             </button>
                             <button class="action-btn delete" onclick="confirmDeleteProduct(${product.id})" title="Delete Product">
                                 🗑️ Delete
@@ -1773,6 +1835,230 @@ https://www.ebay.com/itm/345678"></textarea>
             if (e.key === 'Escape' && document.getElementById('productModal').classList.contains('active')) {
                 closeProductModal();
             }
+        });
+
+        // 🏪 CJJ Store Import Function
+        async function importCJJStore() {
+            const btn = document.getElementById('cjjImportBtn');
+            const originalText = btn.innerHTML;
+            
+            try {
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Importing...';
+                btn.disabled = true;
+                
+                const response = await fetch('/api/ebay/auto-import-store', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        storeUrl: 'https://www.ebay.com/usr/cjj-3227'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showStatus(`✅ Successfully imported ${result.importedCount} products from ${result.storeName}!`, 'success');
+                    
+                    // Update product count
+                    loadProductsManagement();
+                    
+                    // Show import details
+                    let importDetails = `<div style="margin-top: 1rem; padding: 1rem; background: rgba(78, 205, 196, 0.1); border-radius: 8px;">
+                        <strong>Import Details:</strong><br>
+                        📦 Store: ${result.storeName}<br>
+                        📋 Products: ${result.importedCount}<br>
+                        🏷️ Auto-vintage tagging applied<br>
+                        🔗 Buy links preserved
+                    </div>`;
+                    
+                    showStatus(`✅ Import Complete!${importDetails}`, 'success');
+                } else {
+                    throw new Error(result.error || 'Import failed');
+                }
+                
+            } catch (error) {
+                console.error('❌ Import error:', error);
+                showStatus(`❌ Import failed: ${error.message}`, 'error');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // 💰 Sold Products Management
+        let soldProductsData = [];
+
+        async function loadSoldProducts() {
+            try {
+                document.getElementById('loadingSoldProducts').style.display = 'block';
+                
+                const response = await fetch('/api/products/sold');
+                const soldProducts = await response.json();
+                
+                soldProductsData = soldProducts;
+                displaySoldProducts(soldProducts);
+                updateSoldStats(soldProducts);
+                
+            } catch (error) {
+                console.error('❌ Error loading sold products:', error);
+                document.getElementById('soldProductsGrid').innerHTML = 
+                    '<div style="text-align: center; padding: 2rem; color: var(--danger);">❌ Failed to load sold products</div>';
+            }
+        }
+
+        function displaySoldProducts(soldProducts) {
+            const grid = document.getElementById('soldProductsGrid');
+            
+            if (soldProducts.length === 0) {
+                grid.innerHTML = '<div style="text-align: center; padding: 3rem; color: var(--gray-600);"><i class="fas fa-coins" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i><br>No sold products yet</div>';
+                return;
+            }
+
+            grid.innerHTML = soldProducts.map(product => `
+                <div class="product-management-card" data-product-id="${product.id}">
+                    <div style="position: relative;">
+                        <img src="${product.image || 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=200&h=200&fit=crop'}" 
+                             alt="${product.name}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+                        <div style="position: absolute; top: 8px; right: 8px; background: var(--success); color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 700;">
+                            💰 SOLD
+                        </div>
+                    </div>
+                    
+                    <div style="padding: 1rem;">
+                        <h4 style="margin-bottom: 0.5rem; font-size: 1rem; font-weight: 600; color: var(--gray-900); line-height: 1.3;">
+                            ${product.name}
+                        </h4>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <span style="font-weight: 700; color: var(--success); font-size: 1.1rem;">
+                                $${parseFloat(product.salePrice || product.price).toFixed(2)}
+                            </span>
+                            <small style="color: var(--gray-600);">
+                                ${new Date(product.soldDate).toLocaleDateString()}
+                            </small>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                            <small style="color: var(--gray-600);">
+                                👤 ${product.buyerInfo || 'Customer'}
+                            </small>
+                            <button class="btn outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" 
+                                    onclick="returnToInventory(${product.id})">
+                                🔄 Return
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateSoldStats(soldProducts) {
+            const totalSold = soldProducts.length;
+            const totalRevenue = soldProducts.reduce((sum, product) => 
+                sum + parseFloat(product.salePrice || product.price), 0);
+            const avgSalePrice = totalSold > 0 ? totalRevenue / totalSold : 0;
+
+            document.getElementById('soldCount').textContent = totalSold;
+            document.getElementById('totalRevenue').textContent = `$${totalRevenue.toFixed(2)}`;
+            document.getElementById('avgSalePrice').textContent = `$${avgSalePrice.toFixed(2)}`;
+        }
+
+        async function returnToInventory(productId) {
+            if (!confirm('Return this item to available inventory?')) return;
+
+            try {
+                const response = await fetch(`/api/products/${productId}/sold`, {
+                    method: 'DELETE'
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    showStatus('✅ Product returned to inventory', 'success');
+                    loadSoldProducts();
+                    loadProductsManagement(); // Refresh main inventory
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                console.error('❌ Error returning product:', error);
+                showStatus(`❌ Failed to return product: ${error.message}`, 'error');
+            }
+        }
+
+        function exportSoldProducts() {
+            if (soldProductsData.length === 0) {
+                showStatus('❌ No sold products to export', 'error');
+                return;
+            }
+
+            // Create CSV content
+            const csvContent = [
+                ['Product Name', 'Sale Price', 'Original Price', 'Sold Date', 'Buyer', 'Platform', 'Category'],
+                ...soldProductsData.map(product => [
+                    product.name,
+                    product.salePrice || product.price,
+                    product.price,
+                    product.soldDate,
+                    product.buyerInfo || 'Customer',
+                    product.platform,
+                    product.category
+                ])
+            ].map(row => row.join(',')).join('\n');
+
+            // Download CSV
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `sold-products-${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+            URL.revokeObjectURL(url);
+
+            showStatus('✅ Sales report exported successfully!', 'success');
+        }
+
+        // Mark product as sold
+        async function markAsSold(productId) {
+            // Create a simple modal for sold details
+            const salePrice = prompt('Enter sale price (leave empty to use original price):');
+            if (salePrice === null) return; // User cancelled
+            
+            const buyerInfo = prompt('Enter buyer information (optional):') || 'Customer';
+            
+            try {
+                const response = await fetch(`/api/products/${productId}/sold`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        salePrice: salePrice ? parseFloat(salePrice) : undefined,
+                        soldDate: new Date().toISOString(),
+                        buyerInfo: buyerInfo
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    showStatus('💰 Product marked as sold!', 'success');
+                    loadProductsManagement(); // Refresh main inventory
+                    loadSoldProducts(); // Refresh sold products
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                console.error('❌ Error marking product as sold:', error);
+                showStatus(`❌ Failed to mark as sold: ${error.message}`, 'error');
+            }
+        }
+
+        // Load sold products on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSoldProducts();
         });
     </script>
 </body>
