@@ -6,7 +6,8 @@
       "Bash(tasklist:*)",
       "Bash(curl:*)",
       "Bash(node server.js)",
-      "WebFetch(domain:www.ebay.com)"
+      "WebFetch(domain:www.ebay.com)",
+      "Bash(git push:*)"
     ],
     "deny": []
   }
