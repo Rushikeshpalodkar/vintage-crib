@@ -531,6 +531,35 @@ setInterval(() => {
         console.log('🧹 Cleared analytics cache to prevent memory leak');
     }
 }, 60000); // Every minute
+
+// 🚀 Keep-Alive System for Render Free Tier
+const keepAliveConfig = {
+    enabled: process.env.NODE_ENV === 'production',
+    intervalMinutes: 10, // Ping every 10 minutes
+    maxRetries: 3,
+    services: [
+        'https://vintage-crib.onrender.com/api/health',
+        'https://vintage-crib.onrender.com/api/test'
+    ]
+};
+
+// Self-ping to prevent sleep
+if (keepAliveConfig.enabled) {
+    setInterval(async () => {
+        try {
+            const response = await fetch('https://vintage-crib.onrender.com/api/health');
+            if (response.ok) {
+                console.log('🔄 Keep-alive ping successful');
+            } else {
+                console.warn('⚠️ Keep-alive ping failed:', response.status);
+            }
+        } catch (error) {
+            console.warn('⚠️ Keep-alive ping error:', error.message);
+        }
+    }, keepAliveConfig.intervalMinutes * 60 * 1000);
+    
+    console.log(`🔄 Keep-alive system enabled - pinging every ${keepAliveConfig.intervalMinutes} minutes`);
+}
 // Simple analytics storage
 let analytics = {
     totalVisits: 0,
@@ -573,5 +602,32 @@ app.get('/api/analytics', (req, res) => {
         uniqueVisitors: analytics.uniqueVisitors.size,
         pageViews: analytics.pageViews,
         recentVisits: analytics.lastVisits.slice(0, 10)
+    });
+});
+
+// 🚀 Health Check & Keep-Alive Endpoint
+app.get('/api/health', (req, res) => {
+    const healthData = {
+        status: 'healthy',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
+        memory: process.memoryUsage(),
+        version: '1.0.0',
+        service: 'Vintage Crib API',
+        keepAlive: true,
+        message: '🏺 Vintage Crib server is running smoothly!'
+    };
+    
+    res.json(healthData);
+});
+
+// 🔄 Wake-up endpoint for external monitoring services
+app.get('/api/wake', (req, res) => {
+    console.log('🔄 Wake-up call received from:', req.ip);
+    res.json({
+        status: 'awake',
+        message: '🚀 Server is active and ready!',
+        timestamp: new Date().toISOString(),
+        products: analytics.totalVisits || 0
     });
 });

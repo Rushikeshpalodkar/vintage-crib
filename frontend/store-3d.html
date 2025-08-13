@@ -1093,6 +1093,70 @@
 
         // Load products when page loads
         document.addEventListener('DOMContentLoaded', loadProducts);
+
+        // 🚀 Client-Side Pre-warming & Keep-Alive System
+        function preWarmServer() {
+            // Pre-warm API endpoints in background for faster user experience
+            const preWarmUrls = [
+                '/api/health',
+                '/api/products',
+                '/api/test'
+            ];
+            
+            preWarmUrls.forEach(url => {
+                fetch(url, { method: 'HEAD' }).catch(() => {}); // Silent background warming
+            });
+        }
+
+        // Enhanced page visibility handling for keep-alive
+        let pageVisible = true;
+        let keepAliveInterval;
+
+        function handleVisibilityChange() {
+            pageVisible = !document.hidden;
+            
+            if (pageVisible) {
+                console.log('🔄 Page visible - refreshing data');
+                preWarmServer();
+                
+                // Start keep-alive pings while user is active
+                if (!keepAliveInterval) {
+                    keepAliveInterval = setInterval(() => {
+                        if (pageVisible) {
+                            fetch('/api/health', { method: 'HEAD' }).catch(() => {});
+                        }
+                    }, 5 * 60 * 1000); // Every 5 minutes while active
+                }
+            } else {
+                // Clear interval when page not visible to save resources
+                if (keepAliveInterval) {
+                    clearInterval(keepAliveInterval);
+                    keepAliveInterval = null;
+                }
+            }
+        }
+
+        // Set up page visibility monitoring
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        
+        // Pre-warm server on page load
+        setTimeout(preWarmServer, 1000);
+        
+        // Wake up server on user interactions
+        ['click', 'scroll', 'mousemove'].forEach(event => {
+            document.addEventListener(event, () => {
+                if (!pageVisible) return;
+                // Gentle keep-alive on user activity
+                fetch('/api/wake', { method: 'HEAD' }).catch(() => {});
+            }, { once: true, passive: true });
+        });
+
+        // Service Worker for background keep-alive (if supported)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(() => {
+                // Silent fail - service worker is optional enhancement
+            });
+        }
     </script>
 </body>
 </html>
