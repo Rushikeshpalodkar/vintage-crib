@@ -7,7 +7,7 @@ const keepAliveEndpoints = [
     `${VINTAGE_CRIB_URL}/api/health`,
     `${VINTAGE_CRIB_URL}/api/wake`,
     `${VINTAGE_CRIB_URL}/api/test`,
-    `${VINTAGE_CRIB_URL}/store-3d.html`
+    `${VINTAGE_CRIB_URL}/store-advanced.html`
 ];
 
 async function pingServer() {
@@ -46,7 +46,7 @@ console.log(`
 📡 Health Check: ${VINTAGE_CRIB_URL}/api/health
 🔄 Wake Up: ${VINTAGE_CRIB_URL}/api/wake  
 🧪 Test API: ${VINTAGE_CRIB_URL}/api/test
-🏺 Main Store: ${VINTAGE_CRIB_URL}/store-3d.html
+🏺 Main Store: ${VINTAGE_CRIB_URL}/store-advanced.html
 
 ⏰ Recommended ping interval: Every 10-15 minutes
 🛡️ This prevents Render free tier from sleeping

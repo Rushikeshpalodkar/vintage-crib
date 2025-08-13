@@ -106,7 +106,7 @@
             if (username === 'admin' && password === 'mystore123') {
                 sessionStorage.setItem('adminLoggedIn', 'true');
                 alert('Login successful! Redirecting to admin dashboard...');
-                window.location.href = 'admin-full.html';
+                window.location.href = 'admin-advanced.html';
             } else {
                 document.getElementById('error').style.display = 'block';
                 document.getElementById('password').value = '';
@@ -118,7 +118,7 @@
 
         // Check if already logged in
         if (sessionStorage.getItem('adminLoggedIn') === 'true') {
-            window.location.href = 'admin-full.html';
+            window.location.href = 'admin-advanced.html';
         }
     </script>
 </body>

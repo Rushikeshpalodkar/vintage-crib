@@ -1317,6 +1317,29 @@ https://www.ebay.com/itm/345678"></textarea>
     </div>
 
     <script>
+        // Authentication check - MUST BE FIRST
+        if (sessionStorage.getItem('adminLoggedIn') !== 'true') {
+            alert('🔒 Access denied! Please login first.');
+            window.location.href = 'admin.html';
+        }
+
+        // Global error handler for admin
+        window.addEventListener('error', function(e) {
+            console.error('❌ Admin error:', e.error);
+        });
+
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('❌ Unhandled rejection:', e.reason);
+            e.preventDefault();
+        });
+
+        // Logout function
+        function adminLogout() {
+            sessionStorage.removeItem('adminLoggedIn');
+            alert('👋 Logged out successfully!');
+            window.location.href = 'admin.html';
+        }
+
         // 3D Interactive Effects
         document.addEventListener('mousemove', function(e) {
             const cards = document.querySelectorAll('.dashboard-card');
