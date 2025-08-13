@@ -141,6 +141,27 @@ app.get('/api/products', async (req, res) => {
     }
 });
 
+// Clear all products - for admin use - MUST be before /:id route
+app.delete('/api/products/clear-all', async (req, res) => {
+    try {
+        console.log('🗑️ Clearing all products');
+        
+        // Write empty array to products file
+        await writeProducts([]);
+        
+        console.log('✅ All products cleared successfully');
+        res.json({ 
+            success: true,
+            message: 'All products cleared successfully',
+            remainingProducts: 0
+        });
+        
+    } catch (error) {
+        console.error('❌ Failed to clear products:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Get sold products - MUST be before /:id route
 app.get('/api/products/sold', async (req, res) => {
     try {
@@ -867,27 +888,6 @@ app.post('/api/products/:id/sold', async (req, res) => {
         
     } catch (error) {
         console.error('❌ Failed to mark product as sold:', error);
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Clear all products - for admin use
-app.delete('/api/products/clear-all', async (req, res) => {
-    try {
-        console.log('🗑️ Clearing all products');
-        
-        // Write empty array to products file
-        await writeProducts([]);
-        
-        console.log('✅ All products cleared successfully');
-        res.json({ 
-            success: true,
-            message: 'All products cleared successfully',
-            remainingProducts: 0
-        });
-        
-    } catch (error) {
-        console.error('❌ Failed to clear products:', error);
         res.status(500).json({ error: error.message });
     }
 });
