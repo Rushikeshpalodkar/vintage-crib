@@ -932,7 +932,7 @@
             }
             
             grid.innerHTML = filteredProducts.map(product => `
-                <div class="product-card" onclick="viewProductDetail(${product.id})">
+                <div class="product-card" data-product-id="${product.id}">
                     <div class="product-image">
                         ${product.image ? 
                             `<img src="${product.image}" alt="${product.name}" loading="lazy">` : 
@@ -974,6 +974,22 @@
                     </div>
                 </div>
             `).join('');
+            
+            // Add click event listeners to product cards
+            const productCards = grid.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                const productId = card.getAttribute('data-product-id');
+                card.addEventListener('click', function(e) {
+                    // Don't trigger if clicking on buttons inside the card
+                    if (e.target.closest('.product-actions button')) {
+                        return;
+                    }
+                    e.preventDefault();
+                    e.stopPropagation();
+                    viewProductDetail(parseInt(productId));
+                });
+                card.style.cursor = 'pointer';
+            });
             
             grid.style.display = 'grid';
         }
@@ -1024,6 +1040,7 @@
 
         // Product Modal Functions
         function viewProductDetail(productId) {
+            console.log('🔍 Navigating to product detail for ID:', productId);
             // Navigate to product detail page
             window.location.href = `/product.html?id=${productId}`;
         }

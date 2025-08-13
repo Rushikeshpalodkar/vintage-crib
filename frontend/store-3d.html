@@ -977,7 +977,7 @@
             const productsToShow = filteredProducts.slice(0, maxInitialProducts);
             
             grid.innerHTML = productsToShow.map(product => `
-                <div class="product-card" onclick="viewProductDetail(${product.id})">
+                <div class="product-card" data-product-id="${product.id}">
                     <div class="product-image">
                         <img src="${product.image || 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'}" 
                              alt="${product.name}" 
@@ -997,7 +997,7 @@
                             <button class="btn btn-primary" onclick="event.stopPropagation(); buyNow('${product.sourceUrl || product.buyLink}')">
                                 💎 Acquire Piece
                             </button>
-                            <button class="btn btn-outline" onclick="event.stopPropagation(); viewDetails(${product.id})">
+                            <button class="btn btn-outline" onclick="event.stopPropagation(); viewProductDetail(${product.id})">
                                 👁️ Details
                             </button>
                         </div>
@@ -1005,11 +1005,24 @@
                 </div>
             `).join('');
 
-            // Add staggered animation
+            // Add staggered animation and click handlers
             const cards = grid.querySelectorAll('.product-card');
             cards.forEach((card, index) => {
                 card.style.animationDelay = `${index * 0.1}s`;
                 card.style.animation = 'cardAppear 0.6s ease forwards';
+                
+                // Add click event listener
+                const productId = card.getAttribute('data-product-id');
+                card.addEventListener('click', function(e) {
+                    // Don't trigger if clicking on buttons inside the card
+                    if (e.target.closest('.product-actions button')) {
+                        return;
+                    }
+                    e.preventDefault();
+                    e.stopPropagation();
+                    viewProductDetail(parseInt(productId));
+                });
+                card.style.cursor = 'pointer';
             });
         }
 
@@ -1078,6 +1091,7 @@
 
         // Product actions
         function viewProductDetail(productId) {
+            console.log('🔍 Navigating to product detail for ID:', productId);
             // Navigate to product detail page
             window.location.href = `/product.html?id=${productId}`;
         }
@@ -1097,7 +1111,8 @@
         }
 
         function viewDetails(productId) {
-            console.log('View details for product:', productId);
+            // Redirect to new viewProductDetail function
+            viewProductDetail(productId);
         }
 
         // Event listeners
