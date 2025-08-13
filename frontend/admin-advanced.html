@@ -1942,7 +1942,7 @@ https://www.ebay.com/itm/345678"></textarea>
                     showStatus(`✅ Successfully imported ${result.importedCount} products from ${result.storeName}!`, 'success');
                     
                     // Update product count
-                    loadProductsManagement();
+                    loadProductsForManagement();
                     
                     // Show import details
                     let importDetails = `<div style="margin-top: 1rem; padding: 1rem; background: rgba(78, 205, 196, 0.1); border-radius: 8px;">
@@ -2058,7 +2058,7 @@ https://www.ebay.com/itm/345678"></textarea>
                 if (result.success) {
                     showStatus('✅ Product returned to inventory', 'success');
                     loadSoldProducts();
-                    loadProductsManagement(); // Refresh main inventory
+                    loadProductsForManagement(); // Refresh main inventory
                 } else {
                     throw new Error(result.error);
                 }
@@ -2136,7 +2136,7 @@ https://www.ebay.com/itm/345678"></textarea>
                     showStatus(`✅ Categories Fixed!${details}`, 'success');
                     
                     // Refresh product display
-                    loadProductsManagement();
+                    loadProductsForManagement();
                 } else {
                     throw new Error(result.error || 'Category fix failed');
                 }
@@ -2175,7 +2175,7 @@ https://www.ebay.com/itm/345678"></textarea>
                 
                 if (result.success) {
                     showStatus('💰 Product marked as sold!', 'success');
-                    loadProductsManagement(); // Refresh main inventory
+                    loadProductsForManagement(); // Refresh main inventory
                     loadSoldProducts(); // Refresh sold products
                 } else {
                     throw new Error(result.error);
