@@ -351,6 +351,17 @@
 </head>
 <body>
     <script>
+        // Global error handler
+        window.addEventListener('error', function(e) {
+            console.error('❌ Global JavaScript error:', e.error);
+            console.error('File:', e.filename, 'Line:', e.lineno, 'Column:', e.colno);
+        });
+
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('❌ Unhandled promise rejection:', e.reason);
+            e.preventDefault(); // Prevent the default browser behavior
+        });
+
         // Check if user is logged in
         if (sessionStorage.getItem('adminLoggedIn') !== 'true') {
             alert('Access denied! Please login first.');
@@ -532,11 +543,48 @@
             window.location.href = 'admin.html';
         }
 
+        // Check server health
+        async function checkServerHealth() {
+            try {
+                const response = await fetch('/api/admin/health', { 
+                    timeout: 10000,
+                    headers: {
+                        'Cache-Control': 'no-cache'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Server health check failed: ${response.status}`);
+                }
+                
+                const health = await response.json();
+                console.log('✅ Server health:', health);
+                return true;
+                
+            } catch (error) {
+                console.error('❌ Server health check failed:', error);
+                showStatus('⚠️ Server connection issues detected', 'error');
+                return false;
+            }
+        }
+
         // Load products from backend
         async function loadProducts() {
             try {
                 console.log('📦 Loading products for management...');
-                const response = await fetch('/api/products');
+                
+                // Check server health first
+                const isHealthy = await checkServerHealth();
+                if (!isHealthy) {
+                    throw new Error('Server is not responding properly');
+                }
+                
+                const response = await fetch('/api/products', {
+                    timeout: 30000,
+                    headers: {
+                        'Cache-Control': 'no-cache'
+                    }
+                });
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);

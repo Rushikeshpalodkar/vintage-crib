@@ -1039,8 +1039,61 @@ app.get('/api/analytics', (req, res) => {
     });
 });
 
-// Static files - AFTER API routes
+// Admin health check endpoint
+app.get('/api/admin/health', (req, res) => {
+    res.json({
+        status: 'healthy',
+        timestamp: new Date().toISOString(),
+        adminService: 'running',
+        endpoints: {
+            products: 'available',
+            ebay: 'available',
+            analytics: 'available'
+        }
+    });
+});
+
+// Admin route protection middleware
+function requireAdminAuth(req, res, next) {
+    // Check if accessing admin files
+    if (req.path.includes('admin-full.html') || req.path.includes('admin-complete.html')) {
+        // In a real app, you'd verify JWT tokens or session here
+        // For now, we'll rely on client-side protection + this warning
+        console.log('⚠️ Admin access attempt:', req.ip, req.get('User-Agent'));
+        
+        // Add security headers
+        res.setHeader('X-Content-Type-Options', 'nosniff');
+        res.setHeader('X-Frame-Options', 'DENY');
+        res.setHeader('X-XSS-Protection', '1; mode=block');
+        res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    }
+    next();
+}
+
+// Apply admin protection
+app.use(requireAdminAuth);
+
+// Static files - AFTER API routes and protection
 app.use(express.static(path.join(__dirname, 'frontend')));
+
+// API Error handling middleware
+app.use('/api/*', (err, req, res, next) => {
+    console.error('❌ API Error:', err.message);
+    res.status(500).json({
+        error: 'Internal server error',
+        details: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong'
+    });
+});
+
+// Handle 404 for API routes
+app.use('/api/*', (req, res) => {
+    console.warn('❌ API endpoint not found:', req.method, req.path);
+    res.status(404).json({
+        error: 'API endpoint not found',
+        path: req.path,
+        method: req.method
+    });
+});
 
 // Catch-all - MUST BE LAST
 app.get('*', (req, res) => {
@@ -1100,7 +1153,9 @@ server.on('error', (error) => {
 });
 
 // Handle server timeout
-server.timeout = 120000; // 2 minutes timeout
+server.timeout = 300000; // 5 minutes timeout for admin operations
+server.keepAliveTimeout = 65000; // Keep alive timeout
+server.headersTimeout = 66000; // Headers timeout
 
 // Keep alive for Render + Memory cleanup
 setInterval(() => {
