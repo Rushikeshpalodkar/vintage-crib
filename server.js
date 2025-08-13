@@ -105,75 +105,11 @@ async function readProducts() {
         console.log('📁 Creating new products.json file');
         await fs.mkdir(path.join(__dirname, 'data'), { recursive: true });
         
-        // Create with default products
-        const defaultProducts = [
-            {
-                id: 1, 
-                name: "Wireless Headphones", 
-                price: 79.99, 
-                emoji: "🎧", 
-                platform: "ebay", 
-                description: "High-quality wireless headphones", 
-                category: "electronics", 
-                image: "",
-                images: [],
-                sourceUrl: "",
-                buyLink: "",
-                dateAdded: new Date().toISOString(),
-                isVintage: true, // Auto-vintage: price > $35
-                customTags: []
-            },
-            {
-                id: 2, 
-                name: "Cotton T-Shirt", 
-                price: 24.99, 
-                emoji: "👕", 
-                platform: "facebook", 
-                description: "Comfortable cotton t-shirt", 
-                category: "clothing", 
-                image: "",
-                images: [],
-                sourceUrl: "",
-                buyLink: "",
-                dateAdded: new Date().toISOString(),
-                isVintage: false, // Not vintage: price < $35
-                customTags: []
-            },
-            {
-                id: 3, 
-                name: "Coffee Maker", 
-                price: 89.99, 
-                emoji: "☕", 
-                platform: "local", 
-                description: "Automatic coffee maker", 
-                category: "home", 
-                image: "",
-                images: [],
-                sourceUrl: "",
-                buyLink: "",
-                dateAdded: new Date().toISOString(),
-                isVintage: true, // Auto-vintage: price > $35
-                customTags: []
-            },
-            {
-                id: 4, 
-                name: "Gaming Mouse", 
-                price: 45.99, 
-                emoji: "🖱️", 
-                platform: "ebay", 
-                description: "Professional gaming mouse", 
-                category: "electronics", 
-                image: "",
-                images: [],
-                sourceUrl: "",
-                buyLink: "",
-                dateAdded: new Date().toISOString(),
-                isVintage: true, // Auto-vintage: price > $35
-                customTags: []
-            }
-        ];
+        // Start with empty products database - no default samples
+        const defaultProducts = [];
         
         await fs.writeFile(DATA_FILE, JSON.stringify(defaultProducts, null, 2));
+        console.log('📝 Created empty products database');
         return defaultProducts;
     }
 }
@@ -931,6 +867,27 @@ app.post('/api/products/:id/sold', async (req, res) => {
         
     } catch (error) {
         console.error('❌ Failed to mark product as sold:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Clear all products - for admin use
+app.delete('/api/products/clear-all', async (req, res) => {
+    try {
+        console.log('🗑️ Clearing all products');
+        
+        // Write empty array to products file
+        await writeProducts([]);
+        
+        console.log('✅ All products cleared successfully');
+        res.json({ 
+            success: true,
+            message: 'All products cleared successfully',
+            remainingProducts: 0
+        });
+        
+    } catch (error) {
+        console.error('❌ Failed to clear products:', error);
         res.status(500).json({ error: error.message });
     }
 });
