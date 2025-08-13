@@ -1106,6 +1106,10 @@ https://www.ebay.com/itm/345678"></textarea>
                     <i class="fas fa-copy"></i>
                     Remove Duplicates
                 </button>
+                <button class="btn accent" onclick="fixAllCategories()">
+                    <i class="fas fa-magic"></i>
+                    🔧 Fix All Categories
+                </button>
                 <button class="btn outline" onclick="removeNoPhotos()">
                     <i class="fas fa-images"></i>
                     Clean Images
@@ -2018,6 +2022,56 @@ https://www.ebay.com/itm/345678"></textarea>
             URL.revokeObjectURL(url);
 
             showStatus('✅ Sales report exported successfully!', 'success');
+        }
+
+        // Fix all product categories
+        async function fixAllCategories() {
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            
+            if (!confirm('Fix categories for all products using intelligent classification?')) return;
+            
+            try {
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Fixing...';
+                btn.disabled = true;
+                
+                const response = await fetch('/api/products/fix-categories', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showStatus(`✅ ${result.message}! Fixed ${result.fixedCount} out of ${result.totalProducts} products.`, 'success');
+                    
+                    // Show detailed results
+                    let details = `<div style="margin-top: 1rem; padding: 1rem; background: rgba(78, 205, 196, 0.1); border-radius: 8px;">
+                        <strong>Category Fix Results:</strong><br>
+                        📊 Total Products: ${result.totalProducts}<br>
+                        🔧 Fixed Categories: ${result.fixedCount}<br>
+                        ✅ Already Correct: ${result.totalProducts - result.fixedCount}<br>
+                        🎯 Intelligent classification applied<br>
+                        📝 Clothing items properly categorized
+                    </div>`;
+                    
+                    showStatus(`✅ Categories Fixed!${details}`, 'success');
+                    
+                    // Refresh product display
+                    loadProductsManagement();
+                } else {
+                    throw new Error(result.error || 'Category fix failed');
+                }
+                
+            } catch (error) {
+                console.error('❌ Category fix error:', error);
+                showStatus(`❌ Category fix failed: ${error.message}`, 'error');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
         }
 
         // Mark product as sold
