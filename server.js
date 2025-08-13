@@ -131,6 +131,11 @@ app.get('/api/test', (req, res) => {
 // GET products - reads from file
 app.get('/api/products', async (req, res) => {
     try {
+        // Add strong cache-busting headers
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+        
         console.log('📦 Products API: Reading from file...');
         const products = await readProducts();
         console.log('📦 Sending', products.length, 'products from file');
