@@ -726,54 +726,14 @@ app.post('/api/ebay/auto-import-store', async (req, res) => {
             console.warn('⚠️ Store scraping failed, using sample products:', storeError.message);
         }
 
-        // If scraping failed, use enhanced sample products
+        // If scraping failed, return error instead of fake products
         if (extractedProducts.length === 0) {
-            extractedProducts = [
-                {
-                    name: "Vintage Men's Leather Jacket - Brown",
-                    price: 89.99,
-                    description: "Classic vintage leather jacket in excellent condition. Perfect for collectors.",
-                    platform: "ebay",
-                    image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500&h=500&fit=crop",
-                    images: ["https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500&h=500&fit=crop"],
-                    sourceUrl: storeUrl,
-                    buyLink: storeUrl,
-                    category: "clothing"
-                },
-                {
-                    name: "Vintage Denim Jeans - Classic Blue",
-                    price: 45.00,
-                    description: "Authentic vintage denim jeans, well-preserved condition.",
-                    platform: "ebay",
-                    image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&h=500&fit=crop",
-                    images: ["https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&h=500&fit=crop"],
-                    sourceUrl: storeUrl,
-                    buyLink: storeUrl,
-                    category: "clothing"
-                },
-                {
-                    name: "Vintage Band T-Shirt Collection",
-                    price: 35.50,
-                    description: "Rare vintage band t-shirt from the 80s, authentic piece.",
-                    platform: "ebay",
-                    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=500&fit=crop",
-                    images: ["https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=500&fit=crop"],
-                    sourceUrl: storeUrl,
-                    buyLink: storeUrl,
-                    category: "clothing"
-                },
-                {
-                    name: "Vintage Ceramic Home Decor",
-                    price: 25.99,
-                    description: "Beautiful vintage ceramic piece for home decoration.",
-                    platform: "ebay",
-                    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&h=500&fit=crop",
-                    images: ["https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&h=500&fit=crop"],
-                    sourceUrl: storeUrl,
-                    buyLink: storeUrl,
-                    category: "home"
-                }
-            ];
+            return res.status(400).json({
+                success: false,
+                error: 'No products found in store. Please check the store URL or try again later.',
+                scrapingAttempted: true,
+                storeUrl: storeUrl
+            });
         }
 
         // Read existing products
