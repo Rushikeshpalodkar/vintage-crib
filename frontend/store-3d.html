@@ -549,6 +549,42 @@
             z-index: 2;
         }
 
+        .custom-tag {
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow-3d-glow);
+            backdrop-filter: var(--backdrop-blur);
+            z-index: 2;
+        }
+
+        .custom-tag-blue {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+        }
+
+        .custom-tag-green {
+            background: linear-gradient(135deg, #28a745, #1e7e34);
+            color: white;
+        }
+
+        .custom-tag-red {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+        }
+
+        .custom-tag-purple {
+            background: linear-gradient(135deg, #6f42c1, #5a32a3);
+            color: white;
+        }
+
+        .custom-tag-orange {
+            background: linear-gradient(135deg, #fd7e14, #e8590c);
+            color: white;
+        }
+
         .product-info {
             padding: 2rem;
             background: var(--glass-dark);
@@ -948,7 +984,10 @@
                              loading="lazy"
                              onerror="this.src='https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'; console.warn('⚠️ Image failed to load:', this.alt)">
                         <div class="product-overlay"></div>
-                        <div class="product-badge">Vintage</div>
+                        ${product.isVintage ? '<div class="product-badge">🏺 Vintage</div>' : ''}
+                        ${product.customTags && product.customTags.length > 0 ? 
+                            product.customTags.map((tag, index) => `<div class="custom-tag custom-tag-${tag.color}" style="position: absolute; top: ${15 + (product.isVintage ? 50 : 0) + (index * 40)}px; right: 1rem;">${tag.text}</div>`).join('') : ''
+                        }
                     </div>
                     <div class="product-info">
                         <h3 class="product-title">${product.name}</h3>

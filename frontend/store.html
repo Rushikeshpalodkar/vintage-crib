@@ -362,6 +362,58 @@
             backdrop-filter: blur(10px);
         }
 
+        .vintage-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+            z-index: 10;
+        }
+
+        .custom-tag {
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            z-index: 9;
+        }
+
+        .custom-tag-blue {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+        }
+
+        .custom-tag-green {
+            background: linear-gradient(135deg, #28a745, #1e7e34);
+            color: white;
+        }
+
+        .custom-tag-red {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+        }
+
+        .custom-tag-purple {
+            background: linear-gradient(135deg, #6f42c1, #5a32a3);
+            color: white;
+        }
+
+        .custom-tag-orange {
+            background: linear-gradient(135deg, #fd7e14, #e8590c);
+            color: white;
+        }
+
         .product-info {
             padding: 1.5rem;
         }
@@ -894,6 +946,12 @@
                         </div>
                         ${product.images && product.images.length > 1 ? 
                             `<div class="image-count">📸 ${product.images.length} photos</div>` : ''
+                        }
+                        ${product.isVintage ? 
+                            `<div class="vintage-tag">🏺 Vintage</div>` : ''
+                        }
+                        ${product.customTags && product.customTags.length > 0 ? 
+                            product.customTags.map(tag => `<div class="custom-tag custom-tag-${tag.color}" style="position: absolute; top: ${product.isVintage ? '55px' : '15px'}; left: 15px;">${tag.text}</div>`).join('') : ''
                         }
                     </div>
                     <div class="product-info">

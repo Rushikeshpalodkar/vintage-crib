@@ -3,7 +3,7 @@
     "id": 1754989743547,
     "name": "Boy Scouts of America Vintage",
     "price": 40,
-    "description": "The product is a vintage item related to the Boy Scouts of America, specifically made in the United States. It does not mention if it is signed or not. This vintage piece could hold sentimental value for collectors or former members of the Boy Scouts organization, serving as a nostalgic reminder of",
+    "description": "Updated: The product is a vintage item related to the Boy Scouts of America",
     "category": "electronics",
     "platform": "ebay",
     "image": "https://i.ebayimg.com/images/g/O0YAAeSwoUZomXZO/s-l400.jpg",
@@ -19,13 +19,15 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336118796146",
     "buyLink": "https://www.ebay.com/itm/336118796146",
-    "dateAdded": "2025-08-12T09:09:03.547Z"
+    "dateAdded": "2025-08-12T09:09:03.547Z",
+    "dateModified": "2025-08-13T05:47:39.674Z",
+    "isVintage": true
   },
   {
     "id": 1754989745492,
     "name": "Vintage Nautica Cargo Baggy Shorts W Cigarettes And Lighter Holder Pocket (rare)",
     "price": 18,
-    "description": "The Vintage Nautica Cargo Baggy Shorts with Cigarettes and Lighter Holder Pocket are a rare find for those looking for a unique and stylish piece of clothing. Made from cotton fabric and featuring a mid-rise fit, these shorts are perfect for a casual or travel occasion. The long length and cargo poc",
+    "description": "Updated: Vintage Nautica Cargo Shorts with unique features",
     "category": "electronics",
     "platform": "ebay",
     "image": "https://i.ebayimg.com/images/g/d8YAAeSwrs9omBcM/s-l400.jpg",
@@ -41,7 +43,9 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336117028139",
     "buyLink": "https://www.ebay.com/itm/336117028139",
-    "dateAdded": "2025-08-12T09:09:05.492Z"
+    "dateAdded": "2025-08-12T09:09:05.492Z",
+    "dateModified": "2025-08-13T05:47:47.561Z",
+    "isVintage": false
   },
   {
     "id": 1754989745798,
@@ -1907,5 +1911,66 @@
     "sourceUrl": "https://www.ebay.com/itm/336117043372",
     "buyLink": "https://www.ebay.com/itm/336117043372",
     "dateAdded": "2025-08-12T09:30:54.219Z"
+  },
+  {
+    "id": 1755063935370,
+    "name": "Test Product with Tags",
+    "price": 50,
+    "description": "A test product with vintage and custom tags",
+    "category": "collectibles",
+    "platform": "manual",
+    "image": "",
+    "images": [],
+    "dateAdded": "2025-08-13T05:45:35.370Z",
+    "isVintage": true,
+    "customTags": [
+      {
+        "text": "LIMITED",
+        "color": "red"
+      },
+      {
+        "text": "PREMIUM",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "id": 1755063942304,
+    "name": "Auto Vintage Test",
+    "price": 40,
+    "description": "Should auto-mark as vintage due to price",
+    "category": "collectibles",
+    "platform": "manual",
+    "images": [],
+    "dateAdded": "2025-08-13T05:45:42.304Z",
+    "isVintage": true,
+    "customTags": [
+      {
+        "text": "BESTSELLER",
+        "color": "blue"
+      }
+    ]
+  },
+  {
+    "id": 1755063949085,
+    "name": "Updated Test Product",
+    "price": 45,
+    "description": "Updated with new price and tags",
+    "category": "clothing",
+    "platform": "manual",
+    "images": [],
+    "dateAdded": "2025-08-13T05:45:49.085Z",
+    "isVintage": true,
+    "customTags": [
+      {
+        "text": "UPDATED",
+        "color": "orange"
+      },
+      {
+        "text": "NEW",
+        "color": "blue"
+      }
+    ],
+    "dateModified": "2025-08-13T05:45:56.063Z"
   }
 ]

@@ -933,6 +933,44 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Custom Tags Styles */
+        .custom-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .custom-tag-blue {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+        }
+
+        .custom-tag-green {
+            background: linear-gradient(135deg, #28a745, #1e7e34);
+            color: white;
+        }
+
+        .custom-tag-red {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+        }
+
+        .custom-tag-purple {
+            background: linear-gradient(135deg, #6f42c1, #5a32a3);
+            color: white;
+        }
+
+        .custom-tag-orange {
+            background: linear-gradient(135deg, #fd7e14, #e8590c);
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -1156,6 +1194,33 @@ https://www.ebay.com/itm/345678"></textarea>
                 </div>
 
                 <div class="form-group">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="checkbox" id="productVintage" style="transform: scale(1.2);">
+                        <label for="productVintage" class="form-label" style="margin: 0;">🏺 Mark as Vintage (will auto-mark if price > $35)</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">🏷️ Custom Tags</label>
+                    <div style="margin-bottom: 1rem;">
+                        <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;" id="currentTags">
+                            <!-- Tags will be displayed here -->
+                        </div>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="text" id="newTagText" placeholder="Enter tag name..." style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" onkeypress="if(event.key==='Enter') addCustomTag()">
+                            <select id="tagColor" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="blue">🔵 Blue</option>
+                                <option value="green">🟢 Green</option>
+                                <option value="red">🔴 Red</option>
+                                <option value="purple">🟣 Purple</option>
+                                <option value="orange">🟠 Orange</option>
+                            </select>
+                            <button type="button" onclick="addCustomTag()" style="padding: 8px 15px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">➕ Add Tag</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label class="form-label">📸 Main Image URL</label>
                     <input type="url" id="productImage" class="form-input">
                 </div>
@@ -1312,6 +1377,50 @@ https://www.ebay.com/itm/345678"></textarea>
         let currentPage = 1;
         let productsPerPage = 12;
         let currentEditingProduct = null;
+        let currentProductTags = []; // Store current product's custom tags
+
+        // Custom Tag Functions
+        function addCustomTag() {
+            const tagText = document.getElementById('newTagText').value.trim();
+            const tagColor = document.getElementById('tagColor').value;
+            
+            if (!tagText) {
+                alert('Please enter a tag name');
+                return;
+            }
+            
+            // Check if tag already exists
+            if (currentProductTags.some(tag => tag.text.toLowerCase() === tagText.toLowerCase())) {
+                alert('Tag already exists!');
+                return;
+            }
+            
+            const newTag = {
+                text: tagText,
+                color: tagColor
+            };
+            
+            currentProductTags.push(newTag);
+            renderCurrentTags();
+            
+            // Clear input
+            document.getElementById('newTagText').value = '';
+        }
+        
+        function removeCustomTag(index) {
+            currentProductTags.splice(index, 1);
+            renderCurrentTags();
+        }
+        
+        function renderCurrentTags() {
+            const container = document.getElementById('currentTags');
+            container.innerHTML = currentProductTags.map((tag, index) => `
+                <span class="custom-tag custom-tag-${tag.color}" style="display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: 600;">
+                    ${tag.text}
+                    <button type="button" onclick="removeCustomTag(${index})" style="background: none; border: none; color: inherit; cursor: pointer; font-size: 1.2rem; line-height: 1;">&times;</button>
+                </span>
+            `).join('');
+        }
 
         // Load products for management
         async function loadProductsForManagement() {
@@ -1421,9 +1530,14 @@ https://www.ebay.com/itm/345678"></textarea>
             document.getElementById('productImage').value = currentEditingProduct.image || '';
             document.getElementById('productDescription').value = currentEditingProduct.description || '';
             document.getElementById('productSourceUrl').value = currentEditingProduct.sourceUrl || '';
+            document.getElementById('productVintage').checked = currentEditingProduct.isVintage || false;
             document.getElementById('productBuyLink').value = currentEditingProduct.buyLink || '';
             document.getElementById('productImages').value = JSON.stringify(currentEditingProduct.images || [], null, 2);
             document.getElementById('saveProductBtn').textContent = '💾 Update Product';
+            
+            // Load custom tags
+            currentProductTags = currentEditingProduct.customTags || [];
+            renderCurrentTags();
 
             openProductModal();
         }
@@ -1433,7 +1547,12 @@ https://www.ebay.com/itm/345678"></textarea>
             currentEditingProduct = null;
             document.getElementById('modalTitle').textContent = '➕ Add New Product';
             document.getElementById('productForm').reset();
+            document.getElementById('productVintage').checked = false; // Explicitly clear vintage checkbox
             document.getElementById('saveProductBtn').textContent = '💾 Create Product';
+            
+            // Clear custom tags
+            currentProductTags = [];
+            renderCurrentTags();
             openProductModal();
         }
 
@@ -1460,6 +1579,8 @@ https://www.ebay.com/itm/345678"></textarea>
                 image: document.getElementById('productImage').value,
                 description: document.getElementById('productDescription').value,
                 sourceUrl: document.getElementById('productSourceUrl').value,
+                isVintage: document.getElementById('productVintage').checked,
+                customTags: currentProductTags,
                 buyLink: document.getElementById('productBuyLink').value,
                 platform: 'manual',
                 dateAdded: new Date().toISOString()

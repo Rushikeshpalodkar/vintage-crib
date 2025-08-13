@@ -108,7 +108,9 @@ async function readProducts() {
                 images: [],
                 sourceUrl: "",
                 buyLink: "",
-                dateAdded: new Date().toISOString()
+                dateAdded: new Date().toISOString(),
+                isVintage: true, // Auto-vintage: price > $35
+                customTags: []
             },
             {
                 id: 2, 
@@ -122,7 +124,9 @@ async function readProducts() {
                 images: [],
                 sourceUrl: "",
                 buyLink: "",
-                dateAdded: new Date().toISOString()
+                dateAdded: new Date().toISOString(),
+                isVintage: false, // Not vintage: price < $35
+                customTags: []
             },
             {
                 id: 3, 
@@ -136,7 +140,9 @@ async function readProducts() {
                 images: [],
                 sourceUrl: "",
                 buyLink: "",
-                dateAdded: new Date().toISOString()
+                dateAdded: new Date().toISOString(),
+                isVintage: true, // Auto-vintage: price > $35
+                customTags: []
             },
             {
                 id: 4, 
@@ -150,7 +156,9 @@ async function readProducts() {
                 images: [],
                 sourceUrl: "",
                 buyLink: "",
-                dateAdded: new Date().toISOString()
+                dateAdded: new Date().toISOString(),
+                isVintage: true, // Auto-vintage: price > $35
+                customTags: []
             }
         ];
         
@@ -207,7 +215,11 @@ app.post('/api/products', async (req, res) => {
             images: req.body.images || [],
             sourceUrl: req.body.sourceUrl,
             buyLink: req.body.buyLink,
-            dateAdded: new Date().toISOString()
+            dateAdded: new Date().toISOString(),
+            // Vintage logic: manual admin marking OR auto-mark if price > $35
+            isVintage: req.body.isVintage === true || req.body.price > 35,
+            // Custom tags system for admin-created unique tags
+            customTags: req.body.customTags || []
         };
         
         // Add to products array
@@ -490,13 +502,23 @@ app.put('/api/products/:id', async (req, res) => {
         }
         
         // Update product while preserving original data
-        products[productIndex] = {
+        const updatedProduct = {
             ...products[productIndex],
             ...updatedData,
             id: productId, // Ensure ID doesn't change
             dateAdded: products[productIndex].dateAdded, // Preserve original date
             dateModified: new Date().toISOString()
         };
+        
+        // Apply vintage logic: manual admin marking OR auto-mark if price > $35
+        updatedProduct.isVintage = updatedData.isVintage === true || updatedProduct.price > 35;
+        
+        // Update custom tags if provided
+        if (updatedData.customTags !== undefined) {
+            updatedProduct.customTags = updatedData.customTags;
+        }
+        
+        products[productIndex] = updatedProduct;
         
         await writeProducts(products);
         
