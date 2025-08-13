@@ -620,8 +620,19 @@ process.on('SIGTERM', () => {
     process.exit(0);
 });
 
+// Ensure data directory exists on startup
+async function ensureDataDirectory() {
+    try {
+        await fs.mkdir(path.join(__dirname, 'data'), { recursive: true });
+        console.log('📁 Data directory ready');
+    } catch (error) {
+        console.warn('⚠️ Data directory warning:', error.message);
+    }
+}
+
 // Start server
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, async () => {
+    await ensureDataDirectory();
     console.log('🚀 Server running on http://localhost:' + PORT);
     console.log('📂 Frontend folder: ./frontend/');
     console.log('🧪 Test API: http://localhost:' + PORT + '/api/test');
@@ -636,15 +647,25 @@ server.on('error', (error) => {
 
 // Keep alive for Render + Memory cleanup
 setInterval(() => {
-    // Light memory cleanup
-    if (global.gc) {
-        global.gc();
-    }
-    
-    // Prevent analytics memory leaks
-    if (analytics.uniqueVisitors.size > 500) {
-        analytics.uniqueVisitors.clear();
-        console.log('🧹 Cleared analytics cache to prevent memory leak');
+    try {
+        // Light memory cleanup
+        if (global.gc) {
+            global.gc();
+        }
+        
+        // Prevent analytics memory leaks
+        if (analytics.uniqueVisitors.size > 500) {
+            analytics.uniqueVisitors.clear();
+            console.log('🧹 Cleared analytics cache to prevent memory leak');
+        }
+        
+        // Clear product cache if it gets too old
+        if (Date.now() > cacheExpiry + (5 * 60 * 1000)) { // 5 minutes past expiry
+            productCache = null;
+            cacheExpiry = 0;
+        }
+    } catch (error) {
+        console.warn('⚠️ Memory cleanup error:', error.message);
     }
 }, 60000); // Every minute
 
@@ -663,8 +684,13 @@ const keepAliveConfig = {
 if (keepAliveConfig.enabled) {
     setInterval(async () => {
         try {
-            const response = await fetch('https://vintage-crib.onrender.com/api/health');
-            if (response.ok) {
+            const response = await axios.get('https://vintage-crib.onrender.com/api/health', {
+                timeout: 10000,
+                headers: {
+                    'User-Agent': 'Vintage-Crib-KeepAlive/1.0'
+                }
+            });
+            if (response.status === 200) {
                 console.log('🔄 Keep-alive ping successful');
             } else {
                 console.warn('⚠️ Keep-alive ping failed:', response.status);
