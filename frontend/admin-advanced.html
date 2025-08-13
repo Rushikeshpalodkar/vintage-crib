@@ -1175,9 +1175,34 @@ https://www.ebay.com/itm/345678"></textarea>
 
             <!-- Pagination -->
             <div id="paginationControls" style="text-align: center; margin-top: 2rem;">
-                <button class="btn outline" onclick="prevPage()" id="prevBtn" disabled>← Previous</button>
-                <span id="pageInfo" style="margin: 0 1rem; color: var(--gray-600);">Page 1 of 1</span>
-                <button class="btn outline" onclick="nextPage()" id="nextBtn" disabled>Next →</button>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn outline" onclick="prevPage()" id="prevBtn" disabled>← Previous</button>
+                    <span id="pageInfo" style="color: var(--gray-600); font-weight: 500;">Page 1 of 1</span>
+                    <button class="btn outline" onclick="nextPage()" id="nextBtn" disabled>Next →</button>
+                    
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-left: 1rem;">
+                        <label for="productsPerPageSelect" style="color: var(--gray-600); font-size: 0.9rem;">Show:</label>
+                        <select id="productsPerPageSelect" onchange="changeProductsPerPage()" style="
+                            padding: 0.5rem;
+                            border: 2px solid var(--gray-300);
+                            border-radius: 8px;
+                            background: white;
+                            color: var(--gray-900);
+                            font-size: 0.9rem;
+                        ">
+                            <option value="12">12</option>
+                            <option value="24" selected>24</option>
+                            <option value="48">48</option>
+                            <option value="96">96</option>
+                            <option value="all">All</option>
+                        </select>
+                        <span style="color: var(--gray-600); font-size: 0.9rem;">per page</span>
+                    </div>
+                    
+                    <div id="totalProductsInfo" style="color: var(--gray-600); font-size: 0.9rem; margin-left: 1rem;">
+                        Total: 0 products
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1513,7 +1538,7 @@ https://www.ebay.com/itm/345678"></textarea>
         let filteredProducts = [];
         let selectedProducts = [];
         let currentPage = 1;
-        let productsPerPage = 12;
+        let productsPerPage = 24;
         let currentEditingProduct = null;
         let currentProductTags = []; // Store current product's custom tags
 
@@ -1579,9 +1604,15 @@ https://www.ebay.com/itm/345678"></textarea>
         // Display products in management grid
         function displayProductsGrid() {
             const grid = document.getElementById('productsManagementGrid');
-            const startIndex = (currentPage - 1) * productsPerPage;
-            const endIndex = startIndex + productsPerPage;
-            const productsToShow = filteredProducts.slice(startIndex, endIndex);
+            let productsToShow;
+            
+            if (productsPerPage === 'all') {
+                productsToShow = filteredProducts;
+            } else {
+                const startIndex = (currentPage - 1) * productsPerPage;
+                const endIndex = startIndex + productsPerPage;
+                productsToShow = filteredProducts.slice(startIndex, endIndex);
+            }
 
             if (productsToShow.length === 0) {
                 grid.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray-600);">🔍 No products found</div>';
@@ -1634,9 +1665,15 @@ https://www.ebay.com/itm/345678"></textarea>
         }
 
         function selectAllProducts() {
-            const startIndex = (currentPage - 1) * productsPerPage;
-            const endIndex = startIndex + productsPerPage;
-            const productsOnPage = filteredProducts.slice(startIndex, endIndex);
+            let productsOnPage;
+            
+            if (productsPerPage === 'all') {
+                productsOnPage = filteredProducts;
+            } else {
+                const startIndex = (currentPage - 1) * productsPerPage;
+                const endIndex = startIndex + productsPerPage;
+                productsOnPage = filteredProducts.slice(startIndex, endIndex);
+            }
             
             const allSelected = productsOnPage.every(p => selectedProducts.includes(p.id));
             
@@ -1863,10 +1900,29 @@ https://www.ebay.com/itm/345678"></textarea>
 
         // Pagination
         function updatePagination() {
-            const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-            document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
-            document.getElementById('prevBtn').disabled = currentPage === 1;
-            document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
+            const totalPages = productsPerPage === 'all' ? 1 : Math.ceil(filteredProducts.length / productsPerPage);
+            const startProduct = productsPerPage === 'all' ? 1 : (currentPage - 1) * productsPerPage + 1;
+            const endProduct = productsPerPage === 'all' ? filteredProducts.length : Math.min(currentPage * productsPerPage, filteredProducts.length);
+            
+            if (productsPerPage === 'all') {
+                document.getElementById('pageInfo').textContent = `Showing all ${filteredProducts.length} products`;
+                document.getElementById('prevBtn').disabled = true;
+                document.getElementById('nextBtn').disabled = true;
+            } else {
+                document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages} (${startProduct}-${endProduct} of ${filteredProducts.length})`;
+                document.getElementById('prevBtn').disabled = currentPage === 1;
+                document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
+            }
+            
+            document.getElementById('totalProductsInfo').textContent = `Total: ${allProducts.length} products${filteredProducts.length !== allProducts.length ? ` (${filteredProducts.length} filtered)` : ''}`;
+        }
+
+        function changeProductsPerPage() {
+            const select = document.getElementById('productsPerPageSelect');
+            productsPerPage = select.value === 'all' ? 'all' : parseInt(select.value);
+            currentPage = 1;
+            displayProductsGrid();
+            updatePagination();
         }
 
         function prevPage() {
