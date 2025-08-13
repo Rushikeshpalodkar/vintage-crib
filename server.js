@@ -149,6 +149,11 @@ app.delete('/api/products/clear-all', async (req, res) => {
         // Write empty array to products file
         await writeProducts([]);
         
+        // Clear server cache immediately
+        productCache = null;
+        cacheExpiry = 0;
+        console.log('🧹 Server cache cleared');
+        
         console.log('✅ All products cleared successfully');
         res.json({ 
             success: true,
