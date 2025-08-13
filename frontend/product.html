@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏺 Product Details - Vintage Crib</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 2rem;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .product-detail {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        /* Image Gallery */
+        .image-gallery {
+            position: relative;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .main-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+        }
+
+        .thumbnail-gallery {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: #667eea;
+            transform: scale(1.1);
+        }
+
+        .image-badges {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .vintage-tag {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+        }
+
+        .custom-tag {
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .custom-tag-blue { background: linear-gradient(135deg, #007bff, #0056b3); color: white; }
+        .custom-tag-green { background: linear-gradient(135deg, #28a745, #1e7e34); color: white; }
+        .custom-tag-red { background: linear-gradient(135deg, #dc3545, #c82333); color: white; }
+        .custom-tag-purple { background: linear-gradient(135deg, #6f42c1, #5a32a3); color: white; }
+        .custom-tag-orange { background: linear-gradient(135deg, #fd7e14, #e8590c); color: white; }
+
+        /* Product Info */
+        .product-info {
+            padding-left: 2rem;
+        }
+
+        .product-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .product-price {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #28a745;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
+        }
+
+        .product-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .meta-label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .meta-value {
+            color: #6c757d;
+        }
+
+        .platform-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .platform-ebay { background: linear-gradient(135deg, #0064d2, #0053bd); }
+        .platform-amazon { background: linear-gradient(135deg, #ff9900, #ffb84d); }
+        .platform-facebook { background: linear-gradient(135deg, #1877f2, #42a5f5); }
+        .platform-local { background: linear-gradient(135deg, #667eea, #764ba2); }
+
+        .product-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #495057;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .buy-btn {
+            flex: 1;
+            padding: 1.2rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .buy-primary {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+        }
+
+        .buy-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(40, 167, 69, 0.4);
+        }
+
+        .buy-secondary {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: white;
+            box-shadow: 0 8px 25px rgba(108, 117, 125, 0.3);
+        }
+
+        .buy-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(108, 117, 125, 0.4);
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            color: #6c757d;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Error State */
+        .error {
+            text-align: center;
+            padding: 4rem;
+            color: #dc3545;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .product-info {
+                padding-left: 0;
+            }
+
+            .product-title {
+                font-size: 2rem;
+            }
+
+            .product-price {
+                font-size: 2.2rem;
+            }
+
+            .product-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .product-detail {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="nav-container">
+            <a href="/" class="logo">🏺 Vintage Crib</a>
+            <a href="/store.html" class="back-btn">
+                ← Back to Store
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div id="loadingState" class="loading">
+            <div class="loading-spinner"></div>
+            <p>Loading product details...</p>
+        </div>
+
+        <div id="errorState" class="error" style="display: none;">
+            <h2>😔 Product Not Found</h2>
+            <p>Sorry, we couldn't find the product you're looking for.</p>
+            <a href="/store.html" class="back-btn" style="margin-top: 1rem; display: inline-flex;">
+                ← Back to Store
+            </a>
+        </div>
+
+        <div id="productDetail" class="product-detail" style="display: none;">
+            <div class="product-grid">
+                <!-- Image Gallery -->
+                <div class="image-gallery">
+                    <img id="mainImage" class="main-image" alt="Product Image">
+                    <div class="image-badges" id="imageBadges">
+                        <!-- Tags will be inserted here -->
+                    </div>
+                    <div id="thumbnailGallery" class="thumbnail-gallery">
+                        <!-- Thumbnails will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="product-info">
+                    <h1 id="productTitle" class="product-title"></h1>
+                    <div id="productPrice" class="product-price"></div>
+                    
+                    <div class="product-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">📦 Platform:</span>
+                            <span id="productPlatform" class="meta-value"></span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">🏷️ Category:</span>
+                            <span id="productCategory" class="meta-value"></span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">📅 Added:</span>
+                            <span id="productDate" class="meta-value"></span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">📸 Images:</span>
+                            <span id="productImages" class="meta-value"></span>
+                        </div>
+                    </div>
+
+                    <div id="productDescription" class="product-description"></div>
+
+                    <div class="action-buttons">
+                        <a id="buyButton" class="buy-btn buy-primary" target="_blank">
+                            🛒 Buy on eBay
+                        </a>
+                        <a href="/store.html" class="buy-btn buy-secondary">
+                            ← Continue Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get product ID from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+
+        if (!productId) {
+            showError();
+        } else {
+            loadProduct(productId);
+        }
+
+        async function loadProduct(id) {
+            try {
+                const response = await fetch(`/api/products/${id}`);
+                
+                if (!response.ok) {
+                    throw new Error('Product not found');
+                }
+
+                const product = await response.json();
+                displayProduct(product);
+            } catch (error) {
+                console.error('Error loading product:', error);
+                showError();
+            }
+        }
+
+        function displayProduct(product) {
+            // Hide loading, show product
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('productDetail').style.display = 'block';
+
+            // Update page title
+            document.title = `🏺 ${product.name} - Vintage Crib`;
+
+            // Fill in product details
+            document.getElementById('productTitle').textContent = product.name;
+            document.getElementById('productPrice').textContent = `$${parseFloat(product.price).toFixed(2)}`;
+            document.getElementById('productDescription').textContent = product.description || 'A unique vintage piece with authentic character and timeless appeal.';
+
+            // Meta information
+            document.getElementById('productPlatform').innerHTML = `<span class="platform-badge platform-${product.platform}">${getPlatformName(product.platform)}</span>`;
+            document.getElementById('productCategory').textContent = product.category || 'vintage';
+            document.getElementById('productDate').textContent = formatDate(product.dateAdded);
+            document.getElementById('productImages').textContent = `${(product.images || []).length} photos`;
+
+            // Main image
+            const mainImage = document.getElementById('mainImage');
+            mainImage.src = product.image || 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=500&h=500&fit=crop';
+            mainImage.alt = product.name;
+
+            // Image gallery
+            const thumbnailGallery = document.getElementById('thumbnailGallery');
+            if (product.images && product.images.length > 1) {
+                product.images.forEach((img, index) => {
+                    const thumb = document.createElement('img');
+                    thumb.src = img;
+                    thumb.alt = `${product.name} - Image ${index + 1}`;
+                    thumb.className = 'thumbnail';
+                    if (index === 0) thumb.classList.add('active');
+                    
+                    thumb.onclick = () => {
+                        mainImage.src = img;
+                        document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                        thumb.classList.add('active');
+                    };
+                    
+                    thumbnailGallery.appendChild(thumb);
+                });
+            }
+
+            // Tags/Badges
+            const imageBadges = document.getElementById('imageBadges');
+            
+            // Vintage tag
+            if (product.isVintage) {
+                const vintageTag = document.createElement('div');
+                vintageTag.className = 'vintage-tag';
+                vintageTag.textContent = '🏺 Vintage';
+                imageBadges.appendChild(vintageTag);
+            }
+
+            // Custom tags
+            if (product.customTags && product.customTags.length > 0) {
+                product.customTags.forEach(tag => {
+                    const customTag = document.createElement('div');
+                    customTag.className = `custom-tag custom-tag-${tag.color}`;
+                    customTag.textContent = tag.text;
+                    imageBadges.appendChild(customTag);
+                });
+            }
+
+            // Buy button
+            const buyButton = document.getElementById('buyButton');
+            if (product.buyLink || product.sourceUrl) {
+                buyButton.href = product.buyLink || product.sourceUrl;
+                buyButton.innerHTML = `🛒 Buy on ${getPlatformName(product.platform)}`;
+            } else {
+                buyButton.style.display = 'none';
+            }
+        }
+
+        function showError() {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+        }
+
+        function getPlatformName(platform) {
+            const platforms = {
+                'ebay': 'eBay',
+                'amazon': 'Amazon',
+                'facebook': 'Facebook',
+                'local': 'Local Store',
+                'manual': 'Our Store'
+            };
+            return platforms[platform] || platform.charAt(0).toUpperCase() + platform.slice(1);
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'Unknown';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+    </script>
+</body>
+</html>

@@ -932,7 +932,7 @@
             }
             
             grid.innerHTML = filteredProducts.map(product => `
-                <div class="product-card" onclick="openProductModal(${product.id})">
+                <div class="product-card" onclick="viewProductDetail(${product.id})">
                     <div class="product-image">
                         ${product.image ? 
                             `<img src="${product.image}" alt="${product.name}" loading="lazy">` : 
@@ -1023,6 +1023,11 @@
         }
 
         // Product Modal Functions
+        function viewProductDetail(productId) {
+            // Navigate to product detail page
+            window.location.href = `/product.html?id=${productId}`;
+        }
+
         function openProductModal(productId) {
             currentProduct = products.find(p => p.id === productId);
             if (!currentProduct) return;

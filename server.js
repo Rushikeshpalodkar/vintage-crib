@@ -194,6 +194,28 @@ app.get('/api/products', async (req, res) => {
     }
 });
 
+// GET single product by ID
+app.get('/api/products/:id', async (req, res) => {
+    try {
+        const productId = parseInt(req.params.id);
+        console.log('🔍 Getting single product with ID:', productId);
+        
+        const products = await readProducts();
+        const product = products.find(p => p.id === productId);
+        
+        if (!product) {
+            console.log('❌ Product not found with ID:', productId);
+            return res.status(404).json({ error: 'Product not found' });
+        }
+        
+        console.log('✅ Found product:', product.name);
+        res.json(product);
+    } catch (error) {
+        console.error('❌ Error reading product:', error);
+        res.status(500).json({ error: 'Failed to read product' });
+    }
+});
+
 // POST products - adds new product to file
 app.post('/api/products', async (req, res) => {
     try {

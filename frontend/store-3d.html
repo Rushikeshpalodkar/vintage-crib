@@ -977,7 +977,7 @@
             const productsToShow = filteredProducts.slice(0, maxInitialProducts);
             
             grid.innerHTML = productsToShow.map(product => `
-                <div class="product-card" onclick="viewProduct('${product.sourceUrl || product.buyLink}')">
+                <div class="product-card" onclick="viewProductDetail(${product.id})">
                     <div class="product-image">
                         <img src="${product.image || 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'}" 
                              alt="${product.name}" 
@@ -1077,6 +1077,11 @@
         }
 
         // Product actions
+        function viewProductDetail(productId) {
+            // Navigate to product detail page
+            window.location.href = `/product.html?id=${productId}`;
+        }
+
         function viewProduct(url) {
             if (url) {
                 window.open(url, '_blank');
