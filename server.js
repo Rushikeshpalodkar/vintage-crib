@@ -43,7 +43,8 @@ let analytics = {
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Middleware to track visits
 app.use((req, res, next) => {
@@ -631,19 +632,31 @@ async function ensureDataDirectory() {
 }
 
 // Start server
-const server = app.listen(PORT, async () => {
-    await ensureDataDirectory();
-    console.log('🚀 Server running on http://localhost:' + PORT);
-    console.log('📂 Frontend folder: ./frontend/');
-    console.log('🧪 Test API: http://localhost:' + PORT + '/api/test');
-    console.log('📦 Products API: http://localhost:' + PORT + '/api/products');
-    console.log('🗑️ Delete API: DELETE http://localhost:' + PORT + '/api/products/:id');
+const server = app.listen(PORT, '0.0.0.0', async () => {
+    try {
+        await ensureDataDirectory();
+        console.log('🚀 Server running on http://0.0.0.0:' + PORT);
+        console.log('📂 Frontend folder: ./frontend/');
+        console.log('🧪 Test API: http://localhost:' + PORT + '/api/test');
+        console.log('📦 Products API: http://localhost:' + PORT + '/api/products');
+        console.log('🗑️ Delete API: DELETE http://localhost:' + PORT + '/api/products/:id');
+        console.log('🌐 Environment: ' + (process.env.NODE_ENV || 'development'));
+    } catch (error) {
+        console.error('❌ Server startup error:', error.message);
+    }
 });
 
 // Handle server errors
 server.on('error', (error) => {
     console.error('❌ Server error:', error.message);
+    if (error.code === 'EADDRINUSE') {
+        console.error('💥 Port ' + PORT + ' is already in use');
+        process.exit(1);
+    }
 });
+
+// Handle server timeout
+server.timeout = 120000; // 2 minutes timeout
 
 // Keep alive for Render + Memory cleanup
 setInterval(() => {
