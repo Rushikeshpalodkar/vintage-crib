@@ -1575,7 +1575,7 @@ https://www.ebay.com/itm/345678"></textarea>
                     );
                     
                     // Refresh product displays
-                    loadProducts();
+                    loadProductsForManagement();
                     loadSoldProducts();
                     
                     // Show detailed results in console for debugging
@@ -2161,7 +2161,10 @@ https://www.ebay.com/itm/345678"></textarea>
 
         async function loadSoldProducts() {
             try {
-                document.getElementById('loadingSoldProducts').style.display = 'block';
+                const loadingElement = document.getElementById('loadingSoldProducts');
+                if (loadingElement) {
+                    loadingElement.style.display = 'block';
+                }
                 
                 const response = await fetch('/api/products/sold');
                 const soldProducts = await response.json();
@@ -2172,13 +2175,20 @@ https://www.ebay.com/itm/345678"></textarea>
                 
             } catch (error) {
                 console.error('❌ Error loading sold products:', error);
-                document.getElementById('soldProductsGrid').innerHTML = 
-                    '<div style="text-align: center; padding: 2rem; color: var(--danger);">❌ Failed to load sold products</div>';
+                const gridElement = document.getElementById('soldProductsGrid');
+                if (gridElement) {
+                    gridElement.innerHTML = 
+                        '<div style="text-align: center; padding: 2rem; color: var(--danger);">❌ Failed to load sold products</div>';
+                }
             }
         }
 
         function displaySoldProducts(soldProducts) {
             const grid = document.getElementById('soldProductsGrid');
+            if (!grid) {
+                console.warn('❌ Sold products grid element not found');
+                return;
+            }
             
             if (soldProducts.length === 0) {
                 grid.innerHTML = '<div style="text-align: center; padding: 3rem; color: var(--gray-600);"><i class="fas fa-coins" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i><br>No sold products yet</div>';
@@ -2229,9 +2239,13 @@ https://www.ebay.com/itm/345678"></textarea>
                 sum + parseFloat(product.salePrice || product.price), 0);
             const avgSalePrice = totalSold > 0 ? totalRevenue / totalSold : 0;
 
-            document.getElementById('soldCount').textContent = totalSold;
-            document.getElementById('totalRevenue').textContent = `$${totalRevenue.toFixed(2)}`;
-            document.getElementById('avgSalePrice').textContent = `$${avgSalePrice.toFixed(2)}`;
+            const soldCountEl = document.getElementById('soldCount');
+            const totalRevenueEl = document.getElementById('totalRevenue');
+            const avgSalePriceEl = document.getElementById('avgSalePrice');
+
+            if (soldCountEl) soldCountEl.textContent = totalSold;
+            if (totalRevenueEl) totalRevenueEl.textContent = `$${totalRevenue.toFixed(2)}`;
+            if (avgSalePriceEl) avgSalePriceEl.textContent = `$${avgSalePrice.toFixed(2)}`;
         }
 
         async function returnToInventory(productId) {
