@@ -2092,12 +2092,8 @@ app.post('/api/products/sync-sold-status', async (req, res) => {
                     productName: product.name,
                     ebayItemId: ebayItemId,
                     status: 'error',
-                        error: error.message
-                    });
-                }
-                
-                // Small delay between requests
-                await new Promise(resolve => setTimeout(resolve, 1500));
+                    error: error.message
+                });
             }
         }
 
