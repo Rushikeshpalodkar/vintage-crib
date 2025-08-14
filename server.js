@@ -1441,132 +1441,7 @@ function requireAdminAuth(req, res, next) {
     next();
 }
 
-// Apply admin protection
-app.use(requireAdminAuth);
-
-// Static files - AFTER API routes and protection
-app.use(express.static(path.join(__dirname, 'frontend')));
-
-// API Error handling middleware
-app.use('/api/*', (err, req, res, next) => {
-    console.error('❌ API Error:', err.message);
-    res.status(500).json({
-        error: 'Internal server error',
-        details: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong'
-    });
-});
-
-// Handle 404 for API routes
-app.use('/api/*', (req, res) => {
-    console.warn('❌ API endpoint not found:', req.method, req.path);
-    res.status(404).json({
-        error: 'API endpoint not found',
-        path: req.path,
-        method: req.method
-    });
-});
-
-// Catch-all - MUST BE LAST
-app.get('*', (req, res) => {
-    console.log('📄 Serving index.html for:', req.path);
-    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
-});
-
-// Error handling for stability
-process.on('uncaughtException', (error) => {
-    console.error('❌ Uncaught Exception:', error.message);
-    // Don't exit, try to recover
-});
-
-process.on('unhandledRejection', (reason, promise) => {
-    console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
-    // Don't exit, try to recover
-});
-
-// Graceful shutdown
-process.on('SIGTERM', () => {
-    console.log('🛑 Received SIGTERM, shutting down gracefully');
-    process.exit(0);
-});
-
-// Ensure data directory exists on startup
-async function ensureDataDirectory() {
-    try {
-        await fs.mkdir(path.join(__dirname, 'data'), { recursive: true });
-        console.log('📁 Data directory ready');
-    } catch (error) {
-        console.warn('⚠️ Data directory warning:', error.message);
-    }
-}
-
-// Daily eBay Sync Scheduler
-function startDailySyncScheduler() {
-    const STORE_URL = 'https://www.ebay.com/usr/cjj-3227';
-    const SYNC_HOUR = 6; // 6 AM daily sync
-    
-    console.log('📅 Daily eBay sync scheduler started (6 AM daily)');
-    
-    // Calculate time until next sync
-    function getTimeUntilNextSync() {
-        const now = new Date();
-        const next = new Date();
-        next.setHours(SYNC_HOUR, 0, 0, 0);
-        
-        // If it's past sync time today, schedule for tomorrow
-        if (now >= next) {
-            next.setDate(next.getDate() + 1);
-        }
-        
-        return next - now;
-    }
-    
-    // Perform smart sync
-    async function performDailySync() {
-        try {
-            console.log('🌅 Starting daily eBay sync...');
-            
-            // Use the existing smart import logic
-            const axios = require('axios');
-            
-            // Get store URLs
-            const urlsResponse = await axios.post(`http://localhost:${PORT}/api/ebay/get-store-urls`, {
-                storeUrl: STORE_URL
-            });
-            
-            if (urlsResponse.data.success) {
-                // Perform smart import
-                const importResponse = await axios.post(`http://localhost:${PORT}/api/ebay/smart-import`, {
-                    productUrls: urlsResponse.data.productUrls,
-                    storeName: urlsResponse.data.storeName,
-                    storeUrl: STORE_URL,
-                    smartSync: true
-                });
-                
-                if (importResponse.data.success) {
-                    console.log(`✅ Daily sync complete: ${importResponse.data.newProducts} new, ${importResponse.data.updatedProducts} updated`);
-                } else {
-                    console.error('❌ Daily sync import failed:', importResponse.data.error);
-                }
-            } else {
-                console.log('⚠️ Daily sync: Store URL extraction failed, manual sync may be needed');
-            }
-            
-        } catch (error) {
-            console.error('❌ Daily sync error:', error.message);
-        }
-        
-        // Schedule next sync
-        setTimeout(performDailySync, 24 * 60 * 60 * 1000); // 24 hours
-    }
-    
-    // Schedule first sync
-    const timeUntilNext = getTimeUntilNextSync();
-    console.log(`⏰ Next sync scheduled in ${Math.round(timeUntilNext / (1000 * 60 * 60))} hours`);
-    
-    setTimeout(performDailySync, timeUntilNext);
-}
-
-// Auto-detect sold items using eBay API - v2
+// Auto-detect sold items using eBay API - v2 (BEFORE admin auth)
 app.post('/api/products/sync-sold-status', async (req, res) => {
     try {
         console.log('🔄 Starting sold items sync...');
@@ -1709,6 +1584,153 @@ function extractEbayItemId(url) {
     }
     
     return null;
+}
+
+// Apply admin protection
+app.use(requireAdminAuth);
+
+// Favicon route to prevent 404/502 errors
+app.get('/favicon.ico', (req, res) => {
+    res.status(204).end(); // No content for favicon
+});
+
+// Static files - AFTER API routes and protection
+app.use(express.static(path.join(__dirname, 'frontend')));
+
+// API Error handling middleware
+app.use('/api/*', (err, req, res, next) => {
+    console.error('❌ API Error:', err.message);
+    res.status(500).json({
+        error: 'Internal server error',
+        details: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong'
+    });
+});
+
+// Global error handler to prevent server crashes
+app.use((err, req, res, next) => {
+    console.error('❌ Global Error:', err.message);
+    
+    // Ensure we always send a response
+    if (!res.headersSent) {
+        if (req.path.startsWith('/api/')) {
+            res.status(500).json({
+                error: 'Server error',
+                message: 'Please try again later'
+            });
+        } else {
+            res.status(500).send('<!DOCTYPE html><html><head><title>Server Error</title></head><body><h1>Server Error</h1><p>Please try again later.</p></body></html>');
+        }
+    }
+});
+
+// Handle 404 for API routes
+app.use('/api/*', (req, res) => {
+    console.warn('❌ API endpoint not found:', req.method, req.path);
+    res.status(404).json({
+        error: 'API endpoint not found',
+        path: req.path,
+        method: req.method
+    });
+});
+
+// Catch-all - MUST BE LAST
+app.get('*', (req, res) => {
+    console.log('📄 Serving index.html for:', req.path);
+    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+});
+
+// Error handling for stability
+process.on('uncaughtException', (error) => {
+    console.error('❌ Uncaught Exception:', error.message);
+    // Don't exit, try to recover
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
+    // Don't exit, try to recover
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+    console.log('🛑 Received SIGTERM, shutting down gracefully');
+    process.exit(0);
+});
+
+// Ensure data directory exists on startup
+async function ensureDataDirectory() {
+    try {
+        await fs.mkdir(path.join(__dirname, 'data'), { recursive: true });
+        console.log('📁 Data directory ready');
+    } catch (error) {
+        console.warn('⚠️ Data directory warning:', error.message);
+    }
+}
+
+// Daily eBay Sync Scheduler
+function startDailySyncScheduler() {
+    const STORE_URL = 'https://www.ebay.com/usr/cjj-3227';
+    const SYNC_HOUR = 6; // 6 AM daily sync
+    
+    console.log('📅 Daily eBay sync scheduler started (6 AM daily)');
+    
+    // Calculate time until next sync
+    function getTimeUntilNextSync() {
+        const now = new Date();
+        const next = new Date();
+        next.setHours(SYNC_HOUR, 0, 0, 0);
+        
+        // If it's past sync time today, schedule for tomorrow
+        if (now >= next) {
+            next.setDate(next.getDate() + 1);
+        }
+        
+        return next - now;
+    }
+    
+    // Perform smart sync
+    async function performDailySync() {
+        try {
+            console.log('🌅 Starting daily eBay sync...');
+            
+            // Use the existing smart import logic
+            const axios = require('axios');
+            
+            // Get store URLs
+            const urlsResponse = await axios.post(`http://localhost:${PORT}/api/ebay/get-store-urls`, {
+                storeUrl: STORE_URL
+            });
+            
+            if (urlsResponse.data.success) {
+                // Perform smart import
+                const importResponse = await axios.post(`http://localhost:${PORT}/api/ebay/smart-import`, {
+                    productUrls: urlsResponse.data.productUrls,
+                    storeName: urlsResponse.data.storeName,
+                    storeUrl: STORE_URL,
+                    smartSync: true
+                });
+                
+                if (importResponse.data.success) {
+                    console.log(`✅ Daily sync complete: ${importResponse.data.newProducts} new, ${importResponse.data.updatedProducts} updated`);
+                } else {
+                    console.error('❌ Daily sync import failed:', importResponse.data.error);
+                }
+            } else {
+                console.log('⚠️ Daily sync: Store URL extraction failed, manual sync may be needed');
+            }
+            
+        } catch (error) {
+            console.error('❌ Daily sync error:', error.message);
+        }
+        
+        // Schedule next sync
+        setTimeout(performDailySync, 24 * 60 * 60 * 1000); // 24 hours
+    }
+    
+    // Schedule first sync
+    const timeUntilNext = getTimeUntilNextSync();
+    console.log(`⏰ Next sync scheduled in ${Math.round(timeUntilNext / (1000 * 60 * 60))} hours`);
+    
+    setTimeout(performDailySync, timeUntilNext);
 }
 
 // Start server
