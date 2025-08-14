@@ -223,7 +223,99 @@ async function addSyncLogEntry(entry) {
     await writeSyncLog(logData);
 }
 
-// 🔄 COMPREHENSIVE AUTO-SYNC SYSTEM
+// 🔄 INTELLIGENT AUTO-SYNC SYSTEM WITH ADAPTIVE RATE LIMITING
+let currentDelay = 5000; // Start with 5 second delay
+let consecutiveBlocks = 0;
+let lastRequestTime = 0;
+
+// Smart delay calculator based on eBay's response
+function calculateSmartDelay(wasBlocked = false) {
+    if (wasBlocked) {
+        consecutiveBlocks++;
+        // Exponential backoff: 5s → 15s → 45s → 90s → 180s
+        currentDelay = Math.min(currentDelay * 3, 180000); 
+        console.log(`⏳ eBay blocked request - increasing delay to ${currentDelay/1000}s`);
+    } else {
+        // Successful request - gradually reduce delay but keep minimum
+        if (consecutiveBlocks > 0) {
+            consecutiveBlocks = Math.max(0, consecutiveBlocks - 1);
+            currentDelay = Math.max(5000, currentDelay * 0.8);
+        }
+    }
+    return currentDelay;
+}
+
+// Smart request function with retry logic
+async function smartEbayRequest(url, maxRetries = 3) {
+    let attempt = 0;
+    let lastError = null;
+    
+    while (attempt < maxRetries) {
+        attempt++;
+        
+        // Respect rate limiting
+        const timeSinceLastRequest = Date.now() - lastRequestTime;
+        const waitTime = Math.max(0, currentDelay - timeSinceLastRequest);
+        
+        if (waitTime > 0) {
+            console.log(`⏱️ Waiting ${waitTime/1000}s before next request (attempt ${attempt}/${maxRetries})`);
+            await new Promise(resolve => setTimeout(resolve, waitTime));
+        }
+        
+        lastRequestTime = Date.now();
+        
+        try {
+            const response = await axios.get(url, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'DNT': '1',
+                    'Connection': 'keep-alive',
+                    'Upgrade-Insecure-Requests': '1',
+                    'Cache-Control': 'max-age=0'
+                },
+                timeout: 30000,
+                maxRedirects: 5,
+                validateStatus: function (status) {
+                    return status >= 200 && status < 400;
+                }
+            });
+            
+            // Check if eBay blocked us
+            if (response.data && response.data.includes('Pardon Our Interruption')) {
+                console.log(`🚫 eBay blocked request to ${url} (attempt ${attempt}/${maxRetries})`);
+                calculateSmartDelay(true);
+                lastError = new Error('eBay rate limited - blocked request');
+                
+                if (attempt < maxRetries) {
+                    console.log(`🔄 Retrying in ${currentDelay/1000}s...`);
+                    await new Promise(resolve => setTimeout(resolve, currentDelay));
+                    continue;
+                }
+            } else {
+                // Success!
+                calculateSmartDelay(false);
+                return response;
+            }
+            
+        } catch (error) {
+            console.log(`❌ Request failed: ${error.message} (attempt ${attempt}/${maxRetries})`);
+            lastError = error;
+            
+            if (attempt < maxRetries) {
+                // Progressive delay on errors
+                const errorDelay = Math.min(attempt * 10000, 30000);
+                console.log(`⏳ Waiting ${errorDelay/1000}s before retry...`);
+                await new Promise(resolve => setTimeout(resolve, errorDelay));
+            }
+        }
+    }
+    
+    throw lastError || new Error(`Failed after ${maxRetries} attempts`);
+}
+
 async function performAutoSync() {
     if (syncInProgress) {
         console.log('⏳ Sync already in progress, skipping...');
@@ -232,17 +324,20 @@ async function performAutoSync() {
 
     syncInProgress = true;
     const syncStartTime = new Date();
-    console.log('🚀 Starting automatic eBay sync at', syncStartTime.toLocaleString());
+    console.log('🚀 Starting INTELLIGENT eBay sync with adaptive rate limiting at', syncStartTime.toLocaleString());
 
     let syncResults = {
         status: 'success',
         startTime: syncStartTime.toISOString(),
         endTime: null,
-        type: 'automatic',
+        type: 'intelligent_automatic',
         itemsChecked: 0,
         itemsSold: 0,
         pricesUpdated: 0,
         productsUpdated: 0,
+        itemsImported: 0,
+        retryAttempts: 0,
+        blockedRequests: 0,
         errors: [],
         details: []
     };
@@ -256,14 +351,11 @@ async function performAutoSync() {
             return;
         }
 
-        if (!eBay) {
-            throw new Error('eBay API not available - running in demo mode');
-        }
-
         const products = await readProducts();
-        const activeProducts = products.filter(p => !p.isSold);
         
-        console.log(`📊 Found ${activeProducts.length} active products to sync`);
+        // Phase 1: Check existing products for updates
+        const activeProducts = products.filter(p => !p.isSold);
+        console.log(`📊 Phase 1: Found ${activeProducts.length} active products to sync`);
 
         for (const product of activeProducts) {
             const ebayItemId = extractEbayItemId(product.sourceUrl || product.buyLink);
@@ -271,77 +363,81 @@ async function performAutoSync() {
 
             try {
                 syncResults.itemsChecked++;
-                console.log(`🔍 Syncing ${syncResults.itemsChecked}/${activeProducts.length}: ${product.name}`);
+                console.log(`🔍 Syncing ${syncResults.itemsChecked}/${activeProducts.length}: ${product.name.substring(0, 50)}...`);
 
-                // Try eBay API first
+                // Try eBay API first (if available)
                 let itemData = null;
                 let itemAvailable = true;
 
-                try {
-                    itemData = await eBay.browse.getItem(ebayItemId);
-                    
-                    // Check if price changed
-                    if (syncSettings.syncTypes.priceChanges && itemData.price) {
-                        const newPrice = parseFloat(itemData.price.value || itemData.price);
-                        const currentPrice = parseFloat(product.price);
-                        
-                        if (Math.abs(newPrice - currentPrice) > 0.01) {
-                            console.log(`💰 Price change detected: ${product.name} ${currentPrice} → ${newPrice}`);
-                            product.price = newPrice;
-                            product.originalPrice = newPrice;
-                            product.priceUpdated = true;
-                            product.lastPriceUpdate = new Date().toISOString();
-                            syncResults.pricesUpdated++;
-                            
-                            syncResults.details.push({
-                                type: 'price_update',
-                                product: product.name,
-                                oldPrice: currentPrice,
-                                newPrice: newPrice
-                            });
-                        }
-                    }
-
-                    // Update product details if enabled
-                    if (syncSettings.syncTypes.productUpdates && itemData.title !== product.name) {
-                        console.log(`📝 Title update: ${product.name} → ${itemData.title}`);
-                        product.name = itemData.title;
-                        product.lastUpdated = new Date().toISOString();
-                        syncResults.productsUpdated++;
-                    }
-
-                } catch (apiError) {
-                    // If API fails, check if item is sold via web scraping
-                    console.log(`⚠️ API failed for ${ebayItemId}, checking via web scraping...`);
-                    
+                if (eBay) {
                     try {
-                        const pageResponse = await axios.get(product.sourceUrl || product.buyLink, {
-                            timeout: 10000,
-                            headers: {
-                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-                            }
-                        });
+                        itemData = await eBay.browse.getItem(ebayItemId);
                         
+                        // Check if price changed
+                        if (syncSettings.syncTypes.priceChanges && itemData.price) {
+                            const newPrice = parseFloat(itemData.price.value || itemData.price);
+                            const currentPrice = parseFloat(product.price);
+                            
+                            if (Math.abs(newPrice - currentPrice) > 0.01) {
+                                console.log(`💰 Price change: ${product.name.substring(0, 30)}... ${currentPrice} → ${newPrice}`);
+                                product.price = newPrice;
+                                product.originalPrice = newPrice;
+                                product.priceUpdated = true;
+                                product.lastPriceUpdate = new Date().toISOString();
+                                syncResults.pricesUpdated++;
+                                
+                                syncResults.details.push({
+                                    type: 'price_update',
+                                    product: product.name,
+                                    oldPrice: currentPrice,
+                                    newPrice: newPrice
+                                });
+                            }
+                        }
+
+                        // Update product details if enabled
+                        if (syncSettings.syncTypes.productUpdates && itemData.title !== product.name) {
+                            console.log(`📝 Title update: ${product.name} → ${itemData.title}`);
+                            product.name = itemData.title;
+                            product.lastUpdated = new Date().toISOString();
+                            syncResults.productsUpdated++;
+                        }
+
+                    } catch (apiError) {
+                        console.log(`⚠️ eBay API failed for ${ebayItemId}, will use smart web scraping`);
+                        itemData = null;
+                    }
+                }
+
+                // If no API data, use smart web scraping
+                if (!itemData) {
+                    try {
+                        const pageResponse = await smartEbayRequest(product.sourceUrl || product.buyLink);
                         const pageContent = pageResponse.data.toLowerCase();
                         
-                        if (pageContent.includes('this listing has ended') || 
+                        // Conservative sold detection - only mark sold if very clear
+                        if (syncSettings.syncTypes.soldStatus && (
+                            pageContent.includes('this listing has ended') || 
                             pageContent.includes('no longer available') ||
                             pageContent.includes('item not found') ||
-                            pageContent.includes('listing not found') ||
-                            (pageContent.includes('sold') && pageContent.includes('ended'))) {
+                            pageContent.includes('listing not found')
+                        )) {
                             itemAvailable = false;
                         }
+                        
                     } catch (scrapeError) {
-                        // If both API and scraping fail, DO NOT assume sold
-                        // This is too risky and causes false positives
-                        console.log(`⚠️ Could not verify ${product.name} - keeping as available`);
+                        console.log(`⚠️ Could not verify ${product.name.substring(0, 30)}... - keeping as available`);
+                        syncResults.retryAttempts++;
+                        if (scrapeError.message.includes('rate limited')) {
+                            syncResults.blockedRequests++;
+                        }
                         itemAvailable = true; // Conservative: assume still available
                     }
                 }
 
-                // Mark item as sold if not available
+                // Mark item as sold if clearly not available
                 if (!itemAvailable && syncSettings.syncTypes.soldStatus) {
-                    console.log(`🔴 Item detected as SOLD: ${product.name}`);
+                    console.log(`🔴 Item SOLD: ${product.name}`);
                     
                     product.isSold = true;
                     product.soldDate = new Date().toISOString().split('T')[0];
@@ -359,9 +455,6 @@ async function performAutoSync() {
                     });
                 }
 
-                // Rate limiting - small delay between requests
-                await new Promise(resolve => setTimeout(resolve, 1000));
-
             } catch (error) {
                 console.error(`❌ Error syncing ${product.name}:`, error.message);
                 syncResults.errors.push({
@@ -371,34 +464,118 @@ async function performAutoSync() {
             }
         }
 
-        // Save updated products
-        if (syncResults.itemsSold > 0 || syncResults.pricesUpdated > 0 || syncResults.productsUpdated > 0) {
+        // Phase 2: Smart import of missing products (if any URLs are available)
+        console.log(`📥 Phase 2: Checking for missing products to import...`);
+        
+        const missingUrls = [
+            "https://www.ebay.com/itm/336117180112", // These were blocked earlier
+            "https://www.ebay.com/itm/336122384819",
+            "https://www.ebay.com/itm/336117025691",
+            "https://www.ebay.com/itm/336122367127",
+            "https://www.ebay.com/itm/336122396776",
+            "https://www.ebay.com/itm/336122360178",
+            "https://www.ebay.com/itm/336117181381"
+        ];
+        
+        // Check if these products are already imported
+        const existingUrls = products.map(p => p.sourceUrl || p.buyLink);
+        const newUrlsToImport = missingUrls.filter(url => !existingUrls.includes(url));
+        
+        console.log(`🔍 Found ${newUrlsToImport.length} potentially missing products to import`);
+        
+        for (const url of newUrlsToImport) {
+            try {
+                console.log(`📦 Attempting smart import of: ${url}`);
+                
+                const response = await smartEbayRequest(url);
+                
+                // Check if we got blocked
+                if (response.data.includes('Pardon Our Interruption')) {
+                    console.log(`🚫 Import blocked for ${url} - will retry later`);
+                    syncResults.blockedRequests++;
+                    continue;
+                }
+                
+                // Extract product data
+                const $ = cheerio.load(response.data);
+                
+                const newProduct = {
+                    id: Date.now() + Math.random() * 1000,
+                    name: ($('title').text().trim().split('|')[0].trim() || 'eBay Product').substring(0, 150),
+                    price: extractPriceFromPage($) || 0,
+                    description: ($('meta[name="description"]').attr('content') || 'High-quality product from eBay').substring(0, 300),
+                    category: 'clothing',
+                    platform: 'ebay',
+                    image: $('meta[property="og:image"]').attr('content') || '',
+                    images: [$('meta[property="og:image"]').attr('content') || ''],
+                    sourceUrl: url,
+                    buyLink: url,
+                    dateAdded: new Date().toISOString(),
+                    isSold: false,
+                    isVintage: false,
+                    customTags: [],
+                    autoImported: true,
+                    importedViaSync: true
+                };
+                
+                // Only add if we got meaningful data
+                if (newProduct.name !== 'eBay Product' && newProduct.price > 0) {
+                    products.push(newProduct);
+                    syncResults.itemsImported++;
+                    console.log(`✅ Auto-imported: ${newProduct.name}`);
+                    
+                    syncResults.details.push({
+                        type: 'auto_import',
+                        product: newProduct.name,
+                        price: newProduct.price,
+                        url: url
+                    });
+                } else {
+                    console.log(`⚠️ Skipped import - insufficient data for ${url}`);
+                }
+                
+            } catch (importError) {
+                console.log(`❌ Failed to import ${url}: ${importError.message}`);
+                syncResults.errors.push({
+                    url: url,
+                    error: importError.message
+                });
+            }
+        }
+
+        // Save all changes
+        if (syncResults.itemsSold > 0 || syncResults.pricesUpdated > 0 || 
+            syncResults.productsUpdated > 0 || syncResults.itemsImported > 0) {
             await writeProducts(products);
-            productCache = null; // Clear cache to force reload
-            console.log('💾 Products database updated with sync changes');
+            productCache = null; // Clear cache
+            console.log('💾 Products database updated with intelligent sync changes');
         }
 
         // Update sync settings
         syncSettings.lastSyncTime = syncStartTime.toISOString();
         await writeSyncSettings(syncSettings);
 
-        // Log results
+        // Log comprehensive results
         const syncEndTime = new Date();
         syncResults.endTime = syncEndTime.toISOString();
         syncResults.duration = Math.round((syncEndTime - syncStartTime) / 1000);
 
-        console.log(`✅ Auto-sync completed in ${syncResults.duration}s:`);
+        console.log(`\n✅ INTELLIGENT AUTO-SYNC COMPLETED in ${syncResults.duration}s:`);
         console.log(`   📊 Items checked: ${syncResults.itemsChecked}`);
         console.log(`   🔴 Items sold: ${syncResults.itemsSold}`);
         console.log(`   💰 Prices updated: ${syncResults.pricesUpdated}`);
         console.log(`   📝 Products updated: ${syncResults.productsUpdated}`);
+        console.log(`   📦 Products imported: ${syncResults.itemsImported}`);
+        console.log(`   🔄 Retry attempts: ${syncResults.retryAttempts}`);
+        console.log(`   🚫 Blocked requests: ${syncResults.blockedRequests}`);
         console.log(`   ❌ Errors: ${syncResults.errors.length}`);
+        console.log(`   ⏳ Final delay: ${currentDelay/1000}s\n`);
 
         await addSyncLogEntry(syncResults);
         lastAutoSyncTime = syncStartTime;
 
     } catch (error) {
-        console.error('❌ Auto-sync failed:', error.message);
+        console.error('❌ Intelligent auto-sync failed:', error.message);
         syncResults.status = 'error';
         syncResults.endTime = new Date().toISOString();
         syncResults.errors.push({ error: error.message });
@@ -406,6 +583,18 @@ async function performAutoSync() {
     } finally {
         syncInProgress = false;
     }
+}
+
+// Helper function to extract price from eBay page
+function extractPriceFromPage($) {
+    let priceText = $('meta[property="product:price:amount"]').attr('content') ||
+                   $('meta[property="og:price:amount"]').attr('content') ||
+                   $('script').text().match(/price["\']:\s*["\']([\d,.]+)["\']/)?.[ 1] ||
+                   $('script').text().match(/\$[\d,]+\.?\d*/)?.[ 0] ||
+                   '$0';
+    
+    let priceMatch = priceText.toString().match(/[\d,]+\.?\d*/);
+    return priceMatch ? parseFloat(priceMatch[ 0].replace(/,/g, '')) : 0;
 }
 
 // Initialize and start auto-sync system
