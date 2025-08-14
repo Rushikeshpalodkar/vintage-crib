@@ -332,11 +332,10 @@ async function performAutoSync() {
                             itemAvailable = false;
                         }
                     } catch (scrapeError) {
-                        // If both API and scraping fail, assume item might be sold
-                        if (scrapeError.response?.status === 404 || 
-                            scrapeError.message.includes('not found')) {
-                            itemAvailable = false;
-                        }
+                        // If both API and scraping fail, DO NOT assume sold
+                        // This is too risky and causes false positives
+                        console.log(`⚠️ Could not verify ${product.name} - keeping as available`);
+                        itemAvailable = true; // Conservative: assume still available
                     }
                 }
 
@@ -2083,40 +2082,16 @@ app.post('/api/products/sync-sold-status', async (req, res) => {
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 
             } catch (error) {
-                // If we get an error, the item might be sold/ended
-                if (error.message && (
-                    error.message.includes('not found') || 
-                    error.message.includes('ended') ||
-                    error.message.includes('expired') ||
-                    error.message.includes('404')
-                )) {
-                    // Mark product as sold
-                    product.isSold = true;
-                    product.soldDate = new Date().toISOString();
-                    product.salePrice = product.price; // Use original price as sale price
-                    product.buyerInfo = 'eBay Customer';
-                    product.dateModified = new Date().toISOString();
-                    product.autoDetectedSold = true; // Flag for auto-detection
-                    
-                    markedSoldCount++;
-                    console.log(`💰 Auto-marked as SOLD: ${product.name}`);
-                    
-                    results.push({
-                        productId: product.id,
-                        productName: product.name,
-                        ebayItemId: ebayItemId,
-                        status: 'sold',
-                        available: false,
-                        autoMarked: true
-                    });
-                } else {
-                    errorCount++;
-                    console.warn(`⚠️ Error checking ${product.name}:`, error.message);
-                    results.push({
-                        productId: product.id,
-                        productName: product.name,
-                        ebayItemId: ebayItemId,
-                        status: 'error',
+                // CONSERVATIVE APPROACH: Only mark as sold for very specific confirmations
+                // DO NOT auto-mark as sold based on errors - too risky!
+                console.warn(`⚠️ Error checking ${product.name}:`, error.message.substring(0, 100));
+                
+                errorCount++;
+                results.push({
+                    productId: product.id,
+                    productName: product.name,
+                    ebayItemId: ebayItemId,
+                    status: 'error',
                         error: error.message
                     });
                 }
