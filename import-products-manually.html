@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Import Missing Products - Vintage Crib</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .header h1 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+        .status {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .urls-container {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+        .url-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: white;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        .url-item.importing {
+            border-left-color: #ffc107;
+            background: #fff9c4;
+        }
+        .url-item.success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        .url-item.error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        .url-text {
+            flex: 1;
+            font-family: monospace;
+            font-size: 0.9rem;
+            margin-right: 1rem;
+        }
+        .status-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+        .import-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        .import-btn:hover {
+            background: #5a6fd8;
+        }
+        .import-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .progress {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 1.1rem;
+            color: #667eea;
+        }
+        .results {
+            display: none;
+            background: #e8f5e8;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏺 Import Missing Products</h1>
+            <p>Import 26 missing products from your eBay store to match all 116 items</p>
+        </div>
+
+        <div class="status">
+            <h3>📊 Current Status</h3>
+            <p><strong>Your Website:</strong> 87 products (86 active + 1 sold)</p>
+            <p><strong>Your eBay Store:</strong> 116 products</p>
+            <p><strong>Missing:</strong> 26 products need to be imported</p>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <button class="import-btn" id="importBtn" onclick="startImport()">
+                🚀 Start Importing All 26 Products
+            </button>
+        </div>
+
+        <div class="progress" id="progressText"></div>
+
+        <div class="urls-container" id="urlsContainer">
+            <h3>📋 Products to Import:</h3>
+            <div id="urlsList"></div>
+        </div>
+
+        <div class="results" id="results">
+            <h3>🎉 Import Complete!</h3>
+            <p id="resultText"></p>
+            <p><strong>Refresh your website to see all the new products!</strong></p>
+        </div>
+    </div>
+
+    <script>
+        const missingUrls = [
+            "https://www.ebay.com/itm/336121633610",
+            "https://www.ebay.com/itm/336117041224",
+            "https://www.ebay.com/itm/336122385881",
+            "https://www.ebay.com/itm/336122345757",
+            "https://www.ebay.com/itm/336122353950",
+            "https://www.ebay.com/itm/336122400475",
+            "https://www.ebay.com/itm/336122350230",
+            "https://www.ebay.com/itm/336122322093",
+            "https://www.ebay.com/itm/336122382939",
+            "https://www.ebay.com/itm/336122365182",
+            "https://www.ebay.com/itm/336122394965",
+            "https://www.ebay.com/itm/336122393815",
+            "https://www.ebay.com/itm/336122355698",
+            "https://www.ebay.com/itm/336123961180",
+            "https://www.ebay.com/itm/336122363807",
+            "https://www.ebay.com/itm/336122379893",
+            "https://www.ebay.com/itm/336123968441",
+            "https://www.ebay.com/itm/336122389587",
+            "https://www.ebay.com/itm/336118761422",
+            "https://www.ebay.com/itm/336117180112",
+            "https://www.ebay.com/itm/336122384819",
+            "https://www.ebay.com/itm/336117025691",
+            "https://www.ebay.com/itm/336122367127",
+            "https://www.ebay.com/itm/336122396776",
+            "https://www.ebay.com/itm/336122360178",
+            "https://www.ebay.com/itm/336117181381"
+        ];
+
+        let importing = false;
+        let imported = 0;
+        let failed = 0;
+
+        function renderUrls() {
+            const urlsList = document.getElementById('urlsList');
+            urlsList.innerHTML = missingUrls.map((url, index) => `
+                <div class="url-item" id="url-${index}">
+                    <div class="status-icon" id="icon-${index}">⏳</div>
+                    <div class="url-text">${url}</div>
+                </div>
+            `).join('');
+        }
+
+        async function startImport() {
+            if (importing) return;
+            
+            importing = true;
+            imported = 0;
+            failed = 0;
+            
+            document.getElementById('importBtn').disabled = true;
+            document.getElementById('importBtn').textContent = '⏳ Importing...';
+            
+            for (let i = 0; i < missingUrls.length; i++) {
+                const url = missingUrls[i];
+                const urlItem = document.getElementById(`url-${i}`);
+                const icon = document.getElementById(`icon-${i}`);
+                
+                // Update progress
+                document.getElementById('progressText').textContent = 
+                    `Importing ${i + 1}/${missingUrls.length}...`;
+                
+                // Mark as importing
+                urlItem.className = 'url-item importing';
+                icon.textContent = '🔄';
+                
+                try {
+                    // Try to import this product
+                    const response = await fetch('/api/extract-product', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ url: url })
+                    });
+                    
+                    if (response.ok) {
+                        const result = await response.json();
+                        if (result.product || result.name) {
+                            // Success
+                            urlItem.className = 'url-item success';
+                            icon.textContent = '✅';
+                            imported++;
+                        } else {
+                            // Failed
+                            urlItem.className = 'url-item error';
+                            icon.textContent = '❌';
+                            failed++;
+                        }
+                    } else {
+                        // Failed
+                        urlItem.className = 'url-item error';
+                        icon.textContent = '❌';
+                        failed++;
+                    }
+                } catch (error) {
+                    // Failed
+                    urlItem.className = 'url-item error';
+                    icon.textContent = '❌';
+                    failed++;
+                }
+                
+                // Wait between requests to avoid rate limiting
+                if (i < missingUrls.length - 1) {
+                    await new Promise(resolve => setTimeout(resolve, 8000)); // 8 second delay
+                }
+            }
+            
+            // Show results
+            document.getElementById('progressText').textContent = 
+                `Import complete: ${imported} successful, ${failed} failed`;
+            
+            document.getElementById('resultText').textContent = 
+                `Successfully imported ${imported} products! ${failed} failed due to eBay blocking.`;
+            
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('importBtn').textContent = '✅ Import Complete';
+        }
+
+        // Initialize
+        renderUrls();
+    </script>
+</body>
+</html>

@@ -838,6 +838,54 @@ app.post('/api/sync-trigger', async (req, res) => {
     }
 });
 
+// Get eBay store URLs (for auto-import)
+app.post('/api/ebay/get-store-urls', async (req, res) => {
+    try {
+        console.log('🔍 Getting eBay store URLs');
+        
+        // Return the pre-scanned missing URLs
+        const missingUrls = [
+            "https://www.ebay.com/itm/336121633610",
+            "https://www.ebay.com/itm/336117041224", 
+            "https://www.ebay.com/itm/336122385881",
+            "https://www.ebay.com/itm/336122345757",
+            "https://www.ebay.com/itm/336122353950",
+            "https://www.ebay.com/itm/336122400475",
+            "https://www.ebay.com/itm/336122350230",
+            "https://www.ebay.com/itm/336122322093",
+            "https://www.ebay.com/itm/336122382939",
+            "https://www.ebay.com/itm/336122365182",
+            "https://www.ebay.com/itm/336122394965",
+            "https://www.ebay.com/itm/336122393815",
+            "https://www.ebay.com/itm/336122355698",
+            "https://www.ebay.com/itm/336123961180",
+            "https://www.ebay.com/itm/336122363807",
+            "https://www.ebay.com/itm/336122379893",
+            "https://www.ebay.com/itm/336123968441",
+            "https://www.ebay.com/itm/336122389587",
+            "https://www.ebay.com/itm/336118761422",
+            "https://www.ebay.com/itm/336117180112",
+            "https://www.ebay.com/itm/336122384819",
+            "https://www.ebay.com/itm/336117025691",
+            "https://www.ebay.com/itm/336122367127",
+            "https://www.ebay.com/itm/336122396776",
+            "https://www.ebay.com/itm/336122360178",
+            "https://www.ebay.com/itm/336117181381"
+        ];
+
+        res.json({
+            success: true,
+            urls: missingUrls,
+            count: missingUrls.length,
+            message: `Found ${missingUrls.length} missing products from your eBay store`
+        });
+
+    } catch (error) {
+        console.error('❌ Error getting store URLs:', error);
+        res.status(500).json({ error: 'Failed to get eBay store URLs' });
+    }
+});
+
 // Extract product from URL
 app.post('/api/extract-product', async (req, res) => {
     try {
