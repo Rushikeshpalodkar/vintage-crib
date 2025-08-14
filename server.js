@@ -1048,6 +1048,147 @@ app.post('/api/ebay/auto-import-store', async (req, res) => {
     }
 });
 
+// Smart eBay Import - Only imports new products and updates existing ones
+app.post('/api/ebay/smart-import', async (req, res) => {
+    try {
+        const { productUrls, storeName, storeUrl, smartSync = true } = req.body;
+        
+        if (!productUrls || !Array.isArray(productUrls)) {
+            return res.status(400).json({ error: 'productUrls array is required' });
+        }
+
+        console.log('🧠 Smart importing from', productUrls.length, 'URLs');
+
+        // Read existing products
+        const existingProducts = await readProducts();
+        const existingUrls = new Set(existingProducts.map(p => p.sourceUrl || p.buyLink));
+        
+        let newProducts = 0;
+        let updatedProducts = 0;
+        let skippedProducts = 0;
+        
+        const userAgents = [
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        ];
+
+        // Process each URL
+        for (let i = 0; i < Math.min(productUrls.length, 20); i++) { // Limit to 20 for API safety
+            const productUrl = productUrls[i];
+            
+            try {
+                // Check if product already exists
+                const existingProduct = existingProducts.find(p => 
+                    (p.sourceUrl === productUrl) || (p.buyLink === productUrl)
+                );
+                
+                if (existingProduct && !smartSync) {
+                    console.log('⏭️ Skipping existing product:', existingProduct.name.substring(0, 40) + '...');
+                    skippedProducts++;
+                    continue;
+                }
+                
+                // Add delay to avoid blocking
+                if (i > 0) {
+                    const delay = 3000 + Math.random() * 2000; // 3-5 second delay
+                    console.log(`⏳ Waiting ${Math.round(delay/1000)}s before next request...`);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+                
+                console.log(`🔍 Processing product ${i + 1}/${Math.min(productUrls.length, 20)}: ${productUrl}...`);
+                
+                // Fetch product page
+                const userAgent = userAgents[Math.floor(Math.random() * userAgents.length)];
+                const productResponse = await axios.get(productUrl, {
+                    headers: {
+                        'User-Agent': userAgent,
+                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                        'Accept-Language': 'en-US,en;q=0.9',
+                        'Accept-Encoding': 'gzip, deflate, br',
+                        'Cache-Control': 'no-cache',
+                        'Pragma': 'no-cache',
+                        'DNT': '1',
+                        'Connection': 'keep-alive'
+                    },
+                    timeout: 12000
+                });
+
+                const productPage = cheerio.load(productResponse.data);
+                const productData = extractProductData(productPage, productUrl);
+                
+                if (!productData.name || productData.price <= 0) {
+                    console.log('⚠️ Incomplete product data, skipping:', productData.name || 'No name');
+                    continue;
+                }
+                
+                if (existingProduct) {
+                    // Update existing product with fresh data
+                    existingProduct.price = productData.price;
+                    existingProduct.description = productData.description;
+                    existingProduct.image = productData.image || existingProduct.image;
+                    existingProduct.images = productData.images || existingProduct.images;
+                    existingProduct.dateModified = new Date().toISOString();
+                    existingProduct.lastSynced = new Date().toISOString();
+                    
+                    console.log('🔄 Updated existing product:', existingProduct.name.substring(0, 40) + '...');
+                    updatedProducts++;
+                } else {
+                    // Add new product
+                    const newProduct = {
+                        id: Date.now() + Math.random(),
+                        name: productData.name,
+                        price: productData.price,
+                        description: productData.description,
+                        category: productData.category,
+                        platform: productData.platform,
+                        image: productData.image,
+                        images: productData.images,
+                        sourceUrl: productData.sourceUrl,
+                        buyLink: productData.buyLink,
+                        dateAdded: new Date().toISOString(),
+                        lastSynced: new Date().toISOString(),
+                        isVintage: productData.price > 35,
+                        customTags: [],
+                        importedFrom: storeUrl,
+                        storeName: storeName
+                    };
+
+                    existingProducts.push(newProduct);
+                    console.log('✅ Added new product:', newProduct.name.substring(0, 40) + '...');
+                    newProducts++;
+                }
+                
+            } catch (productError) {
+                console.warn('⚠️ Failed to process product:', productUrl, productError.message);
+                continue;
+            }
+        }
+
+        // Save updated products
+        await writeProducts(existingProducts);
+
+        console.log('🧠 Smart import complete:', newProducts, 'new,', updatedProducts, 'updated,', skippedProducts, 'skipped');
+        
+        res.json({
+            success: true,
+            message: `Smart sync complete! Added ${newProducts} new products, updated ${updatedProducts} existing ones.`,
+            newProducts: newProducts,
+            updatedProducts: updatedProducts,
+            skippedProducts: skippedProducts,
+            totalProcessed: newProducts + updatedProducts + skippedProducts,
+            storeName: storeName,
+            storeUrl: storeUrl
+        });
+
+    } catch (error) {
+        console.error('❌ Smart Import Error:', error.message);
+        res.status(500).json({
+            error: 'Failed to perform smart import',
+            details: error.message
+        });
+    }
+});
+
 // Fix all product categories using intelligent categorization
 app.post('/api/products/fix-categories', async (req, res) => {
     try {
@@ -1331,6 +1472,73 @@ async function ensureDataDirectory() {
     }
 }
 
+// Daily eBay Sync Scheduler
+function startDailySyncScheduler() {
+    const STORE_URL = 'https://www.ebay.com/usr/cjj-3227';
+    const SYNC_HOUR = 6; // 6 AM daily sync
+    
+    console.log('📅 Daily eBay sync scheduler started (6 AM daily)');
+    
+    // Calculate time until next sync
+    function getTimeUntilNextSync() {
+        const now = new Date();
+        const next = new Date();
+        next.setHours(SYNC_HOUR, 0, 0, 0);
+        
+        // If it's past sync time today, schedule for tomorrow
+        if (now >= next) {
+            next.setDate(next.getDate() + 1);
+        }
+        
+        return next - now;
+    }
+    
+    // Perform smart sync
+    async function performDailySync() {
+        try {
+            console.log('🌅 Starting daily eBay sync...');
+            
+            // Use the existing smart import logic
+            const axios = require('axios');
+            
+            // Get store URLs
+            const urlsResponse = await axios.post(`http://localhost:${PORT}/api/ebay/get-store-urls`, {
+                storeUrl: STORE_URL
+            });
+            
+            if (urlsResponse.data.success) {
+                // Perform smart import
+                const importResponse = await axios.post(`http://localhost:${PORT}/api/ebay/smart-import`, {
+                    productUrls: urlsResponse.data.productUrls,
+                    storeName: urlsResponse.data.storeName,
+                    storeUrl: STORE_URL,
+                    smartSync: true
+                });
+                
+                if (importResponse.data.success) {
+                    console.log(`✅ Daily sync complete: ${importResponse.data.newProducts} new, ${importResponse.data.updatedProducts} updated`);
+                } else {
+                    console.error('❌ Daily sync import failed:', importResponse.data.error);
+                }
+            } else {
+                console.log('⚠️ Daily sync: Store URL extraction failed, manual sync may be needed');
+            }
+            
+        } catch (error) {
+            console.error('❌ Daily sync error:', error.message);
+        }
+        
+        // Schedule next sync
+        setTimeout(performDailySync, 24 * 60 * 60 * 1000); // 24 hours
+    }
+    
+    // Schedule first sync
+    const timeUntilNext = getTimeUntilNextSync();
+    console.log(`⏰ Next sync scheduled in ${Math.round(timeUntilNext / (1000 * 60 * 60))} hours`);
+    
+    setTimeout(performDailySync, timeUntilNext);
+}
+
 // Start server
 const server = app.listen(PORT, '0.0.0.0', async () => {
     try {
@@ -1341,6 +1549,9 @@ const server = app.listen(PORT, '0.0.0.0', async () => {
         console.log('📦 Products API: http://localhost:' + PORT + '/api/products');
         console.log('🗑️ Delete API: DELETE http://localhost:' + PORT + '/api/products/:id');
         console.log('🌐 Environment: ' + (process.env.NODE_ENV || 'development'));
+        
+        // Start daily eBay sync scheduler
+        startDailySyncScheduler();
     } catch (error) {
         console.error('❌ Server startup error:', error.message);
     }

@@ -1448,6 +1448,59 @@ https://www.ebay.com/itm/345678"></textarea>
             }, 2000);
         }
 
+        // Smart eBay Store Auto-Import - only new products
+        async function autoImportStore() {
+            try {
+                const storeUrl = 'https://www.ebay.com/usr/cjj-3227';
+                showImportStatus('<i class="loading-3d"></i> 🔄 Smart syncing with eBay store...', 'info');
+                
+                // Step 1: Get store URLs
+                const urlsResponse = await fetch('/api/ebay/get-store-urls', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ storeUrl })
+                });
+                
+                if (!urlsResponse.ok) {
+                    throw new Error('Failed to get store URLs');
+                }
+                
+                const urlsResult = await urlsResponse.json();
+                
+                if (urlsResult.success) {
+                    showImportStatus(`<i class="fas fa-sync"></i> 📊 Found ${urlsResult.productUrls.length} products. Checking for new items...`, 'info');
+                    
+                    // Step 2: Smart import - only new products
+                    const importResponse = await fetch('/api/ebay/smart-import', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            productUrls: urlsResult.productUrls,
+                            storeName: urlsResult.storeName,
+                            storeUrl: storeUrl,
+                            smartSync: true // Flag for smart syncing
+                        })
+                    });
+                    
+                    const importResult = await importResponse.json();
+                    
+                    if (importResult.success) {
+                        loadProductsForManagement(); // Refresh the product list
+                        showImportStatus(`<i class="fas fa-check"></i> ✅ Smart sync complete! Added ${importResult.newProducts || 0} new products, updated ${importResult.updatedProducts || 0} existing ones.`, 'success');
+                    } else {
+                        throw new Error(importResult.error || 'Smart import failed');
+                    }
+                } else {
+                    // Fallback to manual instructions
+                    showImportStatus(`<i class="fas fa-info-circle"></i> 📋 Manual sync required. ${urlsResult.instructions.join(' ')}`, 'warning');
+                }
+                
+            } catch (error) {
+                console.error('❌ Auto-import error:', error);
+                showImportStatus(`<i class="fas fa-exclamation-triangle"></i> ❌ Auto-import failed: ${error.message}`, 'error');
+            }
+        }
+
         function bulkImport() {
             showImportStatus('<i class="loading-3d"></i> Importing products...', 'info');
             let progress = 0;
