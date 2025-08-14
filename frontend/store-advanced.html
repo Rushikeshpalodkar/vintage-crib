@@ -803,6 +803,7 @@
             <nav class="nav-links">
                 <a href="#" class="nav-link">📚 Collections</a>
                 <a href="#" class="nav-link">✨ Curated</a>
+                <a href="#" class="nav-link" onclick="showSoldProducts()">💰 Sold Items</a>
                 <a href="#" class="nav-link">📜 Stories</a>
                 <a href="#" class="nav-link">📞 Contact</a>
             </nav>
@@ -905,6 +906,33 @@
             <i class="fas fa-gem"></i>
             <h3>No pieces found</h3>
             <p>Try adjusting your search to discover more vintage treasures</p>
+        </div>
+        
+        <!-- Sold Products Section -->
+        <div id="soldProductsSection" style="display: none;">
+            <div class="products-header">
+                <div class="products-count" id="soldProductsCount">Recently sold treasures...</div>
+                <button onclick="showAllProducts()" style="
+                    background: var(--gradient-primary);
+                    color: white;
+                    border: none;
+                    padding: 0.8rem 1.5rem;
+                    border-radius: 12px;
+                    cursor: pointer;
+                    font-weight: 600;
+                    box-shadow: var(--shadow-3d-glow);
+                    transition: all 0.3s ease;
+                ">🔙 Back to Store</button>
+            </div>
+
+            <div class="loading" id="soldLoadingState" style="display: none;">
+                <div class="spinner-3d"></div>
+                Loading sold treasures...
+            </div>
+
+            <div class="products-grid" id="soldProductsGrid" style="display: none;">
+                <!-- Sold products will be loaded here -->
+            </div>
         </div>
     </main>
 
@@ -1374,6 +1402,124 @@
             navigator.serviceWorker.register('/sw.js').catch(() => {
                 // Silent fail - service worker is optional enhancement
             });
+        }
+
+        // Sold Products Functions
+        let soldProducts = [];
+        
+        async function showSoldProducts() {
+            try {
+                // Hide regular products, show sold products section
+                document.getElementById('productsGrid').style.display = 'none';
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('paginationControls').style.display = 'none';
+                document.getElementById('emptyState').style.display = 'none';
+                
+                document.getElementById('soldProductsSection').style.display = 'block';
+                document.getElementById('soldLoadingState').style.display = 'block';
+                document.getElementById('soldProductsGrid').style.display = 'none';
+                
+                // Update page title
+                document.getElementById('productsCount').textContent = 'Recently sold treasures...';
+                
+                // Load sold products from API
+                const response = await fetch('/api/products/sold');
+                if (!response.ok) {
+                    throw new Error('Failed to load sold products');
+                }
+                
+                soldProducts = await response.json();
+                
+                // Hide loading, show sold products
+                document.getElementById('soldLoadingState').style.display = 'none';
+                document.getElementById('soldProductsGrid').style.display = 'grid';
+                
+                displaySoldProducts();
+                
+            } catch (error) {
+                console.error('❌ Error loading sold products:', error);
+                document.getElementById('soldLoadingState').style.display = 'none';
+                document.getElementById('soldProductsGrid').innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--off-white);">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h3>Unable to load sold items</h3>
+                        <p>Please try again later</p>
+                    </div>
+                `;
+                document.getElementById('soldProductsGrid').style.display = 'grid';
+            }
+        }
+        
+        function displaySoldProducts() {
+            const grid = document.getElementById('soldProductsGrid');
+            document.getElementById('soldProductsCount').textContent = `${soldProducts.length} sold treasures`;
+            
+            if (soldProducts.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--off-white);">
+                        <i class="fas fa-coins" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                        <h3>No sold items yet</h3>
+                        <p>Check back soon for recently sold treasures</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = soldProducts.map(product => `
+                <div class="product-card" style="opacity: 0.8; border: 2px solid var(--vintage-gold);">
+                    <div class="product-image">
+                        <img src="${product.image || '/api/placeholder/300/300'}" 
+                             alt="${product.name}" 
+                             onerror="this.src='/api/placeholder/300/300'">
+                        <div class="product-overlay"></div>
+                        <div class="product-badge" style="background: var(--gradient-accent); color: var(--dark-gray);">
+                            💰 SOLD
+                        </div>
+                        ${product.customTags ? product.customTags.map(tag => 
+                            `<div class="custom-tag custom-tag-blue" style="position: absolute; top: 4rem; left: 1rem;">${tag}</div>`
+                        ).join('') : ''}
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <div class="product-price">
+                            ${product.salePrice ? `<span style="color: var(--vintage-gold); font-weight: 800;">Sold for $${product.salePrice}</span>` : 
+                              `<span style="color: var(--vintage-gold); font-weight: 800;">Sold for $${product.price}</span>`}
+                            ${product.soldDate ? `<div style="font-size: 0.8rem; color: var(--gray-400); margin-top: 0.5rem;">
+                                Sold: ${new Date(product.soldDate).toLocaleDateString()}
+                            </div>` : ''}
+                        </div>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-actions">
+                            <div style="
+                                background: var(--glass-dark);
+                                color: var(--off-white);
+                                padding: 0.8rem 1.5rem;
+                                border-radius: 12px;
+                                text-align: center;
+                                font-weight: 600;
+                                border: 2px solid var(--vintage-gold);
+                            ">
+                                ✨ Treasure Found a Home
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function showAllProducts() {
+            // Hide sold products section
+            document.getElementById('soldProductsSection').style.display = 'none';
+            
+            // Show regular products
+            document.getElementById('productsGrid').style.display = 'grid';
+            document.getElementById('paginationControls').style.display = 'block';
+            
+            // Update page title
+            document.getElementById('productsCount').textContent = `${allProducts.length} curated pieces`;
+            
+            // Refresh the regular products display
+            displayProducts();
         }
     </script>
 </body>
