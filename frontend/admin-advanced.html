@@ -1129,6 +1129,98 @@ https://www.ebay.com/itm/345678"></textarea>
             </div>
         </div>
 
+        <!-- 🛒 Store Settings Section -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-cog"></i>
+                🛒 Store Settings
+            </h2>
+            
+            <!-- Product Organization Settings -->
+            <div style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; padding: 2rem; margin-bottom: 2rem;">
+                <h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--gray-900);">
+                    <i class="fas fa-sort"></i> Product Organization
+                </h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                    <!-- Sort Order -->
+                    <div>
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--gray-900);">
+                            <i class="fas fa-sort-amount-down"></i> Default Sort Order
+                        </label>
+                        <select id="defaultSortOrder" style="width: 100%; padding: 12px; border: 1px solid var(--gray-300); border-radius: 8px; font-size: 14px;" onchange="updateStoreSetting('sortOrder', this.value)">
+                            <option value="price-low-high">💰 Price: Low to High</option>
+                            <option value="price-high-low">💰 Price: High to Low</option>
+                            <option value="name-az">🔤 Name: A to Z</option>
+                            <option value="name-za">🔤 Name: Z to A</option>
+                            <option value="date-newest">📅 Newest First</option>
+                            <option value="date-oldest">📅 Oldest First</option>
+                            <option value="category">🏷️ By Category</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Display Style -->
+                    <div>
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--gray-900);">
+                            <i class="fas fa-th"></i> Display Style
+                        </label>
+                        <select id="displayStyle" style="width: 100%; padding: 12px; border: 1px solid var(--gray-300); border-radius: 8px; font-size: 14px;" onchange="updateStoreSetting('displayStyle', this.value)">
+                            <option value="grid">📱 Grid View</option>
+                            <option value="list">📋 List View</option>
+                            <option value="carousel">🎠 Carousel View</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Items Per Page -->
+                    <div>
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--gray-900);">
+                            <i class="fas fa-list-ol"></i> Items Per Page
+                        </label>
+                        <select id="itemsPerPage" style="width: 100%; padding: 12px; border: 1px solid var(--gray-300); border-radius: 8px; font-size: 14px;" onchange="updateStoreSetting('itemsPerPage', this.value)">
+                            <option value="12">12 items</option>
+                            <option value="24">24 items</option>
+                            <option value="36">36 items</option>
+                            <option value="48">48 items</option>
+                            <option value="all">Show All</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Category Filter -->
+                    <div>
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--gray-900);">
+                            <i class="fas fa-filter"></i> Default Category
+                        </label>
+                        <select id="defaultCategory" style="width: 100%; padding: 12px; border: 1px solid var(--gray-300); border-radius: 8px; font-size: 14px;" onchange="updateStoreSetting('defaultCategory', this.value)">
+                            <option value="all">🏷️ Show All Categories</option>
+                            <option value="vintage">✨ Vintage Only</option>
+                            <option value="clothing">👕 Clothing</option>
+                            <option value="collectibles">🏺 Collectibles</option>
+                            <option value="electronics">📱 Electronics</option>
+                            <option value="home">🏠 Home & Garden</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Apply Settings Button -->
+                <div style="margin-top: 2rem; text-align: center;">
+                    <button class="btn primary" onclick="applyStoreSettings()" style="padding: 1rem 3rem;">
+                        <i class="fas fa-save"></i>
+                        💾 Apply Store Settings
+                    </button>
+                    <button class="btn outline" onclick="resetStoreSettings()" style="padding: 1rem 2rem; margin-left: 1rem;">
+                        <i class="fas fa-undo"></i>
+                        🔄 Reset to Defaults
+                    </button>
+                </div>
+                
+                <!-- Settings Status -->
+                <div id="settingsStatus" style="margin-top: 1rem; text-align: center; padding: 1rem; border-radius: 8px; display: none;">
+                    <i class="fas fa-check-circle"></i>
+                    Settings applied successfully!
+                </div>
+            </div>
+        </div>
+
         <!-- 🏺 Advanced Product Management Section -->
         <div class="section">
             <h2 class="section-title">
@@ -2389,9 +2481,154 @@ https://www.ebay.com/itm/345678"></textarea>
             }
         }
 
+        // 🛒 Store Settings Management
+        let storeSettings = {
+            sortOrder: 'price-low-high',
+            displayStyle: 'grid',
+            itemsPerPage: '24',
+            defaultCategory: 'all'
+        };
+
+        // Load store settings from localStorage
+        function loadStoreSettings() {
+            const saved = localStorage.getItem('vintageStoreSettings');
+            if (saved) {
+                storeSettings = { ...storeSettings, ...JSON.parse(saved) };
+            }
+            
+            // Apply settings to form elements
+            document.getElementById('defaultSortOrder').value = storeSettings.sortOrder;
+            document.getElementById('displayStyle').value = storeSettings.displayStyle;
+            document.getElementById('itemsPerPage').value = storeSettings.itemsPerPage;
+            document.getElementById('defaultCategory').value = storeSettings.defaultCategory;
+        }
+
+        // Update store setting
+        function updateStoreSetting(key, value) {
+            storeSettings[key] = value;
+            console.log(`Updated ${key} to ${value}`);
+            
+            // Show temporary feedback
+            const status = document.getElementById('settingsStatus');
+            status.style.display = 'block';
+            status.style.backgroundColor = 'var(--glass-bg)';
+            status.style.color = 'var(--info)';
+            status.innerHTML = '<i class="fas fa-info-circle"></i> Setting updated! Click "Apply Store Settings" to save.';
+            
+            setTimeout(() => {
+                status.style.display = 'none';
+            }, 3000);
+        }
+
+        // Apply store settings
+        async function applyStoreSettings() {
+            try {
+                // Save to localStorage
+                localStorage.setItem('vintageStoreSettings', JSON.stringify(storeSettings));
+                
+                // Send to backend API
+                const response = await fetch('/api/store-settings', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(storeSettings)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    
+                    // Show success message
+                    const status = document.getElementById('settingsStatus');
+                    status.style.display = 'block';
+                    status.style.backgroundColor = 'var(--success)';
+                    status.style.color = 'white';
+                    status.innerHTML = '<i class="fas fa-check-circle"></i> Store settings applied successfully! Your store will now use these defaults.';
+                    
+                    // Apply sorting immediately to current product list
+                    applySortingToCurrentProducts();
+                    
+                    setTimeout(() => {
+                        status.style.display = 'none';
+                    }, 5000);
+                } else {
+                    throw new Error('Failed to save settings to server');
+                }
+            } catch (error) {
+                console.error('Error applying settings:', error);
+                
+                // Still save locally even if server fails
+                localStorage.setItem('vintageStoreSettings', JSON.stringify(storeSettings));
+                
+                const status = document.getElementById('settingsStatus');
+                status.style.display = 'block';
+                status.style.backgroundColor = 'var(--warning)';
+                status.style.color = 'white';
+                status.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Settings saved locally but server sync failed. Settings will still work!';
+                
+                // Apply sorting immediately
+                applySortingToCurrentProducts();
+                
+                setTimeout(() => {
+                    status.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Reset store settings to defaults
+        function resetStoreSettings() {
+            if (confirm('Are you sure you want to reset all store settings to defaults?')) {
+                storeSettings = {
+                    sortOrder: 'price-low-high',
+                    displayStyle: 'grid',
+                    itemsPerPage: '24',
+                    defaultCategory: 'all'
+                };
+                
+                // Update form elements
+                loadStoreSettings();
+                
+                // Save and apply
+                applyStoreSettings();
+            }
+        }
+
+        // Apply sorting to current products
+        function applySortingToCurrentProducts() {
+            if (allProducts && allProducts.length > 0) {
+                filteredProducts = sortProducts([...allProducts], storeSettings.sortOrder);
+                displayProductsGrid();
+                updatePagination();
+                console.log(`Applied ${storeSettings.sortOrder} sorting to ${filteredProducts.length} products`);
+            }
+        }
+
+        // Sort products function
+        function sortProducts(products, sortOrder) {
+            switch (sortOrder) {
+                case 'price-low-high':
+                    return products.sort((a, b) => (a.price || 0) - (b.price || 0));
+                case 'price-high-low':
+                    return products.sort((a, b) => (b.price || 0) - (a.price || 0));
+                case 'name-az':
+                    return products.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+                case 'name-za':
+                    return products.sort((a, b) => (b.name || '').localeCompare(a.name || ''));
+                case 'date-newest':
+                    return products.sort((a, b) => new Date(b.dateAdded || 0) - new Date(a.dateAdded || 0));
+                case 'date-oldest':
+                    return products.sort((a, b) => new Date(a.dateAdded || 0) - new Date(b.dateAdded || 0));
+                case 'category':
+                    return products.sort((a, b) => (a.category || '').localeCompare(b.category || ''));
+                default:
+                    return products;
+            }
+        }
+
         // Load sold products on page load
         document.addEventListener('DOMContentLoaded', function() {
             loadSoldProducts();
+            loadStoreSettings(); // Load store settings when page loads
         });
     </script>
 </body>

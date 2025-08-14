@@ -82,8 +82,9 @@ app.use((req, res, next) => {
     next();
 });
 
-// Data file path
+// Data file paths
 const DATA_FILE = path.join(__dirname, 'data', 'products.json');
+const SETTINGS_FILE = path.join(__dirname, 'data', 'store-settings.json');
 
 // Helper functions with caching
 async function readProducts() {
@@ -116,6 +117,30 @@ async function readProducts() {
 
 async function writeProducts(products) {
     await fs.writeFile(DATA_FILE, JSON.stringify(products, null, 2));
+}
+
+// Store settings helper functions
+async function readStoreSettings() {
+    try {
+        const data = await fs.readFile(SETTINGS_FILE, 'utf8');
+        return JSON.parse(data);
+    } catch (error) {
+        console.log('📁 Creating default store settings file');
+        const defaultSettings = {
+            sortOrder: 'price-low-high',
+            displayStyle: 'grid',
+            itemsPerPage: '24',
+            defaultCategory: 'all',
+            lastUpdated: new Date().toISOString()
+        };
+        await writeStoreSettings(defaultSettings);
+        return defaultSettings;
+    }
+}
+
+async function writeStoreSettings(settings) {
+    settings.lastUpdated = new Date().toISOString();
+    await fs.writeFile(SETTINGS_FILE, JSON.stringify(settings, null, 2));
 }
 
 // API Routes
@@ -184,6 +209,57 @@ app.get('/api/products/sold', async (req, res) => {
     } catch (error) {
         console.error('❌ Error reading sold products:', error);
         res.status(500).json({ error: 'Failed to read sold products' });
+    }
+});
+
+// GET products with sorting applied - MUST be before /:id route
+app.get('/api/products/sorted', async (req, res) => {
+    try {
+        console.log('📦 Getting sorted products');
+        const products = await readProducts();
+        const settings = await readStoreSettings();
+        
+        // Apply sorting based on settings
+        let sortedProducts = [...products];
+        switch (settings.sortOrder) {
+            case 'price-low-high':
+                sortedProducts.sort((a, b) => (a.price || 0) - (b.price || 0));
+                break;
+            case 'price-high-low':
+                sortedProducts.sort((a, b) => (b.price || 0) - (a.price || 0));
+                break;
+            case 'name-az':
+                sortedProducts.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+                break;
+            case 'name-za':
+                sortedProducts.sort((a, b) => (b.name || '').localeCompare(a.name || ''));
+                break;
+            case 'date-newest':
+                sortedProducts.sort((a, b) => new Date(b.dateAdded || 0) - new Date(a.dateAdded || 0));
+                break;
+            case 'date-oldest':
+                sortedProducts.sort((a, b) => new Date(a.dateAdded || 0) - new Date(b.dateAdded || 0));
+                break;
+            case 'category':
+                sortedProducts.sort((a, b) => (a.category || '').localeCompare(b.category || ''));
+                break;
+        }
+        
+        // Apply category filter if specified
+        if (settings.defaultCategory && settings.defaultCategory !== 'all') {
+            sortedProducts = sortedProducts.filter(p => p.category === settings.defaultCategory);
+        }
+        
+        console.log('📦 Sending', sortedProducts.length, 'sorted products (', settings.sortOrder, ')');
+        res.json({
+            products: sortedProducts,
+            settings: settings,
+            totalCount: products.length,
+            filteredCount: sortedProducts.length
+        });
+    } catch (error) {
+        console.error('❌ Error reading sorted products:', error);
+        res.status(500).json({ error: 'Failed to read sorted products' });
     }
 });
 
@@ -297,6 +373,48 @@ app.delete('/api/products/:id', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+// Store Settings API Routes
+// GET store settings
+app.get('/api/store-settings', async (req, res) => {
+    try {
+        console.log('⚙️ Getting store settings');
+        const settings = await readStoreSettings();
+        res.json(settings);
+    } catch (error) {
+        console.error('❌ Error reading store settings:', error);
+        res.status(500).json({ error: 'Failed to read store settings' });
+    }
+});
+
+// POST store settings
+app.post('/api/store-settings', async (req, res) => {
+    try {
+        const newSettings = req.body;
+        console.log('⚙️ Updating store settings:', newSettings);
+        
+        // Validate settings
+        const validSettings = {
+            sortOrder: newSettings.sortOrder || 'price-low-high',
+            displayStyle: newSettings.displayStyle || 'grid',
+            itemsPerPage: newSettings.itemsPerPage || '24',
+            defaultCategory: newSettings.defaultCategory || 'all'
+        };
+        
+        await writeStoreSettings(validSettings);
+        
+        console.log('✅ Store settings updated successfully');
+        res.json({
+            success: true,
+            message: 'Store settings updated successfully',
+            settings: validSettings
+        });
+    } catch (error) {
+        console.error('❌ Error updating store settings:', error);
+        res.status(500).json({ error: 'Failed to update store settings' });
+    }
+});
+
 
 // Extract product from URL
 app.post('/api/extract-product', async (req, res) => {

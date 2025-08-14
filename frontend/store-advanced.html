@@ -985,7 +985,7 @@
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
                 
-                const response = await fetch('/api/products', {
+                const response = await fetch('/api/products/sorted', {
                     signal: controller.signal,
                     headers: {
                         'Cache-Control': 'no-cache'
@@ -997,7 +997,8 @@
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
                 
-                const products = await response.json();
+                const data = await response.json();
+                const products = data.products || data; // Handle both old and new API response format
                 
                 // Cache the results
                 productsCache = products.map(product => ({
@@ -1007,8 +1008,13 @@
                 cacheTimestamp = Date.now();
                 
                 allProducts = [...productsCache];
-                allProducts.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
+                // Products are already sorted by the server based on admin settings
                 filteredProducts = [...allProducts];
+                
+                // Log sorting info if available
+                if (data.settings) {
+                    console.log(`🎯 Products loaded with ${data.settings.sortOrder} sorting (${data.filteredCount}/${data.totalCount} products)`);
+                }
                 
                 displayProducts();
                 updateProductsCount();
