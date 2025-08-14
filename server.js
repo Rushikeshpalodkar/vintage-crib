@@ -1566,6 +1566,151 @@ function startDailySyncScheduler() {
     setTimeout(performDailySync, timeUntilNext);
 }
 
+// Auto-detect sold items using eBay API
+app.post('/api/products/sync-sold-status', async (req, res) => {
+    try {
+        console.log('🔄 Starting sold items sync...');
+        
+        if (!eBay) {
+            return res.status(503).json({ 
+                error: 'eBay API not available - cannot sync sold status',
+                demo: true 
+            });
+        }
+
+        const products = await readProducts();
+        let checkedCount = 0;
+        let markedSoldCount = 0;
+        let errorCount = 0;
+        const results = [];
+
+        // Check each product that has an eBay source URL and isn't already marked as sold
+        for (const product of products) {
+            // Skip products already marked as sold
+            if (product.isSold) {
+                continue;
+            }
+
+            // Extract eBay item ID from product URL
+            const ebayItemId = extractEbayItemId(product.sourceUrl || product.buyLink);
+            if (!ebayItemId) {
+                continue; // Skip non-eBay products
+            }
+
+            try {
+                checkedCount++;
+                console.log(`🔍 Checking item ${checkedCount}: ${product.name} (${ebayItemId})`);
+                
+                // Check if item is still available on eBay
+                const itemResponse = await eBay.browse.getItem(ebayItemId);
+                
+                // If we get a response, item is still active
+                results.push({
+                    productId: product.id,
+                    productName: product.name,
+                    ebayItemId: ebayItemId,
+                    status: 'active',
+                    available: true
+                });
+                
+                // Small delay to respect API limits
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+            } catch (error) {
+                // If we get an error, the item might be sold/ended
+                if (error.message && (
+                    error.message.includes('not found') || 
+                    error.message.includes('ended') ||
+                    error.message.includes('expired') ||
+                    error.message.includes('404')
+                )) {
+                    // Mark product as sold
+                    product.isSold = true;
+                    product.soldDate = new Date().toISOString();
+                    product.salePrice = product.price; // Use original price as sale price
+                    product.buyerInfo = 'eBay Customer';
+                    product.dateModified = new Date().toISOString();
+                    product.autoDetectedSold = true; // Flag for auto-detection
+                    
+                    markedSoldCount++;
+                    console.log(`💰 Auto-marked as SOLD: ${product.name}`);
+                    
+                    results.push({
+                        productId: product.id,
+                        productName: product.name,
+                        ebayItemId: ebayItemId,
+                        status: 'sold',
+                        available: false,
+                        autoMarked: true
+                    });
+                } else {
+                    errorCount++;
+                    console.warn(`⚠️ Error checking ${product.name}:`, error.message);
+                    results.push({
+                        productId: product.id,
+                        productName: product.name,
+                        ebayItemId: ebayItemId,
+                        status: 'error',
+                        error: error.message
+                    });
+                }
+                
+                // Small delay between requests
+                await new Promise(resolve => setTimeout(resolve, 1500));
+            }
+        }
+
+        // Save updated products if any were marked as sold
+        if (markedSoldCount > 0) {
+            await writeProducts(products);
+            console.log(`✅ Saved ${markedSoldCount} newly sold products`);
+        }
+
+        const summary = {
+            success: true,
+            message: `Sync complete! Checked ${checkedCount} items, marked ${markedSoldCount} as sold`,
+            checkedCount,
+            markedSoldCount,
+            errorCount,
+            results: results
+        };
+
+        console.log('📊 Sync Summary:', summary.message);
+        res.json(summary);
+
+    } catch (error) {
+        console.error('❌ Sold items sync error:', error);
+        res.status(500).json({
+            error: 'Failed to sync sold status',
+            details: error.message
+        });
+    }
+});
+
+// Helper function to extract eBay item ID from URL
+function extractEbayItemId(url) {
+    if (!url || !url.includes('ebay.com')) {
+        return null;
+    }
+    
+    // Extract item ID from various eBay URL formats
+    const patterns = [
+        /\/itm\/(\d+)/,           // /itm/123456789
+        /\/p\/(\d+)/,             // /p/123456789  
+        /item=(\d+)/,             // item=123456789
+        /\/(\d{10,})/             // Any 10+ digit number
+    ];
+    
+    for (const pattern of patterns) {
+        const match = url.match(pattern);
+        if (match) {
+            return match[1];
+        }
+    }
+    
+    return null;
+}
+
 // Start server
 const server = app.listen(PORT, '0.0.0.0', async () => {
     try {

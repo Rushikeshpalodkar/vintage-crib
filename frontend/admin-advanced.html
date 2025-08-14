@@ -1122,6 +1122,10 @@ https://www.ebay.com/itm/345678"></textarea>
                     <i class="fas fa-magic"></i>
                     Optimize Store
                 </button>
+                <button class="btn success" onclick="syncSoldStatus()" id="syncSoldBtn">
+                    <i class="fas fa-sync"></i>
+                    💰 Auto-Detect Sold Items
+                </button>
             </div>
         </div>
 
@@ -1542,6 +1546,66 @@ https://www.ebay.com/itm/345678"></textarea>
             setTimeout(() => {
                 showImportStatus('<i class="fas fa-magic"></i> Store optimized! Loading speed improved by 40%.', 'success');
             }, 2500);
+        }
+
+        async function syncSoldStatus() {
+            try {
+                const btn = document.getElementById('syncSoldBtn');
+                const originalText = btn.innerHTML;
+                
+                // Disable button and show loading
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking eBay items...';
+                
+                showImportStatus('<i class="loading-3d"></i> Checking eBay listings for sold items...', 'info');
+                
+                const response = await fetch('/api/products/sync-sold-status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showImportStatus(
+                        `<i class="fas fa-check-circle"></i> ${result.message}`, 
+                        'success'
+                    );
+                    
+                    // Refresh product displays
+                    loadProducts();
+                    loadSoldProducts();
+                    
+                    // Show detailed results in console for debugging
+                    console.log('🔄 Sold Status Sync Results:', result);
+                    
+                    if (result.markedSoldCount > 0) {
+                        // Show alert for newly sold items
+                        setTimeout(() => {
+                            alert(`🎉 Found ${result.markedSoldCount} sold items!\n\nThese items have been automatically moved to the sold section.`);
+                        }, 1000);
+                    }
+                } else {
+                    showImportStatus(
+                        `<i class="fas fa-exclamation-triangle"></i> Sync failed: ${result.error}`, 
+                        'error'
+                    );
+                }
+                
+            } catch (error) {
+                console.error('❌ Sync error:', error);
+                showImportStatus(
+                    '<i class="fas fa-exclamation-triangle"></i> Failed to sync sold status. Check console for details.', 
+                    'error'
+                );
+            } finally {
+                // Re-enable button
+                const btn = document.getElementById('syncSoldBtn');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sync"></i> 💰 Auto-Detect Sold Items';
+            }
         }
 
         function showImportStatus(message, type) {
