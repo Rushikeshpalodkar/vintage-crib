@@ -3223,8 +3223,8 @@ https://www.ebay.com/itm/987654321
                     console.error(`❌ Error importing ${url}:`, error);
                 }
 
-                // Rate limiting - wait between requests
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                // Rate limiting - wait longer between requests to avoid eBay blocking
+                await new Promise(resolve => setTimeout(resolve, 5000)); // 5 second delay
             }
 
             // Show results

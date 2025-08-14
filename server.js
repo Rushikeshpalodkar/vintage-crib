@@ -854,12 +854,18 @@ app.post('/api/extract-product', async (req, res) => {
                 'Connection': 'keep-alive',
                 'Upgrade-Insecure-Requests': '1'
             },
-            timeout: 15000,
+            timeout: 30000,
             maxRedirects: 5,
             validateStatus: function (status) {
                 return status >= 200 && status < 400; // Accept redirects
             }
         });
+        
+        // Check if eBay blocked us
+        if (response.data && response.data.includes('Pardon Our Interruption')) {
+            console.log('⚠️ eBay blocked the request - rate limited or bot detected');
+            throw new Error('eBay blocked this request. Please try again later or use a different approach.');
+        }
         
         const $ = cheerio.load(response.data);
         
