@@ -1566,7 +1566,7 @@ function startDailySyncScheduler() {
     setTimeout(performDailySync, timeUntilNext);
 }
 
-// Auto-detect sold items using eBay API
+// Auto-detect sold items using eBay API - v2
 app.post('/api/products/sync-sold-status', async (req, res) => {
     try {
         console.log('🔄 Starting sold items sync...');

@@ -1596,8 +1596,17 @@ https://www.ebay.com/itm/345678"></textarea>
                 
             } catch (error) {
                 console.error('❌ Sync error:', error);
+                
+                // Provide specific error messages
+                let errorMessage = 'Failed to sync sold status';
+                if (error.message && error.message.includes('404')) {
+                    errorMessage = 'Sync feature is loading... Please try again in a moment.';
+                } else if (error.message && error.message.includes('network')) {
+                    errorMessage = 'Network error. Please check your connection.';
+                }
+                
                 showImportStatus(
-                    '<i class="fas fa-exclamation-triangle"></i> Failed to sync sold status. Check console for details.', 
+                    `<i class="fas fa-exclamation-triangle"></i> ${errorMessage}`, 
                     'error'
                 );
             } finally {
