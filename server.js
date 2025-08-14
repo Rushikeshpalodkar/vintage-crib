@@ -1398,25 +1398,30 @@ app.get('/api/admin/health', (req, res) => {
 });
 
 // Admin stats endpoint
-app.get('/api/admin/stats', (req, res) => {
-    const productData = loadProductsSync();
-    res.json({
-        totalProducts: productData.length,
-        totalVisits: analytics.totalVisits,
-        uniqueVisitors: analytics.uniqueVisitors.size,
-        recentActivity: analytics.lastVisits.slice(0, 5),
-        productCategories: productData.reduce((acc, product) => {
-            acc[product.category] = (acc[product.category] || 0) + 1;
-            return acc;
-        }, {}),
-        averagePrice: productData.length > 0 ? 
-            (productData.reduce((sum, p) => sum + (p.price || 0), 0) / productData.length).toFixed(2) : 0,
-        systemStatus: {
-            uptime: process.uptime(),
-            memory: process.memoryUsage(),
-            environment: process.env.NODE_ENV || 'development'
-        }
-    });
+app.get('/api/admin/stats', async (req, res) => {
+    try {
+        const productData = await readProducts();
+        res.json({
+            totalProducts: productData.length,
+            totalVisits: analytics.totalVisits,
+            uniqueVisitors: analytics.uniqueVisitors.size,
+            recentActivity: analytics.lastVisits.slice(0, 5),
+            productCategories: productData.reduce((acc, product) => {
+                acc[product.category] = (acc[product.category] || 0) + 1;
+                return acc;
+            }, {}),
+            averagePrice: productData.length > 0 ? 
+                (productData.reduce((sum, p) => sum + (p.price || 0), 0) / productData.length).toFixed(2) : 0,
+            systemStatus: {
+                uptime: process.uptime(),
+                memory: process.memoryUsage(),
+                environment: process.env.NODE_ENV || 'development'
+            }
+        });
+    } catch (error) {
+        console.error('❌ Admin stats error:', error);
+        res.status(500).json({ error: 'Failed to load admin stats' });
+    }
 });
 
 // Admin route protection middleware
