@@ -1,0 +1,51 @@
+{
+  "logs": [
+    {
+      "status": "success",
+      "startTime": "2025-08-14T17:29:42.884Z",
+      "endTime": "2025-08-14T17:29:42.886Z",
+      "type": "automatic",
+      "itemsChecked": 0,
+      "itemsSold": 0,
+      "pricesUpdated": 0,
+      "productsUpdated": 0,
+      "errors": [],
+      "details": [],
+      "duration": 0,
+      "timestamp": "2025-08-14T17:29:42.887Z"
+    },
+    {
+      "status": "success",
+      "startTime": "2025-08-14T17:29:15.405Z",
+      "endTime": "2025-08-14T17:29:15.413Z",
+      "type": "automatic",
+      "itemsChecked": 0,
+      "itemsSold": 0,
+      "pricesUpdated": 0,
+      "productsUpdated": 0,
+      "errors": [],
+      "details": [],
+      "duration": 0,
+      "timestamp": "2025-08-14T17:29:15.417Z"
+    },
+    {
+      "status": "success",
+      "startTime": "2025-08-14T17:29:03.706Z",
+      "endTime": "2025-08-14T17:29:03.784Z",
+      "type": "automatic",
+      "itemsChecked": 0,
+      "itemsSold": 0,
+      "pricesUpdated": 0,
+      "productsUpdated": 0,
+      "errors": [],
+      "details": [],
+      "duration": 0,
+      "timestamp": "2025-08-14T17:29:03.785Z"
+    }
+  ],
+  "stats": {
+    "totalSyncs": 3,
+    "successfulSyncs": 3,
+    "failedSyncs": 0
+  }
+}

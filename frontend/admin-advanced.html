@@ -1221,6 +1221,125 @@ https://www.ebay.com/itm/345678"></textarea>
             </div>
         </div>
 
+        <!-- 🔄 eBay Auto-Sync Dashboard -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-sync-alt"></i>
+                🔄 eBay Auto-Sync Dashboard
+            </h2>
+
+            <!-- Sync Status Overview -->
+            <div style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; padding: 2rem; margin-bottom: 2rem;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                    
+                    <!-- Sync Status Card -->
+                    <div id="syncStatusCard" style="background: var(--success); color: white; padding: 1.5rem; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">⏸️</div>
+                        <div style="font-weight: 600; margin-bottom: 0.25rem;">Sync Status</div>
+                        <div id="syncStatusText" style="font-size: 0.9rem;">Initializing...</div>
+                    </div>
+
+                    <!-- Last Sync Card -->
+                    <div style="background: var(--info); color: white; padding: 1.5rem; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📅</div>
+                        <div style="font-weight: 600; margin-bottom: 0.25rem;">Last Sync</div>
+                        <div id="lastSyncTime" style="font-size: 0.9rem;">Never</div>
+                    </div>
+
+                    <!-- Sync Stats Card -->
+                    <div style="background: var(--warning); color: white; padding: 1.5rem; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
+                        <div style="font-weight: 600; margin-bottom: 0.25rem;">Total Syncs</div>
+                        <div id="totalSyncs" style="font-size: 0.9rem;">0</div>
+                    </div>
+
+                    <!-- Success Rate Card -->
+                    <div style="background: var(--primary); color: white; padding: 1.5rem; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">✅</div>
+                        <div style="font-weight: 600; margin-bottom: 0.25rem;">Success Rate</div>
+                        <div id="successRate" style="font-size: 0.9rem;">100%</div>
+                    </div>
+                </div>
+
+                <!-- Manual Sync Controls -->
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <button id="manualSyncBtn" class="btn primary" onclick="triggerManualSync()" style="padding: 1rem 2rem; margin-right: 1rem;">
+                        <i class="fas fa-sync"></i> 🔄 Sync Now
+                    </button>
+                    <button class="btn outline" onclick="refreshSyncStatus()" style="padding: 1rem 2rem;">
+                        <i class="fas fa-refresh"></i> 🔄 Refresh Status
+                    </button>
+                </div>
+
+                <!-- Sync Settings Panel -->
+                <div style="background: rgba(255,255,255,0.1); border-radius: 10px; padding: 1.5rem;">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--gray-900);">
+                        <i class="fas fa-cogs"></i> Sync Settings
+                    </h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <!-- Auto-Sync Toggle -->
+                        <div>
+                            <label style="display: flex; align-items: center; font-weight: 600; color: var(--gray-900);">
+                                <input type="checkbox" id="autoSyncEnabled" onchange="updateSyncSetting('autoSyncEnabled', this.checked)" style="margin-right: 0.5rem;">
+                                🔄 Enable Auto-Sync
+                            </label>
+                        </div>
+
+                        <!-- Sync Interval -->
+                        <div>
+                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--gray-900);">
+                                ⏰ Sync Interval (minutes)
+                            </label>
+                            <input type="number" id="syncInterval" min="15" max="1440" value="60" onchange="updateSyncSetting('syncIntervalMinutes', parseInt(this.value))" style="width: 100%; padding: 8px; border: 1px solid var(--gray-300); border-radius: 6px;">
+                        </div>
+                        
+                        <!-- Sync Types -->
+                        <div>
+                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--gray-900);">
+                                🎯 Sync Types
+                            </label>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <label style="display: flex; align-items: center; font-size: 0.9rem;">
+                                    <input type="checkbox" id="syncSoldStatus" onchange="updateSyncTypes()" style="margin-right: 0.5rem;">
+                                    🔴 Sold Status Detection
+                                </label>
+                                <label style="display: flex; align-items: center; font-size: 0.9rem;">
+                                    <input type="checkbox" id="syncPriceChanges" onchange="updateSyncTypes()" style="margin-right: 0.5rem;">
+                                    💰 Price Changes
+                                </label>
+                                <label style="display: flex; align-items: center; font-size: 0.9rem;">
+                                    <input type="checkbox" id="syncProductUpdates" onchange="updateSyncTypes()" style="margin-right: 0.5rem;">
+                                    📝 Product Updates
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Apply Settings Button -->
+                    <div style="margin-top: 1.5rem; text-align: center;">
+                        <button class="btn primary" onclick="applySyncSettings()" style="padding: 0.8rem 2rem;">
+                            <i class="fas fa-save"></i> 💾 Apply Sync Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Sync Logs -->
+            <div style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; padding: 2rem;">
+                <h3 style="margin-bottom: 1.5rem; color: var(--gray-900);">
+                    <i class="fas fa-history"></i> 📜 Recent Sync Activity
+                </h3>
+                
+                <div id="syncLogsList" style="max-height: 400px; overflow-y: auto;">
+                    <div style="text-align: center; padding: 2rem; color: var(--gray-600);">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <br>Loading sync logs...
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 🏺 Advanced Product Management Section -->
         <div class="section">
             <h2 class="section-title">
@@ -2629,7 +2748,237 @@ https://www.ebay.com/itm/345678"></textarea>
         document.addEventListener('DOMContentLoaded', function() {
             loadSoldProducts();
             loadStoreSettings(); // Load store settings when page loads
+            loadSyncSettings(); // Load sync settings when page loads
+            refreshSyncStatus(); // Load sync status when page loads
+            
+            // Auto-refresh sync status every 30 seconds
+            setInterval(refreshSyncStatus, 30000);
         });
+
+        // 🔄 SYNC MANAGEMENT FUNCTIONS
+        let currentSyncSettings = null;
+
+        // Load sync settings
+        async function loadSyncSettings() {
+            try {
+                const response = await fetch('/api/sync-settings');
+                if (response.ok) {
+                    currentSyncSettings = await response.json();
+                    updateSyncSettingsForm(currentSyncSettings);
+                    console.log('📊 Loaded sync settings:', currentSyncSettings);
+                }
+            } catch (error) {
+                console.error('❌ Error loading sync settings:', error);
+            }
+        }
+
+        // Update form with sync settings
+        function updateSyncSettingsForm(settings) {
+            document.getElementById('autoSyncEnabled').checked = settings.autoSyncEnabled;
+            document.getElementById('syncInterval').value = settings.syncIntervalMinutes;
+            document.getElementById('syncSoldStatus').checked = settings.syncTypes.soldStatus;
+            document.getElementById('syncPriceChanges').checked = settings.syncTypes.priceChanges;
+            document.getElementById('syncProductUpdates').checked = settings.syncTypes.productUpdates;
+        }
+
+        // Refresh sync status
+        async function refreshSyncStatus() {
+            try {
+                const response = await fetch('/api/sync-status');
+                if (response.ok) {
+                    const status = await response.json();
+                    updateSyncStatusDisplay(status);
+                    updateSyncLogs(status.recentLogs);
+                }
+            } catch (error) {
+                console.error('❌ Error refreshing sync status:', error);
+            }
+        }
+
+        // Update sync status display
+        function updateSyncStatusDisplay(status) {
+            const statusCard = document.getElementById('syncStatusCard');
+            const statusText = document.getElementById('syncStatusText');
+            const lastSyncTime = document.getElementById('lastSyncTime');
+            const totalSyncs = document.getElementById('totalSyncs');
+            const successRate = document.getElementById('successRate');
+
+            // Update status
+            if (status.syncInProgress) {
+                statusCard.style.background = 'var(--warning)';
+                statusCard.children[0].textContent = '🔄';
+                statusText.textContent = 'Sync in Progress...';
+            } else if (status.settings?.autoSyncEnabled) {
+                statusCard.style.background = 'var(--success)';
+                statusCard.children[0].textContent = '✅';
+                statusText.textContent = 'Active';
+            } else {
+                statusCard.style.background = 'var(--gray-500)';
+                statusCard.children[0].textContent = '⏸️';
+                statusText.textContent = 'Disabled';
+            }
+
+            // Update last sync time
+            if (status.lastAutoSyncTime || status.settings?.lastSyncTime) {
+                const lastSync = new Date(status.lastAutoSyncTime || status.settings.lastSyncTime);
+                lastSyncTime.textContent = lastSync.toLocaleString();
+            } else {
+                lastSyncTime.textContent = 'Never';
+            }
+
+            // Update stats
+            totalSyncs.textContent = status.stats?.totalSyncs || 0;
+            const successPercent = status.stats?.totalSyncs > 0 
+                ? Math.round((status.stats.successfulSyncs / status.stats.totalSyncs) * 100) 
+                : 100;
+            successRate.textContent = successPercent + '%';
+        }
+
+        // Update sync logs display
+        function updateSyncLogs(logs) {
+            const logsList = document.getElementById('syncLogsList');
+            
+            if (!logs || logs.length === 0) {
+                logsList.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--gray-600);">
+                        <i class="fas fa-info-circle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <br>No sync activity yet
+                    </div>
+                `;
+                return;
+            }
+
+            let logsHtml = '';
+            logs.forEach(log => {
+                const statusColor = log.status === 'success' ? 'var(--success)' : 
+                                  log.status === 'error' ? 'var(--error)' : 'var(--warning)';
+                const statusIcon = log.status === 'success' ? '✅' : 
+                                 log.status === 'error' ? '❌' : '⏳';
+
+                logsHtml += `
+                    <div style="background: var(--glass-bg); border-left: 4px solid ${statusColor}; margin-bottom: 1rem; padding: 1rem; border-radius: 8px;">
+                        <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 0.5rem;">
+                            <div style="display: flex; align-items: center;">
+                                <span style="font-size: 1.2rem; margin-right: 0.5rem;">${statusIcon}</span>
+                                <strong>${log.type === 'automatic' ? '🔄 Auto Sync' : '🚀 Manual Sync'}</strong>
+                            </div>
+                            <div style="font-size: 0.9rem; color: var(--gray-600);">
+                                ${new Date(log.timestamp).toLocaleString()}
+                            </div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: var(--gray-700); margin-bottom: 0.5rem;">
+                            📊 Checked: ${log.itemsChecked || 0} | 🔴 Sold: ${log.itemsSold || 0} | 💰 Price Updates: ${log.pricesUpdated || 0}
+                        </div>
+                        ${log.errors && log.errors.length > 0 ? 
+                            `<div style="font-size: 0.8rem; color: var(--error);">❌ ${log.errors.length} errors</div>` : ''
+                        }
+                        ${log.duration ? 
+                            `<div style="font-size: 0.8rem; color: var(--gray-600);">⏱️ Duration: ${log.duration}s</div>` : ''
+                        }
+                    </div>
+                `;
+            });
+
+            logsList.innerHTML = logsHtml;
+        }
+
+        // Trigger manual sync
+        async function triggerManualSync() {
+            const btn = document.getElementById('manualSyncBtn');
+            const originalText = btn.innerHTML;
+            
+            try {
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 🔄 Syncing...';
+                btn.disabled = true;
+
+                const response = await fetch('/api/sync-trigger', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    console.log('✅ Manual sync started');
+                    // Refresh status immediately and then periodically
+                    refreshSyncStatus();
+                    setTimeout(refreshSyncStatus, 5000);
+                } else {
+                    alert('❌ ' + (result.message || 'Failed to start sync'));
+                }
+            } catch (error) {
+                console.error('❌ Error triggering sync:', error);
+                alert('❌ Failed to start sync');
+            } finally {
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 3000);
+            }
+        }
+
+        // Update individual sync setting
+        function updateSyncSetting(key, value) {
+            if (!currentSyncSettings) return;
+            currentSyncSettings[key] = value;
+        }
+
+        // Update sync types
+        function updateSyncTypes() {
+            if (!currentSyncSettings) return;
+            currentSyncSettings.syncTypes = {
+                soldStatus: document.getElementById('syncSoldStatus').checked,
+                priceChanges: document.getElementById('syncPriceChanges').checked,
+                productUpdates: document.getElementById('syncProductUpdates').checked
+            };
+        }
+
+        // Apply sync settings
+        async function applySyncSettings() {
+            try {
+                // Collect current form values
+                const settings = {
+                    autoSyncEnabled: document.getElementById('autoSyncEnabled').checked,
+                    syncIntervalMinutes: parseInt(document.getElementById('syncInterval').value),
+                    syncTypes: {
+                        soldStatus: document.getElementById('syncSoldStatus').checked,
+                        priceChanges: document.getElementById('syncPriceChanges').checked,
+                        productUpdates: document.getElementById('syncProductUpdates').checked
+                    },
+                    retrySettings: currentSyncSettings?.retrySettings || {
+                        maxRetries: 3,
+                        retryDelayMinutes: 5
+                    }
+                };
+
+                const response = await fetch('/api/sync-settings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(settings)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    currentSyncSettings = result.settings;
+                    
+                    // Show success message
+                    const successMsg = document.createElement('div');
+                    successMsg.style.cssText = 'position: fixed; top: 20px; right: 20px; background: var(--success); color: white; padding: 1rem; border-radius: 8px; z-index: 1000;';
+                    successMsg.innerHTML = '✅ Sync settings applied successfully!';
+                    document.body.appendChild(successMsg);
+                    
+                    setTimeout(() => successMsg.remove(), 3000);
+                    
+                    // Refresh status
+                    refreshSyncStatus();
+                } else {
+                    throw new Error('Failed to apply settings');
+                }
+            } catch (error) {
+                console.error('❌ Error applying sync settings:', error);
+                alert('❌ Failed to apply sync settings');
+            }
+        }
     </script>
 </body>
 </html>

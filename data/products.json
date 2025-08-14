@@ -48,8 +48,13 @@
     "sourceUrl": "https://www.ebay.com/itm/336117028139",
     "buyLink": "https://www.ebay.com/itm/336117028139",
     "dateAdded": "2025-08-12T09:09:05.492Z",
-    "dateModified": "2025-08-13T05:47:47.561Z",
-    "isVintage": false
+    "dateModified": "2025-08-14T17:13:28.592Z",
+    "isVintage": false,
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 18,
+    "buyerInfo": "eBay Customer",
+    "autoDetectedSold": true
   },
   {
     "id": 1754989745798,
@@ -71,7 +76,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336087988476",
     "buyLink": "https://www.ebay.com/itm/336087988476",
-    "dateAdded": "2025-08-12T09:09:05.798Z"
+    "dateAdded": "2025-08-12T09:09:05.798Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 30,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:13:30.581Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754989747971,
@@ -88,7 +99,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336070690756",
     "buyLink": "https://www.ebay.com/itm/336070690756",
-    "dateAdded": "2025-08-12T09:09:07.971Z"
+    "dateAdded": "2025-08-12T09:09:07.971Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 10,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:13:32.519Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754989748138,
@@ -110,7 +127,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336087137604",
     "buyLink": "https://www.ebay.com/itm/336087137604",
-    "dateAdded": "2025-08-12T09:09:08.138Z"
+    "dateAdded": "2025-08-12T09:09:08.138Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 19,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:13:34.346Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754989750107,
@@ -132,7 +155,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336070687246",
     "buyLink": "https://www.ebay.com/itm/336070687246",
-    "dateAdded": "2025-08-12T09:09:10.107Z"
+    "dateAdded": "2025-08-12T09:09:10.107Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 35,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:13:36.303Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754989750113,
@@ -154,7 +183,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336117029909",
     "buyLink": "https://www.ebay.com/itm/336117029909",
-    "dateAdded": "2025-08-12T09:09:10.113Z"
+    "dateAdded": "2025-08-12T09:09:10.113Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 22.5,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:13:38.119Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754989750226,
@@ -176,7 +211,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336070692434",
     "buyLink": "https://www.ebay.com/itm/336070692434",
-    "dateAdded": "2025-08-12T09:09:10.226Z"
+    "dateAdded": "2025-08-12T09:09:10.226Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 15.5,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:13:40.164Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754989752152,
@@ -198,7 +239,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336087173986",
     "buyLink": "https://www.ebay.com/itm/336087173986",
-    "dateAdded": "2025-08-12T09:09:12.152Z"
+    "dateAdded": "2025-08-12T09:09:12.152Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 15,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:13:41.879Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754989752296,
@@ -220,7 +267,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336082304776",
     "buyLink": "https://www.ebay.com/itm/336082304776",
-    "dateAdded": "2025-08-12T09:09:12.296Z"
+    "dateAdded": "2025-08-12T09:09:12.296Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 20,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:13:43.930Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754989752581,
@@ -242,7 +295,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336087195978",
     "buyLink": "https://www.ebay.com/itm/336087195978",
-    "dateAdded": "2025-08-12T09:09:12.581Z"
+    "dateAdded": "2025-08-12T09:09:12.581Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 30,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:13:45.749Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754989754582,
@@ -264,7 +323,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336087173097",
     "buyLink": "https://www.ebay.com/itm/336087173097",
-    "dateAdded": "2025-08-12T09:09:14.582Z"
+    "dateAdded": "2025-08-12T09:09:14.582Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 13,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:13:47.603Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754989754679,
@@ -286,7 +351,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336087168739",
     "buyLink": "https://www.ebay.com/itm/336087168739",
-    "dateAdded": "2025-08-12T09:09:14.679Z"
+    "dateAdded": "2025-08-12T09:09:14.679Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 17,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:13:49.599Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754989754832,
@@ -308,7 +379,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336082298815",
     "buyLink": "https://www.ebay.com/itm/336082298815",
-    "dateAdded": "2025-08-12T09:09:14.832Z"
+    "dateAdded": "2025-08-12T09:09:14.832Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 22.55,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:13:51.686Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754989756822,
@@ -330,7 +407,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336088003303",
     "buyLink": "https://www.ebay.com/itm/336088003303",
-    "dateAdded": "2025-08-12T09:09:16.822Z"
+    "dateAdded": "2025-08-12T09:09:16.822Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 21.5,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:13:53.557Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990272796,
@@ -352,7 +435,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120899211",
     "buyLink": "https://www.ebay.com/itm/336120899211",
-    "dateAdded": "2025-08-12T09:17:52.796Z"
+    "dateAdded": "2025-08-12T09:17:52.796Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 98.59,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:13:55.488Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990276998,
@@ -374,7 +463,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120829715",
     "buyLink": "https://www.ebay.com/itm/336120829715",
-    "dateAdded": "2025-08-12T09:17:56.998Z"
+    "dateAdded": "2025-08-12T09:17:56.998Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 74.4,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:13:57.327Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990281317,
@@ -396,7 +491,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120884036",
     "buyLink": "https://www.ebay.com/itm/336120884036",
-    "dateAdded": "2025-08-12T09:18:01.317Z"
+    "dateAdded": "2025-08-12T09:18:01.317Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 68.59,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:13:59.437Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990285818,
@@ -418,7 +519,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120848268",
     "buyLink": "https://www.ebay.com/itm/336120848268",
-    "dateAdded": "2025-08-12T09:18:05.818Z"
+    "dateAdded": "2025-08-12T09:18:05.818Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 55.8,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:01.251Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990289851,
@@ -440,7 +547,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120819177",
     "buyLink": "https://www.ebay.com/itm/336120819177",
-    "dateAdded": "2025-08-12T09:18:09.851Z"
+    "dateAdded": "2025-08-12T09:18:09.851Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 99.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:03.286Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990293887,
@@ -462,7 +575,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120826110",
     "buyLink": "https://www.ebay.com/itm/336120826110",
-    "dateAdded": "2025-08-12T09:18:13.887Z"
+    "dateAdded": "2025-08-12T09:18:13.887Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 69.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:05.307Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990297667,
@@ -484,7 +603,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120902353",
     "buyLink": "https://www.ebay.com/itm/336120902353",
-    "dateAdded": "2025-08-12T09:18:17.667Z"
+    "dateAdded": "2025-08-12T09:18:17.667Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 19.68,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:06.989Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990301745,
@@ -506,7 +631,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120820990",
     "buyLink": "https://www.ebay.com/itm/336120820990",
-    "dateAdded": "2025-08-12T09:18:21.745Z"
+    "dateAdded": "2025-08-12T09:18:21.745Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 49.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:08.992Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990305780,
@@ -528,7 +659,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120807435",
     "buyLink": "https://www.ebay.com/itm/336120807435",
-    "dateAdded": "2025-08-12T09:18:25.780Z"
+    "dateAdded": "2025-08-12T09:18:25.780Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 99.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:10.898Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990309801,
@@ -550,7 +687,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120868577",
     "buyLink": "https://www.ebay.com/itm/336120868577",
-    "dateAdded": "2025-08-12T09:18:29.801Z"
+    "dateAdded": "2025-08-12T09:18:29.801Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 68.9,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:12.780Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990313998,
@@ -572,7 +715,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120890415",
     "buyLink": "https://www.ebay.com/itm/336120890415",
-    "dateAdded": "2025-08-12T09:18:33.998Z"
+    "dateAdded": "2025-08-12T09:18:33.998Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 38.59,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:14.634Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990319039,
@@ -594,7 +743,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120861469",
     "buyLink": "https://www.ebay.com/itm/336120861469",
-    "dateAdded": "2025-08-12T09:18:39.039Z"
+    "dateAdded": "2025-08-12T09:18:39.039Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 59.26,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:16.838Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990324003,
@@ -616,7 +771,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120802099",
     "buyLink": "https://www.ebay.com/itm/336120802099",
-    "dateAdded": "2025-08-12T09:18:44.003Z"
+    "dateAdded": "2025-08-12T09:18:44.003Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 25,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:18.932Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990329091,
@@ -638,7 +799,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120823877",
     "buyLink": "https://www.ebay.com/itm/336120823877",
-    "dateAdded": "2025-08-12T09:18:49.091Z"
+    "dateAdded": "2025-08-12T09:18:49.091Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 69.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:21.050Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990333866,
@@ -660,7 +827,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120873074",
     "buyLink": "https://www.ebay.com/itm/336120873074",
-    "dateAdded": "2025-08-12T09:18:53.866Z"
+    "dateAdded": "2025-08-12T09:18:53.866Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 19.8,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:22.926Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990337983,
@@ -682,7 +855,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120886775",
     "buyLink": "https://www.ebay.com/itm/336120886775",
-    "dateAdded": "2025-08-12T09:18:57.983Z"
+    "dateAdded": "2025-08-12T09:18:57.983Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 39.56,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:25.038Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990342985,
@@ -704,7 +883,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336087175895",
     "buyLink": "https://www.ebay.com/itm/336087175895",
-    "dateAdded": "2025-08-12T09:19:02.985Z"
+    "dateAdded": "2025-08-12T09:19:02.985Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 79.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:26.925Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990347918,
@@ -726,7 +911,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120816220",
     "buyLink": "https://www.ebay.com/itm/336120816220",
-    "dateAdded": "2025-08-12T09:19:07.918Z"
+    "dateAdded": "2025-08-12T09:19:07.918Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 29.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:28.702Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990352778,
@@ -748,7 +939,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120840899",
     "buyLink": "https://www.ebay.com/itm/336120840899",
-    "dateAdded": "2025-08-12T09:19:12.778Z"
+    "dateAdded": "2025-08-12T09:19:12.778Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 28.69,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:30.762Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990357018,
@@ -770,7 +967,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120878601",
     "buyLink": "https://www.ebay.com/itm/336120878601",
-    "dateAdded": "2025-08-12T09:19:17.018Z"
+    "dateAdded": "2025-08-12T09:19:17.018Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 28.56,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:32.797Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990361997,
@@ -792,7 +995,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120787044",
     "buyLink": "https://www.ebay.com/itm/336120787044",
-    "dateAdded": "2025-08-12T09:19:21.997Z"
+    "dateAdded": "2025-08-12T09:19:21.997Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 48.69,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:34.699Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990366844,
@@ -814,7 +1023,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120844314",
     "buyLink": "https://www.ebay.com/itm/336120844314",
-    "dateAdded": "2025-08-12T09:19:26.844Z"
+    "dateAdded": "2025-08-12T09:19:26.844Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 38.59,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:36.643Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990372968,
@@ -836,7 +1051,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120862983",
     "buyLink": "https://www.ebay.com/itm/336120862983",
-    "dateAdded": "2025-08-12T09:19:32.968Z"
+    "dateAdded": "2025-08-12T09:19:32.968Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 28.56,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:38.613Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990380162,
@@ -858,7 +1079,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120755136",
     "buyLink": "https://www.ebay.com/itm/336120755136",
-    "dateAdded": "2025-08-12T09:19:40.162Z"
+    "dateAdded": "2025-08-12T09:19:40.162Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 49.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:40.773Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990386791,
@@ -880,7 +1107,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120812581",
     "buyLink": "https://www.ebay.com/itm/336120812581",
-    "dateAdded": "2025-08-12T09:19:46.791Z"
+    "dateAdded": "2025-08-12T09:19:46.791Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 19.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:42.841Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990392983,
@@ -902,7 +1135,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120856718",
     "buyLink": "https://www.ebay.com/itm/336120856718",
-    "dateAdded": "2025-08-12T09:19:52.983Z"
+    "dateAdded": "2025-08-12T09:19:52.983Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 36.59,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:44.780Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990399909,
@@ -924,7 +1163,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120790159",
     "buyLink": "https://www.ebay.com/itm/336120790159",
-    "dateAdded": "2025-08-12T09:19:59.909Z"
+    "dateAdded": "2025-08-12T09:19:59.909Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 29.58,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:46.612Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990407074,
@@ -946,7 +1191,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120853803",
     "buyLink": "https://www.ebay.com/itm/336120853803",
-    "dateAdded": "2025-08-12T09:20:07.074Z"
+    "dateAdded": "2025-08-12T09:20:07.074Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 28.69,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:48.397Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990414070,
@@ -968,7 +1219,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120864387",
     "buyLink": "https://www.ebay.com/itm/336120864387",
-    "dateAdded": "2025-08-12T09:20:14.070Z"
+    "dateAdded": "2025-08-12T09:20:14.070Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 28.96,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:50.312Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990420964,
@@ -990,7 +1247,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120783174",
     "buyLink": "https://www.ebay.com/itm/336120783174",
-    "dateAdded": "2025-08-12T09:20:20.964Z"
+    "dateAdded": "2025-08-12T09:20:20.964Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 39.86,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:52.135Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990428006,
@@ -1012,7 +1275,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120764913",
     "buyLink": "https://www.ebay.com/itm/336120764913",
-    "dateAdded": "2025-08-12T09:20:28.006Z"
+    "dateAdded": "2025-08-12T09:20:28.006Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 19.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:53.938Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990434031,
@@ -1034,7 +1303,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120814118",
     "buyLink": "https://www.ebay.com/itm/336120814118",
-    "dateAdded": "2025-08-12T09:20:34.031Z"
+    "dateAdded": "2025-08-12T09:20:34.031Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 31.2,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:55.997Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990440032,
@@ -1056,7 +1331,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120867055",
     "buyLink": "https://www.ebay.com/itm/336120867055",
-    "dateAdded": "2025-08-12T09:20:40.032Z"
+    "dateAdded": "2025-08-12T09:20:40.032Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 29.8,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:57.975Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990446143,
@@ -1078,7 +1359,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120761379",
     "buyLink": "https://www.ebay.com/itm/336120761379",
-    "dateAdded": "2025-08-12T09:20:46.143Z"
+    "dateAdded": "2025-08-12T09:20:46.143Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 19.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:14:59.857Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990452164,
@@ -1100,7 +1387,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120768617",
     "buyLink": "https://www.ebay.com/itm/336120768617",
-    "dateAdded": "2025-08-12T09:20:52.164Z"
+    "dateAdded": "2025-08-12T09:20:52.164Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 29.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:01.859Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990458172,
@@ -1122,7 +1415,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120813299",
     "buyLink": "https://www.ebay.com/itm/336120813299",
-    "dateAdded": "2025-08-12T09:20:58.172Z"
+    "dateAdded": "2025-08-12T09:20:58.172Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 14.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:03.719Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990464275,
@@ -1144,7 +1443,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120777134",
     "buyLink": "https://www.ebay.com/itm/336120777134",
-    "dateAdded": "2025-08-12T09:21:04.275Z"
+    "dateAdded": "2025-08-12T09:21:04.275Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 38.58,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:05.784Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990470313,
@@ -1166,7 +1471,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120761711",
     "buyLink": "https://www.ebay.com/itm/336120761711",
-    "dateAdded": "2025-08-12T09:21:10.313Z"
+    "dateAdded": "2025-08-12T09:21:10.313Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 38.45,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:07.801Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990476460,
@@ -1188,7 +1499,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120773578",
     "buyLink": "https://www.ebay.com/itm/336120773578",
-    "dateAdded": "2025-08-12T09:21:16.460Z"
+    "dateAdded": "2025-08-12T09:21:16.460Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 39.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:09.905Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990482507,
@@ -1210,7 +1527,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120756053",
     "buyLink": "https://www.ebay.com/itm/336120756053",
-    "dateAdded": "2025-08-12T09:21:22.507Z"
+    "dateAdded": "2025-08-12T09:21:22.507Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 29.45,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:11.913Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990488508,
@@ -1232,7 +1555,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120803329",
     "buyLink": "https://www.ebay.com/itm/336120803329",
-    "dateAdded": "2025-08-12T09:21:28.509Z"
+    "dateAdded": "2025-08-12T09:21:28.509Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 19.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:14.437Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990494475,
@@ -1254,7 +1583,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120880905",
     "buyLink": "https://www.ebay.com/itm/336120880905",
-    "dateAdded": "2025-08-12T09:21:34.475Z"
+    "dateAdded": "2025-08-12T09:21:34.475Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 19.58,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:16.432Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990503481,
@@ -1276,7 +1611,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120763495",
     "buyLink": "https://www.ebay.com/itm/336120763495",
-    "dateAdded": "2025-08-12T09:21:43.481Z"
+    "dateAdded": "2025-08-12T09:21:43.481Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 9.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:18.318Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990512616,
@@ -1298,7 +1639,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336117023573",
     "buyLink": "https://www.ebay.com/itm/336117023573",
-    "dateAdded": "2025-08-12T09:21:52.616Z"
+    "dateAdded": "2025-08-12T09:21:52.616Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 20,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:20.255Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990521980,
@@ -1320,7 +1667,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120794908",
     "buyLink": "https://www.ebay.com/itm/336120794908",
-    "dateAdded": "2025-08-12T09:22:01.980Z"
+    "dateAdded": "2025-08-12T09:22:01.980Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 39.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:22.208Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990531043,
@@ -1342,7 +1695,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120767943",
     "buyLink": "https://www.ebay.com/itm/336120767943",
-    "dateAdded": "2025-08-12T09:22:11.043Z"
+    "dateAdded": "2025-08-12T09:22:11.043Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 23.55,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:23.902Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990540126,
@@ -1364,7 +1723,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120772867",
     "buyLink": "https://www.ebay.com/itm/336120772867",
-    "dateAdded": "2025-08-12T09:22:20.126Z"
+    "dateAdded": "2025-08-12T09:22:20.126Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 29.25,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:25.847Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990549288,
@@ -1386,7 +1751,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336117031016",
     "buyLink": "https://www.ebay.com/itm/336117031016",
-    "dateAdded": "2025-08-12T09:22:29.288Z"
+    "dateAdded": "2025-08-12T09:22:29.288Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 21.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:27.890Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990586130,
@@ -1408,7 +1779,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336117046595",
     "buyLink": "https://www.ebay.com/itm/336117046595",
-    "dateAdded": "2025-08-12T09:23:06.130Z"
+    "dateAdded": "2025-08-12T09:23:06.130Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 14.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:29.821Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990595212,
@@ -1430,7 +1807,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336117036030",
     "buyLink": "https://www.ebay.com/itm/336117036030",
-    "dateAdded": "2025-08-12T09:23:15.212Z"
+    "dateAdded": "2025-08-12T09:23:15.212Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 8.54,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:31.920Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990631850,
@@ -1452,7 +1835,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120756609",
     "buyLink": "https://www.ebay.com/itm/336120756609",
-    "dateAdded": "2025-08-12T09:23:51.850Z"
+    "dateAdded": "2025-08-12T09:23:51.850Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 31.63,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:33.696Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990650286,
@@ -1474,7 +1863,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120758532",
     "buyLink": "https://www.ebay.com/itm/336120758532",
-    "dateAdded": "2025-08-12T09:24:10.286Z"
+    "dateAdded": "2025-08-12T09:24:10.286Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 18.47,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:35.705Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990668762,
@@ -1496,7 +1891,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336117033530",
     "buyLink": "https://www.ebay.com/itm/336117033530",
-    "dateAdded": "2025-08-12T09:24:28.762Z"
+    "dateAdded": "2025-08-12T09:24:28.762Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 25,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:37.849Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990678323,
@@ -1518,7 +1919,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336070692941",
     "buyLink": "https://www.ebay.com/itm/336070692941",
-    "dateAdded": "2025-08-12T09:24:38.323Z"
+    "dateAdded": "2025-08-12T09:24:38.323Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 9.29,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:39.848Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990691485,
@@ -1540,7 +1947,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120765524",
     "buyLink": "https://www.ebay.com/itm/336120765524",
-    "dateAdded": "2025-08-12T09:24:51.485Z"
+    "dateAdded": "2025-08-12T09:24:51.485Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 16,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:41.712Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990718069,
@@ -1562,7 +1975,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120767121",
     "buyLink": "https://www.ebay.com/itm/336120767121",
-    "dateAdded": "2025-08-12T09:25:18.069Z"
+    "dateAdded": "2025-08-12T09:25:18.069Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 22,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:43.660Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990731328,
@@ -1584,7 +2003,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120811440",
     "buyLink": "https://www.ebay.com/itm/336120811440",
-    "dateAdded": "2025-08-12T09:25:31.328Z"
+    "dateAdded": "2025-08-12T09:25:31.328Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 16.12,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:45.653Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990744548,
@@ -1606,7 +2031,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336117038825",
     "buyLink": "https://www.ebay.com/itm/336117038825",
-    "dateAdded": "2025-08-12T09:25:44.548Z"
+    "dateAdded": "2025-08-12T09:25:44.548Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 25.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:47.659Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990770949,
@@ -1628,7 +2059,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336087194886",
     "buyLink": "https://www.ebay.com/itm/336087194886",
-    "dateAdded": "2025-08-12T09:26:10.949Z"
+    "dateAdded": "2025-08-12T09:26:10.949Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 10,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:49.778Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990797633,
@@ -1650,7 +2087,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120769680",
     "buyLink": "https://www.ebay.com/itm/336120769680",
-    "dateAdded": "2025-08-12T09:26:37.633Z"
+    "dateAdded": "2025-08-12T09:26:37.633Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 15,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:51.852Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990810839,
@@ -1672,7 +2115,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336117032160",
     "buyLink": "https://www.ebay.com/itm/336117032160",
-    "dateAdded": "2025-08-12T09:26:50.839Z"
+    "dateAdded": "2025-08-12T09:26:50.839Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 25,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:53.894Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990824205,
@@ -1694,7 +2143,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336082301525",
     "buyLink": "https://www.ebay.com/itm/336082301525",
-    "dateAdded": "2025-08-12T09:27:04.205Z"
+    "dateAdded": "2025-08-12T09:27:04.205Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 20.82,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:55.744Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990837566,
@@ -1716,7 +2171,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336118847127",
     "buyLink": "https://www.ebay.com/itm/336118847127",
-    "dateAdded": "2025-08-12T09:27:17.566Z"
+    "dateAdded": "2025-08-12T09:27:17.566Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 38.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:57.557Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990850719,
@@ -1738,7 +2199,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336117183131",
     "buyLink": "https://www.ebay.com/itm/336117183131",
-    "dateAdded": "2025-08-12T09:27:30.719Z"
+    "dateAdded": "2025-08-12T09:27:30.719Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 14.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:15:59.506Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990877465,
@@ -1760,7 +2227,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336120765968",
     "buyLink": "https://www.ebay.com/itm/336120765968",
-    "dateAdded": "2025-08-12T09:27:57.465Z"
+    "dateAdded": "2025-08-12T09:27:57.465Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 14.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:16:01.474Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990917199,
@@ -1782,7 +2255,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336082312089",
     "buyLink": "https://www.ebay.com/itm/336082312089",
-    "dateAdded": "2025-08-12T09:28:37.199Z"
+    "dateAdded": "2025-08-12T09:28:37.199Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 30,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:16:03.563Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990930322,
@@ -1804,7 +2283,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336096966415",
     "buyLink": "https://www.ebay.com/itm/336096966415",
-    "dateAdded": "2025-08-12T09:28:50.322Z"
+    "dateAdded": "2025-08-12T09:28:50.322Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 39.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:16:05.233Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990958024,
@@ -1826,7 +2311,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336082303205",
     "buyLink": "https://www.ebay.com/itm/336082303205",
-    "dateAdded": "2025-08-12T09:29:18.024Z"
+    "dateAdded": "2025-08-12T09:29:18.024Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 40,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:16:07.103Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990971995,
@@ -1848,7 +2339,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336082315335",
     "buyLink": "https://www.ebay.com/itm/336082315335",
-    "dateAdded": "2025-08-12T09:29:31.995Z"
+    "dateAdded": "2025-08-12T09:29:31.995Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 49.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:16:09.009Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754990986096,
@@ -1870,7 +2367,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336068804579",
     "buyLink": "https://www.ebay.com/itm/336068804579",
-    "dateAdded": "2025-08-12T09:29:46.096Z"
+    "dateAdded": "2025-08-12T09:29:46.096Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 12.5,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:16:10.688Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754991000378,
@@ -1892,7 +2395,13 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336087180277",
     "buyLink": "https://www.ebay.com/itm/336087180277",
-    "dateAdded": "2025-08-12T09:30:00.378Z"
+    "dateAdded": "2025-08-12T09:30:00.378Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 25.92,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:16:12.800Z",
+    "autoDetectedSold": true
   },
   {
     "id": 1754991054219,
@@ -1914,6 +2423,12 @@
     ],
     "sourceUrl": "https://www.ebay.com/itm/336117043372",
     "buyLink": "https://www.ebay.com/itm/336117043372",
-    "dateAdded": "2025-08-12T09:30:54.219Z"
+    "dateAdded": "2025-08-12T09:30:54.219Z",
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 19.99,
+    "buyerInfo": "eBay Customer",
+    "dateModified": "2025-08-14T17:16:14.613Z",
+    "autoDetectedSold": true
   }
 ]

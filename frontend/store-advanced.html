@@ -1343,8 +1343,83 @@
             }, 16); // ~60fps
         });
 
-        // Load products when page loads
-        document.addEventListener('DOMContentLoaded', loadProducts);
+        // Store settings management
+        let storeSettings = {
+            sortOrder: 'price-low-high',
+            displayStyle: 'grid',
+            itemsPerPage: '24',
+            defaultCategory: 'all'
+        };
+
+        // Load store settings from backend
+        async function loadStoreSettings() {
+            try {
+                const response = await fetch('/api/store-settings');
+                if (response.ok) {
+                    const settings = await response.json();
+                    storeSettings = { ...storeSettings, ...settings };
+                    console.log('📊 Loaded store settings:', storeSettings);
+                    applyStoreSettings();
+                }
+            } catch (error) {
+                console.log('⚙️ Using default store settings:', error.message);
+            }
+        }
+
+        // Apply store settings to the store display
+        function applyStoreSettings() {
+            // Apply sorting if products are loaded
+            if (allProducts && allProducts.length > 0) {
+                applySortingToStore();
+            }
+            
+            // Apply display style and items per page
+            applyDisplaySettings();
+        }
+
+        // Apply sorting to store products
+        function applySortingToStore() {
+            if (allProducts && allProducts.length > 0) {
+                filteredProducts = sortStoreProducts([...allProducts], storeSettings.sortOrder);
+                displayProducts();
+                updateProductsCount();
+                console.log(`🔄 Applied ${storeSettings.sortOrder} sorting to ${filteredProducts.length} products`);
+            }
+        }
+
+        // Sort products based on store settings
+        function sortStoreProducts(products, sortOrder) {
+            switch (sortOrder) {
+                case 'price-low-high':
+                    return products.sort((a, b) => (a.price || 0) - (b.price || 0));
+                case 'price-high-low':
+                    return products.sort((a, b) => (b.price || 0) - (a.price || 0));
+                case 'name-az':
+                    return products.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+                case 'name-za':
+                    return products.sort((a, b) => (b.name || '').localeCompare(a.name || ''));
+                case 'date-newest':
+                    return products.sort((a, b) => new Date(b.dateAdded || 0) - new Date(a.dateAdded || 0));
+                case 'date-oldest':
+                    return products.sort((a, b) => new Date(a.dateAdded || 0) - new Date(b.dateAdded || 0));
+                case 'category':
+                    return products.sort((a, b) => (a.category || '').localeCompare(b.category || ''));
+                default:
+                    return products;
+            }
+        }
+
+        // Apply display settings (grid style, items per page)
+        function applyDisplaySettings() {
+            // This can be extended to apply grid/list view and items per page
+            console.log(`🎨 Display style: ${storeSettings.displayStyle}, Items per page: ${storeSettings.itemsPerPage}`);
+        }
+
+        // Load products and settings when page loads
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadStoreSettings();
+            await loadProducts();
+        });
 
         // 🚀 Client-Side Pre-warming & Keep-Alive System
         function preWarmServer() {

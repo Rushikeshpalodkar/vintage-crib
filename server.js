@@ -51,6 +51,11 @@ let analytics = {
     lastVisits: []
 };
 
+// Auto-sync system variables
+let syncInterval = null;
+let syncInProgress = false;
+let lastAutoSyncTime = null;
+
 // Middleware
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
@@ -85,6 +90,8 @@ app.use((req, res, next) => {
 // Data file paths
 const DATA_FILE = path.join(__dirname, 'data', 'products.json');
 const SETTINGS_FILE = path.join(__dirname, 'data', 'store-settings.json');
+const SYNC_SETTINGS_FILE = path.join(__dirname, 'data', 'sync-settings.json');
+const SYNC_LOG_FILE = path.join(__dirname, 'data', 'sync-log.json');
 
 // Helper functions with caching
 async function readProducts() {
@@ -141,6 +148,293 @@ async function readStoreSettings() {
 async function writeStoreSettings(settings) {
     settings.lastUpdated = new Date().toISOString();
     await fs.writeFile(SETTINGS_FILE, JSON.stringify(settings, null, 2));
+}
+
+// Sync settings helper functions
+async function readSyncSettings() {
+    try {
+        const data = await fs.readFile(SYNC_SETTINGS_FILE, 'utf8');
+        return JSON.parse(data);
+    } catch (error) {
+        console.log('📁 Creating default sync settings file');
+        const defaultSyncSettings = {
+            autoSyncEnabled: true,
+            syncIntervalMinutes: 60, // Sync every hour
+            lastSyncTime: null,
+            syncTypes: {
+                soldStatus: true,
+                priceChanges: true,
+                productUpdates: true
+            },
+            retrySettings: {
+                maxRetries: 3,
+                retryDelayMinutes: 5
+            },
+            createdAt: new Date().toISOString()
+        };
+        await writeSyncSettings(defaultSyncSettings);
+        return defaultSyncSettings;
+    }
+}
+
+async function writeSyncSettings(settings) {
+    settings.lastUpdated = new Date().toISOString();
+    await fs.writeFile(SYNC_SETTINGS_FILE, JSON.stringify(settings, null, 2));
+}
+
+// Sync log helper functions
+async function readSyncLog() {
+    try {
+        const data = await fs.readFile(SYNC_LOG_FILE, 'utf8');
+        return JSON.parse(data);
+    } catch (error) {
+        return { logs: [], stats: { totalSyncs: 0, successfulSyncs: 0, failedSyncs: 0 } };
+    }
+}
+
+async function writeSyncLog(logData) {
+    await fs.writeFile(SYNC_LOG_FILE, JSON.stringify(logData, null, 2));
+}
+
+async function addSyncLogEntry(entry) {
+    const logData = await readSyncLog();
+    logData.logs = logData.logs || [];
+    logData.stats = logData.stats || { totalSyncs: 0, successfulSyncs: 0, failedSyncs: 0 };
+    
+    // Add new log entry
+    logData.logs.unshift({
+        ...entry,
+        timestamp: new Date().toISOString()
+    });
+    
+    // Keep only last 100 log entries
+    if (logData.logs.length > 100) {
+        logData.logs = logData.logs.slice(0, 100);
+    }
+    
+    // Update stats
+    logData.stats.totalSyncs++;
+    if (entry.status === 'success') {
+        logData.stats.successfulSyncs++;
+    } else if (entry.status === 'error') {
+        logData.stats.failedSyncs++;
+    }
+    
+    await writeSyncLog(logData);
+}
+
+// 🔄 COMPREHENSIVE AUTO-SYNC SYSTEM
+async function performAutoSync() {
+    if (syncInProgress) {
+        console.log('⏳ Sync already in progress, skipping...');
+        return;
+    }
+
+    syncInProgress = true;
+    const syncStartTime = new Date();
+    console.log('🚀 Starting automatic eBay sync at', syncStartTime.toLocaleString());
+
+    let syncResults = {
+        status: 'success',
+        startTime: syncStartTime.toISOString(),
+        endTime: null,
+        type: 'automatic',
+        itemsChecked: 0,
+        itemsSold: 0,
+        pricesUpdated: 0,
+        productsUpdated: 0,
+        errors: [],
+        details: []
+    };
+
+    try {
+        const syncSettings = await readSyncSettings();
+        
+        if (!syncSettings.autoSyncEnabled) {
+            console.log('⚠️ Auto-sync is disabled');
+            syncInProgress = false;
+            return;
+        }
+
+        if (!eBay) {
+            throw new Error('eBay API not available - running in demo mode');
+        }
+
+        const products = await readProducts();
+        const activeProducts = products.filter(p => !p.isSold);
+        
+        console.log(`📊 Found ${activeProducts.length} active products to sync`);
+
+        for (const product of activeProducts) {
+            const ebayItemId = extractEbayItemId(product.sourceUrl || product.buyLink);
+            if (!ebayItemId) continue;
+
+            try {
+                syncResults.itemsChecked++;
+                console.log(`🔍 Syncing ${syncResults.itemsChecked}/${activeProducts.length}: ${product.name}`);
+
+                // Try eBay API first
+                let itemData = null;
+                let itemAvailable = true;
+
+                try {
+                    itemData = await eBay.browse.getItem(ebayItemId);
+                    
+                    // Check if price changed
+                    if (syncSettings.syncTypes.priceChanges && itemData.price) {
+                        const newPrice = parseFloat(itemData.price.value || itemData.price);
+                        const currentPrice = parseFloat(product.price);
+                        
+                        if (Math.abs(newPrice - currentPrice) > 0.01) {
+                            console.log(`💰 Price change detected: ${product.name} ${currentPrice} → ${newPrice}`);
+                            product.price = newPrice;
+                            product.originalPrice = newPrice;
+                            product.priceUpdated = true;
+                            product.lastPriceUpdate = new Date().toISOString();
+                            syncResults.pricesUpdated++;
+                            
+                            syncResults.details.push({
+                                type: 'price_update',
+                                product: product.name,
+                                oldPrice: currentPrice,
+                                newPrice: newPrice
+                            });
+                        }
+                    }
+
+                    // Update product details if enabled
+                    if (syncSettings.syncTypes.productUpdates && itemData.title !== product.name) {
+                        console.log(`📝 Title update: ${product.name} → ${itemData.title}`);
+                        product.name = itemData.title;
+                        product.lastUpdated = new Date().toISOString();
+                        syncResults.productsUpdated++;
+                    }
+
+                } catch (apiError) {
+                    // If API fails, check if item is sold via web scraping
+                    console.log(`⚠️ API failed for ${ebayItemId}, checking via web scraping...`);
+                    
+                    try {
+                        const pageResponse = await axios.get(product.sourceUrl || product.buyLink, {
+                            timeout: 10000,
+                            headers: {
+                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                            }
+                        });
+                        
+                        const pageContent = pageResponse.data.toLowerCase();
+                        
+                        if (pageContent.includes('this listing has ended') || 
+                            pageContent.includes('no longer available') ||
+                            pageContent.includes('item not found') ||
+                            pageContent.includes('listing not found') ||
+                            (pageContent.includes('sold') && pageContent.includes('ended'))) {
+                            itemAvailable = false;
+                        }
+                    } catch (scrapeError) {
+                        // If both API and scraping fail, assume item might be sold
+                        if (scrapeError.response?.status === 404 || 
+                            scrapeError.message.includes('not found')) {
+                            itemAvailable = false;
+                        }
+                    }
+                }
+
+                // Mark item as sold if not available
+                if (!itemAvailable && syncSettings.syncTypes.soldStatus) {
+                    console.log(`🔴 Item detected as SOLD: ${product.name}`);
+                    
+                    product.isSold = true;
+                    product.soldDate = new Date().toISOString().split('T')[0];
+                    product.salePrice = product.price;
+                    product.buyerInfo = 'eBay Customer';
+                    product.dateModified = new Date().toISOString();
+                    product.autoDetectedSold = true;
+                    product.autoSyncDetected = true;
+                    
+                    syncResults.itemsSold++;
+                    syncResults.details.push({
+                        type: 'sold_detection',
+                        product: product.name,
+                        price: product.price
+                    });
+                }
+
+                // Rate limiting - small delay between requests
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+            } catch (error) {
+                console.error(`❌ Error syncing ${product.name}:`, error.message);
+                syncResults.errors.push({
+                    product: product.name,
+                    error: error.message
+                });
+            }
+        }
+
+        // Save updated products
+        if (syncResults.itemsSold > 0 || syncResults.pricesUpdated > 0 || syncResults.productsUpdated > 0) {
+            await writeProducts(products);
+            productCache = null; // Clear cache to force reload
+            console.log('💾 Products database updated with sync changes');
+        }
+
+        // Update sync settings
+        syncSettings.lastSyncTime = syncStartTime.toISOString();
+        await writeSyncSettings(syncSettings);
+
+        // Log results
+        const syncEndTime = new Date();
+        syncResults.endTime = syncEndTime.toISOString();
+        syncResults.duration = Math.round((syncEndTime - syncStartTime) / 1000);
+
+        console.log(`✅ Auto-sync completed in ${syncResults.duration}s:`);
+        console.log(`   📊 Items checked: ${syncResults.itemsChecked}`);
+        console.log(`   🔴 Items sold: ${syncResults.itemsSold}`);
+        console.log(`   💰 Prices updated: ${syncResults.pricesUpdated}`);
+        console.log(`   📝 Products updated: ${syncResults.productsUpdated}`);
+        console.log(`   ❌ Errors: ${syncResults.errors.length}`);
+
+        await addSyncLogEntry(syncResults);
+        lastAutoSyncTime = syncStartTime;
+
+    } catch (error) {
+        console.error('❌ Auto-sync failed:', error.message);
+        syncResults.status = 'error';
+        syncResults.endTime = new Date().toISOString();
+        syncResults.errors.push({ error: error.message });
+        await addSyncLogEntry(syncResults);
+    } finally {
+        syncInProgress = false;
+    }
+}
+
+// Initialize and start auto-sync system
+async function initializeAutoSync() {
+    try {
+        const syncSettings = await readSyncSettings();
+        
+        if (syncSettings.autoSyncEnabled) {
+            const intervalMs = syncSettings.syncIntervalMinutes * 60 * 1000;
+            
+            console.log(`🔄 Auto-sync enabled: every ${syncSettings.syncIntervalMinutes} minutes`);
+            
+            // Clear existing interval if any
+            if (syncInterval) {
+                clearInterval(syncInterval);
+            }
+            
+            // Set up new interval
+            syncInterval = setInterval(performAutoSync, intervalMs);
+            
+            // Perform initial sync after 30 seconds
+            setTimeout(performAutoSync, 30000);
+        } else {
+            console.log('⏸️ Auto-sync is disabled');
+        }
+    } catch (error) {
+        console.error('❌ Failed to initialize auto-sync:', error.message);
+    }
 }
 
 // API Routes
@@ -415,6 +709,135 @@ app.post('/api/store-settings', async (req, res) => {
     }
 });
 
+// 🔄 SYNC MANAGEMENT API ENDPOINTS
+
+// GET sync settings
+app.get('/api/sync-settings', async (req, res) => {
+    try {
+        console.log('⚙️ Getting sync settings');
+        const settings = await readSyncSettings();
+        res.json(settings);
+    } catch (error) {
+        console.error('❌ Error reading sync settings:', error);
+        res.status(500).json({ error: 'Failed to read sync settings' });
+    }
+});
+
+// POST sync settings
+app.post('/api/sync-settings', async (req, res) => {
+    try {
+        const newSettings = req.body;
+        console.log('⚙️ Updating sync settings:', newSettings);
+        
+        // Validate settings
+        const validSettings = {
+            autoSyncEnabled: newSettings.autoSyncEnabled !== undefined ? newSettings.autoSyncEnabled : true,
+            syncIntervalMinutes: Math.max(15, newSettings.syncIntervalMinutes || 60), // Min 15 minutes
+            syncTypes: {
+                soldStatus: newSettings.syncTypes?.soldStatus !== undefined ? newSettings.syncTypes.soldStatus : true,
+                priceChanges: newSettings.syncTypes?.priceChanges !== undefined ? newSettings.syncTypes.priceChanges : true,
+                productUpdates: newSettings.syncTypes?.productUpdates !== undefined ? newSettings.syncTypes.productUpdates : true
+            },
+            retrySettings: {
+                maxRetries: Math.min(10, newSettings.retrySettings?.maxRetries || 3), // Max 10 retries
+                retryDelayMinutes: Math.max(1, newSettings.retrySettings?.retryDelayMinutes || 5) // Min 1 minute
+            }
+        };
+        
+        // Get current settings to preserve some fields
+        const currentSettings = await readSyncSettings();
+        const updatedSettings = {
+            ...currentSettings,
+            ...validSettings
+        };
+        
+        await writeSyncSettings(updatedSettings);
+        
+        // Restart auto-sync with new settings
+        if (updatedSettings.autoSyncEnabled) {
+            console.log('🔄 Restarting auto-sync with new settings...');
+            await initializeAutoSync();
+        } else {
+            console.log('⏸️ Stopping auto-sync...');
+            if (syncInterval) {
+                clearInterval(syncInterval);
+                syncInterval = null;
+            }
+        }
+        
+        console.log('✅ Sync settings updated successfully');
+        res.json({
+            success: true,
+            message: 'Sync settings updated successfully',
+            settings: updatedSettings
+        });
+    } catch (error) {
+        console.error('❌ Error updating sync settings:', error);
+        res.status(500).json({ error: 'Failed to update sync settings' });
+    }
+});
+
+// GET sync status and logs
+app.get('/api/sync-status', async (req, res) => {
+    try {
+        console.log('📊 Getting sync status');
+        const logData = await readSyncLog();
+        const syncSettings = await readSyncSettings();
+        
+        res.json({
+            syncInProgress: syncInProgress,
+            lastAutoSyncTime: lastAutoSyncTime,
+            settings: syncSettings,
+            stats: logData.stats,
+            recentLogs: logData.logs.slice(0, 10) // Last 10 logs
+        });
+    } catch (error) {
+        console.error('❌ Error reading sync status:', error);
+        res.status(500).json({ error: 'Failed to read sync status' });
+    }
+});
+
+// GET detailed sync logs
+app.get('/api/sync-logs', async (req, res) => {
+    try {
+        console.log('📜 Getting sync logs');
+        const logData = await readSyncLog();
+        res.json(logData);
+    } catch (error) {
+        console.error('❌ Error reading sync logs:', error);
+        res.status(500).json({ error: 'Failed to read sync logs' });
+    }
+});
+
+// POST manual sync trigger
+app.post('/api/sync-trigger', async (req, res) => {
+    try {
+        console.log('🚀 Manual sync triggered');
+        
+        if (syncInProgress) {
+            return res.json({
+                success: false,
+                message: 'Sync already in progress',
+                syncInProgress: true
+            });
+        }
+        
+        // Start sync in background
+        performAutoSync().catch(error => {
+            console.error('❌ Manual sync failed:', error);
+        });
+        
+        res.json({
+            success: true,
+            message: 'Manual sync started',
+            syncInProgress: true
+        });
+        
+    } catch (error) {
+        console.error('❌ Error triggering manual sync:', error);
+        res.status(500).json({ error: 'Failed to trigger manual sync' });
+    }
+});
 
 // Extract product from URL
 app.post('/api/extract-product', async (req, res) => {
@@ -1914,6 +2337,9 @@ const server = app.listen(PORT, '0.0.0.0', async () => {
         
         // Start daily eBay sync scheduler
         startDailySyncScheduler();
+        
+        // Initialize comprehensive auto-sync system
+        await initializeAutoSync();
     } catch (error) {
         console.error('❌ Server startup error:', error.message);
     }

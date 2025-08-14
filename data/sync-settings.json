@@ -1,0 +1,16 @@
+{
+  "autoSyncEnabled": true,
+  "syncIntervalMinutes": 30,
+  "lastSyncTime": "2025-08-14T17:29:42.884Z",
+  "syncTypes": {
+    "soldStatus": true,
+    "priceChanges": false,
+    "productUpdates": true
+  },
+  "retrySettings": {
+    "maxRetries": 3,
+    "retryDelayMinutes": 5
+  },
+  "createdAt": "2025-08-14T17:28:45.402Z",
+  "lastUpdated": "2025-08-14T17:29:42.885Z"
+}
