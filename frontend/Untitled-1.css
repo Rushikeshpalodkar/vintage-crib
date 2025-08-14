@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rushikesh Palodkar - Where Fashion Meets Function</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --runway-gold: #D4AF37;
+            --fashion-black: #0A0A0A;
+            --tech-blue: #3B82F6;
+            --luxury-purple: #8B5CF6;
+            --premium-white: #FEFEFE;
+            --accent-pink: #EC4899;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--fashion-black);
+            color: var(--premium-white);
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--runway-gold);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.3s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor.hover {
+            transform: scale(2);
+            background: var(--runway-gold);
+            opacity: 0.8;
+        }
+
+        /* Runway Loading Animation */
+        .runway-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(45deg, var(--fashion-black), #1a1a1a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 1s ease;
+        }
+
+        .runway-loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .runway-lights {
+            display: flex;
+            gap: 20px;
+        }
+
+        .runway-light {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--runway-gold);
+            animation: runwayPulse 1.5s infinite;
+        }
+
+        .runway-light:nth-child(2) { animation-delay: 0.2s; }
+        .runway-light:nth-child(3) { animation-delay: 0.4s; }
+        .runway-light:nth-child(4) { animation-delay: 0.6s; }
+        .runway-light:nth-child(5) { animation-delay: 0.8s; }
+
+        @keyframes runwayPulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Hero Section - Digital Runway */
+        .hero {
+            min-height: 100vh;
+            position: relative;
+            background: linear-gradient(135deg, var(--fashion-black) 0%, #1a1a2e 50%, var(--fashion-black) 100%);
+            overflow: hidden;
+        }
+
+        .runway-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, transparent 48%, var(--runway-gold) 49%, var(--runway-gold) 51%, transparent 52%),
+                linear-gradient(0deg, transparent 0%, rgba(212, 175, 55, 0.1) 50%, transparent 100%);
+            animation: runwayMove 10s linear infinite;
+        }
+
+        @keyframes runwayMove {
+            0% { transform: translateY(100vh); }
+            100% { transform: translateY(-100vh); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero-text {
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero-tagline {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--runway-gold);
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, var(--premium-white), var(--runway-gold), var(--tech-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            animation: fadeInUp 1s ease 1s forwards;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 1.5s forwards;
+        }
+
+        .runway-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(45deg, var(--runway-gold), #FFD700);
+            color: var(--fashion-black);
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease 2s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .runway-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .runway-cta:hover::before {
+            left: 100%;
+        }
+
+        .runway-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* About Section - Split Screen Story */
+        .about-section {
+            padding: 150px 0;
+            background: linear-gradient(135deg, #0f0f23 0%, var(--fashion-black) 100%);
+        }
+
+        .about-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 50px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .about-story {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #E5E5E5;
+        }
+
+        .about-story h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--runway-gold);
+            margin-bottom: 30px;
+        }
+
+        .about-story .highlight {
+            color: var(--tech-blue);
+            font-weight: 600;
+        }
+
+        /* Interactive Tech Closet */
+        .tech-closet {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid var(--runway-gold);
+        }
+
+        .closet-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--runway-gold);
+            margin-bottom: 40px;
+        }
+
+        .skill-hangers {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .skill-hanger {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px 15px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid transparent;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-hanger::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--runway-gold), transparent);
+            opacity: 0.1;
+            transition: left 0.6s ease;
+        }
+
+        .skill-hanger:hover::before {
+            left: 100%;
+        }
+
+        .skill-hanger:hover {
+            transform: translateY(-10px);
+            border-color: var(--runway-gold);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
+        }
+
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .skill-name {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .skill-level {
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .skill-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--tech-blue), var(--runway-gold));
+            width: 0%;
+            transition: width 2s ease;
+            border-radius: 2px;
+        }
+
+        .skill-hanger:hover .skill-fill {
+            width: var(--skill-percentage);
+        }
+
+        /* Portfolio Runway Show */
+        .portfolio-section {
+            padding: 150px 0;
+            background: var(--fashion-black);
+            overflow: hidden;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--runway-gold);
+            margin-bottom: 80px;
+        }
+
+        .runway-track {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            background: linear-gradient(90deg, transparent 48%, var(--runway-gold) 49%, var(--runway-gold) 51%, transparent 52%);
+            margin: 80px 0;
+        }
+
+        .project-models {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .project-card {
+            position: absolute;
+            width: 350px;
+            height: 500px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid var(--runway-gold);
+            transition: all 0.6s ease;
+            opacity: 0;
+            transform: translateX(100vw);
+            animation: modelWalk 20s linear infinite;
+        }
+
+        .project-card:nth-child(2) { animation-delay: 7s; }
+        .project-card:nth-child(3) { animation-delay: 14s; }
+
+        @keyframes modelWalk {
+            0% {
+                opacity: 0;
+                transform: translateX(100vw);
+            }
+            5% {
+                opacity: 1;
+            }
+            45% {
+                opacity: 1;
+                transform: translateX(calc(50vw - 175px));
+            }
+            55% {
+                opacity: 1;
+                transform: translateX(calc(50vw - 175px));
+            }
+            95% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-100vw);
+            }
+        }
+
+        .project-card:hover {
+            transform: translateX(calc(50vw - 175px)) scale(1.05);
+            animation-play-state: paused;
+        }
+
+        .project-number {
+            color: var(--runway-gold);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .project-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--premium-white);
+            margin-bottom: 20px;
+        }
+
+        .project-tech {
+            color: var(--tech-blue);
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+
+        .project-description {
+            color: #B0B0B0;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--runway-gold);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            transform: translateX(10px);
+        }
+
+        /* Innovation Demo */
+        .innovation-section {
+            padding: 150px 0;
+            background: linear-gradient(135deg, #0f0f23, #1a1a2e);
+        }
+
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 50px;
+            text-align: center;
+        }
+
+        .demo-showcase {
+            background: rgba(255,255,255,0.05);
+            border-radius: 30px;
+            padding: 60px;
+            border: 2px solid var(--runway-gold);
+            margin-top: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-showcase::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--runway-gold), transparent);
+            animation: scanLine 3s linear infinite;
+        }
+
+        @keyframes scanLine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .demo-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--runway-gold);
+            margin-bottom: 30px;
+        }
+
+        .demo-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .demo-btn {
+            background: linear-gradient(45deg, var(--tech-blue), var(--luxury-purple));
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .demo-output {
+            background: var(--fashion-black);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid var(--runway-gold);
+            display: none;
+            text-align: left;
+        }
+
+        /* VIP Contact Invitation */
+        .contact-section {
+            padding: 150px 0;
+            background: linear-gradient(135deg, var(--fashion-black), #0f0f23);
+            position: relative;
+        }
+
+        .contact-invitation {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 60px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 30px;
+            border: 3px solid var(--runway-gold);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-invitation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .invitation-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .invitation-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--runway-gold);
+            margin-bottom: 30px;
+        }
+
+        .invitation-subtitle {
+            font-size: 1.3rem;
+            color: #E5E5E5;
+            margin-bottom: 40px;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .contact-item {
+            background: rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .contact-item:hover {
+            border-color: var(--runway-gold);
+            transform: translateY(-5px);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .rsvp-button {
+            background: linear-gradient(45deg, var(--runway-gold), #FFD700);
+            color: var(--fashion-black);
+            padding: 20px 50px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rsvp-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .rsvp-button:hover::before {
+            left: 100%;
+        }
+
+        .rsvp-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 50px;
+                padding: 0 30px;
+            }
+
+            .skill-hangers {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .project-card {
+                width: 300px;
+                height: 450px;
+                padding: 30px;
+            }
+
+            .demo-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .contact-invitation {
+                margin: 0 20px;
+                padding: 50px 30px;
+            }
+
+            .invitation-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Performance Optimizations */
+        .will-change {
+            will-change: transform;
+        }
+
+        .gpu-accelerated {
+            transform: translateZ(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+
+    <!-- Runway Loader -->
+    <div class="runway-loader" id="loader">
+        <div class="runway-lights">
+            <div class="runway-light"></div>
+            <div class="runway-light"></div>
+            <div class="runway-light"></div>
+            <div class="runway-light"></div>
+            <div class="runway-light"></div>
+        </div>
+    </div>
+
+    <!-- Hero Section - Digital Runway -->
+    <section class="hero">
+        <div class="runway-background"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-tagline">Fashion meets Function • Code meets Couture</div>
+                <h1 class="hero-title">Rushikesh Palodkar</h1>
+                <div class="hero-subtitle">
+                    Where Technology Walks the Runway of Innovation
+                </div>
+                <a href="#about" class="runway-cta">
+                    <span>Enter the Show</span>
+                    <span>✨</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section - Split Screen Story -->
+    <section class="about-section" id="about">
+        <div class="about-container">
+            <div class="about-story">
+                <h2>The Designer Behind the Code</h2>
+                <p>
+                    From the <span class="highlight">trading floors of Nomura Holdings</span> to the creative studios of fashion-tech innovation, I've discovered that the best solutions emerge when <span class="highlight">analytical precision meets creative vision</span>.
+                </p>
+                <p>
+                    My journey began with <span class="highlight">high-performance algorithms</span> that reduced query latency by 40%, but my passion extends to building platforms where <span class="highlight">technology enhances human creativity</span>. Whether it's processing 100K+ academic records or developing fashion resale platforms, I see each project as a canvas where <span class="highlight">code becomes art</span>.
+                </p>
+                <p>
+                    Currently pursuing my CS degree at Queens College while running my own fashion-tech startup, I believe the future belongs to those who can bridge the gap between <span class="highlight">technical excellence and creative expression</span>.
+                </p>
+            </div>
+            
+            <div class="tech-closet">
+                <div class="closet-title">My Digital Wardrobe</div>
+                <div class="skill-hangers">
+                    <div class="skill-hanger" style="--skill-percentage: 95%">
+                        <span class="skill-icon">💻</span>
+                        <div class="skill-name">C++ & Python</div>
+                        <div class="skill-level">
+                            <div class="skill-fill"></div>
+                        </div>
+                    </div>
+                    <div class="skill-hanger" style="--skill-percentage: 90%">
+                        <span class="skill-icon">🗄️</span>
+                        <div class="skill-name">Database Systems</div>
+                        <div class="skill-level">
+                            <div class="skill-fill"></div>
+                        </div>
+                    </div>
+                    <div class="skill-hanger" style="--skill-percentage: 85%">
+                        <span class="skill-icon">⚛️</span>
+                        <div class="skill-name">React & APIs</div>
+                        <div class="skill-level">
+                            <div class="skill-fill"></div>
+                        </div>
+                    </div>
+                    <div class="skill-hanger" style="--skill-percentage: 88%">
+                        <span class="skill-icon">📊</span>
+                        <div class="skill-name">Data Analytics</div>
+                        <div class="skill-level">
+                            <div class="skill-fill"></div>
+                        </div>
+                    </div>
+                    <div class="skill-hanger" style="--skill-percentage: 92%">
+                        <span class="skill-icon">☁️</span>
+                        <div class="skill-name">Cloud Systems</div>
+                        <div class="skill-level">
+                            <div class="skill-fill"></div>
+                        </div>
+                    </div>
+                    <div class="skill-hanger" style="--skill-percentage: 87%">
+                        <span class="skill-icon">🎨</span>
+                        <div class="skill-name">Fashion-Tech</div>
+                        <div class="skill-level">
+                            <div class="skill-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Runway Show -->
+    <section class="portfolio-section" id="portfolio">
+        <h2 class="section-title">Projects on the Runway</h2>
+        
+        <div class="runway-track">
+            <div class="project-models">
+                <div class="project-card">
+                    <div class="project-number">01</div>
+                    <div class="project-title">Fashion-Tech E-Commerce Platform</div>
+                    <div class="project-tech">React • Spring Boot • PostgreSQL • eBay API</div>
+                    <div class="project-description">
+                        Revolutionary platform where fashion meets technology. Built with intelligent inventory management, real-time analytics, and seamless API integration for the modern fashion resale market.
+                    </div>
+                    <a href="#" class="project-link">
+                        View Collection →
+                    </a>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-number">02</div>
+                    <div class="project-title">Financial Risk Analytics Engine</div>
+                    <div class="project-tech">Python • Monte Carlo • CLI • Statistical Modeling</div>
+                    <div class="project-description">
+                        High-performance derivatives risk analysis using advanced statistical modeling. Features Monte Carlo simulations for stress testing with automated risk reporting for trading strategies.
+                    </div>
+                    <a href="#" class="project-link">
+                        Explore Analytics →
+                    </a>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-number">03</div>
+                    <div class="project-title">High-Performance Data Pipeline</div>
+                    <div class="project-tech">C++ • Python • PostgreSQL • ETL</div>
+                    <div class="project-description">
+                        Enterprise-grade data processing system handling 100K+ records weekly. Achieved 35% faster query response times through advanced optimization techniques and automated monitoring.
+                    </div>
+                    <a href="#" class="project-link">
+                        View Performance →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Innovation Demo -->
+    <section class="innovation-section" id="innovation">
+        <div class="demo-container">
+            <h2 class="section-title">Innovation Lab</h2>
+            
+            <div class="demo-showcase">
+                <div class="demo-title">Interactive Tech Demonstration</div>
+                <p style="color: #B0B0B0; font-size: 1.1rem; margin-bottom: 30px;">
+                    Experience the power of my technical skills through live demonstrations
+                </p>
+                
+                <div class="demo-buttons">
+                    <button class="demo-btn" onclick="demoDataProcessing()">
+                        📊 Data Processing
+                    </button>
+                    <button class="demo-btn" onclick="demoApiIntegration()">
+                        🔗 API Integration
+                    </button>
+                    <button class="demo-btn" onclick="demoPerformanceOptimization()">
+                        ⚡ Performance Optimization
+                    </button>
+                    <button class="demo-btn" onclick="demoFashionTech()">
+                        👗 Fashion-Tech Innovation
+                    </button>
+                </div>
+                
+                <div class="demo-output" id="demoOutput"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VIP Contact Invitation -->
+    <section class="contact-section" id="contact">
+        <div class="contact-invitation">
+            <div class="invitation-content">
+                <h2 class="invitation-title">You're Invited</h2>
+                <div class="invitation-subtitle">
+                    To an exclusive collaboration where innovation meets opportunity
+                </div>
+                
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div><strong>Email</strong></div>
+                        <div>rpalodkar15@gmail.com</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div><strong>Phone</strong></div>
+                        <div>(934) 949-8516</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">💼</div>
+                        <div><strong>LinkedIn</strong></div>
+                        <div>Professional Network</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">💻</div>
+                        <div><strong>GitHub</strong></div>
+                        <div>Code Portfolio</div>
+                    </div>
+                </div>
+                
+                <button class="rsvp-button" onclick="initiateCollaboration()">
+                    RSVP - Let's Create Together
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        let mouseX = 0, mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
+        });
+
+        // Cursor hover effects
+        const interactiveElements = document.querySelectorAll('button, a, .skill-hanger, .project-card');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // Runway Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 2000);
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for scroll animations
+        document.querySelectorAll('.about-story, .tech-closet, .demo-showcase, .contact-invitation').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(50px)';
+            el.style.transition = 'all 0.8s ease';
+            observer.observe(el);
+        });
+
+        // Demo Functions
+        function demoDataProcessing() {
+            const output = document.getElementById('demoOutput');
+            output.style.display = 'block';
+            output.innerHTML = `
+                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 30px; border-radius: 15px; border: 1px solid var(--runway-gold);">
+                    <h4 style="color: var(--runway-gold); margin-bottom: 20px;">📊 Real-Time Data Processing Showcase</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div style="background: rgba(59, 130, 246, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--tech-blue);">
+                            <strong style="color: var(--tech-blue);">ETL Pipeline Performance</strong><br>
+                            <div style="margin: 10px 0;">✅ Processing: 100,000+ records/week</div>
+                            <div>✅ Latency Reduction: 40%</div>
+                            <div>✅ Automated Forecasting: 60% time saved</div>
+                        </div>
+                        <div style="background: rgba(212, 175, 55, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--runway-gold);">
+                            <strong style="color: var(--runway-gold);">Database Optimization</strong><br>
+                            <div style="margin: 10px 0;">⚡ Query Speed: 35% faster</div>
+                            <div>🔄 CI/CD Implementation</div>
+                            <div>📈 99.9% System Reliability</div>
+                        </div>
+                    </div>
+                    <div style="background: var(--fashion-black); padding: 15px; border-radius: 8px; margin-top: 15px; font-family: 'Courier New', monospace; font-size: 0.9rem;">
+                        <span style="color: var(--tech-blue);">// Sample: PostgreSQL Query Optimization</span><br>
+                        <span style="color: var(--runway-gold);">SELECT</span> * <span style="color: var(--runway-gold);">FROM</span> academic_records <br>
+                        <span style="color: var(--runway-gold);">WHERE</span> indexed_column = <span style="color: #EC4899;">'optimized_value'</span><br>
+                        <span style="color: #10B981;">-- Result: 35% performance improvement</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function demoApiIntegration() {
+            const output = document.getElementById('demoOutput');
+            output.style.display = 'block';
+            output.innerHTML = `
+                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 30px; border-radius: 15px; border: 1px solid var(--runway-gold);">
+                    <h4 style="color: var(--runway-gold); margin-bottom: 20px;">🔗 Fashion-Tech API Integration</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                        <div style="background: rgba(139, 92, 246, 0.1); padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="color: var(--luxury-purple); font-size: 1.5rem; margin-bottom: 5px;">🛍️</div>
+                            <strong>eBay API</strong><br>
+                            <small>Product Listings</small>
+                        </div>
+                        <div style="background: rgba(59, 130, 246, 0.1); padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="color: var(--tech-blue); font-size: 1.5rem; margin-bottom: 5px;">💳</div>
+                            <strong>Payment Gateway</strong><br>
+                            <small>Secure Transactions</small>
+                        </div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="color: var(--accent-pink); font-size: 1.5rem; margin-bottom: 5px;">📊</div>
+                            <strong>Analytics API</strong><br>
+                            <small>User Engagement</small>
+                        </div>
+                        <div style="background: rgba(212, 175, 55, 0.1); padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="color: var(--runway-gold); font-size: 1.5rem; margin-bottom: 5px;">📦</div>
+                            <strong>Inventory API</strong><br>
+                            <small>Real-time Stock</small>
+                        </div>
+                    </div>
+                    <div style="background: var(--fashion-black); padding: 15px; border-radius: 8px; margin-top: 15px; font-family: 'Courier New', monospace; font-size: 0.9rem;">
+                        <span style="color: var(--tech-blue);">// Fashion Platform API Integration</span><br>
+                        <span style="color: var(--runway-gold);">const</span> fashionData = <span style="color: var(--runway-gold);">await</span> <span style="color: var(--accent-pink);">fetch</span>(<span style="color: #10B981;">'/api/products'</span>)<br>
+                        <span style="color: var(--runway-gold);">const</span> ebayListings = <span style="color: var(--runway-gold);">await</span> <span style="color: var(--accent-pink);">ebayAPI</span>.<span style="color: var(--tech-blue);">getProducts</span>()<br>
+                        <span style="color: #10B981;">// Seamless integration across platforms</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function demoPerformanceOptimization() {
+            const output = document.getElementById('demoOutput');
+            output.style.display = 'block';
+            output.innerHTML = `
+                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 30px; border-radius: 15px; border: 1px solid var(--runway-gold);">
+                    <h4 style="color: var(--runway-gold); margin-bottom: 20px;">⚡ Performance Optimization Showcase</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0;">
+                        <div style="background: rgba(239, 68, 68, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid #EF4444;">
+                            <strong style="color: #EF4444;">Before Optimization</strong><br>
+                            <div style="margin: 15px 0; line-height: 1.6;">
+                                🐌 Query Time: 2.8 seconds<br>
+                                📈 CPU Usage: 85%<br>
+                                💾 Memory: 4.2GB<br>
+                                🔄 Throughput: 1,000 req/min
+                            </div>
+                        </div>
+                        <div style="background: rgba(34, 197, 94, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid #22C55E;">
+                            <strong style="color: #22C55E;">After Optimization</strong><br>
+                            <div style="margin: 15px 0; line-height: 1.6;">
+                                🚀 Query Time: 1.8 seconds<br>
+                                📉 CPU Usage: 55%<br>
+                                💾 Memory: 2.1GB<br>
+                                🔄 Throughput: 5,000 req/min
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin: 20px 0; padding: 20px; background: rgba(212, 175, 55, 0.1); border-radius: 10px;">
+                        <strong style="color: var(--runway-gold); font-size: 1.3rem;">
+                            🎯 Performance Gains: 35% faster • 40% less latency • 99.9% reliability
+                        </strong>
+                    </div>
+                    <div style="background: var(--fashion-black); padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.9rem;">
+                        <span style="color: var(--tech-blue);">// C++ High-Performance Algorithm</span><br>
+                        <span style="color: var(--runway-gold);">std::vector&lt;Record&gt;</span> <span style="color: var(--accent-pink);">optimizedQuery</span>() {<br>
+                        &nbsp;&nbsp;<span style="color: var(--runway-gold);">return</span> <span style="color: var(--accent-pink);">parallelProcess</span>(<span style="color: var(--tech-blue);">data</span>);<br>
+                        }<br>
+                        <span style="color: #10B981;">// Result: 40% latency reduction</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function demoFashionTech() {
+            const output = document.getElementById('demoOutput');
+            output.style.display = 'block';
+            output.innerHTML = `
+                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 30px; border-radius: 15px; border: 1px solid var(--runway-gold);">
+                    <h4 style="color: var(--runway-gold); margin-bottom: 20px;">👗 Fashion-Tech Innovation Platform</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 25px; border-radius: 12px; text-align: center;">
+                            <div style="color: var(--accent-pink); font-size: 2.5rem; margin-bottom: 15px;">🔍</div>
+                            <strong>Smart Discovery</strong><br>
+                            <div style="margin-top: 10px; color: #B0B0B0; font-size: 0.9rem;">
+                                AI-powered fashion search and recommendation engine
+                            </div>
+                        </div>
+                        <div style="background: rgba(139, 92, 246, 0.1); padding: 25px; border-radius: 12px; text-align: center;">
+                            <div style="color: var(--luxury-purple); font-size: 2.5rem; margin-bottom: 15px;">📱</div>
+                            <strong>AR Try-On</strong><br>
+                            <div style="margin-top: 10px; color: #B0B0B0; font-size: 0.9rem;">
+                                Virtual fitting room with real-time visualization
+                            </div>
+                        </div>
+                        <div style="background: rgba(59, 130, 246, 0.1); padding: 25px; border-radius: 12px; text-align: center;">
+                            <div style="color: var(--tech-blue); font-size: 2.5rem; margin-bottom: 15px;">📊</div>
+                            <strong>Analytics Hub</strong><br>
+                            <div style="margin-top: 10px; color: #B0B0B0; font-size: 0.9rem;">
+                                Real-time market trends and user behavior insights
+                            </div>
+                        </div>
+                        <div style="background: rgba(212, 175, 55, 0.1); padding: 25px; border-radius: 12px; text-align: center;">
+                            <div style="color: var(--runway-gold); font-size: 2.5rem; margin-bottom: 15px;">🌱</div>
+                            <strong>Sustainability</strong><br>
+                            <div style="margin-top: 10px; color: #B0B0B0; font-size: 0.9rem;">
+                                Carbon footprint tracking and eco-friendly options
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background: var(--fashion-black); padding: 20px; border-radius: 10px; margin-top: 20px;">
+                        <div style="color: var(--runway-gold); margin-bottom: 15px; font-weight: 600;">🚀 Platform Features:</div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 0.9rem;">
+                            <div>✨ User Authentication & Profiles</div>
+                            <div>🛍️ Inventory Management System</div>
+                            <div>🔗 eBay API Integration</div>
+                            <div>📈 Analytics Dashboard</div>
+                            <div>💳 Secure Payment Processing</div>
+                            <div>📱 Mobile-Responsive Design</div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 25px; padding: 15px; background: rgba(212, 175, 55, 0.1); border-radius: 8px;">
+                        <strong style="color: var(--runway-gold);">
+                            🎯 Mission: Revolutionizing fashion retail through innovative technology solutions
+                        </strong>
+                    </div>
+                </div>
+            `;
+        }
+
+        function initiateCollaboration() {
+            const email = 'rpalodkar15@gmail.com';
+            const subject = 'VIP Collaboration Opportunity - Let\'s Create Together!';
+            const body = `Hello Rushikesh,
+
+I was impressed by your portfolio website and would love to discuss collaboration opportunities.
+
+Your unique blend of technical expertise and fashion-tech innovation caught my attention, particularly:
+- Your high-performance algorithms and database optimization skills
+- The innovative fashion-tech platform you've developed
+- Your experience with real-time data processing and API integrations
+
+I'm interested in exploring how we might work together on [PROJECT TYPE/OPPORTUNITY].
+
+Let's schedule a time to discuss how we can create something amazing together.
+
+Best regards,
+[Your Name]`;
+
+            window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        // Parallax effects for runway background
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const runwayBg = document.querySelector('.runway-background');
+            if (runwayBg) {
+                runwayBg.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // Add typing effect for hero tagline
+        function typeWriter(element, text, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
+            element.style.opacity = '1';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Initialize typing effect after page load
+        setTimeout(() => {
+            const tagline = document.querySelector('.hero-tagline');
+            if (tagline) {
+                typeWriter(tagline, 'Fashion meets Function • Code meets Couture', 80);
+            }
+        }, 3000);
+
+        // Add dynamic stats counter
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                element.innerHTML = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Trigger stats animation when in view
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateValue(entry.target, 0, 15, 2000); // 15 projects
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const sections = ['#about', '#portfolio', '#innovation', '#contact'];
+            const currentSection = Math.floor(window.scrollY / window.innerHeight);
+            
+            if (e.key === 'ArrowDown' && currentSection < sections.length - 1) {
+                document.querySelector(sections[currentSection + 1]).scrollIntoView({ behavior: 'smooth' });
+            } else if (e.key === 'ArrowUp' && currentSection > 0) {
+                document.querySelector(sections[currentSection - 1]).scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // Add Easter egg - Konami code
+        let konamiCode = [];
+        const konami = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+        
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.keyCode);
+            if (konamiCode.length > konami.length) {
+                konamiCode.shift();
+            }
+            if (konamiCode.toString() === konami.toString()) {
+                // Easter egg activated!
+                document.body.style.animation = 'rainbow 2s linear infinite';
+                setTimeout(() => {
+                    document.body.style.animation = '';
+                }, 5000);
+            }
+        });
+
+        // Add CSS for rainbow animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes rainbow {
+                0% { filter: hue-rotate(0deg); }
+                100% { filter: hue-rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Performance optimization: Lazy load images
+        const lazyImages = document.querySelectorAll('img[data-src]');
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.classList.remove('lazy');
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+
+        lazyImages.forEach(img => imageObserver.observe(img));
+
+        // Add accessibility improvements
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add skip link
+            const skipLink = document.createElement('a');
+            skipLink.href = '#about';
+            skipLink.textContent = 'Skip to main content';
+            skipLink.style.cssText = `
+                position: absolute;
+                top: -40px;
+                left: 6px;
+                background: var(--runway-gold);
+                color: var(--fashion-black);
+                padding: 8px;
+                text-decoration: none;
+                border-radius: 4px;
+                z-index: 10001;
+                transition: top 0.3s;
+            `;
+            skipLink.addEventListener('focus', () => {
+                skipLink.style.top = '6px';
+            });
+            skipLink.addEventListener('blur', () => {
+                skipLink.style.top = '-40px';
+            });
+            document.body.insertBefore(skipLink, document.body.firstChild);
+
+            // Add ARIA labels
+            document.querySelectorAll('.demo-btn').forEach((btn, index) => {
+                btn.setAttribute('aria-label', `Demo button ${index + 1}: ${btn.textContent}`);
+            });
+        });
+
+        console.log('🎭 Welcome to the Runway! Fashion meets Function, Code meets Couture.');
+        console.log('💻 Built with passion by Rushikesh Palodkar');
+        console.log('🚀 Try the Konami code for a surprise!');
+    </script>
+</body>
+</html>

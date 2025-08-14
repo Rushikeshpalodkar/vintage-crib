@@ -540,78 +540,458 @@
     </div>
 
     <script>
-        // Resume popup function
+        // Advanced Resume popup function with fashion-tech design
         function showResume() {
             const resumeContent = `
-                <div style="background: var(--glass-dark); backdrop-filter: var(--backdrop-blur); border: 2px solid var(--secondary); border-radius: 20px; padding: 3rem; color: var(--off-white); max-width: 600px; margin: 2rem auto; box-shadow: var(--shadow-3d-dark);">
-                    <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 2rem; color: var(--secondary); text-align: center;">
-                        <i class="fas fa-user-tie"></i> Rushikesh Palodkar
-                    </h3>
-                    
-                    <div style="text-align: center; margin-bottom: 2rem;">
-                        <p style="color: var(--accent); font-weight: 600; margin-bottom: 1rem;">Full-Stack Developer | Vintage Curation Specialist</p>
-                        <p style="color: var(--cream); margin-bottom: 1rem;">📧 rushikeshpalodkar@email.com | 🌐 Portfolio: rushikesh.dev</p>
+                <div style="
+                    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+                    backdrop-filter: blur(20px);
+                    border: 3px solid #D4AF37;
+                    border-radius: 30px;
+                    padding: 3rem;
+                    color: #FEFEFE;
+                    max-width: 90vw;
+                    max-height: 90vh;
+                    overflow-y: auto;
+                    margin: 2rem auto;
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 50px rgba(212, 175, 55, 0.3);
+                    position: relative;
+                    font-family: 'Inter', sans-serif;
+                ">
+                    <!-- Fashion-Tech Header -->
+                    <div style="text-align: center; margin-bottom: 3rem; position: relative;">
+                        <div style="
+                            position: absolute;
+                            top: -20px;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            width: 200px;
+                            height: 4px;
+                            background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+                            animation: scanLine 3s linear infinite;
+                        "></div>
+                        
+                        <div style="
+                            width: 120px;
+                            height: 120px;
+                            border-radius: 50%;
+                            background: linear-gradient(45deg, #D4AF37, #FFD700);
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            margin: 0 auto 2rem;
+                            font-size: 3rem;
+                            color: #0a0a0a;
+                            font-weight: 900;
+                            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+                            position: relative;
+                            overflow: hidden;
+                        ">
+                            <div style="
+                                position: absolute;
+                                top: 0;
+                                left: -100%;
+                                width: 100%;
+                                height: 100%;
+                                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+                                animation: shimmer 2s ease-in-out infinite;
+                            "></div>
+                            RP
+                        </div>
+                        
+                        <h3 style="
+                            font-family: 'Playfair Display', serif;
+                            font-size: 3rem;
+                            font-weight: 900;
+                            margin-bottom: 1rem;
+                            background: linear-gradient(45deg, #FEFEFE, #D4AF37, #3B82F6);
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                            background-clip: text;
+                        ">
+                            Rushikesh Palodkar
+                        </h3>
+                        
+                        <p style="
+                            color: #D4AF37;
+                            font-size: 1.3rem;
+                            font-weight: 600;
+                            margin-bottom: 1rem;
+                        ">
+                            Visionary Tech Entrepreneur | Fashion-Tech Innovation Pioneer
+                        </p>
+                        
+                        <p style="color: #B0B0B0; font-size: 1rem;">
+                            Where Technology Walks the Runway of Innovation
+                        </p>
                     </div>
                     
-                    <div style="margin-bottom: 2rem;">
-                        <h4 style="color: var(--primary); margin-bottom: 1rem; border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem;">💼 Professional Experience</h4>
-                        <ul style="color: var(--cream); line-height: 1.6; margin-left: 1rem;">
-                            <li>🚀 <strong>Vintage Crib</strong> - Founder & Lead Developer (2024-Present)</li>
-                            <li>💻 Full-Stack Development (React, Node.js, MongoDB)</li>
-                            <li>🤖 AI Integration & API Development</li>
-                            <li>🎨 3D UI/UX Design & Animation</li>
-                            <li>📊 E-commerce & Payment Integration</li>
-                        </ul>
+                    <!-- Contact & Networking Hub -->
+                    <div style="
+                        background: linear-gradient(135deg, #1a1a2e, #16213e);
+                        border-radius: 20px;
+                        padding: 2rem;
+                        margin-bottom: 2rem;
+                        border: 2px solid #D4AF37;
+                        position: relative;
+                        overflow: hidden;
+                    ">
+                        <div style="
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            height: 2px;
+                            background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+                            animation: scanLine 3s linear infinite;
+                        "></div>
+                        
+                        <h4 style="
+                            color: #D4AF37;
+                            font-size: 1.8rem;
+                            margin-bottom: 2rem;
+                            text-align: center;
+                            font-family: 'Playfair Display', serif;
+                        ">
+                            🤝 Let's Connect & Collaborate
+                        </h4>
+                        
+                        <div style="
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                            gap: 1.5rem;
+                            margin-bottom: 2rem;
+                        ">
+                            <div onclick="window.open('mailto:rpalodkar15@gmail.com?subject=Collaboration Opportunity&body=Hi Rushikesh, I found your portfolio impressive and would like to discuss collaboration opportunities.', '_blank')" style="
+                                background: rgba(59, 130, 246, 0.1);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                text-align: center;
+                                cursor: pointer;
+                                transition: all 0.3s ease;
+                                border: 1px solid transparent;
+                            " onmouseover="this.style.borderColor='#3B82F6'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='transparent'; this.style.transform='translateY(0)'">
+                                <div style="color: #3B82F6; font-size: 2rem; margin-bottom: 10px;">📧</div>
+                                <strong>Email</strong><br>
+                                <small>rpalodkar15@gmail.com</small>
+                            </div>
+                            
+                            <div onclick="window.open('tel:+19349498516', '_blank')" style="
+                                background: rgba(236, 72, 153, 0.1);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                text-align: center;
+                                cursor: pointer;
+                                transition: all 0.3s ease;
+                                border: 1px solid transparent;
+                            " onmouseover="this.style.borderColor='#EC4899'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='transparent'; this.style.transform='translateY(0)'">
+                                <div style="color: #EC4899; font-size: 2rem; margin-bottom: 10px;">📱</div>
+                                <strong>Phone</strong><br>
+                                <small>(934) 949-8516</small>
+                            </div>
+                            
+                            <div onclick="window.open('https://linkedin.com/in/rushikeshpalodkar', '_blank')" style="
+                                background: rgba(212, 175, 55, 0.1);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                text-align: center;
+                                cursor: pointer;
+                                transition: all 0.3s ease;
+                                border: 1px solid transparent;
+                            " onmouseover="this.style.borderColor='#D4AF37'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='transparent'; this.style.transform='translateY(0)'">
+                                <div style="color: #D4AF37; font-size: 2rem; margin-bottom: 10px;">💼</div>
+                                <strong>LinkedIn</strong><br>
+                                <small>Professional Network</small>
+                            </div>
+                            
+                            <div onclick="window.open('https://github.com/rushikeshpalodkar', '_blank')" style="
+                                background: rgba(139, 92, 246, 0.1);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                text-align: center;
+                                cursor: pointer;
+                                transition: all 0.3s ease;
+                                border: 1px solid transparent;
+                            " onmouseover="this.style.borderColor='#8B5CF6'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='transparent'; this.style.transform='translateY(0)'">
+                                <div style="color: #8B5CF6; font-size: 2rem; margin-bottom: 10px;">💻</div>
+                                <strong>GitHub</strong><br>
+                                <small>Code Portfolio</small>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <button onclick="scheduleNetworkingCall()" style="
+                                background: linear-gradient(45deg, #D4AF37, #FFD700);
+                                color: #0a0a0a;
+                                padding: 1rem 2.5rem;
+                                border: none;
+                                border-radius: 50px;
+                                font-size: 1.1rem;
+                                font-weight: 700;
+                                cursor: pointer;
+                                transition: all 0.4s ease;
+                                margin: 0 1rem;
+                                position: relative;
+                                overflow: hidden;
+                            " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 40px rgba(212, 175, 55, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                                🚀 Schedule Networking Call
+                            </button>
+                            
+                            <button onclick="downloadVCard()" style="
+                                background: linear-gradient(45deg, #3B82F6, #8B5CF6);
+                                color: white;
+                                padding: 1rem 2.5rem;
+                                border: none;
+                                border-radius: 50px;
+                                font-size: 1.1rem;
+                                font-weight: 700;
+                                cursor: pointer;
+                                transition: all 0.4s ease;
+                                margin: 0 1rem;
+                                position: relative;
+                                overflow: hidden;
+                            " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 40px rgba(59, 130, 246, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                                📇 Save Contact
+                            </button>
+                        </div>
                     </div>
                     
-                    <div style="margin-bottom: 2rem;">
-                        <h4 style="color: var(--primary); margin-bottom: 1rem; border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem;">🛠️ Technical Skills</h4>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; color: var(--cream);">
-                            <div>
-                                <strong>Frontend:</strong><br>
-                                React, Vue.js, JavaScript, CSS3, HTML5
+                    <!-- Professional Experience -->
+                    <div style="
+                        background: rgba(255,255,255,0.05);
+                        border-radius: 20px;
+                        padding: 2rem;
+                        margin-bottom: 2rem;
+                        border: 1px solid rgba(212, 175, 55, 0.3);
+                    ">
+                        <h4 style="
+                            color: #D4AF37;
+                            font-size: 1.5rem;
+                            margin-bottom: 2rem;
+                            border-bottom: 2px solid #D4AF37;
+                            padding-bottom: 0.5rem;
+                            font-family: 'Playfair Display', serif;
+                        ">
+                            💼 Professional Experience
+                        </h4>
+                        
+                        <div style="margin-bottom: 2rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                                <div>
+                                    <h5 style="color: #FEFEFE; font-size: 1.2rem; margin-bottom: 0.5rem;">🚀 Vintage Crib - Founder & Lead Developer</h5>
+                                    <p style="color: #D4AF37; font-weight: 600;">E-commerce Platform Development</p>
+                                </div>
+                                <span style="color: #3B82F6; font-weight: 600; font-size: 0.9rem;">2024-Present</span>
                             </div>
-                            <div>
-                                <strong>Backend:</strong><br>
-                                Node.js, Python, Express, MongoDB, SQL
+                            <ul style="color: #B0B0B0; line-height: 1.6; margin-left: 1rem;">
+                                <li>Built full-stack marketplace with React, Node.js, and MongoDB</li>
+                                <li>Integrated real-time eBay API with automated product synchronization</li>
+                                <li>Developed admin dashboard with analytics and inventory management</li>
+                                <li>Implemented 3D UI/UX design with responsive animations</li>
+                                <li>Achieved 99.9% uptime with optimized performance architecture</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-bottom: 2rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                                <div>
+                                    <h5 style="color: #FEFEFE; font-size: 1.2rem; margin-bottom: 0.5rem;">💼 Financial Systems Developer</h5>
+                                    <p style="color: #D4AF37; font-weight: 600;">High-Performance Algorithm Development</p>
+                                </div>
+                                <span style="color: #3B82F6; font-weight: 600; font-size: 0.9rem;">Experience</span>
                             </div>
-                            <div>
-                                <strong>Tools:</strong><br>
-                                Git, Docker, AWS, Vercel, Netlify
+                            <ul style="color: #B0B0B0; line-height: 1.6; margin-left: 1rem;">
+                                <li>Developed derivatives risk analysis using Monte Carlo simulations</li>
+                                <li>Optimized database queries achieving 40% latency reduction</li>
+                                <li>Built ETL pipelines processing 100K+ records weekly</li>
+                                <li>Implemented automated forecasting saving 60% processing time</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Skills Showcase -->
+                    <div style="
+                        background: linear-gradient(135deg, #1a1a2e, #16213e);
+                        border-radius: 20px;
+                        padding: 2rem;
+                        margin-bottom: 2rem;
+                        border: 2px solid #D4AF37;
+                    ">
+                        <h4 style="
+                            color: #D4AF37;
+                            font-size: 1.5rem;
+                            margin-bottom: 2rem;
+                            text-align: center;
+                            font-family: 'Playfair Display', serif;
+                        ">
+                            🎯 Technical Expertise
+                        </h4>
+                        
+                        <div style="
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                            gap: 1.5rem;
+                        ">
+                            <div style="
+                                background: rgba(59, 130, 246, 0.1);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                text-align: center;
+                                border: 1px solid rgba(59, 130, 246, 0.3);
+                            ">
+                                <div style="color: #3B82F6; font-size: 2.5rem; margin-bottom: 1rem;">💻</div>
+                                <h5 style="color: #FEFEFE; margin-bottom: 1rem;">Languages</h5>
+                                <p style="color: #B0B0B0; font-size: 0.9rem;">C++, Python, JavaScript, TypeScript, Java</p>
                             </div>
-                            <div>
-                                <strong>Design:</strong><br>
-                                3D Animation, UI/UX, Figma, Adobe Suite
+                            
+                            <div style="
+                                background: rgba(236, 72, 153, 0.1);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                text-align: center;
+                                border: 1px solid rgba(236, 72, 153, 0.3);
+                            ">
+                                <div style="color: #EC4899; font-size: 2.5rem; margin-bottom: 1rem;">⚛️</div>
+                                <h5 style="color: #FEFEFE; margin-bottom: 1rem;">Frameworks</h5>
+                                <p style="color: #B0B0B0; font-size: 0.9rem;">React, Node.js, Express, Spring Boot, FastAPI</p>
+                            </div>
+                            
+                            <div style="
+                                background: rgba(139, 92, 246, 0.1);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                text-align: center;
+                                border: 1px solid rgba(139, 92, 246, 0.3);
+                            ">
+                                <div style="color: #8B5CF6; font-size: 2.5rem; margin-bottom: 1rem;">🗄️</div>
+                                <h5 style="color: #FEFEFE; margin-bottom: 1rem;">Databases</h5>
+                                <p style="color: #B0B0B0; font-size: 0.9rem;">PostgreSQL, MongoDB, Redis, MySQL</p>
+                            </div>
+                            
+                            <div style="
+                                background: rgba(212, 175, 55, 0.1);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                text-align: center;
+                                border: 1px solid rgba(212, 175, 55, 0.3);
+                            ">
+                                <div style="color: #D4AF37; font-size: 2.5rem; margin-bottom: 1rem;">☁️</div>
+                                <h5 style="color: #FEFEFE; margin-bottom: 1rem;">Cloud & DevOps</h5>
+                                <p style="color: #B0B0B0; font-size: 0.9rem;">AWS, Docker, Kubernetes, CI/CD, Git</p>
                             </div>
                         </div>
                     </div>
                     
-                    <div style="margin-bottom: 2rem;">
-                        <h4 style="color: var(--primary); margin-bottom: 1rem; border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem;">🏆 Key Achievements</h4>
-                        <ul style="color: var(--cream); line-height: 1.6; margin-left: 1rem;">
-                            <li>🎯 Built Vintage Crib from concept to fully functional marketplace</li>
-                            <li>⚡ Developed real-time eBay API integration with auto-sync</li>
-                            <li>🎨 Created immersive 3D shopping experience</li>
-                            <li>🔧 Implemented comprehensive admin dashboard with analytics</li>
-                            <li>📱 Achieved 100% responsive design across all devices</li>
-                        </ul>
+                    <!-- Key Projects -->
+                    <div style="
+                        background: rgba(255,255,255,0.05);
+                        border-radius: 20px;
+                        padding: 2rem;
+                        margin-bottom: 2rem;
+                        border: 1px solid rgba(212, 175, 55, 0.3);
+                    ">
+                        <h4 style="
+                            color: #D4AF37;
+                            font-size: 1.5rem;
+                            margin-bottom: 2rem;
+                            border-bottom: 2px solid #D4AF37;
+                            padding-bottom: 0.5rem;
+                            font-family: 'Playfair Display', serif;
+                        ">
+                            🚀 Flagship Projects
+                        </h4>
+                        
+                        <div style="
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                            gap: 1.5rem;
+                        ">
+                            <div style="
+                                background: linear-gradient(135deg, #1a1a2e, #16213e);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                border: 1px solid #D4AF37;
+                            ">
+                                <h5 style="color: #D4AF37; margin-bottom: 1rem;">🏺 Vintage Crib Platform</h5>
+                                <p style="color: #B0B0B0; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                                    Revolutionary e-commerce platform with eBay API integration, real-time analytics, and 3D user experience.
+                                </p>
+                                <div style="color: #3B82F6; font-size: 0.8rem;">React • Node.js • MongoDB • eBay API</div>
+                            </div>
+                            
+                            <div style="
+                                background: linear-gradient(135deg, #1a1a2e, #16213e);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                border: 1px solid #D4AF37;
+                            ">
+                                <h5 style="color: #D4AF37; margin-bottom: 1rem;">📊 Financial Risk Engine</h5>
+                                <p style="color: #B0B0B0; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                                    High-performance derivatives risk analysis with Monte Carlo simulations and automated reporting.
+                                </p>
+                                <div style="color: #3B82F6; font-size: 0.8rem;">C++ • Python • PostgreSQL • Monte Carlo</div>
+                            </div>
+                            
+                            <div style="
+                                background: linear-gradient(135deg, #1a1a2e, #16213e);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                border: 1px solid #D4AF37;
+                            ">
+                                <h5 style="color: #D4AF37; margin-bottom: 1rem;">⚡ Data Pipeline System</h5>
+                                <p style="color: #B0B0B0; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                                    Enterprise ETL pipeline processing 100K+ records with 35% performance optimization.
+                                </p>
+                                <div style="color: #3B82F6; font-size: 0.8rem;">Python • C++ • PostgreSQL • ETL</div>
+                            </div>
+                        </div>
                     </div>
                     
+                    <!-- Action Buttons -->
                     <div style="text-align: center; margin-top: 2rem;">
-                        <a href="mailto:rushikeshpalodkar@email.com" style="background: var(--gradient-secondary); color: white; padding: 1rem 2rem; border-radius: 10px; text-decoration: none; margin: 0 1rem; display: inline-block; margin-bottom: 1rem;">
-                            <i class="fas fa-envelope"></i> Contact
-                        </a>
-                        <a href="#" style="background: var(--gradient-accent); color: var(--black); padding: 1rem 2rem; border-radius: 10px; text-decoration: none; margin: 0 1rem; display: inline-block; margin-bottom: 1rem;">
-                            <i class="fab fa-github"></i> GitHub Portfolio
-                        </a>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <button onclick="closeResume()" style="background: var(--gradient-primary); color: white; border: none; padding: 1rem 2rem; border-radius: 10px; cursor: pointer; font-weight: 600;">
-                            <i class="fas fa-times"></i> Close
+                        <button onclick="viewFullResume()" style="
+                            background: linear-gradient(45deg, #3B82F6, #8B5CF6);
+                            color: white;
+                            padding: 1rem 2.5rem;
+                            border: none;
+                            border-radius: 50px;
+                            font-size: 1.1rem;
+                            font-weight: 700;
+                            cursor: pointer;
+                            transition: all 0.4s ease;
+                            margin: 0 1rem 1rem;
+                        " onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                            📄 View Full Resume
+                        </button>
+                        
+                        <button onclick="closeResume()" style="
+                            background: linear-gradient(45deg, #D4AF37, #FFD700);
+                            color: #0a0a0a;
+                            padding: 1rem 2.5rem;
+                            border: none;
+                            border-radius: 50px;
+                            font-size: 1.1rem;
+                            font-weight: 700;
+                            cursor: pointer;
+                            transition: all 0.4s ease;
+                            margin: 0 1rem 1rem;
+                        " onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                            ✨ Close
                         </button>
                     </div>
                 </div>
+                
+                <style>
+                    @keyframes scanLine {
+                        0% { transform: translateX(-100%); }
+                        100% { transform: translateX(100%); }
+                    }
+                    
+                    @keyframes shimmer {
+                        0% { left: -100%; }
+                        100% { left: 100%; }
+                    }
+                </style>
             `;
             
             // Create overlay
@@ -648,6 +1028,64 @@
             if (overlay) {
                 overlay.remove();
             }
+        }
+        
+        // Advanced networking functions
+        function scheduleNetworkingCall() {
+            const calendlyUrl = 'https://calendly.com/rushikeshpalodkar';
+            const subject = 'Networking Call Request - Fashion-Tech Innovation Discussion';
+            const body = `Hello Rushikesh,
+
+I was impressed by your portfolio and would love to schedule a networking call to discuss:
+
+🚀 Your innovative work at Vintage Crib
+💼 Potential collaboration opportunities
+🎯 Fashion-tech industry insights
+📈 Technology and business strategy
+
+Please let me know your availability for a 30-minute call.
+
+Best regards!`;
+
+            // Try to open Calendly first, fallback to email
+            try {
+                window.open(calendlyUrl, '_blank');
+            } catch (e) {
+                window.open(`mailto:rpalodkar15@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
+            }
+        }
+        
+        function downloadVCard() {
+            const vCardData = `BEGIN:VCARD
+VERSION:3.0
+FN:Rushikesh Palodkar
+N:Palodkar;Rushikesh;;;
+ORG:Vintage Crib
+TITLE:Founder & Lead Developer - Fashion-Tech Innovation Pioneer
+EMAIL:rpalodkar15@gmail.com
+TEL:+1-934-949-8516
+URL:https://vintage-crib.onrender.com
+NOTE:Visionary Tech Entrepreneur specializing in fashion-tech innovation, high-performance algorithms, and e-commerce platform development. Experience with React, Node.js, C++, Python, and database optimization. Currently building the future of fashion retail through innovative technology solutions.
+CATEGORIES:Technology,Fashion-Tech,E-commerce,Software Development,Innovation
+END:VCARD`;
+
+            const blob = new Blob([vCardData], { type: 'text/vcard' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'Rushikesh_Palodkar_Contact.vcf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+            
+            // Show success message
+            alert('📇 Contact card downloaded! Add Rushikesh to your contacts and start networking! 🚀');
+        }
+        
+        function viewFullResume() {
+            // Open the full fashion-tech resume in a new window
+            window.open('/resume.html', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
         }
         
         // Close with Escape key

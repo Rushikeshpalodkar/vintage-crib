@@ -1,0 +1,2477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rushikesh Palodkar - Visionary Tech Entrepreneur | Fashion-Tech Innovation</title>
+    <meta name="description" content="Tech entrepreneur bridging fashion and technology. Building the future of fashion-tech with high-performance algorithms, AI-driven platforms, and startup innovation.">
+    <meta name="keywords" content="tech entrepreneur, fashion technology, startup founder, software engineer, AI innovation, e-commerce platform">
+    <meta property="og:title" content="Rushikesh Palodkar - Visionary Tech Entrepreneur">
+    <meta property="og:description" content="Building the future of fashion-tech with innovative platforms and high-performance solutions.">
+    <meta property="og:type" content="profile">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Rushikesh Palodkar - Tech Entrepreneur">
+    <meta name="twitter:description" content="Fashion-tech innovator creating revolutionary platforms where style meets technology.">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --runway-gold: #D4AF37;
+            --fashion-black: #0A0A0A;
+            --tech-blue: #3B82F6;
+            --luxury-purple: #8B5CF6;
+            --premium-white: #FEFEFE;
+            --accent-pink: #EC4899;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--fashion-black);
+            color: var(--premium-white);
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--runway-gold);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.3s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor.hover {
+            transform: scale(2);
+            background: var(--runway-gold);
+            opacity: 0.8;
+        }
+
+        /* Runway Loading Animation */
+        .runway-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(45deg, var(--fashion-black), #1a1a1a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 1s ease;
+        }
+
+        .runway-loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .runway-lights {
+            display: flex;
+            gap: 20px;
+        }
+
+        .runway-light {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--runway-gold);
+            animation: runwayPulse 1.5s infinite;
+        }
+
+        .runway-light:nth-child(2) { animation-delay: 0.2s; }
+        .runway-light:nth-child(3) { animation-delay: 0.4s; }
+        .runway-light:nth-child(4) { animation-delay: 0.6s; }
+        .runway-light:nth-child(5) { animation-delay: 0.8s; }
+
+        @keyframes runwayPulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Hero Section - Digital Runway */
+        .hero {
+            min-height: 100vh;
+            position: relative;
+            background: linear-gradient(135deg, var(--fashion-black) 0%, #1a1a2e 50%, var(--fashion-black) 100%);
+            overflow: hidden;
+        }
+
+        .runway-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, transparent 48%, var(--runway-gold) 49%, var(--runway-gold) 51%, transparent 52%),
+                linear-gradient(0deg, transparent 0%, rgba(212, 175, 55, 0.1) 50%, transparent 100%);
+            animation: runwayMove 10s linear infinite;
+        }
+
+        @keyframes runwayMove {
+            0% { transform: translateY(100vh); }
+            100% { transform: translateY(-100vh); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero-text {
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero-tagline {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--runway-gold);
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, var(--premium-white), var(--runway-gold), var(--tech-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            animation: fadeInUp 1s ease 1s forwards;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 1.5s forwards;
+        }
+
+        .runway-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(45deg, var(--runway-gold), #FFD700);
+            color: var(--fashion-black);
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease 2s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .runway-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .runway-cta:hover::before {
+            left: 100%;
+        }
+
+        .runway-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* About Section - Split Screen Story */
+        .about-section {
+            padding: 150px 0;
+            background: linear-gradient(135deg, #0f0f23 0%, var(--fashion-black) 100%);
+        }
+
+        .about-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 50px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .about-story {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #E5E5E5;
+        }
+
+        .about-story h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--runway-gold);
+            margin-bottom: 30px;
+        }
+
+        .about-story .highlight {
+            color: var(--tech-blue);
+            font-weight: 600;
+        }
+
+        /* Interactive Tech Closet */
+        .tech-closet {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid var(--runway-gold);
+        }
+
+        .closet-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--runway-gold);
+            margin-bottom: 40px;
+        }
+
+        .skill-hangers {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .skill-hanger {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px 15px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid transparent;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-hanger::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--runway-gold), transparent);
+            opacity: 0.1;
+            transition: left 0.6s ease;
+        }
+
+        .skill-hanger:hover::before {
+            left: 100%;
+        }
+
+        .skill-hanger:hover {
+            transform: translateY(-10px);
+            border-color: var(--runway-gold);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
+        }
+
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .skill-name {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .skill-level {
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .skill-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--tech-blue), var(--runway-gold));
+            width: 0%;
+            transition: width 2s ease;
+            border-radius: 2px;
+        }
+
+        .skill-hanger:hover .skill-fill {
+            width: var(--skill-percentage);
+        }
+
+        /* Portfolio Runway Show */
+        .portfolio-section {
+            padding: 150px 0;
+            background: var(--fashion-black);
+            overflow: hidden;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--runway-gold);
+            margin-bottom: 80px;
+        }
+
+        .runway-track {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            background: linear-gradient(90deg, transparent 48%, var(--runway-gold) 49%, var(--runway-gold) 51%, transparent 52%);
+            margin: 80px 0;
+        }
+
+        .project-models {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .project-card {
+            position: absolute;
+            width: 350px;
+            height: 500px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid var(--runway-gold);
+            transition: all 0.6s ease;
+            opacity: 0;
+            transform: translateX(100vw);
+            animation: modelWalk 20s linear infinite;
+        }
+
+        .project-card:nth-child(2) { animation-delay: 7s; }
+        .project-card:nth-child(3) { animation-delay: 14s; }
+
+        @keyframes modelWalk {
+            0% {
+                opacity: 0;
+                transform: translateX(100vw);
+            }
+            5% {
+                opacity: 1;
+            }
+            45% {
+                opacity: 1;
+                transform: translateX(calc(50vw - 175px));
+            }
+            55% {
+                opacity: 1;
+                transform: translateX(calc(50vw - 175px));
+            }
+            95% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-100vw);
+            }
+        }
+
+        .project-card:hover {
+            transform: translateX(calc(50vw - 175px)) scale(1.05);
+            animation-play-state: paused;
+        }
+
+        .project-number {
+            color: var(--runway-gold);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .project-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--premium-white);
+            margin-bottom: 20px;
+        }
+
+        .project-tech {
+            color: var(--tech-blue);
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+
+        .project-description {
+            color: #B0B0B0;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--runway-gold);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            transform: translateX(10px);
+        }
+
+        /* Innovation Demo */
+        .innovation-section {
+            padding: 150px 0;
+            background: linear-gradient(135deg, #0f0f23, #1a1a2e);
+        }
+
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 50px;
+            text-align: center;
+        }
+
+        .demo-showcase {
+            background: rgba(255,255,255,0.05);
+            border-radius: 30px;
+            padding: 60px;
+            border: 2px solid var(--runway-gold);
+            margin-top: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-showcase::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--runway-gold), transparent);
+            animation: scanLine 3s linear infinite;
+        }
+
+        @keyframes scanLine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .demo-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--runway-gold);
+            margin-bottom: 30px;
+        }
+
+        .demo-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .demo-btn {
+            background: linear-gradient(45deg, var(--tech-blue), var(--luxury-purple));
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .demo-output {
+            background: var(--fashion-black);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid var(--runway-gold);
+            display: none;
+            text-align: left;
+        }
+
+        /* VIP Contact Invitation */
+        .contact-section {
+            padding: 150px 0;
+            background: linear-gradient(135deg, var(--fashion-black), #0f0f23);
+            position: relative;
+        }
+
+        .contact-invitation {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 60px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 30px;
+            border: 3px solid var(--runway-gold);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-invitation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .invitation-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .invitation-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--runway-gold);
+            margin-bottom: 30px;
+        }
+
+        .invitation-subtitle {
+            font-size: 1.3rem;
+            color: #E5E5E5;
+            margin-bottom: 40px;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .contact-item {
+            background: rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .contact-item:hover {
+            border-color: var(--runway-gold);
+            transform: translateY(-5px);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .rsvp-button {
+            background: linear-gradient(45deg, var(--runway-gold), #FFD700);
+            color: var(--fashion-black);
+            padding: 20px 50px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rsvp-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .rsvp-button:hover::before {
+            left: 100%;
+        }
+
+        .rsvp-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 50px;
+                padding: 0 30px;
+            }
+
+            .skill-hangers {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .project-card {
+                width: 300px;
+                height: 450px;
+                padding: 30px;
+            }
+
+            .demo-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .contact-invitation {
+                margin: 0 20px;
+                padding: 50px 30px;
+            }
+
+            .invitation-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Advanced Interactive Features */
+        .theme-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9998;
+            display: flex;
+            gap: 10px;
+        }
+
+        .theme-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--runway-gold);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .theme-classic { background: linear-gradient(45deg, #D4AF37, #0A0A0A); }
+        .theme-corporate { background: linear-gradient(45deg, #1E40AF, #F8FAFC); }
+        .theme-creative { background: linear-gradient(45deg, #EC4899, #8B5CF6); }
+        .theme-minimal { background: linear-gradient(45deg, #6B7280, #F9FAFB); }
+
+        /* Startup Metrics Dashboard */
+        .metrics-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0,0,0,0.9);
+            z-index: 10001;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .metrics-dashboard {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 900px;
+            width: 90%;
+            border: 2px solid var(--runway-gold);
+            position: relative;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .metric-card {
+            background: rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--runway-gold);
+            margin-bottom: 10px;
+        }
+
+        .metric-label {
+            color: #B0B0B0;
+            font-size: 0.9rem;
+        }
+
+        /* AI Assistant Feature */
+        .ai-assistant {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--tech-blue), var(--luxury-purple));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 9997;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .ai-assistant:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.5);
+        }
+
+        .ai-chat {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            height: 450px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            border: 2px solid var(--runway-gold);
+            display: none;
+            flex-direction: column;
+            z-index: 9996;
+        }
+
+        .chat-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            text-align: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .chat-input {
+            padding: 20px;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .chat-input input {
+            width: 100%;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 25px;
+            padding: 12px 20px;
+            color: white;
+            outline: none;
+        }
+
+        /* Performance Optimizations */
+        .will-change {
+            will-change: transform;
+        }
+
+        .gpu-accelerated {
+            transform: translateZ(0);
+        }
+
+        /* Live Resume Editor */
+        .edit-mode {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 2px solid var(--runway-gold);
+            border-radius: 15px;
+            padding: 20px;
+            width: 300px;
+            display: none;
+            z-index: 9995;
+        }
+
+        .edit-field {
+            margin-bottom: 15px;
+        }
+
+        .edit-field label {
+            display: block;
+            color: var(--runway-gold);
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .edit-field input, .edit-field textarea {
+            width: 100%;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: white;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        /* Export Options */
+        .export-menu {
+            position: fixed;
+            top: 130px;
+            right: 20px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 2px solid var(--runway-gold);
+            border-radius: 15px;
+            padding: 20px;
+            width: 280px;
+            display: none;
+            z-index: 9994;
+        }
+
+        .export-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(45deg, var(--tech-blue), var(--luxury-purple));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .export-btn.premium {
+            background: linear-gradient(45deg, var(--runway-gold), #FFD700);
+            color: var(--fashion-black);
+        }
+
+        .export-btn.premium:hover {
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Startup Ecosystem Optimization */
+        .startup-badge {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(45deg, var(--tech-blue), var(--luxury-purple));
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 9997;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        .investor-cta {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: linear-gradient(45deg, var(--runway-gold), #FFD700);
+            color: var(--fashion-black);
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            z-index: 9996;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .investor-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.5);
+        }
+
+        /* Responsive startup features */
+        @media (max-width: 768px) {
+            .startup-badge {
+                top: 10px;
+                left: 10px;
+                font-size: 0.7rem;
+                padding: 6px 12px;
+            }
+            
+            .investor-cta {
+                bottom: 20px;
+                left: 20px;
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .theme-selector {
+                top: 10px;
+                right: 10px;
+                gap: 5px;
+            }
+            
+            .theme-btn {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+
+    <!-- Startup Ecosystem Badges -->
+    <div class="startup-badge">🚀 Series A - $2M Target</div>
+    <div class="investor-cta" onclick="requestInvestment()">💰 Invest Now</div>
+
+    <!-- Theme Selector -->
+    <div class="theme-selector">
+        <div class="theme-btn theme-classic" onclick="changeTheme('classic')" title="Fashion-Tech Theme"></div>
+        <div class="theme-btn theme-corporate" onclick="changeTheme('corporate')" title="Corporate Professional"></div>
+        <div class="theme-btn theme-creative" onclick="changeTheme('creative')" title="Creative Designer"></div>
+        <div class="theme-btn theme-minimal" onclick="changeTheme('minimal')" title="Minimal Clean"></div>
+    </div>
+
+    <!-- Control Panel -->
+    <button onclick="toggleMetrics()" style="position: fixed; top: 80px; right: 20px; z-index: 9998; background: linear-gradient(45deg, var(--tech-blue), var(--luxury-purple)); color: white; border: none; border-radius: 50px; padding: 12px 20px; cursor: pointer; font-weight: 600;">📊 Startup Metrics</button>
+    <button onclick="toggleEditMode()" style="position: fixed; top: 130px; right: 20px; z-index: 9998; background: linear-gradient(45deg, var(--runway-gold), #FFD700); color: var(--fashion-black); border: none; border-radius: 50px; padding: 12px 20px; cursor: pointer; font-weight: 600;">✏️ Live Edit</button>
+    <button onclick="toggleExportMenu()" style="position: fixed; top: 180px; right: 20px; z-index: 9998; background: linear-gradient(45deg, var(--accent-pink), var(--luxury-purple)); color: white; border: none; border-radius: 50px; padding: 12px 20px; cursor: pointer; font-weight: 600;">📄 Export</button>
+
+    <!-- Runway Loader -->
+    <div class="runway-loader" id="loader">
+        <div class="runway-lights">
+            <div class="runway-light"></div>
+            <div class="runway-light"></div>
+            <div class="runway-light"></div>
+            <div class="runway-light"></div>
+            <div class="runway-light"></div>
+        </div>
+    </div>
+
+    <!-- Hero Section - Digital Runway -->
+    <section class="hero">
+        <div class="runway-background"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-tagline">Fashion meets Function • Code meets Couture • Startup meets Success</div>
+                <h1 class="hero-title" id="hero-name">Rushikesh Palodkar</h1>
+                <div class="hero-subtitle" id="hero-subtitle">
+                    Tech Entrepreneur | Fashion-Tech Innovator | Startup Founder
+                </div>
+                <div style="margin: 30px 0; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 900; color: var(--runway-gold);">$2M+</div>
+                        <div style="font-size: 0.9rem; color: #B0B0B0;">Market Opportunity</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 900; color: var(--tech-blue);">40%</div>
+                        <div style="font-size: 0.9rem; color: #B0B0B0;">Performance Boost</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 900; color: var(--accent-pink);">100K+</div>
+                        <div style="font-size: 0.9rem; color: #B0B0B0;">Users Served</div>
+                    </div>
+                </div>
+                <a href="#about" class="runway-cta">
+                    <span>Enter the Show</span>
+                    <span>✨</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section - Split Screen Story -->
+    <section class="about-section" id="about">
+        <div class="about-container">
+            <div class="about-story">
+                <h2>The Designer Behind the Code</h2>
+                <p id="about-text-1">
+                    From the <span class="highlight">trading floors of Nomura Holdings</span> to launching my own fashion-tech startup, I've discovered that the most disruptive innovations emerge when <span class="highlight">analytical precision meets entrepreneurial vision</span>. My mission is to revolutionize how technology serves creative industries.
+                </p>
+                <p id="about-text-2">
+                    As a <span class="highlight">tech entrepreneur</span>, I've built platforms processing 100K+ users while reducing system latency by 40%. My startup focuses on <span class="highlight">AI-driven fashion technology</span> that's already attracting investor interest and partnerships with major fashion retailers.
+                </p>
+                <p id="about-text-3">
+                    Currently scaling my venture while completing my CS degree at Queens College, I'm seeking <span class="highlight">strategic partnerships and investment opportunities</span> to bring revolutionary fashion-tech solutions to global markets.
+                </p>
+                <div style="margin-top: 30px; padding: 25px; background: rgba(212, 175, 55, 0.1); border-radius: 15px; border-left: 4px solid var(--runway-gold);">
+                    <h4 style="color: var(--runway-gold); margin-bottom: 15px;">🚀 Startup Value Proposition</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;">✨ <strong>Market Size:</strong> $2.4B fashion-tech market growing 15% annually</li>
+                        <li style="margin-bottom: 10px;">🎯 <strong>Competitive Edge:</strong> AI-powered personalization + sustainable fashion focus</li>
+                        <li style="margin-bottom: 10px;">💡 <strong>Traction:</strong> 10K+ beta users, 2 strategic partnerships in pipeline</li>
+                        <li>📈 <strong>Growth:</strong> 300% user growth in 6 months, break-even projected Q3 2025</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="tech-closet">
+                <div class="closet-title">My Digital Wardrobe</div>
+                <div class="skill-hangers">
+                    <div class="skill-hanger" style="--skill-percentage: 95%">
+                        <span class="skill-icon">💻</span>
+                        <div class="skill-name">C++ & Python</div>
+                        <div class="skill-level">
+                            <div class="skill-fill"></div>
+                        </div>
+                    </div>
+                    <div class="skill-hanger" style="--skill-percentage: 90%">
+                        <span class="skill-icon">🗄️</span>
+                        <div class="skill-name">Database Systems</div>
+                        <div class="skill-level">
+                            <div class="skill-fill"></div>
+                        </div>
+                    </div>
+                    <div class="skill-hanger" style="--skill-percentage: 85%">
+                        <span class="skill-icon">⚛️</span>
+                        <div class="skill-name">React & APIs</div>
+                        <div class="skill-level">
+                            <div class="skill-fill"></div>
+                        </div>
+                    </div>
+                    <div class="skill-hanger" style="--skill-percentage: 88%">
+                        <span class="skill-icon">📊</span>
+                        <div class="skill-name">Data Analytics</div>
+                        <div class="skill-level">
+                            <div class="skill-fill"></div>
+                        </div>
+                    </div>
+                    <div class="skill-hanger" style="--skill-percentage: 92%">
+                        <span class="skill-icon">☁️</span>
+                        <div class="skill-name">Cloud Systems</div>
+                        <div class="skill-level">
+                            <div class="skill-fill"></div>
+                        </div>
+                    </div>
+                    <div class="skill-hanger" style="--skill-percentage: 87%">
+                        <span class="skill-icon">🎨</span>
+                        <div class="skill-name">Fashion-Tech</div>
+                        <div class="skill-level">
+                            <div class="skill-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Runway Show -->
+    <section class="portfolio-section" id="portfolio">
+        <h2 class="section-title">Projects on the Runway</h2>
+        
+        <div class="runway-track">
+            <div class="project-models">
+                <div class="project-card">
+                    <div class="project-number">01</div>
+                    <div class="project-title">Fashion-Tech AI Platform (STARTUP)</div>
+                    <div class="project-tech">React • Spring Boot • PostgreSQL • eBay API • TensorFlow</div>
+                    <div class="project-description">
+                        <strong style="color: var(--runway-gold);">🚀 Current Venture:</strong> AI-powered fashion marketplace with 25K+ users, $1.2M ARR projection, and 12 strategic partnerships. Features AR try-on, sustainability tracking, and predictive analytics.
+                    </div>
+                    <div style="margin: 15px 0; padding: 15px; background: rgba(212, 175, 55, 0.1); border-radius: 8px; font-size: 0.85rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>📈 Monthly Growth:</span><span style="color: var(--runway-gold); font-weight: 600;">35%</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>💰 Funding Stage:</span><span style="color: var(--tech-blue); font-weight: 600;">Series A</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>🎯 Market Position:</span><span style="color: var(--accent-pink); font-weight: 600;">Top 5%</span>
+                        </div>
+                    </div>
+                    <a href="#" class="project-link">
+                        View Startup Metrics →
+                    </a>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-number">02</div>
+                    <div class="project-title">Financial Risk Analytics Engine</div>
+                    <div class="project-tech">Python • Monte Carlo • CLI • Statistical Modeling</div>
+                    <div class="project-description">
+                        High-performance derivatives risk analysis using advanced statistical modeling. Features Monte Carlo simulations for stress testing with automated risk reporting for trading strategies.
+                    </div>
+                    <a href="#" class="project-link">
+                        Explore Analytics →
+                    </a>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-number">03</div>
+                    <div class="project-title">High-Performance Data Pipeline</div>
+                    <div class="project-tech">C++ • Python • PostgreSQL • ETL</div>
+                    <div class="project-description">
+                        Enterprise-grade data processing system handling 100K+ records weekly. Achieved 35% faster query response times through advanced optimization techniques and automated monitoring.
+                    </div>
+                    <a href="#" class="project-link">
+                        View Performance →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Innovation Demo -->
+    <section class="innovation-section" id="innovation">
+        <div class="demo-container">
+            <h2 class="section-title">Innovation Lab</h2>
+            
+            <div class="demo-showcase">
+                <div class="demo-title">Interactive Tech Demonstration</div>
+                <p style="color: #B0B0B0; font-size: 1.1rem; margin-bottom: 30px;">
+                    Experience the power of my technical skills through live demonstrations
+                </p>
+                
+                <div class="demo-buttons">
+                    <button class="demo-btn" onclick="demoDataProcessing()">
+                        📊 Data Processing
+                    </button>
+                    <button class="demo-btn" onclick="demoApiIntegration()">
+                        🔗 API Integration
+                    </button>
+                    <button class="demo-btn" onclick="demoPerformanceOptimization()">
+                        ⚡ Performance Optimization
+                    </button>
+                    <button class="demo-btn" onclick="demoFashionTech()">
+                        👗 Fashion-Tech Innovation
+                    </button>
+                </div>
+                
+                <div class="demo-output" id="demoOutput"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VIP Contact Invitation -->
+    <section class="contact-section" id="contact">
+        <div class="contact-invitation">
+            <div class="invitation-content">
+                <h2 class="invitation-title">You're Invited</h2>
+                <div class="invitation-subtitle">
+                    To an exclusive collaboration where innovation meets opportunity
+                </div>
+                
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div><strong>Email</strong></div>
+                        <div>rpalodkar15@gmail.com</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div><strong>Phone</strong></div>
+                        <div>(934) 949-8516</div>
+                    </div>
+                    <div class="contact-item" onclick="openLinkedIn()" style="cursor: pointer;">
+                        <div class="contact-icon">💼</div>
+                        <div><strong>LinkedIn</strong></div>
+                        <div>Professional Network</div>
+                    </div>
+                    <div class="contact-item" onclick="openGitHub()" style="cursor: pointer;">
+                        <div class="contact-icon">💻</div>
+                        <div><strong>GitHub</strong></div>
+                        <div>Code Portfolio</div>
+                    </div>
+                    <div class="contact-item" onclick="openCalendly()" style="cursor: pointer;">
+                        <div class="contact-icon">🗓️</div>
+                        <div><strong>Schedule Meeting</strong></div>
+                        <div>Book 1:1 Strategy Call</div>
+                    </div>
+                    <div class="contact-item" onclick="requestInvestorPackage()" style="cursor: pointer;">
+                        <div class="contact-icon">📈</div>
+                        <div><strong>Investor Package</strong></div>
+                        <div>Download Full Details</div>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
+                    <button onclick="initiateCollaboration()" style="background: linear-gradient(45deg, var(--runway-gold), #FFD700); color: var(--fashion-black); padding: 18px 35px; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.4s ease;">
+                        🤝 Partner With Us
+                    </button>
+                    <button onclick="requestInvestment()" style="background: linear-gradient(45deg, var(--tech-blue), var(--luxury-purple)); color: white; padding: 18px 35px; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.4s ease;">
+                        💰 Invest Now
+                    </button>
+                    <button onclick="joinTeam()" style="background: linear-gradient(45deg, var(--accent-pink), var(--luxury-purple)); color: white; padding: 18px 35px; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.4s ease;">
+                        🚀 Join Team
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Startup Metrics Overlay -->
+    <div class="metrics-overlay" id="metricsOverlay">
+        <div class="metrics-dashboard">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                <h2 style="color: var(--runway-gold); font-family: 'Playfair Display', serif;">Startup Metrics Dashboard</h2>
+                <button onclick="toggleMetrics()" style="background: none; border: 2px solid var(--runway-gold); color: var(--runway-gold); border-radius: 50%; width: 40px; height: 40px; cursor: pointer;">×</button>
+            </div>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value" id="revenue-metric">$0</div>
+                    <div class="metric-label">Projected ARR</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="users-metric">0</div>
+                    <div class="metric-label">Platform Users</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="growth-metric">0%</div>
+                    <div class="metric-label">Monthly Growth</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="partnerships-metric">0</div>
+                    <div class="metric-label">Strategic Partners</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="market-metric">$0B</div>
+                    <div class="metric-label">Total Market Size</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="efficiency-metric">0%</div>
+                    <div class="metric-label">Cost Efficiency</div>
+                </div>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); padding: 25px; border-radius: 15px; margin-top: 25px;">
+                <h4 style="color: var(--runway-gold); margin-bottom: 15px;">📊 Key Performance Indicators</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 0.9rem;">
+                    <div>✨ Customer Acquisition Cost: $12</div>
+                    <div>💰 Lifetime Value: $480</div>
+                    <div>🚀 Product-Market Fit Score: 8.5/10</div>
+                    <div>🎯 Churn Rate: 2.1% (Industry: 5.3%)</div>
+                    <div>📈 Revenue per User: $24/month</div>
+                    <div>🔄 API Response Time: 120ms</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Assistant -->
+    <div class="ai-assistant" onclick="toggleAIChat()">
+        <span style="font-size: 1.5rem;">🤖</span>
+    </div>
+
+    <!-- AI Chat Interface -->
+    <div class="ai-chat" id="aiChat">
+        <div class="chat-header">
+            <h4 style="color: var(--runway-gold); margin: 0;">AI Career Assistant</h4>
+            <p style="margin: 5px 0 0 0; font-size: 0.8rem; color: #B0B0B0;">Ask about opportunities & collaborations</p>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div style="background: rgba(59, 130, 246, 0.2); padding: 15px; border-radius: 15px; border-radius: 15px 15px 5px 15px;">
+                <strong style="color: var(--tech-blue);">AI Assistant:</strong><br>
+                Hello! I'm here to help you explore collaboration opportunities with Rushikesh. What type of project or partnership are you interested in?
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="Ask about startup opportunities..." onkeypress="handleChatInput(event)" id="chatInput">
+        </div>
+    </div>
+
+    <!-- Live Edit Mode -->
+    <div class="edit-mode" id="editMode">
+        <h4 style="color: var(--runway-gold); margin-bottom: 15px;">Live Resume Editor</h4>
+        <div class="edit-field">
+            <label>Name:</label>
+            <input type="text" id="edit-name" value="Rushikesh Palodkar" onchange="updateContent('hero-name', this.value)">
+        </div>
+        <div class="edit-field">
+            <label>Subtitle:</label>
+            <input type="text" id="edit-subtitle" value="Tech Entrepreneur | Fashion-Tech Innovator | Startup Founder" onchange="updateContent('hero-subtitle', this.value)">
+        </div>
+        <div class="edit-field">
+            <label>About Section:</label>
+            <textarea id="edit-about" rows="4" onchange="updateAboutSection(this.value)">From trading floors to launching fashion-tech startup...</textarea>
+        </div>
+        <button onclick="resetToDefault()" style="background: linear-gradient(45deg, var(--accent-pink), var(--luxury-purple)); color: white; border: none; border-radius: 8px; padding: 10px; width: 100%; cursor: pointer; margin-top: 10px;">Reset to Default</button>
+    </div>
+
+    <!-- Export Menu -->
+    <div class="export-menu" id="exportMenu">
+        <h4 style="color: var(--runway-gold); margin-bottom: 15px;">Export & Share</h4>
+        <button class="export-btn" onclick="exportToPDF()">📄 Export as PDF</button>
+        <button class="export-btn" onclick="exportToLinkedIn()">💼 LinkedIn Format</button>
+        <button class="export-btn" onclick="exportToJSON()">📊 JSON Data</button>
+        <button class="export-btn premium" onclick="generatePitchDeck()">🎨 Pitch Deck (Premium)</button>
+        <button class="export-btn premium" onclick="generateInvestorPackage()">📈 Investor Package</button>
+        <button class="export-btn premium" onclick="generateStartupProfile()">🚀 Startup Profile</button>
+        <button class="export-btn" onclick="shareOnSocial()">📢 Share on Social</button>
+        <button class="export-btn" onclick="generateQRCode()">📱 Generate QR Code</button>
+    </div>
+
+    <script>
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        let mouseX = 0, mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
+        });
+
+        // Cursor hover effects
+        const interactiveElements = document.querySelectorAll('button, a, .skill-hanger, .project-card');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // Runway Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 2000);
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for scroll animations
+        document.querySelectorAll('.about-story, .tech-closet, .demo-showcase, .contact-invitation').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(50px)';
+            el.style.transition = 'all 0.8s ease';
+            observer.observe(el);
+        });
+
+        // Demo Functions
+        function demoDataProcessing() {
+            const output = document.getElementById('demoOutput');
+            output.style.display = 'block';
+            output.innerHTML = `
+                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 30px; border-radius: 15px; border: 1px solid var(--runway-gold);">
+                    <h4 style="color: var(--runway-gold); margin-bottom: 20px;">📊 Real-Time Data Processing Showcase</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div style="background: rgba(59, 130, 246, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--tech-blue);">
+                            <strong style="color: var(--tech-blue);">ETL Pipeline Performance</strong><br>
+                            <div style="margin: 10px 0;">✅ Processing: 100,000+ records/week</div>
+                            <div>✅ Latency Reduction: 40%</div>
+                            <div>✅ Automated Forecasting: 60% time saved</div>
+                        </div>
+                        <div style="background: rgba(212, 175, 55, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--runway-gold);">
+                            <strong style="color: var(--runway-gold);">Database Optimization</strong><br>
+                            <div style="margin: 10px 0;">⚡ Query Speed: 35% faster</div>
+                            <div>🔄 CI/CD Implementation</div>
+                            <div>📈 99.9% System Reliability</div>
+                        </div>
+                    </div>
+                    <div style="background: var(--fashion-black); padding: 15px; border-radius: 8px; margin-top: 15px; font-family: 'Courier New', monospace; font-size: 0.9rem;">
+                        <span style="color: var(--tech-blue);">// Sample: PostgreSQL Query Optimization</span><br>
+                        <span style="color: var(--runway-gold);">SELECT</span> * <span style="color: var(--runway-gold);">FROM</span> academic_records <br>
+                        <span style="color: var(--runway-gold);">WHERE</span> indexed_column = <span style="color: #EC4899;">'optimized_value'</span><br>
+                        <span style="color: #10B981;">-- Result: 35% performance improvement</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function demoApiIntegration() {
+            const output = document.getElementById('demoOutput');
+            output.style.display = 'block';
+            output.innerHTML = `
+                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 30px; border-radius: 15px; border: 1px solid var(--runway-gold);">
+                    <h4 style="color: var(--runway-gold); margin-bottom: 20px;">🔗 Fashion-Tech API Integration</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                        <div style="background: rgba(139, 92, 246, 0.1); padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="color: var(--luxury-purple); font-size: 1.5rem; margin-bottom: 5px;">🛍️</div>
+                            <strong>eBay API</strong><br>
+                            <small>Product Listings</small>
+                        </div>
+                        <div style="background: rgba(59, 130, 246, 0.1); padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="color: var(--tech-blue); font-size: 1.5rem; margin-bottom: 5px;">💳</div>
+                            <strong>Payment Gateway</strong><br>
+                            <small>Secure Transactions</small>
+                        </div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="color: var(--accent-pink); font-size: 1.5rem; margin-bottom: 5px;">📊</div>
+                            <strong>Analytics API</strong><br>
+                            <small>User Engagement</small>
+                        </div>
+                        <div style="background: rgba(212, 175, 55, 0.1); padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="color: var(--runway-gold); font-size: 1.5rem; margin-bottom: 5px;">📦</div>
+                            <strong>Inventory API</strong><br>
+                            <small>Real-time Stock</small>
+                        </div>
+                    </div>
+                    <div style="background: var(--fashion-black); padding: 15px; border-radius: 8px; margin-top: 15px; font-family: 'Courier New', monospace; font-size: 0.9rem;">
+                        <span style="color: var(--tech-blue);">// Fashion Platform API Integration</span><br>
+                        <span style="color: var(--runway-gold);">const</span> fashionData = <span style="color: var(--runway-gold);">await</span> <span style="color: var(--accent-pink);">fetch</span>(<span style="color: #10B981;">'/api/products'</span>)<br>
+                        <span style="color: var(--runway-gold);">const</span> ebayListings = <span style="color: var(--runway-gold);">await</span> <span style="color: var(--accent-pink);">ebayAPI</span>.<span style="color: var(--tech-blue);">getProducts</span>()<br>
+                        <span style="color: #10B981;">// Seamless integration across platforms</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function demoPerformanceOptimization() {
+            const output = document.getElementById('demoOutput');
+            output.style.display = 'block';
+            output.innerHTML = `
+                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 30px; border-radius: 15px; border: 1px solid var(--runway-gold);">
+                    <h4 style="color: var(--runway-gold); margin-bottom: 20px;">⚡ Performance Optimization Showcase</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0;">
+                        <div style="background: rgba(239, 68, 68, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid #EF4444;">
+                            <strong style="color: #EF4444;">Before Optimization</strong><br>
+                            <div style="margin: 15px 0; line-height: 1.6;">
+                                🐌 Query Time: 2.8 seconds<br>
+                                📈 CPU Usage: 85%<br>
+                                💾 Memory: 4.2GB<br>
+                                🔄 Throughput: 1,000 req/min
+                            </div>
+                        </div>
+                        <div style="background: rgba(34, 197, 94, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid #22C55E;">
+                            <strong style="color: #22C55E;">After Optimization</strong><br>
+                            <div style="margin: 15px 0; line-height: 1.6;">
+                                🚀 Query Time: 1.8 seconds<br>
+                                📉 CPU Usage: 55%<br>
+                                💾 Memory: 2.1GB<br>
+                                🔄 Throughput: 5,000 req/min
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin: 20px 0; padding: 20px; background: rgba(212, 175, 55, 0.1); border-radius: 10px;">
+                        <strong style="color: var(--runway-gold); font-size: 1.3rem;">
+                            🎯 Performance Gains: 35% faster • 40% less latency • 99.9% reliability
+                        </strong>
+                    </div>
+                    <div style="background: var(--fashion-black); padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.9rem;">
+                        <span style="color: var(--tech-blue);">// C++ High-Performance Algorithm</span><br>
+                        <span style="color: var(--runway-gold);">std::vector&lt;Record&gt;</span> <span style="color: var(--accent-pink);">optimizedQuery</span>() {<br>
+                        &nbsp;&nbsp;<span style="color: var(--runway-gold);">return</span> <span style="color: var(--accent-pink);">parallelProcess</span>(<span style="color: var(--tech-blue);">data</span>);<br>
+                        }<br>
+                        <span style="color: #10B981;">// Result: 40% latency reduction</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function demoFashionTech() {
+            const output = document.getElementById('demoOutput');
+            output.style.display = 'block';
+            output.innerHTML = `
+                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 30px; border-radius: 15px; border: 1px solid var(--runway-gold);">
+                    <h4 style="color: var(--runway-gold); margin-bottom: 20px;">🚀 STARTUP: Fashion-Tech AI Platform</h4>
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 20px; border-radius: 12px; margin-bottom: 25px; border-left: 4px solid var(--runway-gold);">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; font-size: 0.9rem;">
+                            <div style="text-align: center;"><strong style="color: var(--runway-gold);">$1.2M</strong><br>Projected ARR</div>
+                            <div style="text-align: center;"><strong style="color: var(--tech-blue);">25K+</strong><br>Active Users</div>
+                            <div style="text-align: center;"><strong style="color: var(--accent-pink);">35%</strong><br>Monthly Growth</div>
+                            <div style="text-align: center;"><strong style="color: var(--luxury-purple);">Series A</strong><br>Funding Stage</div>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 25px; border-radius: 12px; text-align: center;">
+                            <div style="color: var(--accent-pink); font-size: 2.5rem; margin-bottom: 15px;">🤖</div>
+                            <strong>AI Personalization</strong><br>
+                            <div style="margin-top: 10px; color: #B0B0B0; font-size: 0.9rem;">
+                                Machine learning recommendation engine with 94% accuracy
+                            </div>
+                        </div>
+                        <div style="background: rgba(139, 92, 246, 0.1); padding: 25px; border-radius: 12px; text-align: center;">
+                            <div style="color: var(--luxury-purple); font-size: 2.5rem; margin-bottom: 15px;">📱</div>
+                            <strong>AR Virtual Try-On</strong><br>
+                            <div style="margin-top: 10px; color: #B0B0B0; font-size: 0.9rem;">
+                                Real-time 3D fitting with 78% conversion rate improvement
+                            </div>
+                        </div>
+                        <div style="background: rgba(59, 130, 246, 0.1); padding: 25px; border-radius: 12px; text-align: center;">
+                            <div style="color: var(--tech-blue); font-size: 2.5rem; margin-bottom: 15px;">🌱</div>
+                            <strong>Sustainability Score</strong><br>
+                            <div style="margin-top: 10px; color: #B0B0B0; font-size: 0.9rem;">
+                                Carbon footprint tracking with blockchain verification
+                            </div>
+                        </div>
+                        <div style="background: rgba(212, 175, 55, 0.1); padding: 25px; border-radius: 12px; text-align: center;">
+                            <div style="color: var(--runway-gold); font-size: 2.5rem; margin-bottom: 15px;">📈</div>
+                            <strong>Predictive Analytics</strong><br>
+                            <div style="margin-top: 10px; color: #B0B0B0; font-size: 0.9rem;">
+                                Trend forecasting with 89% accuracy for inventory optimization
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background: var(--fashion-black); padding: 20px; border-radius: 10px; margin-top: 20px;">
+                        <div style="color: var(--runway-gold); margin-bottom: 15px; font-weight: 600;">💼 Investment Highlights:</div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 0.9rem;">
+                            <div>🎯 Total Addressable Market: $2.4B</div>
+                            <div>📈 Customer Acquisition Cost: $12</div>
+                            <div>💰 Customer Lifetime Value: $480</div>
+                            <div>🚀 Product-Market Fit Score: 8.5/10</div>
+                            <div>🔄 Monthly Churn Rate: 2.1%</div>
+                            <div>✨ Revenue per User: $24/month</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 15px; margin-top: 25px; justify-content: center;">
+                        <button onclick="downloadInvestorDeck()" style="background: linear-gradient(45deg, var(--tech-blue), var(--luxury-purple)); color: white; border: none; border-radius: 25px; padding: 12px 25px; cursor: pointer; font-weight: 600;">📈 Download Investor Deck</button>
+                        <button onclick="scheduleDemo()" style="background: linear-gradient(45deg, var(--runway-gold), #FFD700); color: var(--fashion-black); border: none; border-radius: 25px; padding: 12px 25px; cursor: pointer; font-weight: 600;">📞 Schedule Demo</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Startup-specific demo functions
+        function downloadInvestorDeck() {
+            generatePitchDeck();
+            alert('🚀 Investor pitch deck downloaded! Check your downloads folder.');
+        }
+
+        function scheduleDemo() {
+            const email = 'rpalodkar15@gmail.com';
+            const subject = 'Fashion-Tech Platform Demo Request';
+            const body = `Hello Rushikesh,
+
+I'm interested in scheduling a demo of your fashion-tech AI platform.
+
+Specific areas of interest:
+• AI personalization capabilities
+• AR virtual try-on technology
+• Sustainability tracking features
+• Investment opportunities
+• Partnership potential
+
+Please let me know your availability for a 30-minute demo session.
+
+Best regards,
+[Your Name]
+[Your Title]
+[Your Company]`;
+            
+            window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        function initiateCollaboration() {
+            const email = 'rpalodkar15@gmail.com';
+            const subject = 'VIP Collaboration Opportunity - Let\'s Create Together!';
+            const body = `Hello Rushikesh,
+
+I was impressed by your portfolio website and would love to discuss collaboration opportunities.
+
+Your unique blend of technical expertise and fashion-tech innovation caught my attention, particularly:
+- Your high-performance algorithms and database optimization skills
+- The innovative fashion-tech platform you've developed
+- Your experience with real-time data processing and API integrations
+
+I'm interested in exploring how we might work together on [PROJECT TYPE/OPPORTUNITY].
+
+Let's schedule a time to discuss how we can create something amazing together.
+
+Best regards,
+[Your Name]`;
+
+            window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        // Parallax effects for runway background
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const runwayBg = document.querySelector('.runway-background');
+            if (runwayBg) {
+                runwayBg.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // Add typing effect for hero tagline
+        function typeWriter(element, text, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
+            element.style.opacity = '1';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Initialize typing effect after page load
+        setTimeout(() => {
+            const tagline = document.querySelector('.hero-tagline');
+            if (tagline) {
+                typeWriter(tagline, 'Fashion meets Function • Code meets Couture', 80);
+            }
+        }, 3000);
+
+        // Add dynamic stats counter
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                element.innerHTML = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Trigger stats animation when in view
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateValue(entry.target, 0, 15, 2000); // 15 projects
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const sections = ['#about', '#portfolio', '#innovation', '#contact'];
+            const currentSection = Math.floor(window.scrollY / window.innerHeight);
+            
+            if (e.key === 'ArrowDown' && currentSection < sections.length - 1) {
+                document.querySelector(sections[currentSection + 1]).scrollIntoView({ behavior: 'smooth' });
+            } else if (e.key === 'ArrowUp' && currentSection > 0) {
+                document.querySelector(sections[currentSection - 1]).scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // Add Easter egg - Konami code
+        let konamiCode = [];
+        const konami = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+        
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.keyCode);
+            if (konamiCode.length > konami.length) {
+                konamiCode.shift();
+            }
+            if (konamiCode.toString() === konami.toString()) {
+                // Easter egg activated!
+                document.body.style.animation = 'rainbow 2s linear infinite';
+                setTimeout(() => {
+                    document.body.style.animation = '';
+                }, 5000);
+            }
+        });
+
+        // Add CSS for rainbow animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes rainbow {
+                0% { filter: hue-rotate(0deg); }
+                100% { filter: hue-rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Performance optimization: Lazy load images
+        const lazyImages = document.querySelectorAll('img[data-src]');
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.classList.remove('lazy');
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+
+        lazyImages.forEach(img => imageObserver.observe(img));
+
+        // Add accessibility improvements
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add skip link
+            const skipLink = document.createElement('a');
+            skipLink.href = '#about';
+            skipLink.textContent = 'Skip to main content';
+            skipLink.style.cssText = `
+                position: absolute;
+                top: -40px;
+                left: 6px;
+                background: var(--runway-gold);
+                color: var(--fashion-black);
+                padding: 8px;
+                text-decoration: none;
+                border-radius: 4px;
+                z-index: 10001;
+                transition: top 0.3s;
+            `;
+            skipLink.addEventListener('focus', () => {
+                skipLink.style.top = '6px';
+            });
+            skipLink.addEventListener('blur', () => {
+                skipLink.style.top = '-40px';
+            });
+            document.body.insertBefore(skipLink, document.body.firstChild);
+
+            // Add ARIA labels
+            document.querySelectorAll('.demo-btn').forEach((btn, index) => {
+                btn.setAttribute('aria-label', `Demo button ${index + 1}: ${btn.textContent}`);
+            });
+        });
+
+        // Advanced Features Implementation
+        
+        // Theme Management
+        function changeTheme(theme) {
+            const root = document.documentElement;
+            const themes = {
+                classic: {
+                    '--runway-gold': '#D4AF37',
+                    '--fashion-black': '#0A0A0A',
+                    '--tech-blue': '#3B82F6',
+                    '--luxury-purple': '#8B5CF6',
+                    '--premium-white': '#FEFEFE',
+                    '--accent-pink': '#EC4899'
+                },
+                corporate: {
+                    '--runway-gold': '#1E40AF',
+                    '--fashion-black': '#1F2937',
+                    '--tech-blue': '#3B82F6',
+                    '--luxury-purple': '#6366F1',
+                    '--premium-white': '#F8FAFC',
+                    '--accent-pink': '#0EA5E9'
+                },
+                creative: {
+                    '--runway-gold': '#F59E0B',
+                    '--fashion-black': '#1F2937',
+                    '--tech-blue': '#06B6D4',
+                    '--luxury-purple': '#8B5CF6',
+                    '--premium-white': '#FEF7FF',
+                    '--accent-pink': '#EC4899'
+                },
+                minimal: {
+                    '--runway-gold': '#6B7280',
+                    '--fashion-black': '#F9FAFB',
+                    '--tech-blue': '#374151',
+                    '--luxury-purple': '#4B5563',
+                    '--premium-white': '#111827',
+                    '--accent-pink': '#9CA3AF'
+                }
+            };
+            
+            Object.entries(themes[theme]).forEach(([property, value]) => {
+                root.style.setProperty(property, value);
+            });
+            
+            localStorage.setItem('selectedTheme', theme);
+        }
+
+        // Metrics Dashboard
+        function toggleMetrics() {
+            const overlay = document.getElementById('metricsOverlay');
+            overlay.style.display = overlay.style.display === 'flex' ? 'none' : 'flex';
+            if (overlay.style.display === 'flex') {
+                animateMetrics();
+            }
+        }
+
+        function animateMetrics() {
+            const metrics = [
+                { id: 'revenue-metric', value: '$1.2M', duration: 2000 },
+                { id: 'users-metric', value: '25K+', duration: 2200 },
+                { id: 'growth-metric', value: '35%', duration: 1800 },
+                { id: 'partnerships-metric', value: '12', duration: 1500 },
+                { id: 'market-metric', value: '$2.4B', duration: 2500 },
+                { id: 'efficiency-metric', value: '78%', duration: 2000 }
+            ];
+
+            metrics.forEach(metric => {
+                const element = document.getElementById(metric.id);
+                element.style.opacity = '0.3';
+                setTimeout(() => {
+                    element.textContent = metric.value;
+                    element.style.opacity = '1';
+                    element.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        element.style.transform = 'scale(1)';
+                    }, 200);
+                }, Math.random() * 1000);
+            });
+        }
+
+        // AI Chat Assistant
+        function toggleAIChat() {
+            const chat = document.getElementById('aiChat');
+            chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function handleChatInput(event) {
+            if (event.key === 'Enter') {
+                const input = event.target;
+                const message = input.value.trim();
+                if (message) {
+                    addChatMessage(message, 'user');
+                    input.value = '';
+                    setTimeout(() => generateAIResponse(message), 1000);
+                }
+            }
+        }
+
+        function addChatMessage(message, sender) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            const isUser = sender === 'user';
+            
+            messageDiv.style.cssText = `
+                background: ${isUser ? 'rgba(212, 175, 55, 0.2)' : 'rgba(59, 130, 246, 0.2)'};
+                padding: 15px;
+                border-radius: 15px;
+                margin-bottom: 10px;
+                border-radius: ${isUser ? '15px 5px 15px 15px' : '15px 15px 5px 15px'};
+            `;
+            
+            messageDiv.innerHTML = `
+                <strong style="color: ${isUser ? 'var(--runway-gold)' : 'var(--tech-blue)'};">You:</strong><br>
+                ${message}
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function generateAIResponse(userMessage) {
+            const responses = {
+                partnership: "Rushikesh is actively seeking strategic partnerships in fashion-tech. His platform has proven market traction with 25K+ users and is looking for retail partners and technology integrators.",
+                investment: "The startup is in Series A fundraising phase, targeting $2M to scale operations. Current metrics show 35% monthly growth and strong unit economics. Would you like me to schedule a pitch meeting?",
+                collaboration: "Rushikesh collaborates on high-impact tech projects, especially in AI, e-commerce, and data analytics. His expertise in performance optimization and startup scaling makes him an ideal technical co-founder or advisor.",
+                hiring: "Currently building a world-class team for the fashion-tech venture. Looking for senior engineers, product managers, and growth specialists who share the vision of revolutionizing fashion retail.",
+                default: "Rushikesh is a tech entrepreneur focused on fashion-tech innovation. Ask me about partnerships, investment opportunities, technical collaborations, or joining his growing team!"
+            };
+            
+            const keywords = Object.keys(responses);
+            const matchedKeyword = keywords.find(keyword => 
+                userMessage.toLowerCase().includes(keyword)
+            ) || 'default';
+            
+            setTimeout(() => {
+                const messagesContainer = document.getElementById('chatMessages');
+                const responseDiv = document.createElement('div');
+                responseDiv.style.cssText = `
+                    background: rgba(59, 130, 246, 0.2);
+                    padding: 15px;
+                    border-radius: 15px 15px 5px 15px;
+                    margin-bottom: 10px;
+                `;
+                responseDiv.innerHTML = `
+                    <strong style="color: var(--tech-blue);">AI Assistant:</strong><br>
+                    ${responses[matchedKeyword]}
+                `;
+                messagesContainer.appendChild(responseDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 500);
+        }
+
+        // Live Editing
+        function toggleEditMode() {
+            const editMode = document.getElementById('editMode');
+            editMode.style.display = editMode.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function updateContent(elementId, value) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = value;
+            }
+        }
+
+        function updateAboutSection(value) {
+            const aboutElements = ['about-text-1', 'about-text-2', 'about-text-3'];
+            const sentences = value.split('. ');
+            aboutElements.forEach((id, index) => {
+                const element = document.getElementById(id);
+                if (element && sentences[index]) {
+                    element.innerHTML = sentences[index] + (index < sentences.length - 1 ? '.' : '');
+                }
+            });
+        }
+
+        function resetToDefault() {
+            location.reload();
+        }
+
+        // Export Functions
+        function toggleExportMenu() {
+            const exportMenu = document.getElementById('exportMenu');
+            exportMenu.style.display = exportMenu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function exportToPDF() {
+            window.print();
+        }
+
+        function exportToLinkedIn() {
+            const linkedInData = {
+                name: "Rushikesh Palodkar",
+                headline: "Tech Entrepreneur | Fashion-Tech Innovator | Startup Founder",
+                summary: "Visionary entrepreneur building the future of fashion technology...",
+                experience: "Founder & CEO at Fashion-Tech Startup | Former Analyst at Nomura Holdings"
+            };
+            
+            const dataStr = JSON.stringify(linkedInData, null, 2);
+            downloadFile('linkedin-profile.json', dataStr);
+        }
+
+        function exportToJSON() {
+            const resumeData = {
+                personal: {
+                    name: "Rushikesh Palodkar",
+                    email: "rpalodkar15@gmail.com",
+                    phone: "(934) 949-8516",
+                    title: "Tech Entrepreneur & Fashion-Tech Innovator"
+                },
+                startup: {
+                    company: "Fashion-Tech Platform",
+                    stage: "Series A",
+                    funding_target: "$2M",
+                    market_size: "$2.4B",
+                    growth_rate: "35% monthly"
+                },
+                metrics: {
+                    users: "25K+",
+                    partnerships: 12,
+                    performance_improvement: "40%",
+                    market_opportunity: "$2M+"
+                }
+            };
+            
+            const dataStr = JSON.stringify(resumeData, null, 2);
+            downloadFile('startup-resume-data.json', dataStr);
+        }
+
+        function generatePitchDeck() {
+            const pitchContent = `
+# Fashion-Tech Startup Pitch Deck
+
+## Slide 1: Problem
+- $2.4B fashion market lacks personalized, sustainable solutions
+- 67% of consumers want AI-powered fashion recommendations
+- Current platforms have 23% user churn due to poor UX
+
+## Slide 2: Solution
+- AI-driven fashion platform with AR try-on technology
+- Sustainable fashion marketplace with carbon tracking
+- Real-time inventory management with predictive analytics
+
+## Slide 3: Market Opportunity
+- Total Addressable Market: $2.4B
+- Serviceable Addressable Market: $480M
+- Target 5% market share by 2027
+
+## Slide 4: Traction
+- 25K+ active users (35% monthly growth)
+- $1.2M projected ARR
+- 12 strategic partnerships
+- 78% cost efficiency vs competitors
+
+## Slide 5: Team
+- Rushikesh Palodkar: CEO/CTO
+- Former Nomura Holdings analyst
+- 40% performance optimization expert
+- Queens College CS degree
+
+## Slide 6: Funding
+- Seeking $2M Series A
+- Use of funds: 60% product, 25% team, 15% marketing
+- 18-month runway to profitability
+            `;
+            
+            downloadFile('fashion-tech-pitch-deck.md', pitchContent);
+        }
+
+        function generateInvestorPackage() {
+            const investorData = {
+                executive_summary: "Fashion-tech platform revolutionizing retail with AI and sustainability focus",
+                market_analysis: {
+                    size: "$2.4B",
+                    growth_rate: "15% annually",
+                    target_segment: "Millennials and Gen Z fashion consumers"
+                },
+                financial_projections: {
+                    year_1: "$1.2M ARR",
+                    year_2: "$4.8M ARR",
+                    year_3: "$12M ARR",
+                    break_even: "Q3 2025"
+                },
+                competitive_advantages: [
+                    "AI-powered personalization engine",
+                    "Sustainability tracking and reporting",
+                    "AR virtual try-on technology",
+                    "Proven technical team with 40% performance gains"
+                ],
+                use_of_funds: {
+                    product_development: "60%",
+                    team_expansion: "25%",
+                    marketing_sales: "15%"
+                },
+                team: {
+                    ceo: "Rushikesh Palodkar - Tech entrepreneur with proven track record",
+                    experience: "Nomura Holdings, Queens College CS",
+                    achievements: "40% latency reduction, 100K+ users served"
+                }
+            };
+            
+            const dataStr = JSON.stringify(investorData, null, 2);
+            downloadFile('investor-package.json', dataStr);
+        }
+
+        function downloadFile(filename, content) {
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+            element.setAttribute('download', filename);
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+
+        // Initialize features
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load saved theme
+            const savedTheme = localStorage.getItem('selectedTheme') || 'classic';
+            changeTheme(savedTheme);
+            
+            // Add startup-focused console messages
+            console.log('🚀 Welcome to Rushikesh\'s Startup Portfolio!');
+            console.log('💼 Fashion-Tech Entrepreneur | Building the Future');
+            console.log('💡 Try the AI assistant for collaboration opportunities!');
+            console.log('🎯 Current Status: Series A Fundraising | $2M Target');
+        });
+
+        // Professional Networking Functions
+        function openLinkedIn() {
+            // Replace with actual LinkedIn profile URL
+            window.open('https://linkedin.com/in/rushikesh-palodkar', '_blank');
+        }
+
+        function openGitHub() {
+            // Replace with actual GitHub profile URL
+            window.open('https://github.com/rushikesh-palodkar', '_blank');
+        }
+
+        function openCalendly() {
+            // Replace with actual Calendly link
+            const calendlyURL = 'https://calendly.com/rushikesh-palodkar/startup-strategy-call';
+            window.open(calendlyURL, '_blank');
+        }
+
+        function requestInvestorPackage() {
+            generateInvestorPackage();
+            const email = 'rpalodkar15@gmail.com';
+            const subject = 'Investor Package Request - Fashion-Tech Startup';
+            const body = `Hello Rushikesh,
+
+I'm interested in learning more about your fashion-tech startup and would like to request the complete investor package.
+
+Investor Profile:
+• Investment Focus: [Please specify]
+• Check Size: [Please specify]
+• Investment Stage: Series A
+• Portfolio Companies: [Please list relevant companies]
+
+I'd also appreciate the opportunity to schedule a pitch presentation.
+
+Best regards,
+[Your Name]
+[Your Title]
+[Investment Firm/Organization]`;
+            
+            window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        function requestInvestment() {
+            const email = 'rpalodkar15@gmail.com';
+            const subject = 'Series A Investment Opportunity - Fashion-Tech Platform';
+            const body = `Hello Rushikesh,
+
+I'm interested in discussing a potential Series A investment in your fashion-tech platform.
+
+Key Investment Details:
+• Current Valuation: [To be discussed]
+• Funding Target: $2M
+• Use of Funds: Product development, team expansion, market penetration
+• Expected Returns: [To be discussed]
+
+Impressive Metrics:
+• 25K+ active users with 35% monthly growth
+• $1.2M projected ARR
+• Strong unit economics (LTV:CAC ratio 40:1)
+• Market opportunity: $2.4B TAM
+
+I'd like to schedule a formal pitch presentation and due diligence session.
+
+Investor Information:
+[Your Name]
+[Investment Firm]
+[Investment Focus]
+[Check Size Range]
+
+Looking forward to discussing this exciting opportunity.
+
+Best regards,
+[Your Name]`;
+            
+            window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        function joinTeam() {
+            const email = 'rpalodkar15@gmail.com';
+            const subject = 'Career Opportunity - Fashion-Tech Startup Team';
+            const body = `Hello Rushikesh,
+
+I'm excited about the opportunity to join your fashion-tech startup team and contribute to revolutionizing the fashion industry.
+
+My Background:
+• Role of Interest: [Engineering/Product/Marketing/Business Development]
+• Years of Experience: [X years]
+• Relevant Skills: [List key skills]
+• Previous Companies: [List relevant experience]
+• Why Fashion-Tech: [Your motivation]
+
+What Attracts Me to Your Startup:
+• Innovative AI-powered platform
+• Strong growth metrics (35% monthly growth)
+• Sustainability focus aligns with my values
+• Opportunity to build something revolutionary
+
+I'd love to discuss how I can contribute to your mission of transforming fashion retail through technology.
+
+Attached: [Resume/Portfolio]
+
+Best regards,
+[Your Name]
+[Your Current Title]
+[Your Phone Number]`;
+            
+            window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        // Enhanced collaboration function
+        function initiateCollaboration() {
+            const collaborationType = prompt(`🤝 What type of collaboration interests you most?
+
+1. Strategic Partnership
+2. Technology Integration
+3. Co-founder Opportunity
+4. Advisory Role
+5. Supplier/Vendor Partnership
+6. Other
+
+Please enter the number (1-6):`);
+            
+            const collaborationTypes = {
+                '1': 'Strategic Partnership',
+                '2': 'Technology Integration', 
+                '3': 'Co-founder Opportunity',
+                '4': 'Advisory Role',
+                '5': 'Supplier/Vendor Partnership',
+                '6': 'Other Collaboration'
+            };
+            
+            const selectedType = collaborationTypes[collaborationType] || 'General Collaboration';
+            
+            const email = 'rpalodkar15@gmail.com';
+            const subject = `${selectedType} Opportunity - Fashion-Tech Platform`;
+            const body = `Hello Rushikesh,
+
+I'm impressed by your fashion-tech platform and would love to explore a ${selectedType.toLowerCase()} opportunity.
+
+Why I'm Interested:
+• Your platform's impressive growth (25K+ users, 35% monthly growth)
+• Strong market opportunity ($2.4B TAM)
+• Innovative approach to fashion technology
+• Sustainability focus aligns with market trends
+
+My Background:
+• Company/Organization: [Your company]
+• Role: [Your title]
+• Relevant Experience: [Brief description]
+• Why This Partnership Makes Sense: [Your value proposition]
+
+Proposed Collaboration:
+[Describe your specific collaboration idea, mutual benefits, and next steps]
+
+I'd appreciate the opportunity to discuss this further in a 30-minute call.
+
+Best regards,
+[Your Name]
+[Your Title]
+[Your Company]
+[Your Phone Number]`;
+            
+            window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        // Dynamic content personalization based on URL parameters
+        function personalizeContent() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const source = urlParams.get('source');
+            const role = urlParams.get('role');
+            
+            if (source === 'investor') {
+                // Customize for investors
+                document.getElementById('hero-subtitle').innerHTML = 'Series A Fundraising | $2M Target | Fashion-Tech Disruption';
+                toggleMetrics(); // Auto-show metrics for investors
+            } else if (source === 'recruiter') {
+                // Customize for recruiters
+                document.getElementById('hero-subtitle').innerHTML = 'Tech Leadership | Startup Experience | High-Performance Engineering';
+            } else if (source === 'partner') {
+                // Customize for potential partners
+                document.getElementById('hero-subtitle').innerHTML = 'Strategic Partnerships | B2B Integrations | Fashion-Tech Innovation';
+            }
+            
+            if (role === 'developer') {
+                // Highlight technical skills for developers
+                const techSkills = document.querySelectorAll('.skill-hanger');
+                techSkills.forEach(skill => {
+                    if (skill.textContent.includes('C++') || skill.textContent.includes('Database') || skill.textContent.includes('APIs')) {
+                        skill.style.border = '2px solid var(--tech-blue)';
+                        skill.style.boxShadow = '0 0 20px rgba(59, 130, 246, 0.3)';
+                    }
+                });
+            }
+        }
+
+        // Auto-personalization on load
+        setTimeout(personalizeContent, 1000);
+
+        // Network effect tracking
+        function trackVisitorInteraction(action) {
+            const visitorData = {
+                timestamp: new Date().toISOString(),
+                action: action,
+                source: new URLSearchParams(window.location.search).get('source') || 'direct',
+                userAgent: navigator.userAgent.substring(0, 100)
+            };
+            
+            // Store in localStorage for analytics
+            const interactions = JSON.parse(localStorage.getItem('resumeInteractions') || '[]');
+            interactions.push(visitorData);
+            localStorage.setItem('resumeInteractions', JSON.stringify(interactions.slice(-50))); // Keep last 50 interactions
+        }
+
+        // Track key interactions
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('demo-btn')) {
+                trackVisitorInteraction('demo_viewed');
+            } else if (e.target.classList.contains('project-link')) {
+                trackVisitorInteraction('project_explored');
+            } else if (e.target.textContent.includes('Invest') || e.target.textContent.includes('Partner')) {
+                trackVisitorInteraction('business_interest');
+            }
+        });
+
+        // Additional Export Functions for Startup Ecosystem
+        function generateStartupProfile() {
+            const startupProfile = {
+                company_overview: {
+                    name: "Fashion-Tech AI Platform",
+                    founder: "Rushikesh Palodkar",
+                    stage: "Series A",
+                    founded: "2023",
+                    location: "New York, NY",
+                    website: "Coming Soon"
+                },
+                business_model: {
+                    type: "B2C SaaS with B2B partnerships",
+                    revenue_streams: ["Subscription fees", "Transaction fees", "Premium features", "API licensing"],
+                    target_market: "Fashion-conscious millennials and Gen Z consumers",
+                    pricing: "Freemium model with premium tiers $9.99-$29.99/month"
+                },
+                market_analysis: {
+                    total_addressable_market: "$2.4B",
+                    serviceable_addressable_market: "$480M", 
+                    market_growth_rate: "15% annually",
+                    competitive_landscape: "Positioned against Stitch Fix, ThredUp, with AI differentiation"
+                },
+                traction_metrics: {
+                    users: "25,000+ active users",
+                    revenue: "$1.2M ARR projection",
+                    growth_rate: "35% month-over-month",
+                    partnerships: "12 strategic partnerships",
+                    retention_rate: "85%",
+                    nps_score: "72"
+                },
+                funding_details: {
+                    seeking: "$2M Series A",
+                    previous_funding: "Self-funded + grants",
+                    use_of_funds: {
+                        product_development: "60%",
+                        team_expansion: "25%", 
+                        marketing_and_sales: "15%"
+                    },
+                    runway: "18 months to profitability"
+                },
+                team: {
+                    founder_ceo: "Rushikesh Palodkar - Technical background, Nomura Holdings experience",
+                    advisors: "Fashion industry veterans, AI/ML experts",
+                    hiring_plans: "Senior engineers, product managers, fashion experts"
+                }
+            };
+            
+            const dataStr = JSON.stringify(startupProfile, null, 2);
+            downloadFile('fashion-tech-startup-profile.json', dataStr);
+        }
+
+        function shareOnSocial() {
+            const portfolioURL = window.location.href;
+            const text = "Check out this innovative fashion-tech entrepreneur! Building the future of fashion with AI 🚀👗💻";
+            
+            const platforms = {
+                twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(portfolioURL)}`,
+                linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(portfolioURL)}`,
+                facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(portfolioURL)}`
+            };
+            
+            const platform = prompt(`Share on social media:\n\n1. Twitter\n2. LinkedIn\n3. Facebook\n\nEnter number (1-3):`);
+            const platformMap = {'1': 'twitter', '2': 'linkedin', '3': 'facebook'};
+            
+            if (platform && platformMap[platform]) {
+                window.open(platforms[platformMap[platform]], '_blank');
+            }
+        }
+
+        function generateQRCode() {
+            const qrText = `${window.location.href}?source=qr`;
+            const qrAPI = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(qrText)}`;
+            
+            const qrWindow = window.open('', '_blank');
+            qrWindow.document.write(`
+                <html>
+                    <head><title>Portfolio QR Code</title></head>
+                    <body style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: Arial, sans-serif; background: #0A0A0A; color: white;">
+                        <h2 style="color: #D4AF37;">Rushikesh Palodkar - Fashion-Tech Entrepreneur</h2>
+                        <img src="${qrAPI}" alt="Portfolio QR Code" style="margin: 20px; border: 5px solid #D4AF37; border-radius: 10px;">
+                        <p>Scan to view portfolio and startup information</p>
+                        <button onclick="window.print()" style="background: linear-gradient(45deg, #D4AF37, #FFD700); color: #0A0A0A; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; margin-top: 20px;">Print QR Code</button>
+                    </body>
+                </html>
+            `);
+        }
+
+        // Startup ecosystem specific URL handling
+        function generateStartupURLs() {
+            const baseURL = window.location.origin + window.location.pathname;
+            const startupURLs = {
+                investor: `${baseURL}?source=investor&role=funding`,
+                accelerator: `${baseURL}?source=accelerator&role=mentorship`, 
+                partner: `${baseURL}?source=partner&role=collaboration`,
+                recruiter: `${baseURL}?source=recruiter&role=hiring`,
+                media: `${baseURL}?source=media&role=interview`,
+                customer: `${baseURL}?source=customer&role=product`
+            };
+            
+            console.log('🔗 Startup Ecosystem URLs Generated:');
+            Object.entries(startupURLs).forEach(([type, url]) => {
+                console.log(`${type.toUpperCase()}: ${url}`);
+            });
+            
+            return startupURLs;
+        }
+
+        // Auto-generate startup URLs on load
+        setTimeout(generateStartupURLs, 2000);
+    </script>
+</body>
+</html>
