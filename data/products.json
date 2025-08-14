@@ -20,8 +20,12 @@
     "sourceUrl": "https://www.ebay.com/itm/336118796146",
     "buyLink": "https://www.ebay.com/itm/336118796146",
     "dateAdded": "2025-08-12T09:09:03.547Z",
-    "dateModified": "2025-08-13T05:47:39.674Z",
-    "isVintage": true
+    "dateModified": "2025-08-14T17:08:17.786Z",
+    "isVintage": true,
+    "isSold": true,
+    "soldDate": "2025-08-14",
+    "salePrice": 45,
+    "buyerInfo": "Test Buyer"
   },
   {
     "id": 1754989745492,

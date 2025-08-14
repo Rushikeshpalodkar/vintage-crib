@@ -1594,17 +1594,67 @@ app.post('/api/products/sync-sold-status', async (req, res) => {
                 checkedCount++;
                 console.log(`🔍 Checking item ${checkedCount}: ${product.name} (${ebayItemId})`);
                 
-                // Check if item is still available on eBay
-                const itemResponse = await eBay.browse.getItem(ebayItemId);
+                // Try to check if item is still available using multiple methods
+                let itemStatus = 'unknown';
+                let itemAvailable = true;
                 
-                // If we get a response, item is still active
+                try {
+                    // Method 1: Try eBay Browse API
+                    const itemResponse = await eBay.browse.getItem(ebayItemId);
+                    itemStatus = 'active';
+                    itemAvailable = true;
+                } catch (apiError) {
+                    // Method 2: If API fails, try direct page scraping
+                    try {
+                        const pageResponse = await axios.get(product.sourceUrl || product.buyLink, {
+                            timeout: 10000,
+                            headers: {
+                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                            }
+                        });
+                        
+                        const pageContent = pageResponse.data.toLowerCase();
+                        
+                        // Check for sold indicators
+                        if (pageContent.includes('this listing has ended') || 
+                            pageContent.includes('no longer available') ||
+                            pageContent.includes('item not found') ||
+                            pageContent.includes('listing not found') ||
+                            pageContent.includes('sold') && pageContent.includes('ended')) {
+                            itemStatus = 'sold';
+                            itemAvailable = false;
+                        } else {
+                            itemStatus = 'active';
+                            itemAvailable = true;
+                        }
+                    } catch (scrapeError) {
+                        itemStatus = 'error';
+                        itemAvailable = true; // Assume available if we can't check
+                    }
+                }
+                
                 results.push({
                     productId: product.id,
                     productName: product.name,
                     ebayItemId: ebayItemId,
-                    status: 'active',
-                    available: true
+                    status: itemStatus,
+                    available: itemAvailable
                 });
+                
+                // If item is detected as sold, mark it in our database
+                if (!itemAvailable && itemStatus === 'sold') {
+                    console.log(`💰 Item detected as sold: ${product.name}`);
+                    
+                    product.isSold = true;
+                    product.soldDate = new Date().toISOString().split('T')[0];
+                    product.salePrice = product.price; // Use original price as sale price
+                    product.buyerInfo = 'eBay Customer';
+                    product.dateModified = new Date().toISOString();
+                    product.autoDetectedSold = true; // Flag for auto-detection
+                    
+                    markedSoldCount++;
+                    results[results.length - 1].autoMarked = true;
+                }
                 
                 // Small delay to respect API limits
                 await new Promise(resolve => setTimeout(resolve, 1000));
