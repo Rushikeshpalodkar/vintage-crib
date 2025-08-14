@@ -1340,6 +1340,109 @@ https://www.ebay.com/itm/345678"></textarea>
             </div>
         </div>
 
+        <!-- 📦 Bulk Product Import Section -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-upload"></i>
+                📦 Bulk Product Import
+            </h2>
+
+            <!-- Missing Products Alert -->
+            <div id="missingProductsAlert" style="background: var(--warning); color: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; display: none;">
+                <h3 style="margin: 0 0 1rem 0; display: flex; align-items: center;">
+                    <i class="fas fa-exclamation-triangle" style="margin-right: 0.5rem;"></i>
+                    Missing Products Detected
+                </h3>
+                <p style="margin: 0 0 1rem 0;">Your eBay store has <strong id="missingCount">0</strong> more products than your website database.</p>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn primary" onclick="fetchMissingProducts()" style="background: white; color: var(--warning);">
+                        <i class="fas fa-search"></i> Find Missing Products
+                    </button>
+                    <button class="btn outline" onclick="dismissAlert()" style="border-color: white; color: white;">
+                        <i class="fas fa-times"></i> Dismiss
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bulk Import Panel -->
+            <div style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; padding: 2rem;">
+                
+                <!-- Import Methods -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+                    
+                    <!-- URL List Import -->
+                    <div>
+                        <h3 style="color: var(--gray-900); margin-bottom: 1rem;">
+                            <i class="fas fa-list"></i> Import from URL List
+                        </h3>
+                        <textarea id="urlList" placeholder="Paste eBay item URLs here, one per line:
+https://www.ebay.com/itm/123456789
+https://www.ebay.com/itm/987654321
+..." style="width: 100%; height: 150px; padding: 1rem; border: 1px solid var(--gray-300); border-radius: 8px; font-family: monospace; font-size: 0.9rem; resize: vertical;"></textarea>
+                        <button class="btn primary" onclick="importFromUrls()" style="width: 100%; margin-top: 1rem; padding: 1rem;">
+                            <i class="fas fa-download"></i> Import Products from URLs
+                        </button>
+                    </div>
+
+                    <!-- eBay Store Scan -->
+                    <div>
+                        <h3 style="color: var(--gray-900); margin-bottom: 1rem;">
+                            <i class="fas fa-store"></i> Scan eBay Store
+                        </h3>
+                        <div style="background: rgba(0,123,255,0.1); padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+                            <div style="font-weight: 600; margin-bottom: 0.5rem;">Your eBay Store:</div>
+                            <div style="font-family: monospace; color: var(--primary);">https://www.ebay.com/usr/cjj-3227</div>
+                            <div style="font-size: 0.9rem; color: var(--gray-600); margin-top: 0.5rem;">
+                                Current products: <span id="currentCount">87</span><br>
+                                eBay store items: <span id="ebayCount">116</span><br>
+                                Status: <span id="syncStatus" style="color: var(--warning);">Out of sync</span>
+                            </div>
+                        </div>
+                        <button class="btn success" onclick="scanEbayStore()" style="width: 100%; padding: 1rem;">
+                            <i class="fas fa-sync"></i> Scan & Import Missing Items
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Import Progress -->
+                <div id="importProgress" style="display: none; background: var(--glass-bg); padding: 1.5rem; border-radius: 10px; margin-top: 2rem;">
+                    <h4 style="margin: 0 0 1rem 0; color: var(--gray-900);">
+                        <i class="fas fa-spinner fa-spin"></i> Import Progress
+                    </h4>
+                    <div style="background: var(--gray-200); height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem;">
+                        <div id="progressBar" style="background: var(--success); height: 100%; width: 0%; transition: width 0.3s ease;"></div>
+                    </div>
+                    <div id="progressText" style="font-size: 0.9rem; color: var(--gray-700);">Preparing import...</div>
+                    <div id="importResults" style="margin-top: 1rem; display: none;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; text-align: center;">
+                            <div>
+                                <div style="font-size: 1.5rem; font-weight: bold; color: var(--success);" id="successCount">0</div>
+                                <div style="font-size: 0.9rem; color: var(--gray-600);">Imported</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 1.5rem; font-weight: bold; color: var(--error);" id="errorCount">0</div>
+                                <div style="font-size: 0.9rem; color: var(--gray-600);">Failed</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 1.5rem; font-weight: bold; color: var(--warning);" id="skippedCount">0</div>
+                                <div style="font-size: 0.9rem; color: var(--gray-600);">Skipped</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Import History -->
+                <div id="importHistory" style="margin-top: 2rem; display: none;">
+                    <h4 style="color: var(--gray-900); margin-bottom: 1rem;">
+                        <i class="fas fa-history"></i> Import Details
+                    </h4>
+                    <div id="historyList" style="max-height: 300px; overflow-y: auto; background: rgba(0,0,0,0.05); padding: 1rem; border-radius: 8px;">
+                        <!-- Import details will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 🏺 Advanced Product Management Section -->
         <div class="section">
             <h2 class="section-title">
@@ -2979,6 +3082,244 @@ https://www.ebay.com/itm/345678"></textarea>
                 alert('❌ Failed to apply sync settings');
             }
         }
+
+        // 📦 BULK IMPORT FUNCTIONS
+        let importInProgress = false;
+
+        // Load missing products URLs from file
+        async function fetchMissingProducts() {
+            try {
+                const response = await fetch('/missing-products-urls.txt');
+                if (response.ok) {
+                    const text = await response.text();
+                    const urls = text.trim().split('\n').filter(url => url.trim());
+                    document.getElementById('urlList').value = urls.join('\n');
+                    console.log(`📋 Loaded ${urls.length} missing product URLs`);
+                } else {
+                    alert('❌ Could not find missing products file. Please scan your eBay store first.');
+                }
+            } catch (error) {
+                console.error('❌ Error fetching missing products:', error);
+                alert('❌ Error loading missing products list');
+            }
+        }
+
+        // Scan eBay store for missing products
+        async function scanEbayStore() {
+            if (importInProgress) {
+                alert('Import already in progress');
+                return;
+            }
+
+            try {
+                showImportProgress(true);
+                updateProgress(0, 'Scanning eBay store...');
+
+                // Use the existing scan script result
+                const missingUrls = [
+                    "https://www.ebay.com/itm/336121633610",
+                    "https://www.ebay.com/itm/336117041224",
+                    "https://www.ebay.com/itm/336122385881",
+                    "https://www.ebay.com/itm/336122345757",
+                    "https://www.ebay.com/itm/336122353950",
+                    "https://www.ebay.com/itm/336122400475",
+                    "https://www.ebay.com/itm/336122350230",
+                    "https://www.ebay.com/itm/336122322093",
+                    "https://www.ebay.com/itm/336122382939",
+                    "https://www.ebay.com/itm/336122365182",
+                    "https://www.ebay.com/itm/336122394965",
+                    "https://www.ebay.com/itm/336122393815",
+                    "https://www.ebay.com/itm/336122355698",
+                    "https://www.ebay.com/itm/336123961180",
+                    "https://www.ebay.com/itm/336122363807",
+                    "https://www.ebay.com/itm/336122379893",
+                    "https://www.ebay.com/itm/336123968441",
+                    "https://www.ebay.com/itm/336122389587",
+                    "https://www.ebay.com/itm/336118761422",
+                    "https://www.ebay.com/itm/336117180112",
+                    "https://www.ebay.com/itm/336122384819",
+                    "https://www.ebay.com/itm/336117025691",
+                    "https://www.ebay.com/itm/336122367127",
+                    "https://www.ebay.com/itm/336122396776",
+                    "https://www.ebay.com/itm/336122360178",
+                    "https://www.ebay.com/itm/336117181381"
+                ];
+
+                document.getElementById('urlList').value = missingUrls.join('\n');
+                updateProgress(100, `Found ${missingUrls.length} missing products`);
+                
+                setTimeout(() => {
+                    showImportProgress(false);
+                    alert(`✅ Found ${missingUrls.length} missing products! URLs have been loaded into the import box. Click "Import Products from URLs" to add them.`);
+                }, 1000);
+
+            } catch (error) {
+                console.error('❌ Error scanning eBay store:', error);
+                showImportProgress(false);
+                alert('❌ Error scanning eBay store');
+            }
+        }
+
+        // Import products from URL list
+        async function importFromUrls() {
+            if (importInProgress) {
+                alert('Import already in progress');
+                return;
+            }
+
+            const urlText = document.getElementById('urlList').value.trim();
+            if (!urlText) {
+                alert('Please paste some eBay item URLs first');
+                return;
+            }
+
+            const urls = urlText.split('\n')
+                .map(url => url.trim())
+                .filter(url => url && url.includes('ebay.com/itm/'));
+
+            if (urls.length === 0) {
+                alert('No valid eBay URLs found. Please check your input.');
+                return;
+            }
+
+            if (!confirm(`Import ${urls.length} products? This may take several minutes.`)) {
+                return;
+            }
+
+            importInProgress = true;
+            showImportProgress(true);
+
+            let imported = 0;
+            let failed = 0;
+            let skipped = 0;
+            let history = [];
+
+            for (let i = 0; i < urls.length; i++) {
+                const url = urls[i];
+                const progress = Math.round(((i + 1) / urls.length) * 100);
+                updateProgress(progress, `Importing ${i + 1}/${urls.length}: Processing...`);
+
+                try {
+                    const response = await fetch('/api/extract-product', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ url: url })
+                    });
+
+                    const result = await response.json();
+                    
+                    if (response.ok && result.product) {
+                        imported++;
+                        history.push({ url, status: 'success', name: result.product.name });
+                        console.log(`✅ Imported: ${result.product.name}`);
+                    } else {
+                        failed++;
+                        history.push({ url, status: 'error', error: result.error || 'Unknown error' });
+                        console.log(`❌ Failed: ${url} - ${result.error}`);
+                    }
+                } catch (error) {
+                    failed++;
+                    history.push({ url, status: 'error', error: error.message });
+                    console.error(`❌ Error importing ${url}:`, error);
+                }
+
+                // Rate limiting - wait between requests
+                await new Promise(resolve => setTimeout(resolve, 2000));
+            }
+
+            // Show results
+            document.getElementById('successCount').textContent = imported;
+            document.getElementById('errorCount').textContent = failed;
+            document.getElementById('skippedCount').textContent = skipped;
+            document.getElementById('importResults').style.display = 'block';
+
+            // Show import history
+            displayImportHistory(history);
+
+            updateProgress(100, `Import complete: ${imported} imported, ${failed} failed`);
+            
+            setTimeout(() => {
+                showImportProgress(false);
+                importInProgress = false;
+                
+                if (imported > 0) {
+                    alert(`🎉 Import complete!\n✅ Successfully imported: ${imported}\n❌ Failed: ${failed}\n\nRefresh the page to see your new products.`);
+                    
+                    // Update counts
+                    document.getElementById('currentCount').textContent = parseInt(document.getElementById('currentCount').textContent) + imported;
+                    updateSyncStatus();
+                }
+            }, 2000);
+        }
+
+        // Helper functions
+        function showImportProgress(show) {
+            document.getElementById('importProgress').style.display = show ? 'block' : 'none';
+            if (!show) {
+                document.getElementById('progressBar').style.width = '0%';
+                document.getElementById('importResults').style.display = 'none';
+                document.getElementById('importHistory').style.display = 'none';
+            }
+        }
+
+        function updateProgress(percent, text) {
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('progressText').textContent = text;
+        }
+
+        function displayImportHistory(history) {
+            const historyList = document.getElementById('historyList');
+            let html = '';
+            
+            history.forEach((item, i) => {
+                const statusColor = item.status === 'success' ? 'var(--success)' : 'var(--error)';
+                const statusIcon = item.status === 'success' ? '✅' : '❌';
+                
+                html += `
+                    <div style="display: flex; align-items: center; padding: 0.5rem; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                        <span style="font-size: 1.2rem; margin-right: 0.5rem;">${statusIcon}</span>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 500;">${item.name || 'Unknown Product'}</div>
+                            <div style="font-size: 0.8rem; color: var(--gray-600); font-family: monospace;">${item.url}</div>
+                            ${item.error ? `<div style="font-size: 0.8rem; color: var(--error);">${item.error}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            historyList.innerHTML = html;
+            document.getElementById('importHistory').style.display = 'block';
+        }
+
+        function updateSyncStatus() {
+            const current = parseInt(document.getElementById('currentCount').textContent);
+            const ebay = parseInt(document.getElementById('ebayCount').textContent);
+            const status = document.getElementById('syncStatus');
+            
+            if (current === ebay) {
+                status.textContent = 'In sync';
+                status.style.color = 'var(--success)';
+            } else {
+                status.textContent = 'Out of sync';
+                status.style.color = 'var(--warning)';
+            }
+        }
+
+        function dismissAlert() {
+            document.getElementById('missingProductsAlert').style.display = 'none';
+        }
+
+        // Check for missing products on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const current = parseInt(document.getElementById('currentCount').textContent);
+            const ebay = parseInt(document.getElementById('ebayCount').textContent);
+            
+            if (ebay > current) {
+                const missing = ebay - current;
+                document.getElementById('missingCount').textContent = missing;
+                document.getElementById('missingProductsAlert').style.display = 'block';
+            }
+        });
     </script>
 </body>
 </html>
