@@ -2180,25 +2180,101 @@ app.get('/api/admin/health', (req, res) => {
     });
 });
 
-// Admin stats endpoint
+// Enhanced Admin stats endpoint with real data
 app.get('/api/admin/stats', async (req, res) => {
     try {
         const productData = await readProducts();
+        const syncSettings = await readSyncSettings();
+        const syncLogData = await readSyncLog();
+        const syncLogs = syncLogData.logs || [];
+        
+        // Real product statistics
+        const activeProducts = productData.filter(p => !p.isSold);
+        const soldProducts = productData.filter(p => p.isSold);
+        const recentProducts = productData.filter(p => {
+            const addedDate = new Date(p.dateAdded);
+            const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+            return addedDate > weekAgo;
+        });
+        
+        // Real sync statistics
+        const successfulSyncs = syncLogs.filter(log => log.status === 'success').length;
+        const totalSyncs = syncLogs.length;
+        const lastSync = syncLogs.length > 0 ? syncLogs[syncLogs.length - 1] : null;
+        
+        // Real revenue calculations
+        const totalRevenue = soldProducts.reduce((sum, product) => {
+            return sum + parseFloat(product.salePrice || product.price || 0);
+        }, 0);
+        
+        const averageSalePrice = soldProducts.length > 0 ? totalRevenue / soldProducts.length : 0;
+        const averagePrice = activeProducts.length > 0 ? 
+            activeProducts.reduce((sum, p) => sum + (parseFloat(p.price) || 0), 0) / activeProducts.length : 0;
+        
+        // Category breakdown
+        const categoryStats = productData.reduce((acc, product) => {
+            const category = product.category || 'uncategorized';
+            if (!acc[category]) {
+                acc[category] = { total: 0, sold: 0, active: 0 };
+            }
+            acc[category].total++;
+            if (product.isSold) {
+                acc[category].sold++;
+            } else {
+                acc[category].active++;
+            }
+            return acc;
+        }, {});
+        
+        // Real system uptime and health
+        const uptimeHours = Math.floor(process.uptime() / 3600);
+        const uptimeDays = Math.floor(uptimeHours / 24);
+        
         res.json({
+            // Core product metrics
             totalProducts: productData.length,
-            totalVisits: analytics.totalVisits,
-            uniqueVisitors: analytics.uniqueVisitors.size,
-            recentActivity: analytics.lastVisits.slice(0, 5),
-            productCategories: productData.reduce((acc, product) => {
-                acc[product.category] = (acc[product.category] || 0) + 1;
-                return acc;
-            }, {}),
-            averagePrice: productData.length > 0 ? 
-                (productData.reduce((sum, p) => sum + (p.price || 0), 0) / productData.length).toFixed(2) : 0,
+            activeProducts: activeProducts.length,
+            soldProducts: soldProducts.length,
+            recentlyAdded: recentProducts.length,
+            
+            // Financial metrics
+            totalRevenue: totalRevenue.toFixed(2),
+            averagePrice: averagePrice.toFixed(2),
+            averageSalePrice: averageSalePrice.toFixed(2),
+            
+            // Sync system metrics
+            syncStats: {
+                totalSyncs: totalSyncs,
+                successfulSyncs: successfulSyncs,
+                failedSyncs: totalSyncs - successfulSyncs,
+                successRate: totalSyncs > 0 ? Math.round((successfulSyncs / totalSyncs) * 100) : 100,
+                autoSyncEnabled: syncSettings.autoSyncEnabled,
+                lastSyncTime: lastSync ? lastSync.startTime : null,
+                lastSyncStatus: lastSync ? lastSync.status : 'none'
+            },
+            
+            // Category breakdown
+            categoryStats: categoryStats,
+            
+            // Visitor analytics (real data)
+            analytics: {
+                totalVisits: analytics.totalVisits,
+                uniqueVisitors: analytics.uniqueVisitors.size,
+                recentActivity: analytics.lastVisits.slice(0, 10),
+                todayVisits: analytics.lastVisits.filter(visit => {
+                    const today = new Date().toDateString();
+                    return new Date(visit.timestamp).toDateString() === today;
+                }).length
+            },
+            
+            // System health
             systemStatus: {
                 uptime: process.uptime(),
+                uptimeFormatted: `${uptimeDays}d ${uptimeHours % 24}h`,
                 memory: process.memoryUsage(),
-                environment: process.env.NODE_ENV || 'development'
+                environment: process.env.NODE_ENV || 'development',
+                nodeVersion: process.version,
+                timestamp: new Date().toISOString()
             }
         });
     } catch (error) {

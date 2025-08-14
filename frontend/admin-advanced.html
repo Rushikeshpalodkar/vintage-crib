@@ -1012,27 +1012,27 @@
                 <div class="card-icon import">
                     <i class="fas fa-download"></i>
                 </div>
-                <div class="card-title">Recent Imports</div>
-                <div class="stat-number" id="recentImports">23</div>
-                <div class="stat-label">Added this week</div>
+                <div class="card-title">Active Products</div>
+                <div class="stat-number" id="recentImports">105</div>
+                <div class="stat-label">Currently for sale</div>
             </div>
 
             <div class="dashboard-card">
                 <div class="card-icon analytics">
                     <i class="fas fa-chart-line"></i>
                 </div>
-                <div class="card-title">Store Views</div>
-                <div class="stat-number" id="storeViews">1.2K</div>
-                <div class="stat-label">This month</div>
+                <div class="card-title">Total Visits</div>
+                <div class="stat-number" id="storeViews">1</div>
+                <div class="stat-label">Site visits tracked</div>
             </div>
 
             <div class="dashboard-card">
                 <div class="card-icon tools">
-                    <i class="fas fa-magic"></i>
+                    <i class="fas fa-sync-alt"></i>
                 </div>
-                <div class="card-title">Success Rate</div>
-                <div class="stat-number">98%</div>
-                <div class="stat-label">Customer satisfaction</div>
+                <div class="card-title">Sync Success Rate</div>
+                <div class="stat-number" id="syncSuccessRate">100%</div>
+                <div class="stat-label">eBay sync reliability</div>
             </div>
         </div>
 
@@ -1973,8 +1973,58 @@ https://www.ebay.com/itm/987654321
             });
         }
 
+        // Load real admin statistics
+        async function loadRealAdminStats() {
+            try {
+                const response = await fetch('/api/admin/stats');
+                const stats = await response.json();
+                
+                if (stats.error) {
+                    console.error('Failed to load admin stats:', stats.error);
+                    return;
+                }
+                
+                // Update dashboard cards with real data
+                document.getElementById('totalProducts').textContent = stats.totalProducts;
+                document.getElementById('recentImports').textContent = stats.activeProducts;
+                document.getElementById('storeViews').textContent = stats.analytics.totalVisits;
+                document.getElementById('syncSuccessRate').textContent = stats.syncStats.successRate + '%';
+                
+                // Update sold stats if elements exist
+                if (document.getElementById('soldCount')) {
+                    document.getElementById('soldCount').textContent = stats.soldProducts;
+                }
+                if (document.getElementById('totalRevenue')) {
+                    document.getElementById('totalRevenue').textContent = '$' + stats.totalRevenue;
+                }
+                if (document.getElementById('avgSalePrice')) {
+                    document.getElementById('avgSalePrice').textContent = '$' + stats.averageSalePrice;
+                }
+                
+                // Update sync stats
+                if (document.getElementById('totalSyncs')) {
+                    document.getElementById('totalSyncs').textContent = stats.syncStats.totalSyncs;
+                }
+                if (document.getElementById('successRate')) {
+                    document.getElementById('successRate').textContent = stats.syncStats.successRate + '%';
+                }
+                
+                // Update system uptime
+                const uptimeElement = document.querySelector('[data-stat="uptime"]');
+                if (uptimeElement) {
+                    uptimeElement.textContent = stats.systemStatus.uptimeFormatted;
+                }
+                
+                console.log('✅ Admin stats loaded with real data:', stats);
+                
+            } catch (error) {
+                console.error('❌ Error loading admin stats:', error);
+            }
+        }
+
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            loadRealAdminStats(); // Load real data first
             setTimeout(animateNumbers, 500);
             loadProductsForManagement();
             setupProductSearchAndFilter();
