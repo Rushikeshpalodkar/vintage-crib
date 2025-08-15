@@ -1,5 +1,5 @@
 {
-  "autoSyncEnabled": true,
+  "autoSyncEnabled": false,
   "syncIntervalMinutes": 60,
   "lastSyncTime": "2025-08-14T17:29:42.884Z",
   "syncTypes": {
@@ -12,5 +12,5 @@
     "retryDelayMinutes": 5
   },
   "createdAt": "2025-08-14T17:28:45.402Z",
-  "lastUpdated": "2025-08-14T22:53:03.287Z"
+  "lastUpdated": "2025-08-15T02:57:00.529Z"
 }

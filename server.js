@@ -223,23 +223,23 @@ async function addSyncLogEntry(entry) {
     await writeSyncLog(logData);
 }
 
-// 🔄 INTELLIGENT AUTO-SYNC SYSTEM WITH ADAPTIVE RATE LIMITING
-let currentDelay = 5000; // Start with 5 second delay
+// 🔄 CONSERVATIVE AUTO-SYNC SYSTEM WITH GENTLE RATE LIMITING
+let currentDelay = 10000; // Start with 10 second delay (more conservative)
 let consecutiveBlocks = 0;
 let lastRequestTime = 0;
 
-// Smart delay calculator based on eBay's response
+// Conservative delay calculator to prevent eBay blocking
 function calculateSmartDelay(wasBlocked = false) {
     if (wasBlocked) {
         consecutiveBlocks++;
-        // Exponential backoff: 5s → 15s → 45s → 90s → 180s
-        currentDelay = Math.min(currentDelay * 3, 180000); 
+        // Much gentler exponential backoff: 10s → 30s → 60s → 120s → 300s (max 5min)
+        currentDelay = Math.min(currentDelay * 2, 300000); 
         console.log(`⏳ eBay blocked request - increasing delay to ${currentDelay/1000}s`);
     } else {
-        // Successful request - gradually reduce delay but keep minimum
+        // Successful request - very slowly reduce delay but keep high minimum
         if (consecutiveBlocks > 0) {
             consecutiveBlocks = Math.max(0, consecutiveBlocks - 1);
-            currentDelay = Math.max(5000, currentDelay * 0.8);
+            currentDelay = Math.max(10000, currentDelay * 0.9); // Slower reduction
         }
     }
     return currentDelay;
@@ -353,11 +353,12 @@ async function performAutoSync() {
 
         const products = await readProducts();
         
-        // Phase 1: Check existing products for updates
+        // Phase 1: Check limited existing products for updates (to prevent blocking)
         const activeProducts = products.filter(p => !p.isSold);
-        console.log(`📊 Phase 1: Found ${activeProducts.length} active products to sync`);
+        const limitedProducts = activeProducts.slice(0, 5); // Only sync first 5 products per session
+        console.log(`📊 Phase 1: Found ${activeProducts.length} active products, syncing first ${limitedProducts.length} to prevent blocking`);
 
-        for (const product of activeProducts) {
+        for (const product of limitedProducts) {
             const ebayItemId = extractEbayItemId(product.sourceUrl || product.buyLink);
             if (!ebayItemId) continue;
 
