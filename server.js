@@ -2568,7 +2568,8 @@ app.get('/favicon.ico', (req, res) => {
 });
 
 // Static files - AFTER API routes and protection
-app.use(express.static(path.join(__dirname, 'frontend')));
+app.use(express.static(path.join(__dirname))); // Serve from root directory
+app.use(express.static(path.join(__dirname, 'frontend'))); // Serve from frontend directory
 
 // API Error handling middleware
 app.use('/api/*', (err, req, res, next) => {
@@ -2609,7 +2610,7 @@ app.use('/api/*', (req, res) => {
 // Catch-all - MUST BE LAST
 app.get('*', (req, res) => {
     console.log('📄 Serving index.html for:', req.path);
-    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Error handling for stability
