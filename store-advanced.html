@@ -271,6 +271,10 @@
             transform: translateZ(10px) translateY(-2px);
         }
 
+        .mobile-menu-btn {
+            display: none;
+        }
+
         .nav-link::after {
             content: '';
             position: absolute;
@@ -750,7 +754,37 @@
             }
 
             .nav-links {
-                display: none;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+                background: rgba(42, 42, 42, 0.95);
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                position: absolute;
+                top: 100%;
+                right: 20px;
+                min-width: 200px;
+                transform: translateY(-10px);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            .nav-links.mobile-open {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                background: none;
+                border: none;
+                color: var(--off-white);
+                font-size: 1.5rem;
+                cursor: pointer;
+                padding: 10px;
             }
 
             .main-content {
@@ -800,12 +834,11 @@
                 <div class="logo-symbol">🏺</div>
                 Vintage Crib
             </a>
-            <nav class="nav-links">
-                <a href="#" class="nav-link">📚 Collections</a>
-                <a href="#" class="nav-link">✨ Curated</a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            <nav class="nav-links" id="navLinks">
+                <a href="/categories.html" class="nav-link">📚 Collections</a>
+                <a href="#" class="nav-link" onclick="showCuratedProducts()">✨ Curated</a>
                 <a href="#" class="nav-link" onclick="showSoldProducts()">💰 Sold Items</a>
-                <a href="#" class="nav-link">📜 Stories</a>
-                <a href="#" class="nav-link">📞 Contact</a>
                 <a href="/resume.html" class="nav-link creator-resume-btn" style="background: linear-gradient(45deg, #ff6b6b, #4ecdc4); padding: 8px 16px; border-radius: 20px; color: white; font-weight: 600; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3); position: relative;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(255, 107, 107, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(255, 107, 107, 0.3)'">
                     ✨ Creator Resume
                     <span style="position: absolute; top: -8px; right: -8px; background: #4CAF50; color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 10px; font-weight: 500;">Open to Work</span>
@@ -1423,6 +1456,7 @@
         document.addEventListener('DOMContentLoaded', async function() {
             await loadStoreSettings();
             await loadProducts();
+            checkURLParameters(); // Check for category filtering
         });
 
         // 🚀 Client-Side Pre-warming & Keep-Alive System
@@ -1606,6 +1640,73 @@
             // Refresh the regular products display
             displayProducts();
         }
+
+        // Curated Products Function
+        async function showCuratedProducts() {
+            try {
+                // Filter products to show only high-value or featured items
+                const curatedProducts = allProducts.filter(product => 
+                    !product.isSold && (
+                        product.price > 50 || // Higher value items
+                        product.featured === true || // Featured items
+                        product.description.toLowerCase().includes('vintage') ||
+                        product.description.toLowerCase().includes('rare') ||
+                        product.description.toLowerCase().includes('antique')
+                    )
+                );
+                
+                // Update display
+                filteredProducts = curatedProducts;
+                currentPage = 1;
+                displayProducts();
+                
+                // Update page title
+                document.getElementById('productsCount').textContent = `${curatedProducts.length} curated pieces`;
+                
+                console.log(`Showing ${curatedProducts.length} curated products`);
+            } catch (error) {
+                console.error('Error showing curated products:', error);
+            }
+        }
+        
+        // Category filtering function
+        function filterByCategory(category) {
+            if (category === 'all' || !category) {
+                filteredProducts = allProducts.filter(product => !product.isSold);
+            } else {
+                filteredProducts = allProducts.filter(product => 
+                    !product.isSold && product.category === category
+                );
+            }
+            currentPage = 1;
+            displayProducts();
+            document.getElementById('productsCount').textContent = `${filteredProducts.length} items in ${category}`;
+        }
+        
+        // Check URL parameters for category filtering
+        function checkURLParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const category = urlParams.get('category');
+            if (category) {
+                filterByCategory(category);
+            }
+        }
+
+        // Mobile menu toggle function
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('mobile-open');
+        }
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navLinks = document.getElementById('navLinks');
+            const mobileBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (!navLinks.contains(event.target) && !mobileBtn.contains(event.target)) {
+                navLinks.classList.remove('mobile-open');
+            }
+        });
 
         // Creator Resume button now links to dedicated resume page
     </script>
