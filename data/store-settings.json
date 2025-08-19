@@ -3,5 +3,12 @@
   "displayStyle": "grid",
   "itemsPerPage": "24",
   "defaultCategory": "all",
-  "lastUpdated": "2025-08-14T17:18:53.754Z"
+  "priceRange": {
+    "min": 1,
+    "max": 1000,
+    "adminConfigured": true
+  },
+  "autoSyncEnabled": true,
+  "preserveAdminSettings": true,
+  "lastUpdated": "2025-08-19T10:50:00.000Z"
 }
