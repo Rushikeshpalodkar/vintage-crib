@@ -46,10 +46,16 @@
 <body>
     <div style="text-align: center; padding: 50px; font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%, #0a0a0a 100%); color: #f8f8f6; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative;">
         
-        <!-- Creator Resume Button (subtle, top-right) -->
-        <button onclick="showCreatorInfo()" style="position: absolute; top: 20px; right: 20px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: #ffffff; padding: 8px 16px; border-radius: 20px; font-size: 0.9rem; cursor: pointer; backdrop-filter: blur(10px); transition: all 0.3s ease; z-index: 1000;">
-            👨‍💻 Creator Resume
-        </button>
+        <!-- Creator Resume Button (special, top-right) -->
+        <a href="/resume.html" style="position: absolute; top: 20px; right: 20px; background: linear-gradient(45deg, #ff6b6b, #4ecdc4); border: 2px solid rgba(255, 255, 255, 0.3); color: #ffffff; padding: 12px 20px; border-radius: 25px; font-size: 1rem; font-weight: 600; text-decoration: none; backdrop-filter: blur(10px); transition: all 0.3s ease; z-index: 1000; box-shadow: 0 8px 32px rgba(255, 107, 107, 0.4); animation: glow 2s infinite alternate;" onmouseover="this.style.transform='translateY(-3px) scale(1.05)'; this.style.boxShadow='0 12px 40px rgba(255, 107, 107, 0.6)'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 32px rgba(255, 107, 107, 0.4)'">
+            ✨ Creator Resume
+        </a>
+        <style>
+            @keyframes glow {
+                0% { box-shadow: 0 8px 32px rgba(255, 107, 107, 0.4); }
+                100% { box-shadow: 0 8px 32px rgba(78, 205, 196, 0.4); }
+            }
+        </style>
 
         <div style="background: rgba(42, 42, 42, 0.8); backdrop-filter: blur(20px); border: 2px solid rgba(255, 107, 107, 0.3); border-radius: 20px; padding: 50px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);">
             <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 50%, #ff7675 100%); border: 3px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-family: 'serif'; font-style: italic; font-size: 2rem; font-weight: 900; color: #f8f8f6; box-shadow: 0 8px 32px rgba(255, 107, 107, 0.3);">C</div>
@@ -66,80 +72,8 @@
             <p style="margin-top: 30px;"><a href="/store-advanced.html" style="color: #4ecdc4; text-decoration: none; font-weight: 600;">Enter Collection →</a></p>
         </div>
 
-        <!-- Creator Resume Modal -->
-        <div id="creatorModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 2000; backdrop-filter: blur(5px);">
-            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border: 2px solid rgba(255, 107, 107, 0.3); border-radius: 20px; padding: 40px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
-                <button onclick="hideCreatorInfo()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: #ffffff; font-size: 1.5rem; cursor: pointer;">✕</button>
-                
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem;">👨‍💻</div>
-                    <h2 style="color: #ff6b6b; margin-bottom: 10px; font-size: 1.8rem;">Rushikesh</h2>
-                    <p style="color: #4ecdc4; font-weight: 600;">Full-Stack Developer & Startup Founder</p>
-                </div>
-
-                <div style="color: #f4f1eb; line-height: 1.6;">
-                    <div style="margin-bottom: 25px;">
-                        <h3 style="color: #ff6b6b; margin-bottom: 15px; font-size: 1.2rem;">🚀 About This Project</h3>
-                        <p style="margin-bottom: 10px;">Vintage Crib is my startup idea - a curated vintage marketplace with advanced eBay integration.</p>
-                        <p><strong>Built with:</strong> Node.js, Express, MongoDB, eBay API, JWT Auth, Redis Caching</p>
-                    </div>
-
-                    <div style="margin-bottom: 25px;">
-                        <h3 style="color: #ff6b6b; margin-bottom: 15px; font-size: 1.2rem;">💼 Technical Skills</h3>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9rem;">
-                            <div>• Node.js & Express</div>
-                            <div>• React & JavaScript</div>
-                            <div>• MongoDB & SQL</div>
-                            <div>• API Development</div>
-                            <div>• Authentication & Security</div>
-                            <div>• Performance Optimization</div>
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 25px;">
-                        <h3 style="color: #ff6b6b; margin-bottom: 15px; font-size: 1.2rem;">🎯 What I Offer</h3>
-                        <div style="font-size: 0.9rem;">
-                            <div style="margin-bottom: 8px;">• Custom web application development</div>
-                            <div style="margin-bottom: 8px;">• E-commerce platform creation</div>
-                            <div style="margin-bottom: 8px;">• API development & third-party integrations</div>
-                            <div style="margin-bottom: 8px;">• Database design & optimization</div>
-                            <div style="margin-bottom: 8px;">• Complete startup technical solutions</div>
-                        </div>
-                    </div>
-
-                    <div style="text-align: center; margin-top: 30px;">
-                        <div style="margin-bottom: 20px;">
-                            <strong style="color: #4ecdc4;">Available for freelance projects & collaborations</strong>
-                        </div>
-                        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                            <a href="mailto:rushikesh@youremail.com" style="background: linear-gradient(45deg, #ff6b6b, #4ecdc4); color: #ffffff; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9rem;">
-                                📧 Contact Me
-                            </a>
-                            <a href="/admin.html" style="background: transparent; color: #4ecdc4; padding: 10px 20px; border: 2px solid #4ecdc4; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9rem;">
-                                🔧 Admin Demo
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <script>
-        function showCreatorInfo() {
-            document.getElementById('creatorModal').style.display = 'block';
-        }
-        
-        function hideCreatorInfo() {
-            document.getElementById('creatorModal').style.display = 'none';
-        }
-        
-        // Close modal when clicking outside
-        document.getElementById('creatorModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                hideCreatorInfo();
-            }
-        });
-
         // Redirect to the 3D store after 8 seconds (gives time to see Creator Resume button)
         setTimeout(() => {
             window.location.href = '/store-advanced.html';

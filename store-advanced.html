@@ -806,7 +806,7 @@
                 <a href="#" class="nav-link" onclick="showSoldProducts()">💰 Sold Items</a>
                 <a href="#" class="nav-link">📜 Stories</a>
                 <a href="#" class="nav-link">📞 Contact</a>
-                <a href="#" class="nav-link creator-resume-btn" onclick="showCreatorInfo()">👨‍💻 Creator Resume</a>
+                <a href="/resume.html" class="nav-link creator-resume-btn" style="background: linear-gradient(45deg, #ff6b6b, #4ecdc4); padding: 8px 16px; border-radius: 20px; color: white; font-weight: 600; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(255, 107, 107, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(255, 107, 107, 0.3)'">✨ Creator Resume</a>
             </nav>
         </div>
     </header>
@@ -1604,84 +1604,8 @@
             displayProducts();
         }
 
-        // Creator Resume Modal Functions
-        function showCreatorInfo() {
-            document.getElementById('creatorModal').style.display = 'block';
-        }
-        
-        function hideCreatorInfo() {
-            document.getElementById('creatorModal').style.display = 'none';
-        }
-        
-        // Close modal when clicking outside
-        document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('creatorModal');
-            if (modal) {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        hideCreatorInfo();
-                    }
-                });
-            }
-        });
+        // Creator Resume button now links to dedicated resume page
     </script>
 
-    <!-- Creator Resume Modal -->
-    <div id="creatorModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 10000; backdrop-filter: blur(5px);">
-        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border: 2px solid rgba(255, 107, 107, 0.3); border-radius: 20px; padding: 40px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
-            <button onclick="hideCreatorInfo()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: #ffffff; font-size: 1.5rem; cursor: pointer;">✕</button>
-            
-            <div style="text-align: center; margin-bottom: 30px;">
-                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem;">👨‍💻</div>
-                <h2 style="color: #ff6b6b; margin-bottom: 10px; font-size: 1.8rem;">Rushikesh</h2>
-                <p style="color: #4ecdc4; font-weight: 600;">Full-Stack Developer & Startup Founder</p>
-            </div>
-
-            <div style="color: #f4f1eb; line-height: 1.6;">
-                <div style="margin-bottom: 25px;">
-                    <h3 style="color: #ff6b6b; margin-bottom: 15px; font-size: 1.2rem;">🚀 About This Project</h3>
-                    <p style="margin-bottom: 10px;">Vintage Crib is my startup idea - a curated vintage marketplace with advanced eBay integration.</p>
-                    <p><strong>Built with:</strong> Node.js, Express, MongoDB, eBay API, JWT Auth, Redis Caching</p>
-                </div>
-
-                <div style="margin-bottom: 25px;">
-                    <h3 style="color: #ff6b6b; margin-bottom: 15px; font-size: 1.2rem;">💼 Technical Skills</h3>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9rem;">
-                        <div>• Node.js & Express</div>
-                        <div>• React & JavaScript</div>
-                        <div>• MongoDB & SQL</div>
-                        <div>• API Development</div>
-                        <div>• Authentication & Security</div>
-                        <div>• Performance Optimization</div>
-                    </div>
-                </div>
-
-                <div style="margin-bottom: 25px;">
-                    <h3 style="color: #ff6b6b; margin-bottom: 15px; font-size: 1.2rem;">🎯 What I Offer</h3>
-                    <div style="font-size: 0.9rem;">
-                        <div style="margin-bottom: 8px;">• Custom web application development</div>
-                        <div style="margin-bottom: 8px;">• E-commerce platform creation</div>
-                        <div style="margin-bottom: 8px;">• API development & third-party integrations</div>
-                        <div style="margin-bottom: 8px;">• Database design & optimization</div>
-                        <div style="margin-bottom: 8px;">• Complete startup technical solutions</div>
-                    </div>
-                </div>
-
-                <div style="text-align: center; margin-top: 30px;">
-                    <div style="margin-bottom: 20px;">
-                        <strong style="color: #4ecdc4;">Available for freelance projects & collaborations</strong>
-                    </div>
-                    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                        <a href="mailto:rushikesh@youremail.com" style="background: linear-gradient(45deg, #ff6b6b, #4ecdc4); color: #ffffff; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9rem;">
-                            📧 Contact Me
-                        </a>
-                        <a href="/admin.html" style="background: transparent; color: #4ecdc4; padding: 10px 20px; border: 2px solid #4ecdc4; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9rem;">
-                            🔧 Admin Demo
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
