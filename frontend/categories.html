@@ -197,23 +197,23 @@
         <p class="page-subtitle">Explore our curated categories of vintage treasures</p>
         
         <div class="categories-grid">
-            <div class="category-card" onclick="viewCategory('electronics')">
-                <div class="category-icon">⚡</div>
-                <h2 class="category-title">Electronics</h2>
-                <p class="category-description">Vintage electronics, gadgets, and tech memorabilia from bygone eras</p>
-                <span class="category-count" id="electronics-count">Loading...</span>
+            <div class="category-card" onclick="viewCategory('curated')">
+                <div class="category-icon">✨</div>
+                <h2 class="category-title">Curated Selection</h2>
+                <p class="category-description">Hand-picked premium vintage pieces and featured items</p>
+                <span class="category-count" id="curated-count">Loading...</span>
             </div>
             
-            <div class="category-card" onclick="viewCategory('clothing')">
-                <div class="category-icon">👔</div>
-                <h2 class="category-title">Clothing</h2>
-                <p class="category-description">Vintage fashion, accessories, and timeless style pieces</p>
-                <span class="category-count" id="clothing-count">Loading...</span>
+            <div class="category-card" onclick="viewCategory('recent')">
+                <div class="category-icon">🆕</div>
+                <h2 class="category-title">Recently Added</h2>
+                <p class="category-description">Latest vintage finds and newly listed treasures</p>
+                <span class="category-count" id="recent-count">Loading...</span>
             </div>
             
             <div class="category-card" onclick="viewCategory('all')">
-                <div class="category-icon">🌟</div>
-                <h2 class="category-title">All Items</h2>
+                <div class="category-icon">🏺</div>
+                <h2 class="category-title">All Vintage</h2>
                 <p class="category-description">Browse our complete vintage collection</p>
                 <span class="category-count" id="all-count">Loading...</span>
             </div>
@@ -229,17 +229,33 @@
                 const response = await fetch('/api/products');
                 const products = await response.json();
                 
-                const electronicsCount = products.filter(p => p.category === 'electronics' && !p.isSold).length;
-                const clothingCount = products.filter(p => p.category === 'clothing' && !p.isSold).length;
-                const totalCount = products.filter(p => !p.isSold).length;
+                const activeProducts = products.filter(p => !p.isSold);
                 
-                document.getElementById('electronics-count').textContent = `${electronicsCount} items`;
-                document.getElementById('clothing-count').textContent = `${clothingCount} items`;
+                // Curated items (high-value, featured, or vintage items)
+                const curatedCount = activeProducts.filter(p => 
+                    p.price > 50 || 
+                    p.featured === true || 
+                    p.description.toLowerCase().includes('vintage') ||
+                    p.description.toLowerCase().includes('rare') ||
+                    p.description.toLowerCase().includes('antique')
+                ).length;
+                
+                // Recent items (added in last 30 days)
+                const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+                const recentCount = activeProducts.filter(p => {
+                    const addedDate = new Date(p.dateAdded);
+                    return addedDate > thirtyDaysAgo;
+                }).length;
+                
+                const totalCount = activeProducts.length;
+                
+                document.getElementById('curated-count').textContent = `${curatedCount} items`;
+                document.getElementById('recent-count').textContent = `${recentCount} items`;
                 document.getElementById('all-count').textContent = `${totalCount} items`;
             } catch (error) {
                 console.error('Error loading categories:', error);
-                document.getElementById('electronics-count').textContent = 'View Items';
-                document.getElementById('clothing-count').textContent = 'View Items';
+                document.getElementById('curated-count').textContent = 'View Items';
+                document.getElementById('recent-count').textContent = 'View Items';
                 document.getElementById('all-count').textContent = 'View Items';
             }
         }
@@ -247,6 +263,10 @@
         function viewCategory(category) {
             if (category === 'all') {
                 window.location.href = '/store-advanced.html';
+            } else if (category === 'curated') {
+                window.location.href = '/store-advanced.html?filter=curated';
+            } else if (category === 'recent') {
+                window.location.href = '/store-advanced.html?filter=recent';
             } else {
                 window.location.href = `/store-advanced.html?category=${category}`;
             }

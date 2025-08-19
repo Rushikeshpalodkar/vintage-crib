@@ -1683,11 +1683,42 @@
             document.getElementById('productsCount').textContent = `${filteredProducts.length} items in ${category}`;
         }
         
+        // Recent Products Function
+        async function showRecentProducts() {
+            try {
+                // Filter products to show recently added items (last 30 days)
+                const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+                const recentProducts = allProducts.filter(product => {
+                    if (product.isSold) return false;
+                    const addedDate = new Date(product.dateAdded);
+                    return addedDate > thirtyDaysAgo;
+                });
+                
+                // Update display
+                filteredProducts = recentProducts;
+                currentPage = 1;
+                displayProducts();
+                
+                // Update page title
+                document.getElementById('productsCount').textContent = `${recentProducts.length} recently added items`;
+                
+                console.log(`Showing ${recentProducts.length} recent products`);
+            } catch (error) {
+                console.error('Error showing recent products:', error);
+            }
+        }
+        
         // Check URL parameters for category filtering
         function checkURLParameters() {
             const urlParams = new URLSearchParams(window.location.search);
             const category = urlParams.get('category');
-            if (category) {
+            const filter = urlParams.get('filter');
+            
+            if (filter === 'curated') {
+                showCuratedProducts();
+            } else if (filter === 'recent') {
+                showRecentProducts();
+            } else if (category) {
                 filterByCategory(category);
             }
         }
