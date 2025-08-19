@@ -1708,13 +1708,56 @@
             }
         }
         
+        // Clothing category filtering functions
+        function showShirts() {
+            const shirtProducts = allProducts.filter(product => {
+                if (product.isSold) return false;
+                const desc = product.description.toLowerCase();
+                return desc.includes('shirt') || desc.includes('tee') || desc.includes('polo') || desc.includes('top');
+            });
+            filteredProducts = shirtProducts;
+            currentPage = 1;
+            displayProducts();
+            document.getElementById('productsCount').textContent = `${shirtProducts.length} shirts & tees`;
+        }
+        
+        function showJackets() {
+            const jacketProducts = allProducts.filter(product => {
+                if (product.isSold) return false;
+                const desc = product.description.toLowerCase();
+                return desc.includes('jacket') || desc.includes('hoodie') || desc.includes('sweater') || desc.includes('pullover');
+            });
+            filteredProducts = jacketProducts;
+            currentPage = 1;
+            displayProducts();
+            document.getElementById('productsCount').textContent = `${jacketProducts.length} jackets & outerwear`;
+        }
+        
+        function showPants() {
+            const pantsProducts = allProducts.filter(product => {
+                if (product.isSold) return false;
+                const desc = product.description.toLowerCase();
+                return desc.includes('pants') || desc.includes('jeans') || desc.includes('shorts') || desc.includes('cargo');
+            });
+            filteredProducts = pantsProducts;
+            currentPage = 1;
+            displayProducts();
+            document.getElementById('productsCount').textContent = `${pantsProducts.length} pants & shorts`;
+        }
+        
         // Check URL parameters for category filtering
         function checkURLParameters() {
             const urlParams = new URLSearchParams(window.location.search);
             const category = urlParams.get('category');
             const filter = urlParams.get('filter');
             
-            if (filter === 'curated') {
+            if (filter === 'shirts') {
+                showShirts();
+            } else if (filter === 'jackets') {
+                showJackets();
+            } else if (filter === 'pants') {
+                showPants();
+            } else if (filter === 'curated') {
                 showCuratedProducts();
             } else if (filter === 'recent') {
                 showRecentProducts();

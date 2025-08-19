@@ -197,24 +197,31 @@
         <p class="page-subtitle">Explore our curated categories of vintage treasures</p>
         
         <div class="categories-grid">
-            <div class="category-card" onclick="viewCategory('curated')">
-                <div class="category-icon">✨</div>
-                <h2 class="category-title">Curated Selection</h2>
-                <p class="category-description">Hand-picked premium vintage pieces and featured items</p>
-                <span class="category-count" id="curated-count">Loading...</span>
+            <div class="category-card" onclick="viewCategory('shirts')">
+                <div class="category-icon">👕</div>
+                <h2 class="category-title">Shirts & Tees</h2>
+                <p class="category-description">Vintage t-shirts, polo shirts, and button-ups</p>
+                <span class="category-count" id="shirts-count">Loading...</span>
             </div>
             
-            <div class="category-card" onclick="viewCategory('recent')">
-                <div class="category-icon">🆕</div>
-                <h2 class="category-title">Recently Added</h2>
-                <p class="category-description">Latest vintage finds and newly listed treasures</p>
-                <span class="category-count" id="recent-count">Loading...</span>
+            <div class="category-card" onclick="viewCategory('jackets')">
+                <div class="category-icon">🧥</div>
+                <h2 class="category-title">Jackets & Outerwear</h2>
+                <p class="category-description">Vintage jackets, hoodies, and sweaters</p>
+                <span class="category-count" id="jackets-count">Loading...</span>
+            </div>
+            
+            <div class="category-card" onclick="viewCategory('pants')">
+                <div class="category-icon">👖</div>
+                <h2 class="category-title">Pants & Shorts</h2>
+                <p class="category-description">Vintage jeans, cargo pants, and shorts</p>
+                <span class="category-count" id="pants-count">Loading...</span>
             </div>
             
             <div class="category-card" onclick="viewCategory('all')">
                 <div class="category-icon">🏺</div>
                 <h2 class="category-title">All Vintage</h2>
-                <p class="category-description">Browse our complete vintage collection</p>
+                <p class="category-description">Browse our complete vintage clothing collection</p>
                 <span class="category-count" id="all-count">Loading...</span>
             </div>
         </div>
@@ -231,31 +238,33 @@
                 
                 const activeProducts = products.filter(p => !p.isSold);
                 
-                // Curated items (high-value, featured, or vintage items)
-                const curatedCount = activeProducts.filter(p => 
-                    p.price > 50 || 
-                    p.featured === true || 
-                    p.description.toLowerCase().includes('vintage') ||
-                    p.description.toLowerCase().includes('rare') ||
-                    p.description.toLowerCase().includes('antique')
-                ).length;
+                // Count clothing categories based on description keywords
+                const shirtsCount = activeProducts.filter(p => {
+                    const desc = p.description.toLowerCase();
+                    return desc.includes('shirt') || desc.includes('tee') || desc.includes('polo') || desc.includes('top');
+                }).length;
                 
-                // Recent items (added in last 30 days)
-                const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
-                const recentCount = activeProducts.filter(p => {
-                    const addedDate = new Date(p.dateAdded);
-                    return addedDate > thirtyDaysAgo;
+                const jacketsCount = activeProducts.filter(p => {
+                    const desc = p.description.toLowerCase();
+                    return desc.includes('jacket') || desc.includes('hoodie') || desc.includes('sweater') || desc.includes('pullover');
+                }).length;
+                
+                const pantsCount = activeProducts.filter(p => {
+                    const desc = p.description.toLowerCase();
+                    return desc.includes('pants') || desc.includes('jeans') || desc.includes('shorts') || desc.includes('cargo');
                 }).length;
                 
                 const totalCount = activeProducts.length;
                 
-                document.getElementById('curated-count').textContent = `${curatedCount} items`;
-                document.getElementById('recent-count').textContent = `${recentCount} items`;
+                document.getElementById('shirts-count').textContent = `${shirtsCount} items`;
+                document.getElementById('jackets-count').textContent = `${jacketsCount} items`;
+                document.getElementById('pants-count').textContent = `${pantsCount} items`;
                 document.getElementById('all-count').textContent = `${totalCount} items`;
             } catch (error) {
                 console.error('Error loading categories:', error);
-                document.getElementById('curated-count').textContent = 'View Items';
-                document.getElementById('recent-count').textContent = 'View Items';
+                document.getElementById('shirts-count').textContent = 'View Items';
+                document.getElementById('jackets-count').textContent = 'View Items';
+                document.getElementById('pants-count').textContent = 'View Items';
                 document.getElementById('all-count').textContent = 'View Items';
             }
         }
@@ -263,12 +272,8 @@
         function viewCategory(category) {
             if (category === 'all') {
                 window.location.href = '/store-advanced.html';
-            } else if (category === 'curated') {
-                window.location.href = '/store-advanced.html?filter=curated';
-            } else if (category === 'recent') {
-                window.location.href = '/store-advanced.html?filter=recent';
             } else {
-                window.location.href = `/store-advanced.html?category=${category}`;
+                window.location.href = `/store-advanced.html?filter=${category}`;
             }
         }
         
