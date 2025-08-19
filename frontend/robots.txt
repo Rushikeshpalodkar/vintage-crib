@@ -1,14 +1,26 @@
 User-agent: *
 Allow: /
 
-# Important pages
-Allow: /store-advanced.html
-Allow: /manage-inventory.html
-Allow: /api/products
+# Portfolio and Services Pages (High Priority)
+Allow: /services.html
+Allow: /case-study.html
+Allow: /contact.html
 
-# Block admin areas from search engines
+# Demo Application (Showcase)
+Allow: /store-advanced.html
+
+# Allow search engines to access public APIs
+Allow: /api/products
+Allow: /api/health
+
+# Block admin and sensitive areas from search engines
+Disallow: /api/admin
+Disallow: /api/contact
+Disallow: /admin
+Disallow: /admin.html
 Disallow: /admin-advanced.html
-Disallow: /api/analytics
+Disallow: /data
+Disallow: /uploads
 
 # Sitemap location
 Sitemap: https://vintage-crib.onrender.com/sitemap.xml

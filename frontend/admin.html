@@ -102,18 +102,36 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
-            // CHANGE THESE CREDENTIALS TO YOUR OWN!
-            if (username === 'admin' && password === 'mystore123') {
-                sessionStorage.setItem('adminLoggedIn', 'true');
-                alert('Login successful! Redirecting to admin dashboard...');
-                window.location.href = 'admin-advanced.html';
-            } else {
+            // Now using secure authentication via API
+            fetch('/api/admin/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    sessionStorage.setItem('adminToken', data.token);
+                    sessionStorage.setItem('adminLoggedIn', 'true');
+                    alert('Login successful! Redirecting to admin dashboard...');
+                    window.location.href = 'admin-advanced.html';
+                } else {
+                    document.getElementById('error').style.display = 'block';
+                    document.getElementById('password').value = '';
+                    setTimeout(() => {
+                        document.getElementById('error').style.display = 'none';
+                    }, 3000);
+                }
+            })
+            .catch(error => {
+                console.error('Login error:', error);
                 document.getElementById('error').style.display = 'block';
-                document.getElementById('password').value = '';
                 setTimeout(() => {
                     document.getElementById('error').style.display = 'none';
                 }, 3000);
-            }
+            });
         }
 
         // Check if already logged in

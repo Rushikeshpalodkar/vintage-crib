@@ -5,6 +5,8 @@ const path = require('path');
 const axios = require('axios');
 const cheerio = require('cheerio');
 const EBay = require('ebay-api');
+const helmet = require('helmet');
+const { authenticateAdmin, verifyToken } = require('./auth');
 require('dotenv').config();
 
 const app = express();
@@ -55,6 +57,19 @@ let analytics = {
 let syncInterval = null;
 let syncInProgress = false;
 let lastAutoSyncTime = null;
+
+// Security middleware
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+            fontSrc: ["'self'", "https://fonts.gstatic.com"],
+            imgSrc: ["'self'", "data:", "https:", "http:"],
+            scriptSrc: ["'self'", "'unsafe-inline'"]
+        }
+    }
+}));
 
 // Middleware
 app.use(cors());
@@ -625,6 +640,82 @@ async function initializeAutoSync() {
         console.error('❌ Failed to initialize auto-sync:', error.message);
     }
 }
+
+// Authentication Routes
+app.post('/api/admin/login', authenticateAdmin);
+
+// Protected route example
+app.get('/api/admin/verify', verifyToken, (req, res) => {
+    res.json({
+        success: true,
+        message: 'Token is valid',
+        user: req.user
+    });
+});
+
+// Contact form submission
+app.post('/api/contact', async (req, res) => {
+    try {
+        const { name, email, company, budget, timeline, description, projectTypes } = req.body;
+        
+        // Basic validation
+        if (!name || !email || !description) {
+            return res.status(400).json({
+                success: false,
+                message: 'Name, email, and description are required'
+            });
+        }
+        
+        // Create contact submission object
+        const contactSubmission = {
+            name,
+            email,
+            company: company || 'Not specified',
+            budget: budget || 'Not specified',
+            timeline: timeline || 'Not specified',
+            description,
+            projectTypes: projectTypes || [],
+            timestamp: new Date().toISOString(),
+            ip: req.ip,
+            userAgent: req.get('User-Agent')
+        };
+        
+        // Save to file (in production, you'd save to database)
+        const contactsFile = path.join(__dirname, 'data', 'contacts.json');
+        let contacts = [];
+        
+        try {
+            const existingData = await fs.readFile(contactsFile, 'utf8');
+            contacts = JSON.parse(existingData);
+        } catch (error) {
+            // File doesn't exist, start with empty array
+            contacts = [];
+        }
+        
+        contacts.push(contactSubmission);
+        
+        // Keep only last 1000 contacts
+        if (contacts.length > 1000) {
+            contacts = contacts.slice(-1000);
+        }
+        
+        await fs.writeFile(contactsFile, JSON.stringify(contacts, null, 2));
+        
+        console.log('📧 New contact submission:', name, email);
+        
+        res.json({
+            success: true,
+            message: 'Contact form submitted successfully'
+        });
+        
+    } catch (error) {
+        console.error('❌ Contact form error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to submit contact form'
+        });
+    }
+});
 
 // API Routes
 app.get('/api/test', (req, res) => {
