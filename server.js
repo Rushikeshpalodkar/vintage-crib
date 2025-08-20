@@ -631,8 +631,8 @@ async function initializeAutoSync() {
             // Set up new interval
             syncInterval = setInterval(performAutoSync, intervalMs);
             
-            // Perform initial sync after 30 seconds
-            setTimeout(performAutoSync, 30000);
+            // Perform initial sync after 10 minutes to allow website to load first
+            setTimeout(performAutoSync, 600000);
         } else {
             console.log('⏸️ Auto-sync is disabled');
         }
