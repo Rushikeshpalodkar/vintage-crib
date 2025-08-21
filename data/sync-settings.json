@@ -1,6 +1,6 @@
 {
   "autoSyncEnabled": true,
-  "syncIntervalMinutes": 120,
+  "syncIntervalMinutes": 90,
   "lastSyncTime": "2025-08-20T18:10:30.293Z",
   "syncTypes": {
     "soldStatus": true,

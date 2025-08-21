@@ -368,10 +368,15 @@ async function performAutoSync() {
 
         const products = await readProducts();
         
-        // Phase 1: Check limited existing products for updates (to prevent blocking)
+        // Phase 1: Check limited existing products for updates (with rotation to prevent blocking)
         const activeProducts = products.filter(p => !p.isSold);
-        const limitedProducts = activeProducts.slice(0, 5); // Only sync first 5 products per session
-        console.log(`📊 Phase 1: Found ${activeProducts.length} active products, syncing first ${limitedProducts.length} to prevent blocking`);
+        const syncLimit = Math.min(20, activeProducts.length); // Sync up to 20 products per session
+        
+        // Add rotation - start from different products each sync to cover all products over time
+        const startIndex = Math.floor(Math.random() * Math.max(1, activeProducts.length - syncLimit));
+        const limitedProducts = activeProducts.slice(startIndex, startIndex + syncLimit);
+        
+        console.log(`📊 Phase 1: Found ${activeProducts.length} active products, syncing ${limitedProducts.length} (starting from index ${startIndex}) to prevent blocking`);
 
         for (const product of limitedProducts) {
             const ebayItemId = extractEbayItemId(product.sourceUrl || product.buyLink);
@@ -480,24 +485,26 @@ async function performAutoSync() {
             }
         }
 
-        // Phase 2: Smart import of missing products (if any URLs are available)
+        // Phase 2: Smart import of missing products (expanded search)
         console.log(`📥 Phase 2: Checking for missing products to import...`);
         
-        const missingUrls = [
-            "https://www.ebay.com/itm/336117180112", // These were blocked earlier
-            "https://www.ebay.com/itm/336122384819",
-            "https://www.ebay.com/itm/336117025691",
-            "https://www.ebay.com/itm/336122367127",
-            "https://www.ebay.com/itm/336122396776",
-            "https://www.ebay.com/itm/336122360178",
-            "https://www.ebay.com/itm/336117181381"
+        // Enhanced list with more potential products (can be dynamically updated)
+        const potentialUrls = [
+            "https://www.ebay.com/itm/336117180112", // Ralph Lauren Black Polo
+            "https://www.ebay.com/itm/336122384819", // NYC Collectible Tee
+            "https://www.ebay.com/itm/336117025691", // Y2K Baggy Blue Shorts
+            "https://www.ebay.com/itm/336122367127", // Demon Slayer Tee
+            "https://www.ebay.com/itm/336122396776", // Schitt Creek Tee  
+            "https://www.ebay.com/itm/336122360178", // Spring Run Motorcycle Tee
+            "https://www.ebay.com/itm/336117181381", // Ralph Lauren Green Tag
+            // Add more URLs here as discovered
         ];
         
         // Check if these products are already imported
-        const existingUrls = products.map(p => p.sourceUrl || p.buyLink);
-        const newUrlsToImport = missingUrls.filter(url => !existingUrls.includes(url));
+        const existingUrls = new Set(products.map(p => p.sourceUrl || p.buyLink));
+        const newUrlsToImport = potentialUrls.filter(url => !existingUrls.has(url));
         
-        console.log(`🔍 Found ${newUrlsToImport.length} potentially missing products to import`);
+        console.log(`🔍 Enhanced search: Found ${newUrlsToImport.length} potentially new products to import from ${potentialUrls.length} candidates`);
         
         for (const url of newUrlsToImport) {
             try {
