@@ -1,11 +1,19 @@
 const request = require('supertest');
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
+const fs = require('fs');
 
 // Mock the server setup (simplified version)
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// Create a simple products mock for testing
+const mockProducts = [
+    { id: 1, name: 'Test Product', price: 10.99, category: 'vintage' },
+    { id: 2, name: 'Another Product', price: 25.50, category: 'collectible' }
+];
 
 // Mock routes for testing
 app.get('/api/test', (req, res) => {
