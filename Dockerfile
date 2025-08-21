@@ -21,7 +21,10 @@ RUN npm ci && npm cache clean --force
 COPY . .
 
 # Run build process to create public directory
-RUN npm run build
+RUN npm run build && \
+    echo "Build completed, checking output..." && \
+    ls -la public/ && \
+    echo "Frontend files copied successfully"
 
 # Remove dev dependencies after build
 RUN npm prune --production
