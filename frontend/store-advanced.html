@@ -824,8 +824,8 @@
         <div class="search-container">
             <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search vintage collections...">
             <select class="filter-select" id="sortFilter">
-                <option value="newest">🆕 Latest Finds</option>
                 <option value="price-high">💎 Premium First</option>
+                <option value="newest">🆕 Latest Finds</option>
                 <option value="price-low">💰 Value First</option>
                 <option value="name">🔤 A to Z</option>
             </select>
@@ -1088,7 +1088,7 @@
                         <div class="product-price">$${parseFloat(product.price || 0).toFixed(2)}</div>
                         <p class="product-description">${(product.description || 'A unique vintage piece with authentic character and timeless appeal.').substring(0, 120)}...</p>
                         <div class="product-actions">
-                            <button class="btn btn-primary" onclick="event.stopPropagation(); buyNow('${product.sourceUrl || product.buyLink}')">
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); buyNow('${product.sourceUrl || product.buyLink || product.url || ''}')">
                                 💎 Acquire Piece
                             </button>
                             <button class="btn btn-outline" onclick="event.stopPropagation(); viewProductDetail(${product.id})">
@@ -1258,10 +1258,13 @@
         }
 
         function buyNow(url) {
-            if (url) {
+            console.log('🛒 Attempting to buy with URL:', url);
+            if (url && url !== 'undefined' && url !== 'null' && url.trim() !== '') {
                 window.open(url, '_blank');
+                console.log('✅ Opened external marketplace:', url);
             } else {
-                alert('This piece is currently unavailable');
+                console.warn('⚠️ No valid URL provided for purchase:', url);
+                alert('🚫 This piece is currently unavailable for direct purchase. Please contact us for assistance.');
             }
         }
 
