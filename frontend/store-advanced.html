@@ -1088,10 +1088,10 @@
                         <div class="product-price">$${parseFloat(product.price || 0).toFixed(2)}</div>
                         <p class="product-description">${(product.description || 'A unique vintage piece with authentic character and timeless appeal.').substring(0, 120)}...</p>
                         <div class="product-actions">
-                            <button class="btn btn-primary" onclick="event.stopPropagation(); buyNow('${product.sourceUrl || product.buyLink || product.url || ''}')">
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); buyNow('${product.sourceUrl || product.buyLink || product.url || ''}', '${product.name.replace(/'/g, "\\'")}')">
                                 💎 Acquire Piece
                             </button>
-                            <button class="btn btn-outline" onclick="event.stopPropagation(); viewProductDetail(${product.id})">
+                            <button class="btn btn-outline" onclick="event.stopPropagation(); viewProductDetail('${product.id}')">
                                 👁️ Details
                             </button>
                         </div>
@@ -1114,7 +1114,8 @@
                     }
                     e.preventDefault();
                     e.stopPropagation();
-                    viewProductDetail(parseInt(productId));
+                    console.log('🖱️ Card clicked for product ID:', productId);
+                    viewProductDetail(productId);
                 });
                 card.style.cursor = 'pointer';
             });
@@ -1247,6 +1248,10 @@
         // Product actions
         function viewProductDetail(productId) {
             console.log('🔍 Navigating to product detail for ID:', productId);
+            if (!productId) {
+                console.error('❌ No product ID provided');
+                return;
+            }
             // Navigate to product detail page
             window.location.href = `product.html?id=${productId}`;
         }
@@ -1257,14 +1262,14 @@
             }
         }
 
-        function buyNow(url) {
+        function buyNow(url, productName = 'this piece') {
             console.log('🛒 Attempting to buy with URL:', url);
             if (url && url !== 'undefined' && url !== 'null' && url.trim() !== '') {
                 window.open(url, '_blank');
                 console.log('✅ Opened external marketplace:', url);
             } else {
                 console.warn('⚠️ No valid URL provided for purchase:', url);
-                alert('🚫 This piece is currently unavailable for direct purchase. Please contact us for assistance.');
+                alert(`🚫 ${productName} is currently unavailable for direct purchase. Please contact us for assistance.`);
             }
         }
 

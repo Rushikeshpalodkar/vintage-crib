@@ -746,11 +746,14 @@
 
             // Buy button
             const buyButton = document.getElementById('buyButton');
-            if (product.buyLink || product.sourceUrl) {
-                buyButton.href = product.buyLink || product.sourceUrl;
+            const buyUrl = product.buyLink || product.sourceUrl || product.url;
+            if (buyUrl && buyUrl !== 'undefined' && buyUrl !== 'null' && buyUrl.trim() !== '') {
+                buyButton.href = buyUrl;
                 buyButton.innerHTML = `🛒 Acquire ${getPlatformName(product.platform)} Piece`;
+                buyButton.style.display = 'inline-flex';
             } else {
                 buyButton.style.display = 'none';
+                console.warn('⚠️ No valid purchase URL found for product:', product.name);
             }
             
             console.log('✅ Product display completed successfully');
