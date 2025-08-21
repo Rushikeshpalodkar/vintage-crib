@@ -635,11 +635,21 @@ async function initializeAutoSync() {
                 clearInterval(syncInterval);
             }
             
-            // Set up new interval
-            syncInterval = setInterval(performAutoSync, intervalMs);
+            // Set up new interval with error handling
+            syncInterval = setInterval(() => {
+                performAutoSync().catch(error => {
+                    console.error('❌ Scheduled auto-sync failed:', error.message);
+                    // Don't crash the server if sync fails
+                });
+            }, intervalMs);
             
-            // Perform initial sync after 10 minutes to allow website to load first
-            setTimeout(performAutoSync, 600000);
+            // Perform initial sync after 30 minutes to allow website to load first (increased delay)
+            setTimeout(() => {
+                performAutoSync().catch(error => {
+                    console.error('❌ Initial auto-sync failed:', error.message);
+                    // Don't crash the server if sync fails
+                });
+            }, 1800000); // 30 minutes instead of 10
         } else {
             console.log('⏸️ Auto-sync is disabled');
         }
