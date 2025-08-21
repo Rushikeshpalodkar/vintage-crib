@@ -14,14 +14,20 @@ RUN apk add --no-cache \
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production && npm cache clean --force
+# Install dependencies (including dev dependencies for build)
+RUN npm ci && npm cache clean --force
 
 # Copy application code
 COPY . .
 
+# Run build process to create public directory
+RUN npm run build
+
+# Remove dev dependencies after build
+RUN npm prune --production
+
 # Create necessary directories
-RUN mkdir -p logs uploads uploads/optimized uploads/thumbnails
+RUN mkdir -p logs uploads uploads/optimized uploads/thumbnails public
 
 # Create non-root user for security
 RUN addgroup -g 1001 -S nodejs && \

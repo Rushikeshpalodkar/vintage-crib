@@ -77,6 +77,12 @@ jobs:
     - name: Build application
       run: npm run build
     
+    - name: Verify build output
+      run: |
+        echo "Checking build output..."
+        ls -la public/ || echo "Public directory not found"
+        echo "Build verification complete"
+    
     - name: Build Docker image
       run: docker build -t vintage-crib:${{ github.sha }} .
     
