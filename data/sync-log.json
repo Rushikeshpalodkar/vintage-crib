@@ -2,6 +2,83 @@
   "logs": [
     {
       "status": "success",
+      "startTime": "2025-08-20T18:10:30.293Z",
+      "endTime": "2025-08-20T18:11:11.535Z",
+      "type": "intelligent_automatic",
+      "itemsChecked": 5,
+      "itemsSold": 0,
+      "pricesUpdated": 0,
+      "productsUpdated": 0,
+      "itemsImported": 0,
+      "retryAttempts": 0,
+      "blockedRequests": 0,
+      "errors": [],
+      "details": [],
+      "duration": 41,
+      "timestamp": "2025-08-20T18:11:11.537Z"
+    },
+    {
+      "status": "success",
+      "startTime": "2025-08-20T17:41:25.715Z",
+      "endTime": "2025-08-20T17:43:17.278Z",
+      "type": "intelligent_automatic",
+      "itemsChecked": 5,
+      "itemsSold": 0,
+      "pricesUpdated": 0,
+      "productsUpdated": 0,
+      "itemsImported": 7,
+      "retryAttempts": 0,
+      "blockedRequests": 0,
+      "errors": [],
+      "details": [
+        {
+          "type": "auto_import",
+          "product": "Vtg Ralph Lauren Black Polo Shirt W Rare Purple Logo",
+          "price": 14.99,
+          "url": "https://www.ebay.com/itm/336117180112"
+        },
+        {
+          "type": "auto_import",
+          "product": "Vtg @2000 Rare New York City Collectible White Tee Baggy Body Fit Single Stitch",
+          "price": 19.99,
+          "url": "https://www.ebay.com/itm/336122384819"
+        },
+        {
+          "type": "auto_import",
+          "product": "2000s Vintage Y2K Baggy Blue Shorts W Orange Stripes 00s Cutting/fit",
+          "price": 22.49,
+          "url": "https://www.ebay.com/itm/336117025691"
+        },
+        {
+          "type": "auto_import",
+          "product": "Rare Demon Slayer Official Limited Edition Promote Black Tee",
+          "price": 15.18,
+          "url": "https://www.ebay.com/itm/336122367127"
+        },
+        {
+          "type": "auto_import",
+          "product": "Official @2021 Limited Release Schitt Creek Tv Show Promo Tee",
+          "price": 14.99,
+          "url": "https://www.ebay.com/itm/336122396776"
+        },
+        {
+          "type": "auto_import",
+          "product": "Vtg @2006 Gildan Spring Run Classic Motorcycle Laughlin Nevada Black Boxy Tee",
+          "price": 14,
+          "url": "https://www.ebay.com/itm/336122360178"
+        },
+        {
+          "type": "auto_import",
+          "product": "Vintage Rare Ralph Lauren Green Tag RL logo Cropped Polo Shirt (good Cutting)",
+          "price": 9.99,
+          "url": "https://www.ebay.com/itm/336117181381"
+        }
+      ],
+      "duration": 112,
+      "timestamp": "2025-08-20T17:43:17.282Z"
+    },
+    {
+      "status": "success",
       "startTime": "2025-08-14T17:29:42.884Z",
       "endTime": "2025-08-14T17:29:42.886Z",
       "type": "automatic",
@@ -44,8 +121,8 @@
     }
   ],
   "stats": {
-    "totalSyncs": 3,
-    "successfulSyncs": 3,
+    "totalSyncs": 5,
+    "successfulSyncs": 5,
     "failedSyncs": 0
   }
 }

@@ -211,6 +211,7 @@ GOOGLE_ANALYTICS_ID=GA4-XXXXXXXXXX
 - [ ] **Static files** optimized for production
 - [ ] **Error monitoring** set up (optional)
 
+
 ---
 
 ## 🧪 Testing Your Live Website

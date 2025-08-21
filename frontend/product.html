@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏺 Product Details - Vintage Crib</title>
+    <!-- Theme updated: floating bg + store consistency -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Dark 3D Theme with Shining Accents */
+            --primary: #ff6b6b; /* Coral Red */
+            --primary-dark: #ee5a6f;
+            --secondary: #4ecdc4; /* Mint Green */
+            --secondary-dark: #45b7b8;
+            --accent: #ffe66d; /* Bright Yellow */
+            --accent-dark: #ffd93d;
+            --purple: #a8e6cf; /* Soft Mint Purple */
+            
+            /* Dark Base */
+            --black: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --medium-gray: #2a2a2a;
+            --light-gray: #404040;
+            --off-white: #f8f8f6;
+            --cream: #f4f1eb;
+            
+            /* Vintage Brand */
+            --vintage-gold: #d4af37;
+            --vintage-copper: #ff7675;
+            
+            /* 3D Dark Shadows & Glows */
+            --shadow-3d-dark: 0 12px 40px rgba(0, 0, 0, 0.6);
+            --shadow-3d-glow: 0 8px 32px rgba(255, 107, 107, 0.3);
+            --shadow-3d-mint: 0 8px 32px rgba(78, 205, 196, 0.3);
+            --shadow-3d-gold: 0 8px 32px rgba(255, 230, 109, 0.3);
+            --shadow-inset-dark: inset 0 2px 8px rgba(0, 0, 0, 0.4);
+            
+            /* Glass Effects */
+            --glass-dark: rgba(42, 42, 42, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --backdrop-blur: blur(20px);
+            
+            /* 3D Gradients */
+            --gradient-primary: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 50%, #ff7675 100%);
+            --gradient-secondary: linear-gradient(135deg, #4ecdc4 0%, #45b7b8 50%, #26de81 100%);
+            --gradient-accent: linear-gradient(135deg, #ffe66d 0%, #ffd93d 50%, #f7b731 100%);
+            --gradient-dark: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a2a2a 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%, #0a0a0a 100%);
+            background-size: 400% 400%;
+            animation: darkGradientShift 15s ease infinite;
+            color: var(--off-white);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes darkGradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 3D Dark Floating Elements */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(255, 107, 107, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 85% 25%, rgba(78, 205, 196, 0.06) 0%, transparent 60%),
+                radial-gradient(circle at 50% 85%, rgba(255, 230, 109, 0.1) 0%, transparent 60%),
+                radial-gradient(circle at 25% 60%, rgba(168, 230, 207, 0.07) 0%, transparent 60%);
+            z-index: -2;
+            animation: darkParticleFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes darkParticleFloat {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.4; }
+            50% { transform: translateY(-40px) scale(1.1); opacity: 0.7; }
+        }
+
+        /* 3D Geometric Dark Shapes */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                conic-gradient(from 0deg at 10% 10%, transparent 0deg, rgba(255, 107, 107, 0.03) 90deg, transparent 180deg),
+                conic-gradient(from 90deg at 90% 20%, transparent 0deg, rgba(78, 205, 196, 0.025) 120deg, transparent 240deg),
+                conic-gradient(from 180deg at 20% 90%, transparent 0deg, rgba(255, 230, 109, 0.04) 60deg, transparent 120deg);
+            background-size: 1000px 1000px, 800px 800px, 1200px 1200px;
+            background-position: 0 0, 100% 0, 50% 100%;
+            animation: darkGeometricSpin 25s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes darkGeometricSpin {
+            0% { transform: rotate(0deg) scale(1); opacity: 0.3; }
+            50% { transform: rotate(180deg) scale(1.05); opacity: 0.5; }
+            100% { transform: rotate(360deg) scale(1); opacity: 0.3; }
+        }
+
+        /* 3D Header */
+        .header {
+            background: var(--glass-dark);
+            backdrop-filter: var(--backdrop-blur);
+            border-bottom: 2px solid var(--primary);
+            box-shadow: var(--shadow-3d-dark), var(--shadow-3d-glow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transform-style: preserve-3d;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 85px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--off-white);
+            text-decoration: none;
+            transform: translateZ(10px);
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--gradient-primary);
+            color: var(--off-white);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: var(--shadow-3d-glow);
+            transform: translateZ(15px);
+            border: 1px solid var(--glass-border);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px) translateZ(20px);
+            box-shadow: var(--shadow-3d-glow), 0 15px 40px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(135deg, #ff7675 0%, #ff6b6b 50%, #e84393 100%);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            padding-top: 4rem; /* Account for sticky header */
+        }
+
+        .product-detail {
+            background: var(--glass-dark);
+            backdrop-filter: var(--backdrop-blur);
+            border-radius: 25px;
+            padding: 3rem;
+            border: 2px solid var(--glass-border);
+            box-shadow: var(--shadow-3d-dark), var(--shadow-3d-glow);
+            margin: 2rem 0;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        /* Image Gallery */
+        .image-gallery {
+            position: relative;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .main-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Image Navigation Arrows */
+        .image-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--glass-dark);
+            border: 2px solid var(--glass-border);
+            color: var(--off-white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            backdrop-filter: var(--backdrop-blur);
+            box-shadow: var(--shadow-3d-dark);
+            z-index: 10;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-50%) translateZ(20px);
+        }
+
+        .image-gallery:hover .image-nav {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .image-nav:hover {
+            background: var(--gradient-primary);
+            box-shadow: var(--shadow-3d-glow), 0 8px 25px rgba(255, 107, 107, 0.4);
+            transform: translateY(-50%) translateZ(25px) scale(1.1);
+        }
+
+        .image-nav.prev {
+            left: 1rem;
+        }
+
+        .image-nav.next {
+            right: 1rem;
+        }
+
+        .image-nav.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .thumbnail-gallery {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: #667eea;
+            transform: scale(1.1);
+        }
+
+        .image-badges {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .vintage-tag {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+        }
+
+        .custom-tag {
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .custom-tag-blue { background: linear-gradient(135deg, #007bff, #0056b3); color: white; }
+        .custom-tag-green { background: linear-gradient(135deg, #28a745, #1e7e34); color: white; }
+        .custom-tag-red { background: linear-gradient(135deg, #dc3545, #c82333); color: white; }
+        .custom-tag-purple { background: linear-gradient(135deg, #6f42c1, #5a32a3); color: white; }
+        .custom-tag-orange { background: linear-gradient(135deg, #fd7e14, #e8590c); color: white; }
+
+        /* Product Info */
+        .product-info {
+            padding-left: 2rem;
+        }
+
+        .product-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+            text-shadow: 0 4px 12px rgba(255, 230, 109, 0.3);
+            transform: translateZ(5px);
+        }
+
+        .product-price {
+            font-size: 3rem;
+            font-weight: 900;
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 4px 12px rgba(78, 205, 196, 0.4);
+            transform: translateZ(5px);
+        }
+
+        .product-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--glass-dark);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            backdrop-filter: var(--backdrop-blur);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .meta-label {
+            font-weight: 600;
+            color: var(--off-white);
+        }
+
+        .meta-value {
+            color: var(--secondary);
+        }
+
+        .platform-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .platform-ebay { background: var(--gradient-primary); }
+        .platform-amazon { background: var(--gradient-accent); }
+        .platform-facebook { background: var(--gradient-secondary); }
+        .platform-local { background: var(--gradient-primary); }
+
+        .product-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--cream);
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: var(--glass-dark);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            border-left: 4px solid var(--primary);
+            backdrop-filter: var(--backdrop-blur);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .buy-btn {
+            flex: 1;
+            padding: 1.2rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .buy-primary {
+            background: var(--gradient-secondary);
+            color: var(--off-white);
+            box-shadow: var(--shadow-3d-mint);
+            border: 1px solid var(--glass-border);
+            transform: translateZ(10px);
+        }
+
+        .buy-primary:hover {
+            transform: translateY(-3px) translateZ(15px);
+            box-shadow: var(--shadow-3d-mint), 0 15px 40px rgba(78, 205, 196, 0.4);
+            background: linear-gradient(135deg, #26de81 0%, #4ecdc4 50%, #00b894 100%);
+        }
+
+        .buy-secondary {
+            background: var(--glass-dark);
+            color: var(--off-white);
+            box-shadow: var(--shadow-3d-dark);
+            border: 2px solid var(--glass-border);
+            transform: translateZ(10px);
+        }
+
+        .buy-secondary:hover {
+            transform: translateY(-3px) translateZ(15px);
+            box-shadow: var(--shadow-3d-dark), 0 15px 40px rgba(42, 42, 42, 0.6);
+            background: var(--gradient-dark);
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            color: #6c757d;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Error State */
+        .error {
+            text-align: center;
+            padding: 4rem;
+            color: #dc3545;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .product-info {
+                padding-left: 0;
+            }
+
+            .product-title {
+                font-size: 2rem;
+            }
+
+            .product-price {
+                font-size: 2.2rem;
+            }
+
+            .product-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .container {
+                padding: 1rem;
+                padding-top: 6rem; /* Adjust for mobile header */
+            }
+
+            .header {
+                padding: 1rem;
+            }
+
+            .product-detail {
+                padding: 2rem;
+                margin: 1rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="nav-container">
+            <a href="/" class="logo">🏺 Vintage Crib</a>
+            <a href="store-advanced.html" class="back-btn">
+                ← Back to Store
+            </a>
+        </div>
+    </div>
+
+
+    <!-- Main Content -->
+    <div class="container">
+        <div id="loadingState" class="loading">
+            <div class="loading-spinner"></div>
+            <p>Loading product details...</p>
+        </div>
+
+        <div id="errorState" class="error" style="display: none;">
+            <h2>😔 Product Not Found</h2>
+            <p>Sorry, we couldn't find the product you're looking for.</p>
+            <a href="store-advanced.html" class="back-btn" style="margin-top: 1rem; display: inline-flex;">
+                ← Back to Store
+            </a>
+        </div>
+
+        <div id="productDetail" class="product-detail" style="display: none;">
+            <div class="product-grid">
+                <!-- Image Gallery -->
+                <div class="image-gallery">
+                    <img id="mainImage" class="main-image" alt="Product Image">
+                    
+                    <!-- Navigation Arrows -->
+                    <div class="image-nav prev" id="prevImage" onclick="changeImage(-1)">
+                        ‹
+                    </div>
+                    <div class="image-nav next" id="nextImage" onclick="changeImage(1)">
+                        ›
+                    </div>
+                    
+                    <div class="image-badges" id="imageBadges">
+                        <!-- Tags will be inserted here -->
+                    </div>
+                    <div id="thumbnailGallery" class="thumbnail-gallery">
+                        <!-- Thumbnails will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="product-info">
+                    <h1 id="productTitle" class="product-title"></h1>
+                    <div id="productPrice" class="product-price"></div>
+                    
+                    <div class="product-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">📦 Platform:</span>
+                            <span id="productPlatform" class="meta-value"></span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">🏷️ Category:</span>
+                            <span id="productCategory" class="meta-value"></span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">📅 Added:</span>
+                            <span id="productDate" class="meta-value"></span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">📸 Images:</span>
+                            <span id="productImages" class="meta-value"></span>
+                        </div>
+                    </div>
+
+                    <div id="productDescription" class="product-description"></div>
+
+                    <div class="action-buttons">
+                        <a id="buyButton" class="buy-btn buy-primary" target="_blank">
+                            🛒 Acquire Piece
+                        </a>
+                        <a href="store-advanced.html" class="buy-btn buy-secondary">
+                            ← Continue Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Image navigation state
+        let currentProduct = null;
+        let currentImageIndex = 0;
+        let totalImages = 0;
+
+        // Get product ID from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+
+        if (!productId) {
+            showError();
+        } else {
+            loadProduct(productId);
+        }
+
+        async function loadProduct(id) {
+            try {
+                console.log('🔍 Loading product with ID:', id);
+                const response = await fetch(`/api/products/${id}`);
+                
+                console.log('📡 API Response status:', response.status);
+                
+                if (!response.ok) {
+                    console.error('❌ API Error:', response.status, response.statusText);
+                    throw new Error(`Product not found (${response.status})`);
+                }
+
+                const product = await response.json();
+                console.log('✅ Product loaded:', product.name);
+                displayProduct(product);
+            } catch (error) {
+                console.error('❌ Error loading product:', error);
+                showError();
+            }
+        }
+
+        function displayProduct(product) {
+            try {
+                console.log('🎨 Displaying product:', product.name);
+                
+                // Initialize image navigation
+                currentProduct = product;
+                currentImageIndex = 0;
+                totalImages = (product.images && product.images.length > 0) ? product.images.length : 1;
+
+                // Hide loading, show product
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('productDetail').style.display = 'block';
+
+            // Update page title
+            document.title = `🏺 ${product.name} - Vintage Crib`;
+
+            // Fill in product details
+            document.getElementById('productTitle').textContent = product.name;
+            document.getElementById('productPrice').textContent = `$${parseFloat(product.price).toFixed(2)}`;
+            document.getElementById('productDescription').textContent = product.description || 'A unique vintage piece with authentic character and timeless appeal.';
+
+            // Meta information
+            document.getElementById('productPlatform').innerHTML = `<span class="platform-badge platform-${product.platform}">${getPlatformName(product.platform)}</span>`;
+            document.getElementById('productCategory').textContent = product.category || 'vintage';
+            document.getElementById('productDate').textContent = formatDate(product.dateAdded);
+            document.getElementById('productImages').textContent = `${(product.images || []).length} photos`;
+
+            // Main image
+            const mainImage = document.getElementById('mainImage');
+            mainImage.src = product.image || 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=500&h=500&fit=crop';
+            mainImage.alt = product.name;
+
+            // Image gallery
+            const thumbnailGallery = document.getElementById('thumbnailGallery');
+            if (product.images && product.images.length > 1) {
+                product.images.forEach((img, index) => {
+                    const thumb = document.createElement('img');
+                    thumb.src = img;
+                    thumb.alt = `${product.name} - Image ${index + 1}`;
+                    thumb.className = 'thumbnail';
+                    if (index === 0) thumb.classList.add('active');
+                    
+                    thumb.onclick = () => {
+                        setActiveImage(index);
+                    };
+                    
+                    thumbnailGallery.appendChild(thumb);
+                });
+            }
+
+            // Initialize navigation buttons
+            updateNavigationButtons();
+
+            // Tags/Badges
+            const imageBadges = document.getElementById('imageBadges');
+            
+            // Vintage tag
+            if (product.isVintage) {
+                const vintageTag = document.createElement('div');
+                vintageTag.className = 'vintage-tag';
+                vintageTag.textContent = '🏺 Vintage';
+                imageBadges.appendChild(vintageTag);
+            }
+
+            // Custom tags
+            if (product.customTags && product.customTags.length > 0) {
+                product.customTags.forEach(tag => {
+                    const customTag = document.createElement('div');
+                    customTag.className = `custom-tag custom-tag-${tag.color}`;
+                    customTag.textContent = tag.text;
+                    imageBadges.appendChild(customTag);
+                });
+            }
+
+            // Buy button
+            const buyButton = document.getElementById('buyButton');
+            if (product.buyLink || product.sourceUrl) {
+                buyButton.href = product.buyLink || product.sourceUrl;
+                buyButton.innerHTML = `🛒 Acquire ${getPlatformName(product.platform)} Piece`;
+            } else {
+                buyButton.style.display = 'none';
+            }
+            
+            console.log('✅ Product display completed successfully');
+            } catch (error) {
+                console.error('❌ Error displaying product:', error);
+                showError();
+            }
+        }
+
+        function showError() {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+        }
+
+        function getPlatformName(platform) {
+            const platforms = {
+                'ebay': 'eBay',
+                'amazon': 'Amazon',
+                'facebook': 'Facebook',
+                'local': 'Local Store',
+                'manual': 'Our Store'
+            };
+            return platforms[platform] || platform.charAt(0).toUpperCase() + platform.slice(1);
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'Unknown';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+
+        // Image Navigation Functions
+        function changeImage(direction) {
+            if (!currentProduct || !currentProduct.images || currentProduct.images.length <= 1) {
+                return;
+            }
+
+            const newIndex = currentImageIndex + direction;
+            
+            // Check bounds
+            if (newIndex < 0 || newIndex >= totalImages) {
+                return;
+            }
+
+            currentImageIndex = newIndex;
+            updateMainImage();
+            updateThumbnailActive();
+            updateNavigationButtons();
+        }
+
+        function updateMainImage() {
+            const mainImage = document.getElementById('mainImage');
+            if (currentProduct && currentProduct.images && currentProduct.images[currentImageIndex]) {
+                mainImage.src = currentProduct.images[currentImageIndex];
+            }
+        }
+
+        function updateThumbnailActive() {
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            thumbnails.forEach((thumb, index) => {
+                if (index === currentImageIndex) {
+                    thumb.classList.add('active');
+                } else {
+                    thumb.classList.remove('active');
+                }
+            });
+        }
+
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevImage');
+            const nextBtn = document.getElementById('nextImage');
+
+            // Show/hide arrows based on image count
+            if (totalImages <= 1) {
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+                return;
+            }
+
+            prevBtn.style.display = 'flex';
+            nextBtn.style.display = 'flex';
+
+            // Disable buttons at boundaries
+            if (currentImageIndex === 0) {
+                prevBtn.classList.add('disabled');
+            } else {
+                prevBtn.classList.remove('disabled');
+            }
+
+            if (currentImageIndex === totalImages - 1) {
+                nextBtn.classList.add('disabled');
+            } else {
+                nextBtn.classList.remove('disabled');
+            }
+        }
+
+        function setActiveImage(index) {
+            if (index >= 0 && index < totalImages) {
+                currentImageIndex = index;
+                updateMainImage();
+                updateThumbnailActive();
+                updateNavigationButtons();
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (document.getElementById('productDetail').style.display === 'none') {
+                return; // Only work when product detail is visible
+            }
+
+            switch(event.key) {
+                case 'ArrowLeft':
+                    event.preventDefault();
+                    changeImage(-1);
+                    break;
+                case 'ArrowRight':
+                    event.preventDefault();
+                    changeImage(1);
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>

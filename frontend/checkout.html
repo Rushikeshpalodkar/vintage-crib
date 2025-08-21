@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏺 Checkout - Vintage Crib</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Dark 3D Theme with Shining Accents */
+            --primary: #ff6b6b; /* Coral Red */
+            --primary-dark: #ee5a6f;
+            --secondary: #4ecdc4; /* Mint Green */
+            --secondary-dark: #45b7b8;
+            --accent: #ffe66d; /* Bright Yellow */
+            --accent-dark: #ffd93d;
+            --purple: #a8e6cf; /* Soft Mint Purple */
+            
+            /* Dark Base */
+            --black: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --medium-gray: #2a2a2a;
+            --light-gray: #404040;
+            --off-white: #f8f8f6;
+            --cream: #f4f1eb;
+            
+            /* Vintage Brand */
+            --vintage-gold: #d4af37;
+            --vintage-copper: #ff7675;
+            
+            /* 3D Dark Shadows & Glows */
+            --shadow-3d-dark: 0 12px 40px rgba(0, 0, 0, 0.6);
+            --shadow-3d-glow: 0 8px 32px rgba(255, 107, 107, 0.3);
+            --shadow-3d-mint: 0 8px 32px rgba(78, 205, 196, 0.3);
+            --shadow-3d-gold: 0 8px 32px rgba(255, 230, 109, 0.3);
+            --shadow-inset-dark: inset 0 2px 8px rgba(0, 0, 0, 0.4);
+            
+            /* Glass Effects */
+            --glass-dark: rgba(42, 42, 42, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --backdrop-blur: blur(20px);
+            
+            /* 3D Gradients */
+            --gradient-primary: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 50%, #ff7675 100%);
+            --gradient-secondary: linear-gradient(135deg, #4ecdc4 0%, #45b7b8 50%, #26de81 100%);
+            --gradient-accent: linear-gradient(135deg, #ffe66d 0%, #ffd93d 50%, #f7b731 100%);
+            --gradient-dark: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a2a2a 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%, #0a0a0a 100%);
+            background-size: 400% 400%;
+            animation: darkGradientShift 15s ease infinite;
+            color: var(--off-white);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes darkGradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 3D Dark Floating Elements */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(255, 107, 107, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 85% 25%, rgba(78, 205, 196, 0.06) 0%, transparent 60%),
+                radial-gradient(circle at 50% 85%, rgba(255, 230, 109, 0.1) 0%, transparent 60%),
+                radial-gradient(circle at 25% 60%, rgba(168, 230, 207, 0.07) 0%, transparent 60%);
+            z-index: -2;
+            animation: darkParticleFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes darkParticleFloat {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.4; }
+            50% { transform: translateY(-40px) scale(1.1); opacity: 0.7; }
+        }
+
+        /* Header */
+        .header {
+            background: var(--glass-dark);
+            backdrop-filter: var(--backdrop-blur);
+            border-bottom: 2px solid var(--primary);
+            box-shadow: var(--shadow-3d-dark), var(--shadow-3d-glow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transform-style: preserve-3d;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 85px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--off-white);
+            text-decoration: none;
+            transform: translateZ(10px);
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--gradient-primary);
+            color: var(--off-white);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: var(--shadow-3d-glow);
+            transform: translateZ(15px);
+            border: 1px solid var(--glass-border);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px) translateZ(20px);
+            box-shadow: var(--shadow-3d-glow), 0 15px 40px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(135deg, #ff7675 0%, #ff6b6b 50%, #e84393 100%);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            padding-top: 4rem;
+        }
+
+        .checkout-container {
+            background: var(--glass-dark);
+            backdrop-filter: var(--backdrop-blur);
+            border-radius: 25px;
+            padding: 3rem;
+            border: 2px solid var(--glass-border);
+            box-shadow: var(--shadow-3d-dark), var(--shadow-3d-glow);
+            margin: 2rem 0;
+        }
+
+        .checkout-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .checkout-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .checkout-subtitle {
+            color: var(--cream);
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .checkout-message {
+            background: var(--glass-dark);
+            border: 2px solid var(--secondary);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .checkout-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .info-section {
+            background: var(--glass-dark);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: var(--backdrop-blur);
+        }
+
+        .info-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--cream);
+        }
+
+        .external-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .external-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--glass-dark);
+            border: 2px solid var(--glass-border);
+            border-radius: 15px;
+            text-decoration: none;
+            color: var(--off-white);
+            transition: all 0.3s ease;
+            backdrop-filter: var(--backdrop-blur);
+        }
+
+        .external-link:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-3d-glow);
+        }
+
+        .external-link .icon {
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-primary);
+        }
+
+        .external-link .content h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .external-link .content p {
+            color: var(--cream);
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .checkout-info {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .external-links {
+                grid-template-columns: 1fr;
+            }
+
+            .checkout-title {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 1rem;
+                padding-top: 6rem;
+            }
+
+            .checkout-container {
+                padding: 2rem;
+                margin: 1rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="nav-container">
+            <a href="/" class="logo">🏺 Vintage Crib</a>
+            <a href="store-advanced.html" class="back-btn">
+                ← Back to Store
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="checkout-container">
+            <div class="checkout-header">
+                <h1 class="checkout-title">Treasure Acquisition</h1>
+                <p class="checkout-subtitle">Complete your vintage piece purchase through our trusted marketplace partners</p>
+            </div>
+
+            <div class="checkout-message">
+                <h2 style="color: var(--secondary); margin-bottom: 1rem;">🎯 Secure External Checkout</h2>
+                <p style="color: var(--cream); font-size: 1.1rem; line-height: 1.6;">
+                    To ensure the highest level of security and buyer protection, all purchases are completed directly through our trusted marketplace partners (eBay, Amazon, Facebook Marketplace). This provides you with:
+                </p>
+            </div>
+
+            <div class="checkout-info">
+                <div class="info-section">
+                    <h3 class="info-title">🛡️ Your Protection</h3>
+                    <ul class="info-list">
+                        <li>🔒 Secure payment processing</li>
+                        <li>💳 Buyer protection guarantees</li>
+                        <li>📦 Tracked shipping & delivery</li>
+                        <li>↩️ Easy returns & refunds</li>
+                        <li>🎯 Authentic vintage verification</li>
+                    </ul>
+                </div>
+
+                <div class="info-section">
+                    <h3 class="info-title">📋 How It Works</h3>
+                    <ul class="info-list">
+                        <li>1️⃣ Click "Acquire Piece" on any item</li>
+                        <li>2️⃣ You'll be redirected to the marketplace</li>
+                        <li>3️⃣ Complete your purchase securely</li>
+                        <li>4️⃣ Receive direct seller communication</li>
+                        <li>5️⃣ Your vintage treasure ships to you!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="external-links">
+                <a href="https://ebay.com" target="_blank" class="external-link">
+                    <div class="icon">🛒</div>
+                    <div class="content">
+                        <h3>eBay Marketplace</h3>
+                        <p>Global leader in vintage & collectible sales</p>
+                    </div>
+                </a>
+
+                <a href="https://amazon.com" target="_blank" class="external-link">
+                    <div class="icon">📦</div>
+                    <div class="content">
+                        <h3>Amazon Store</h3>
+                        <p>Fast shipping & Prime delivery options</p>
+                    </div>
+                </a>
+
+                <a href="https://facebook.com/marketplace" target="_blank" class="external-link">
+                    <div class="icon">📘</div>
+                    <div class="content">
+                        <h3>Facebook Marketplace</h3>
+                        <p>Connect directly with local vintage sellers</p>
+                    </div>
+                </a>
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: var(--glass-dark); border-radius: 15px; border: 1px solid var(--glass-border);">
+                <h3 style="color: var(--accent); margin-bottom: 1rem;">✨ Questions?</h3>
+                <p style="color: var(--cream); margin-bottom: 1.5rem;">
+                    Need help with your vintage treasure hunt? We're here to assist!
+                </p>
+                <a href="mailto:support@vintagecrib.com" style="
+                    display: inline-flex; 
+                    align-items: center; 
+                    gap: 0.5rem; 
+                    padding: 1rem 2rem; 
+                    background: var(--gradient-secondary); 
+                    color: white; 
+                    text-decoration: none; 
+                    border-radius: 25px; 
+                    font-weight: 600;
+                    transition: all 0.3s ease;
+                    box-shadow: var(--shadow-3d-mint);
+                " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 40px rgba(78, 205, 196, 0.4)';" onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='var(--shadow-3d-mint)';">
+                    📧 Contact Support
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get product ID from URL if redirected from a specific product
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+        const platform = urlParams.get('platform');
+
+        if (productId) {
+            console.log('🛒 Checkout initiated for product:', productId);
+            console.log('📦 Platform:', platform);
+            
+            // You could load specific product details here if needed
+            // and show them in the checkout flow
+        }
+
+        // Track checkout page visits
+        console.log('📊 Checkout page loaded');
+        
+        // Optional: Add analytics tracking here
+        // gtag('event', 'page_view', {
+        //     page_title: 'Checkout',
+        //     page_location: window.location.href
+        // });
+    </script>
+</body>
+</html>
