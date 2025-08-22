@@ -523,6 +523,48 @@ async function performAutoSync() {
                 // Extract product data
                 const $ = cheerio.load(response.data);
                 
+                // Extract comprehensive images like the manual import function
+                let allImages = [];
+                
+                // Try meta image first
+                let metaImage = $('meta[property="og:image"]').attr('content');
+                if (metaImage) {
+                    if (!metaImage.startsWith('http')) metaImage = 'https:' + metaImage;
+                    allImages.push(metaImage);
+                }
+                
+                // Look for eBay-specific image galleries first
+                $('.ux-image-carousel-item img, .ux-image-grid img').each((i, elem) => {
+                    let imgSrc = $(elem).attr('src') || $(elem).attr('data-src');
+                    if (imgSrc && imgSrc.includes('ebayimg.com')) {
+                        // Convert to high-res version
+                        imgSrc = imgSrc.replace('/s-l64.', '/s-l400.').replace('/s-l140.', '/s-l400.');
+                        if (!imgSrc.startsWith('http')) imgSrc = 'https:' + imgSrc;
+                        if (!allImages.includes(imgSrc)) {
+                            allImages.push(imgSrc);
+                            console.log('🖼️ eBay gallery image:', imgSrc.substring(0, 50) + '...');
+                        }
+                    }
+                });
+                
+                // Scan all img tags for product images as fallback
+                $('img').each((i, elem) => {
+                    let imgSrc = $(elem).attr('src') || $(elem).attr('data-src');
+                    if (imgSrc && 
+                        !imgSrc.includes('logo') && 
+                        !imgSrc.includes('icon') && 
+                        !imgSrc.includes('sprite') &&
+                        !imgSrc.includes('ebay_logo') &&
+                        (imgSrc.includes('.jpg') || imgSrc.includes('.jpeg') || imgSrc.includes('.png'))) {
+                        
+                        if (!imgSrc.startsWith('http')) imgSrc = 'https:' + imgSrc;
+                        if (!allImages.includes(imgSrc)) {
+                            allImages.push(imgSrc);
+                            console.log('🖼️ Auto-import found image:', imgSrc.substring(0, 50) + '...');
+                        }
+                    }
+                });
+
                 const newProduct = {
                     id: Date.now() + Math.random() * 1000,
                     name: ($('title').text().trim().split('|')[0].trim() || 'eBay Product').substring(0, 150),
@@ -530,8 +572,8 @@ async function performAutoSync() {
                     description: ($('meta[name="description"]').attr('content') || 'High-quality product from eBay').substring(0, 300),
                     category: 'clothing',
                     platform: 'ebay',
-                    image: $('meta[property="og:image"]').attr('content') || '',
-                    images: [$('meta[property="og:image"]').attr('content') || ''],
+                    image: allImages[0] || '',
+                    images: allImages.slice(0, 8),
                     sourceUrl: url,
                     buyLink: url,
                     dateAdded: new Date().toISOString(),
@@ -1256,7 +1298,21 @@ app.post('/api/extract-product', async (req, res) => {
                 allImages.push(metaImage);
             }
             
-            // Scan all img tags for product images
+            // Look for eBay-specific image galleries first
+            $('.ux-image-carousel-item img, .ux-image-grid img').each((i, elem) => {
+                let imgSrc = $(elem).attr('src') || $(elem).attr('data-src');
+                if (imgSrc && imgSrc.includes('ebayimg.com')) {
+                    // Convert to high-res version
+                    imgSrc = imgSrc.replace('/s-l64.', '/s-l400.').replace('/s-l140.', '/s-l400.');
+                    if (!imgSrc.startsWith('http')) imgSrc = 'https:' + imgSrc;
+                    if (!allImages.includes(imgSrc)) {
+                        allImages.push(imgSrc);
+                        console.log('🖼️ eBay gallery image:', imgSrc.substring(0, 50) + '...');
+                    }
+                }
+            });
+            
+            // Scan all img tags for product images as fallback
             $('img').each((i, elem) => {
                 let imgSrc = $(elem).attr('src') || $(elem).attr('data-src');
                 if (imgSrc && 
