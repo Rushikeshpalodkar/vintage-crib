@@ -19,7 +19,7 @@ app.set('trust proxy', 1);
 // Memory management
 let productCache = null;
 let cacheExpiry = 0;
-const CACHE_DURATION = 300000; // 5 minutes
+const CACHE_DURATION = 600000; // 10 minutes
 
 // eBay API Configuration - with fallback for missing env vars
 let eBay = null;
@@ -64,9 +64,10 @@ app.use(helmet({
         directives: {
             defaultSrc: ["'self'"],
             styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-            fontSrc: ["'self'", "https://fonts.gstatic.com"],
+            fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
             imgSrc: ["'self'", "data:", "https:", "http:"],
-            scriptSrc: ["'self'", "'unsafe-inline'"]
+            scriptSrc: ["'self'", "'unsafe-inline'"],
+            scriptSrcAttr: ["'unsafe-inline'"]
         }
     }
 }));
@@ -2768,9 +2769,14 @@ setInterval(() => {
         }
         
         // Prevent analytics memory leaks
-        if (analytics.uniqueVisitors.size > 500) {
+        if (analytics.uniqueVisitors.size > 1000) {
             analytics.uniqueVisitors.clear();
             console.log('🧹 Cleared analytics cache to prevent memory leak');
+        }
+        
+        // Keep recent visits smaller
+        if (analytics.lastVisits.length > 100) {
+            analytics.lastVisits = analytics.lastVisits.slice(0, 50);
         }
         
         // Clear product cache if it gets too old
@@ -2781,7 +2787,7 @@ setInterval(() => {
     } catch (error) {
         console.warn('⚠️ Memory cleanup error:', error.message);
     }
-}, 60000); // Every minute
+}, 120000); // Every 2 minutes
 
 // 🚀 Keep-Alive System for Render Free Tier
 const keepAliveConfig = {
