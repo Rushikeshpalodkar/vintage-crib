@@ -790,6 +790,128 @@
                 font-size: 1.6rem;
             }
         }
+        
+        /* Image Gallery Modal */
+        .image-gallery-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .image-gallery-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .gallery-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .gallery-main-image {
+            max-width: 90%;
+            max-height: 70%;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+        
+        .gallery-thumbnails {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            overflow-x: auto;
+            padding: 10px;
+            max-width: 90%;
+        }
+        
+        .gallery-thumbnail {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            flex-shrink: 0;
+        }
+        
+        .gallery-thumbnail.active,
+        .gallery-thumbnail:hover {
+            opacity: 1;
+            border-color: var(--vintage-gold);
+            transform: scale(1.1);
+        }
+        
+        .gallery-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            font-size: 24px;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            font-size: 24px;
+            padding: 15px 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-nav:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .gallery-prev { left: 20px; }
+        .gallery-next { right: 20px; }
+        
+        .gallery-info {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 20px;
+        }
+        
     </style>
 </head>
 <body>
@@ -965,6 +1087,18 @@
         let cacheTimestamp = 0;
         const FRONTEND_CACHE_DURATION = 300000; // 5 minutes
         
+        // Get high resolution image URL
+        function getHighResImage(imageUrl) {
+            if (!imageUrl || !imageUrl.includes('ebayimg.com')) return imageUrl;
+            
+            // Convert eBay images to highest quality available
+            return imageUrl
+                .replace('/s-l140.', '/s-l1600.')  // Convert thumbnails to high-res
+                .replace('/s-l400.', '/s-l1600.')  // Convert medium to high-res  
+                .replace('/s-l500.', '/s-l1600.')  // Convert large to highest
+                .replace('/s-l800.', '/s-l1600.'); // Convert to maximum resolution
+        }
+        
         // Load products from API with caching and retry logic
         async function loadProducts(retry = 0) {
             try {
@@ -1078,11 +1212,13 @@
             
             grid.innerHTML = productsToShow.map(product => `
                 <div class="product-card" data-product-id="${product.id}">
-                    <div class="product-image">
-                        <img src="${product.image || 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'}" 
+                    <div class="product-image" onclick="openImageGallery(${JSON.stringify(product).replace(/"/g, '&quot;')}, 0)" style="cursor: pointer;">
+                        <img src="${getHighResImage(product.image) || 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'}" 
                              alt="${product.name}" 
                              loading="lazy"
+                             style="image-rendering: -webkit-optimize-contrast; image-rendering: optimize-contrast; image-rendering: crisp-edges;"
                              onerror="this.src='https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'; console.warn('⚠️ Image failed to load:', this.alt)">
+                        ${product.images && product.images.length > 1 ? '<div style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px;">📸 ' + product.images.length + ' photos</div>' : ''}
                         <div class="product-overlay"></div>
                         ${product.isVintage ? '<div class="product-badge">🏺 Vintage</div>' : ''}
                         ${product.customTags && product.customTags.length > 0 ? 
@@ -1616,6 +1752,104 @@
             // Refresh the regular products display
             displayProducts();
         }
+        // Image Gallery Functions
+        let currentGalleryImages = [];
+        let currentImageIndex = 0;
+        
+        function openImageGallery(product, imageIndex = 0) {
+            if (!product.images || product.images.length === 0) return;
+            
+            currentGalleryImages = product.images.map(img => getHighResImage(img));
+            currentImageIndex = imageIndex;
+            
+            const modal = document.getElementById('image-gallery-modal');
+            const mainImage = document.getElementById('gallery-main-image');
+            const thumbnailsContainer = document.getElementById('gallery-thumbnails');
+            const info = document.getElementById('gallery-info');
+            
+            // Set main image
+            mainImage.src = currentGalleryImages[currentImageIndex];
+            
+            // Create thumbnails
+            thumbnailsContainer.innerHTML = currentGalleryImages.map((img, index) => 
+                `<img src="${img}" class="gallery-thumbnail ${index === currentImageIndex ? 'active' : ''}" 
+                     onclick="changeGalleryImage(${index})" alt="Image ${index + 1}">`
+            ).join('');
+            
+            // Set info
+            info.innerHTML = `${product.name}<br><small>${currentImageIndex + 1} of ${currentGalleryImages.length}</small>`;
+            
+            // Show modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeImageGallery() {
+            const modal = document.getElementById('image-gallery-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        function changeGalleryImage(index) {
+            if (index < 0 || index >= currentGalleryImages.length) return;
+            
+            currentImageIndex = index;
+            const mainImage = document.getElementById('gallery-main-image');
+            mainImage.src = currentGalleryImages[currentImageIndex];
+            
+            // Update thumbnails
+            document.querySelectorAll('.gallery-thumbnail').forEach((thumb, i) => {
+                thumb.classList.toggle('active', i === currentImageIndex);
+            });
+            
+            // Update info
+            const info = document.getElementById('gallery-info');
+            const productName = info.innerHTML.split('<br>')[0];
+            info.innerHTML = `${productName}<br><small>${currentImageIndex + 1} of ${currentGalleryImages.length}</small>`;
+        }
+        
+        function nextGalleryImage() {
+            changeGalleryImage((currentImageIndex + 1) % currentGalleryImages.length);
+        }
+        
+        function prevGalleryImage() {
+            changeGalleryImage((currentImageIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length);
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('image-gallery-modal');
+            if (!modal.classList.contains('active')) return;
+            
+            switch(e.key) {
+                case 'Escape':
+                    closeImageGallery();
+                    break;
+                case 'ArrowLeft':
+                    prevGalleryImage();
+                    break;
+                case 'ArrowRight':
+                    nextGalleryImage();
+                    break;
+            }
+        });
+
     </script>
+    
+    <!-- Image Gallery Modal -->
+    <div id="image-gallery-modal" class="image-gallery-modal">
+        <div class="gallery-container">
+            <button class="gallery-close" onclick="closeImageGallery()">×</button>
+            <button class="gallery-nav gallery-prev" onclick="prevGalleryImage()">‹</button>
+            <button class="gallery-nav gallery-next" onclick="nextGalleryImage()">›</button>
+            
+            <img id="gallery-main-image" class="gallery-main-image" alt="Product Image">
+            
+            <div class="gallery-info" id="gallery-info"></div>
+            
+            <div class="gallery-thumbnails" id="gallery-thumbnails"></div>
+        </div>
+    </div>
+    
 </body>
 </html>
