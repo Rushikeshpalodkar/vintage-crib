@@ -9,6 +9,10 @@ const helmet = require('helmet');
 const { authenticateAdmin, verifyToken } = require('./auth');
 require('dotenv').config();
 
+// Database integration
+const { testConnection, initializeDatabase } = require('./database/connection');
+const databaseAPI = require('./database/api');
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -76,6 +80,9 @@ app.use(helmet({
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Database API routes (new multi-seller marketplace)
+app.use('/api/db', databaseAPI);
 
 // Middleware to track visits
 app.use((req, res, next) => {
@@ -2910,6 +2917,16 @@ function startDailySyncScheduler() {
 const server = app.listen(PORT, '0.0.0.0', async () => {
     try {
         await ensureDataDirectory();
+        
+        // Initialize database (optional - graceful fallback)
+        const dbConnected = await testConnection();
+        if (dbConnected) {
+            await initializeDatabase();
+            console.log('🗄️ Database integration active');
+        } else {
+            console.log('⚠️ Database not available, using file-based storage');
+        }
+        
         console.log('🚀 Server running on http://0.0.0.0:' + PORT);
         console.log('📂 Frontend folder: ./frontend/');
         console.log('🧪 Test API: http://localhost:' + PORT + '/api/test');
