@@ -26,8 +26,25 @@ async function testConnection() {
         client.release();
         return true;
     } catch (err) {
-        console.error('❌ Database connection error:', err.message);
+        console.error('❌ PostgreSQL connection error:', err.message);
         console.log('💡 Make sure PostgreSQL is running and database exists');
+        console.log('🔄 Falling back to SQLite...');
+        
+        // Try SQLite fallback
+        try {
+            const sqlite = require('./sqlite-connection');
+            const sqliteWorks = await sqlite.testConnection();
+            if (sqliteWorks) {
+                console.log('✅ Using SQLite as fallback database');
+                // Replace the query function with SQLite version
+                module.exports.query = sqlite.query;
+                module.exports.initializeDatabase = sqlite.initializeDatabase;
+                return true;
+            }
+        } catch (sqliteErr) {
+            console.error('❌ SQLite fallback also failed:', sqliteErr.message);
+        }
+        
         return false;
     }
 }
