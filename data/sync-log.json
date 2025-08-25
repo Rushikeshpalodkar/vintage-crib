@@ -2,6 +2,57 @@
   "logs": [
     {
       "status": "success",
+      "startTime": "2025-08-24T07:32:22.404Z",
+      "endTime": "2025-08-24T23:44:09.479Z",
+      "type": "intelligent_automatic",
+      "itemsChecked": 20,
+      "itemsSold": 0,
+      "pricesUpdated": 0,
+      "productsUpdated": 0,
+      "itemsImported": 0,
+      "retryAttempts": 0,
+      "blockedRequests": 0,
+      "errors": [],
+      "details": [],
+      "duration": 58307,
+      "timestamp": "2025-08-24T23:44:09.481Z"
+    },
+    {
+      "status": "success",
+      "startTime": "2025-08-22T20:06:27.275Z",
+      "endTime": "2025-08-24T03:27:15.005Z",
+      "type": "intelligent_automatic",
+      "itemsChecked": 20,
+      "itemsSold": 0,
+      "pricesUpdated": 0,
+      "productsUpdated": 0,
+      "itemsImported": 0,
+      "retryAttempts": 0,
+      "blockedRequests": 0,
+      "errors": [],
+      "details": [],
+      "duration": 112848,
+      "timestamp": "2025-08-24T03:27:15.011Z"
+    },
+    {
+      "status": "success",
+      "startTime": "2025-08-22T16:50:28.908Z",
+      "endTime": "2025-08-22T16:53:39.973Z",
+      "type": "intelligent_automatic",
+      "itemsChecked": 20,
+      "itemsSold": 0,
+      "pricesUpdated": 0,
+      "productsUpdated": 0,
+      "itemsImported": 0,
+      "retryAttempts": 0,
+      "blockedRequests": 0,
+      "errors": [],
+      "details": [],
+      "duration": 191,
+      "timestamp": "2025-08-22T16:53:39.975Z"
+    },
+    {
+      "status": "success",
       "startTime": "2025-08-21T23:07:35.124Z",
       "endTime": "2025-08-22T14:52:12.128Z",
       "type": "intelligent_automatic",
@@ -155,8 +206,8 @@
     }
   ],
   "stats": {
-    "totalSyncs": 7,
-    "successfulSyncs": 7,
+    "totalSyncs": 10,
+    "successfulSyncs": 10,
     "failedSyncs": 0
   }
 }

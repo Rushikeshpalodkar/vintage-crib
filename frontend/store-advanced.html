@@ -824,7 +824,7 @@
         <div class="search-container">
             <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search vintage collections...">
             <select class="filter-select" id="sortFilter">
-                <option value="price-high">💎 Premium First</option>
+                <option value="price-high" selected>💎 Premium First</option>
                 <option value="newest">🆕 Latest Finds</option>
                 <option value="price-low">💰 Value First</option>
                 <option value="name">🔤 A to Z</option>
@@ -976,6 +976,9 @@
                     displayProducts();
                     updateProductsCount();
                     
+                    // Apply frontend dropdown sorting on cached products
+                    filterProducts();
+                    
                     document.getElementById('loadingState').style.display = 'none';
                     document.getElementById('productsGrid').style.display = 'grid';
                     return;
@@ -1018,6 +1021,9 @@
                 
                 displayProducts();
                 updateProductsCount();
+                
+                // Apply frontend dropdown sorting on page load
+                filterProducts();
                 
                 document.getElementById('loadingState').style.display = 'none';
                 document.getElementById('productsGrid').style.display = 'grid';
@@ -1228,9 +1234,9 @@
                     case 'newest':
                         return new Date(b.dateAdded) - new Date(a.dateAdded);
                     case 'price-low':
-                        return parseFloat(a.price || 0) - parseFloat(b.price || 0);
-                    case 'price-high':
                         return parseFloat(b.price || 0) - parseFloat(a.price || 0);
+                    case 'price-high':
+                        return parseFloat(a.price || 0) - parseFloat(b.price || 0);
                     case 'name':
                         return a.name.localeCompare(b.name);
                     default:

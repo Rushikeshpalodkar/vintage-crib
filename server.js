@@ -2609,6 +2609,131 @@ app.post('/api/products/sync-sold-status', async (req, res) => {
     }
 });
 
+// Fix products with insufficient images by re-scraping
+app.post('/api/products/fix-images', async (req, res) => {
+    try {
+        console.log('🖼️ Starting image fix process...');
+        
+        // Read current products
+        const products = await readProducts();
+        let fixedCount = 0;
+        let processedCount = 0;
+        const errors = [];
+        
+        console.log(`📊 Checking ${products.length} products for insufficient images...`);
+        
+        for (const product of products) {
+            // Skip if product already has 3+ images
+            if (product.images && product.images.length >= 3) {
+                continue;
+            }
+            
+            processedCount++;
+            console.log(`🔍 Processing ${processedCount}: ${product.name.substring(0, 50)}... (${product.images?.length || 0} images)`);
+            
+            try {
+                const sourceUrl = product.sourceUrl || product.buyLink;
+                if (!sourceUrl || !sourceUrl.includes('ebay.com')) {
+                    continue; // Skip non-eBay products
+                }
+                
+                // Re-scrape images using the same logic as manual extraction
+                const axios = require('axios');
+                const cheerio = require('cheerio');
+                
+                const response = await axios.get(sourceUrl, {
+                    timeout: 10000,
+                    headers: {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                    }
+                });
+                
+                const $ = cheerio.load(response.data);
+                let allImages = [];
+                
+                // Try meta image first
+                let metaImage = $('meta[property="og:image"]').attr('content');
+                if (metaImage) {
+                    if (!metaImage.startsWith('http')) metaImage = 'https:' + metaImage;
+                    allImages.push(metaImage);
+                }
+                
+                // Look for eBay-specific image galleries
+                $('.ux-image-carousel-item img, .ux-image-grid img').each((i, elem) => {
+                    let imgSrc = $(elem).attr('src') || $(elem).attr('data-src');
+                    if (imgSrc && imgSrc.includes('ebayimg.com')) {
+                        imgSrc = imgSrc.replace('/s-l64.', '/s-l400.').replace('/s-l140.', '/s-l400.');
+                        if (!imgSrc.startsWith('http')) imgSrc = 'https:' + imgSrc;
+                        if (!allImages.includes(imgSrc)) {
+                            allImages.push(imgSrc);
+                        }
+                    }
+                });
+                
+                // Scan all img tags as fallback
+                $('img').each((i, elem) => {
+                    let imgSrc = $(elem).attr('src') || $(elem).attr('data-src');
+                    if (imgSrc && 
+                        !imgSrc.includes('logo') && 
+                        !imgSrc.includes('icon') && 
+                        !imgSrc.includes('sprite') &&
+                        !imgSrc.includes('ebay_logo') &&
+                        (imgSrc.includes('.jpg') || imgSrc.includes('.jpeg') || imgSrc.includes('.png'))) {
+                        
+                        if (!imgSrc.startsWith('http')) imgSrc = 'https:' + imgSrc;
+                        if (!allImages.includes(imgSrc)) {
+                            allImages.push(imgSrc);
+                        }
+                    }
+                });
+                
+                // Update product if we found more images
+                if (allImages.length > (product.images?.length || 0)) {
+                    product.images = allImages.slice(0, 8); // Limit to 8 images max
+                    product.image = allImages[0] || product.image;
+                    product.dateModified = new Date().toISOString();
+                    fixedCount++;
+                    console.log(`✅ Fixed ${product.name.substring(0, 30)}... (${allImages.length} images found)`);
+                } else {
+                    console.log(`⚠️ No additional images found for ${product.name.substring(0, 30)}...`);
+                }
+                
+                // Add small delay to be respectful
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+            } catch (error) {
+                errors.push(`${product.name}: ${error.message}`);
+                console.error(`❌ Error fixing images for ${product.name}:`, error.message);
+            }
+        }
+        
+        // Save updated products
+        if (fixedCount > 0) {
+            await writeProducts(products);
+            console.log('💾 Products saved with updated images');
+        }
+        
+        const summary = {
+            success: true,
+            message: `✅ Image fix complete: ${fixedCount} products updated out of ${processedCount} processed`,
+            processedCount,
+            fixedCount,
+            totalProducts: products.length,
+            errors: errors.slice(0, 10) // Limit errors shown
+        };
+        
+        console.log('🖼️ Image Fix Summary:', summary.message);
+        res.json(summary);
+        
+    } catch (error) {
+        console.error('❌ Image fix error:', error);
+        res.status(500).json({
+            error: 'Failed to fix product images',
+            details: error.message
+        });
+    }
+});
+
 // Helper function to extract eBay item ID from URL
 function extractEbayItemId(url) {
     if (!url || !url.includes('ebay.com')) {

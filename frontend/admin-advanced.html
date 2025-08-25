@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏺 Vintage Crib - Admin Dashboard</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .logo {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        .admin-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .action-card {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+        }
+        .action-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            width: 100%;
+        }
+        .action-button:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+        .action-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .status-message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            display: none;
+        }
+        .status-success {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4caf50;
+            border: 1px solid #4caf50;
+        }
+        .status-error {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+            border: 1px solid #f44336;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid white;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <a href="#" class="logout-btn" onclick="logout()">🚪 Logout</a>
+    
+    <div class="dashboard-container">
+        <div class="header">
+            <div class="logo">🏺 Admin Dashboard</div>
+            <h1>Vintage Crib Management</h1>
+            <p style="color: #666;">Manage your vintage marketplace</p>
+        </div>
+
+        <div class="admin-actions">
+            <div class="action-card">
+                <h3>🖼️ Fix Product Images</h3>
+                <p>Re-scrape images for products with less than 3 images to improve galleries</p>
+                <button class="action-button" onclick="fixProductImages()" id="fix-images-btn">
+                    🔧 Fix Missing Images
+                </button>
+                <div id="fix-images-status" class="status-message"></div>
+            </div>
+
+            <div class="action-card">
+                <h3>📊 Store Statistics</h3>
+                <p>View current marketplace statistics and product counts</p>
+                <button class="action-button" onclick="loadStats()">
+                    📈 Refresh Stats
+                </button>
+            </div>
+
+            <div class="action-card">
+                <h3>🔄 Sync Products</h3>
+                <p>Sync product statuses and prices with eBay</p>
+                <button class="action-button" onclick="syncSoldStatus()" id="sync-btn">
+                    🔄 Sync Sold Status
+                </button>
+                <div id="sync-status" class="status-message"></div>
+            </div>
+        </div>
+
+        <div class="stats-grid" id="stats-grid">
+            <!-- Stats will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        if (sessionStorage.getItem('adminLoggedIn') !== 'true') {
+            window.location.href = 'admin.html';
+        }
+
+        function logout() {
+            sessionStorage.removeItem('adminLoggedIn');
+            sessionStorage.removeItem('adminToken');
+            window.location.href = 'admin.html';
+        }
+
+        async function fixProductImages() {
+            const button = document.getElementById('fix-images-btn');
+            const status = document.getElementById('fix-images-status');
+            
+            button.disabled = true;
+            button.textContent = '🔄 Processing...';
+            status.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/products/fix-images', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${sessionStorage.getItem('adminToken')}`
+                    }
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    status.className = 'status-message status-success';
+                    status.innerHTML = `✅ ${data.message}<br>Fixed: ${data.fixedCount} products<br>Processed: ${data.processedCount} products`;
+                } else {
+                    status.className = 'status-message status-error';
+                    status.textContent = `❌ Error: ${data.error}`;
+                }
+                
+                status.style.display = 'block';
+                
+            } catch (error) {
+                status.className = 'status-message status-error';
+                status.textContent = `❌ Network error: ${error.message}`;
+                status.style.display = 'block';
+            }
+
+            button.disabled = false;
+            button.textContent = '🔧 Fix Missing Images';
+        }
+
+        async function syncSoldStatus() {
+            const button = document.getElementById('sync-btn');
+            const status = document.getElementById('sync-status');
+            
+            button.disabled = true;
+            button.textContent = '🔄 Syncing...';
+            status.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/products/sync-sold-status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${sessionStorage.getItem('adminToken')}`
+                    }
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    status.className = 'status-message status-success';
+                    status.innerHTML = `✅ ${data.message}`;
+                } else {
+                    status.className = 'status-message status-error';
+                    status.textContent = `❌ Error: ${data.error}`;
+                }
+                
+                status.style.display = 'block';
+                
+            } catch (error) {
+                status.className = 'status-message status-error';
+                status.textContent = `❌ Network error: ${error.message}`;
+                status.style.display = 'block';
+            }
+
+            button.disabled = false;
+            button.textContent = '🔄 Sync Sold Status';
+        }
+
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/products');
+                const products = await response.json();
+                
+                const stats = {
+                    totalProducts: products.length,
+                    soldProducts: products.filter(p => p.isSold).length,
+                    activeProducts: products.filter(p => !p.isSold).length,
+                    imagesMissing: products.filter(p => !p.images || p.images.length < 3).length
+                };
+
+                const statsGrid = document.getElementById('stats-grid');
+                statsGrid.innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.totalProducts}</div>
+                        <div>Total Products</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.activeProducts}</div>
+                        <div>Active Products</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.soldProducts}</div>
+                        <div>Sold Products</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.imagesMissing}</div>
+                        <div>Need More Images</div>
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        // Load stats on page load
+        loadStats();
+    </script>
+</body>
+</html>
