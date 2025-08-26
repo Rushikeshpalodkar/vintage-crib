@@ -74,17 +74,45 @@ async function initializeDatabase() {
     }
 }
 
-// Database query helper
+// Database query helper with SQLite fallback
+let sqliteConnection = null;
+let usingPostgreSQL = true;
+
 async function query(text, params) {
     const start = Date.now();
+    
+    // If we've already determined to use SQLite, skip PostgreSQL
+    if (!usingPostgreSQL && sqliteConnection) {
+        const res = await sqliteConnection.query(text, params);
+        const duration = Date.now() - start;
+        console.log('📊 SQLite Query executed', { text: text.substring(0, 50) + '...', duration, rows: res.rowCount });
+        return res;
+    }
+    
+    // Try PostgreSQL first
     try {
         const res = await pool.query(text, params);
         const duration = Date.now() - start;
-        console.log('📊 Query executed', { text: text.substring(0, 50) + '...', duration, rows: res.rowCount });
+        console.log('📊 PostgreSQL Query executed', { text: text.substring(0, 50) + '...', duration, rows: res.rowCount });
         return res;
     } catch (err) {
-        console.error('❌ Database query error:', err.message);
-        throw err;
+        // If PostgreSQL fails, switch to SQLite permanently
+        if (!sqliteConnection) {
+            try {
+                sqliteConnection = require('./sqlite-connection');
+                console.log('🔄 Using SQLite fallback for queries');
+                usingPostgreSQL = false;
+            } catch (sqliteErr) {
+                console.error('❌ Database query error:', err.message);
+                throw err;
+            }
+        }
+        
+        // SQLite connection will handle the conversion internally
+        const res = await sqliteConnection.query(text, params);
+        const duration = Date.now() - start;
+        console.log('📊 SQLite Query executed', { text: text.substring(0, 50) + '...', duration, rows: res.rowCount });
+        return res;
     }
 }
 

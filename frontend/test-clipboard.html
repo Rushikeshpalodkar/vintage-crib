@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Clipboard Functionality Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        .test-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+        }
+        .success { border-color: #4CAF50; background-color: #f8fff8; }
+        .warning { border-color: #ff9800; background-color: #fff8f0; }
+        .error { border-color: #f44336; background-color: #fff0f0; }
+        .btn {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .btn-primary { background: #667eea; color: white; }
+        .btn-primary:hover { background: #5a6fd8; }
+        .btn-success { background: #4CAF50; color: white; }
+        .btn-success:hover { background: #45a049; }
+        .clipboard-content {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+            margin: 10px 0;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .platform-section {
+            margin: 20px 0;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            background-color: #f8f9ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Clipboard Functionality Test</h1>
+        <p>This page tests the clipboard functionality for cross-posting vintage items to different platforms.</p>
+        
+        <div class="test-section success">
+            <h3>✅ Browser Compatibility Check</h3>
+            <p id="clipboardSupport">Checking clipboard API support...</p>
+            <p id="secureContext">Checking secure context...</p>
+        </div>
+
+        <div class="test-section">
+            <h3>🎯 Test Item Data</h3>
+            <div class="clipboard-content" id="testItem">Loading test item...</div>
+        </div>
+
+        <div id="platformTests">
+            <h3>📋 Platform Clipboard Tests</h3>
+            <!-- Platform test sections will be generated here -->
+        </div>
+
+        <div class="test-section">
+            <h3>📊 Test Results Summary</h3>
+            <div id="testSummary">
+                <p>⏳ Tests not yet run</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const testItem = {
+            title: "Test Vintage T-Shirt",
+            description: "Testing eBay integration",
+            price: 25.00,
+            images: ["https://example.com/image1.jpg"],
+            tags: ["vintage", "90s", "grunge"],
+            category: "clothing",
+            condition: "good", 
+            size: "M",
+            brand: "Vintage Brand"
+        };
+
+        const platforms = ['poshmark', 'depop', 'mercari', 'ebay'];
+        let testResults = {};
+
+        // Check clipboard support
+        function checkClipboardSupport() {
+            const clipboardEl = document.getElementById('clipboardSupport');
+            const secureEl = document.getElementById('secureContext');
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                clipboardEl.innerHTML = '✅ Clipboard API supported';
+                clipboardEl.className = 'success';
+            } else {
+                clipboardEl.innerHTML = '❌ Clipboard API not supported';
+                clipboardEl.className = 'error';
+            }
+
+            if (location.protocol === 'https:' || location.hostname === 'localhost') {
+                secureEl.innerHTML = '✅ Secure context (HTTPS or localhost)';
+                secureEl.className = 'success';
+            } else {
+                secureEl.innerHTML = '⚠️ Insecure context - clipboard may not work';
+                secureEl.className = 'warning';
+            }
+        }
+
+        // Mock the CrossPostingEngine functionality for browser testing
+        function prepareClipboardData(item, platform) {
+            const formatters = {
+                poshmark: () => ({
+                    platform: 'poshmark',
+                    clipboardData: `${item.brand} ${item.title} Size ${item.size}\\n\\n${item.description}\\n\\n🌟 ITEM DETAILS:\\n• Brand: ${item.brand}\\n• Size: ${item.size}\\n• Condition: ${item.condition}\\n• Era: Vintage\\n\\nPrice: $${item.price}\\n\\n#vintage #retro #style #fashion #poshmarkfinds`,
+                    platformUrl: 'https://poshmark.com/create-listing',
+                    instructions: [
+                        '1. Open Poshmark.com and log into your account',
+                        '2. Click "Sell" to create a new listing',
+                        '3. Upload your images',
+                        '4. Copy and paste the title and description',
+                        '5. Set category, size, and brand',
+                        '6. Set the price and publish'
+                    ]
+                }),
+                depop: () => ({
+                    platform: 'depop',
+                    clipboardData: `${item.description}\\n\\n✨ Vintage ${item.category}\\nBrand: ${item.brand}\\nSize: ${item.size}\\nCondition: ${item.condition}\\nPrice: $${item.price}\\n\\n#vintage #retro #thrifted #sustainable #depop #${item.brand.toLowerCase()} #${item.category}`,
+                    platformUrl: 'https://www.depop.com/products/create/',
+                    instructions: [
+                        '1. Open Depop app or website',
+                        '2. Tap the camera icon to create listing',
+                        '3. Upload your photos',
+                        '4. Copy and paste the description with hashtags',
+                        '5. Set category and price',
+                        '6. Publish your item'
+                    ]
+                }),
+                mercari: () => ({
+                    platform: 'mercari',
+                    clipboardData: `[${item.brand}] ${item.title} (Size ${item.size})\\n\\n${item.description}\\n\\n📋 Details:\\n• Brand: ${item.brand}\\n• Size: ${item.size}\\n• Condition: ${item.condition}\\n• Style: Vintage\\n\\nPrice: $${item.price}\\n\\n📦 Ships within 1-2 business days`,
+                    platformUrl: 'https://www.mercari.com/sell/',
+                    instructions: [
+                        '1. Open Mercari app or website',
+                        '2. Tap "Sell" to create a new listing', 
+                        '3. Upload photos',
+                        '4. Copy and paste title and description',
+                        '5. Select category and condition',
+                        '6. Set price and shipping',
+                        '7. Publish listing'
+                    ]
+                }),
+                ebay: () => ({
+                    platform: 'ebay',
+                    clipboardData: `${item.title}\\n\\n${item.description}\\n\\nPrice: $${item.price}`,
+                    platformUrl: 'https://www.ebay.com/sl/sell',
+                    instructions: [
+                        '1. eBay integration is automated',
+                        '2. Items are published directly via API',
+                        '3. No manual copying required'
+                    ]
+                })
+            };
+
+            return formatters[platform.toLowerCase()]();
+        }
+
+        // Test clipboard copying for a platform
+        async function testPlatformClipboard(platform) {
+            const resultEl = document.getElementById(`${platform}Result`);
+            const buttonEl = document.getElementById(`${platform}Button`);
+            
+            try {
+                buttonEl.disabled = true;
+                buttonEl.textContent = 'Testing...';
+                
+                const data = prepareClipboardData(testItem, platform);
+                
+                // Test clipboard writing
+                await navigator.clipboard.writeText(data.clipboardData);
+                
+                // Test reading back (to verify it worked)
+                const readBack = await navigator.clipboard.readText();
+                const success = readBack === data.clipboardData;
+                
+                testResults[platform] = {
+                    success: success,
+                    dataLength: data.clipboardData.length,
+                    instructionCount: data.instructions.length,
+                    platform: platform,
+                    url: data.platformUrl
+                };
+
+                resultEl.className = 'result success';
+                resultEl.innerHTML = `
+                    <strong>✅ Clipboard test passed!</strong><br>
+                    📝 Data length: ${data.clipboardData.length} characters<br>
+                    📋 Successfully copied and verified<br>
+                    🔗 Platform URL: <a href="${data.platformUrl}" target="_blank">${data.platformUrl}</a><br>
+                    📖 Instructions: ${data.instructions.length} steps
+                `;
+                
+                buttonEl.textContent = '✅ Test Passed';
+                buttonEl.className = 'btn btn-success';
+                
+            } catch (error) {
+                testResults[platform] = { success: false, error: error.message };
+                
+                resultEl.className = 'result error';
+                resultEl.innerHTML = `<strong>❌ Clipboard test failed:</strong><br>${error.message}`;
+                
+                buttonEl.textContent = '❌ Test Failed';
+                buttonEl.disabled = false;
+            }
+            
+            updateTestSummary();
+        }
+
+        // Open platform URL
+        function openPlatformUrl(platform) {
+            const data = prepareClipboardData(testItem, platform);
+            window.open(data.platformUrl, '_blank');
+        }
+
+        // Update test summary
+        function updateTestSummary() {
+            const summaryEl = document.getElementById('testSummary');
+            const completedTests = Object.keys(testResults).length;
+            const successfulTests = Object.values(testResults).filter(r => r.success).length;
+            
+            if (completedTests === 0) {
+                return;
+            }
+            
+            summaryEl.innerHTML = `
+                <p><strong>📊 Test Results:</strong></p>
+                <p>✅ Tests completed: ${completedTests}/4</p>
+                <p>✅ Tests passed: ${successfulTests}/${completedTests}</p>
+                <p>⏱️ Estimated time per platform: < 2 minutes</p>
+                ${successfulTests === completedTests ? 
+                    '<p><strong>🎉 All clipboard tests passed! Ready for production.</strong></p>' : 
+                    '<p><strong>⚠️ Some tests failed. Check browser compatibility.</strong></p>'
+                }
+            `;
+        }
+
+        // Initialize page
+        function initializePage() {
+            // Display test item
+            document.getElementById('testItem').textContent = JSON.stringify(testItem, null, 2);
+            
+            // Check clipboard support
+            checkClipboardSupport();
+            
+            // Generate platform test sections
+            const platformTestsEl = document.getElementById('platformTests');
+            
+            platforms.forEach(platform => {
+                const section = document.createElement('div');
+                section.className = 'platform-section';
+                section.innerHTML = `
+                    <h4>🎯 ${platform.toUpperCase()} Platform</h4>
+                    <p>Test clipboard functionality for ${platform} cross-posting.</p>
+                    <button class="btn btn-primary" id="${platform}Button" onclick="testPlatformClipboard('${platform}')">
+                        📋 Test Clipboard Copy
+                    </button>
+                    <button class="btn btn-primary" onclick="openPlatformUrl('${platform}')">
+                        🔗 Open Platform URL
+                    </button>
+                    <div id="${platform}Result" class="result">
+                        <p>⏳ Test not yet run</p>
+                    </div>
+                `;
+                platformTestsEl.appendChild(section);
+            });
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>

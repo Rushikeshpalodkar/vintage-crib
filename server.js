@@ -35,6 +35,9 @@ try {
             sandbox: process.env.EBAY_ENVIRONMENT === 'sandbox',
             siteId: EBay.SiteId.EBAY_US
         });
+        
+        // Make eBay API globally available for services
+        global.eBay = eBay;
         console.log('✅ eBay API initialized successfully');
     } else {
         console.log('⚠️ eBay API credentials not found - running in demo mode');
@@ -83,6 +86,26 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Database API routes (new multi-seller marketplace)
 app.use('/api/db', databaseAPI);
+
+// Vintage marketplace routes
+const vintageRoutes = require('./routes/vintage');
+app.use('/api', vintageRoutes);
+
+// Vintage authentication routes
+const authVintageRoutes = require('./routes/auth-vintage');
+app.use('/api', authVintageRoutes);
+
+// Public vintage routes (portfolios, integration)
+const publicVintageRoutes = require('./routes/public-vintage');
+app.use('/api', publicVintageRoutes);
+
+// Admin subscription management routes
+const adminSubscriptionRoutes = require('./routes/admin-subscriptions');
+app.use('/api', adminSubscriptionRoutes);
+
+// Analytics routes
+const analyticsRoutes = require('./routes/analytics');
+app.use('/api/analytics', analyticsRoutes);
 
 // Middleware to track visits
 app.use((req, res, next) => {
@@ -794,7 +817,7 @@ app.get('/api/test', (req, res) => {
     });
 });
 
-// GET products - reads from file
+// GET products - reads from file with optional vintage integration
 app.get('/api/products', async (req, res) => {
     try {
         // Add strong cache-busting headers
@@ -804,8 +827,37 @@ app.get('/api/products', async (req, res) => {
         
         console.log('📦 Products API: Reading from file...');
         const products = await readProducts();
-        console.log('📦 Sending', products.length, 'products from file');
-        res.json(products);
+        
+        // Check if vintage integration is requested
+        const includeVintage = req.query.include_vintage === 'true';
+        const vintageLimit = parseInt(req.query.vintage_limit) || 10;
+        
+        let finalProducts = products;
+        
+        if (includeVintage) {
+            try {
+                const StoreIntegrationService = require('./services/StoreIntegrationService');
+                const integrationService = new StoreIntegrationService();
+                
+                finalProducts = await integrationService.getIntegratedProducts(products, {
+                    includeVintage: true,
+                    vintageLimit: vintageLimit,
+                    mixRatio: 0.2, // 20% vintage items
+                    category: req.query.category,
+                    priceRange: req.query.min_price && req.query.max_price 
+                        ? [parseFloat(req.query.min_price), parseFloat(req.query.max_price)]
+                        : null
+                });
+                
+                console.log('🏺 Integrated', finalProducts.filter(p => p.isVintage).length, 'vintage items');
+            } catch (vintageError) {
+                console.error('⚠️ Vintage integration failed, using regular products:', vintageError.message);
+                finalProducts = products;
+            }
+        }
+        
+        console.log('📦 Sending', finalProducts.length, 'total products (', finalProducts.filter(p => p.isVintage).length, 'vintage )');
+        res.json(finalProducts);
     } catch (error) {
         console.error('❌ Error reading products:', error);
         res.status(500).json({ error: 'Failed to read products' });

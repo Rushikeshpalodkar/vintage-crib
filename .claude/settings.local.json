@@ -9,7 +9,8 @@
       "WebFetch(domain:www.ebay.com)",
       "Bash(git push:*)",
       "Bash(cp:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(npm test)"
     ],
     "deny": []
   }

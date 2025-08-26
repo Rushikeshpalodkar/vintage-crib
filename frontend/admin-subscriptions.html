@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💰 Subscription Management - Vintage Crib Admin</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #4ecdc4;
+            --warning: #f7b731;
+            --danger: #e74c3c;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --vintage-gold: #d4af37;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+        }
+        
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 280px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-right: 3px solid var(--vintage-gold);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin: 1rem 0;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            text-decoration: none;
+            color: var(--dark);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            gap: 10px;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: var(--primary);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 3px solid var(--vintage-gold);
+        }
+        
+        .header h1 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            color: var(--dark);
+            opacity: 0.8;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid var(--light);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .revenue-card .stat-number { color: var(--success); }
+        .users-card .stat-number { color: var(--primary); }
+        .conversion-card .stat-number { color: var(--warning); }
+        .transactions-card .stat-number { color: var(--secondary); }
+        
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 2px solid var(--light);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--light);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light);
+        }
+        
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        .tier-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .tier-free { background: var(--light); color: var(--dark); }
+        .tier-starter { background: #e3f2fd; color: #1976d2; }
+        .tier-pro { background: #f3e5f5; color: #7b1fa2; }
+        .tier-premium { background: #fff3e0; color: #f57c00; }
+        
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .status-active { background: var(--success); color: white; }
+        .status-expired { background: var(--danger); color: white; }
+        .status-cancelled { background: #6c757d; color: white; }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-warning { background: var(--warning); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+        
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-select, .filter-input {
+            padding: 0.8rem;
+            border: 2px solid var(--light);
+            border-radius: 5px;
+            font-size: 1rem;
+            background: white;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .spinner {
+            border: 4px solid var(--light);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .close {
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--danger);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--light);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .tier-selection {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tier-option {
+            padding: 1rem;
+            border: 2px solid var(--light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tier-option:hover, .tier-option.selected {
+            border-color: var(--primary);
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        .tier-name {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tier-price {
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .tier-description {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="logo">💰 Subscription Admin</div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#overview" class="nav-link active" data-section="overview">
+                        📊 Overview
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#users" class="nav-link" data-section="users">
+                        👥 User Subscriptions
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tiers" class="nav-link" data-section="tiers">
+                        🎯 Tier Management
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#analytics" class="nav-link" data-section="analytics">
+                        📈 Analytics
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/frontend/admin-vintage-integrated.html" class="nav-link">
+                        🏺 Main Dashboard
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="main-content">
+            <!-- Overview Section -->
+            <div id="overview-section" class="section active">
+                <div class="header">
+                    <h1>💰 Subscription Revenue Dashboard</h1>
+                    <p>Manage subscription tiers, track revenue, and monitor user growth</p>
+                </div>
+                
+                <div class="stats-grid" id="statsGrid">
+                    <div class="stat-card revenue-card">
+                        <div class="stat-number" id="totalRevenue">$0</div>
+                        <div class="stat-label">Total Revenue</div>
+                    </div>
+                    <div class="stat-card users-card">
+                        <div class="stat-number" id="totalUsers">0</div>
+                        <div class="stat-label">Paid Users</div>
+                    </div>
+                    <div class="stat-card conversion-card">
+                        <div class="stat-number" id="conversionRate">0%</div>
+                        <div class="stat-label">Conversion Rate</div>
+                    </div>
+                    <div class="stat-card transactions-card">
+                        <div class="stat-number" id="monthlyRevenue">$0</div>
+                        <div class="stat-label">Monthly Revenue</div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <h2 class="section-title">📈 Tier Distribution</h2>
+                    <div id="tierDistribution">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            Loading tier distribution...
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <h2 class="section-title">🔄 Recent Changes</h2>
+                    <div id="recentChanges">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            Loading recent subscription changes...
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Users Section -->
+            <div id="users-section" class="section">
+                <div class="header">
+                    <h1>👥 User Subscription Management</h1>
+                    <p>Upgrade, downgrade, and manage user subscriptions</p>
+                </div>
+                
+                <div class="content-section">
+                    <div class="filters">
+                        <select id="tierFilter" class="filter-select">
+                            <option value="">All Tiers</option>
+                            <option value="free">Free</option>
+                            <option value="starter">Starter</option>
+                            <option value="pro">Pro</option>
+                            <option value="premium">Premium</option>
+                        </select>
+                        
+                        <select id="statusFilter" class="filter-select">
+                            <option value="">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="expired">Expired</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                        
+                        <input type="text" id="userSearch" class="filter-input" placeholder="Search users...">
+                        <button class="btn btn-primary" onclick="loadUserSubscriptions()">🔄 Refresh</button>
+                    </div>
+                    
+                    <div id="userSubscriptions">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            Loading user subscriptions...
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tiers Section -->
+            <div id="tiers-section" class="section">
+                <div class="header">
+                    <h1>🎯 Subscription Tiers</h1>
+                    <p>View and understand subscription tier features</p>
+                </div>
+                
+                <div class="content-section">
+                    <div id="tierDetails">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            Loading tier details...
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Analytics Section -->
+            <div id="analytics-section" class="section">
+                <div class="header">
+                    <h1>📈 Subscription Analytics</h1>
+                    <p>Detailed analytics and insights</p>
+                </div>
+                
+                <div class="content-section">
+                    <h2 class="section-title">💰 Revenue Breakdown</h2>
+                    <div id="revenueAnalytics">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            Loading revenue analytics...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upgrade Modal -->
+    <div id="upgradeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Upgrade User Subscription</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="subscriptionForm">
+                <div class="form-group">
+                    <label class="form-label">Selected User</label>
+                    <input type="text" id="selectedUserInfo" class="form-control" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Select New Tier</label>
+                    <div id="tierSelection" class="tier-selection">
+                        <!-- Tier options will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="reason">Reason (Optional)</label>
+                    <textarea id="reason" class="form-control" rows="3" placeholder="Enter reason for subscription change..."></textarea>
+                </div>
+                
+                <div class="action-buttons">
+                    <button type="submit" class="btn btn-primary">💰 Update Subscription</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let currentAction = 'upgrade';
+        let allTiers = {};
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDashboard();
+            loadDashboardData();
+        });
+        
+        function initializeDashboard() {
+            // Navigation handling
+            document.querySelectorAll('.nav-link[data-section]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showSection(e.target.dataset.section);
+                });
+            });
+            
+            // Form handling
+            document.getElementById('subscriptionForm').addEventListener('submit', handleSubscriptionChange);
+        }
+        
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+                section.style.display = 'none';
+            });
+            
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected section
+            const section = document.getElementById(sectionName + '-section');
+            if (section) {
+                section.classList.add('active');
+                section.style.display = 'block';
+            }
+            
+            // Add active class to clicked nav link
+            document.querySelector(`[data-section="${sectionName}"]`)?.classList.add('active');
+            
+            // Load section-specific data
+            switch(sectionName) {
+                case 'overview':
+                    loadDashboardData();
+                    break;
+                case 'users':
+                    loadUserSubscriptions();
+                    break;
+                case 'tiers':
+                    loadTierDetails();
+                    break;
+                case 'analytics':
+                    loadAnalytics();
+                    break;
+            }
+        }
+        
+        async function loadDashboardData() {
+            try {
+                const response = await fetch('/api/admin/subscriptions/analytics', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    updateOverviewStats(data.analytics);
+                    updateTierDistribution(data.analytics.tierDistribution);
+                    updateRecentChanges(data.analytics.recentChanges);
+                } else {
+                    throw new Error(data.error);
+                }
+                
+            } catch (error) {
+                console.error('Failed to load dashboard data:', error);
+                showError('Failed to load dashboard data: ' + error.message);
+            }
+        }
+        
+        function updateOverviewStats(analytics) {
+            document.getElementById('totalRevenue').textContent = '$' + analytics.revenue.total.toFixed(2);
+            document.getElementById('monthlyRevenue').textContent = '$' + analytics.revenue.monthly.toFixed(2);
+            document.getElementById('totalUsers').textContent = analytics.conversion.paid_users;
+            document.getElementById('conversionRate').textContent = analytics.conversion.conversion_rate + '%';
+        }
+        
+        function updateTierDistribution(tierData) {
+            const container = document.getElementById('tierDistribution');
+            
+            if (!tierData || tierData.length === 0) {
+                container.innerHTML = '<p>No tier data available</p>';
+                return;
+            }
+            
+            const html = tierData.map(tier => `
+                <div class="tier-stat">
+                    <span class="tier-badge tier-${tier.tier}">${tier.tier}</span>
+                    <strong>${tier.user_count} users</strong>
+                </div>
+            `).join('');
+            
+            container.innerHTML = `<div class="tier-stats">${html}</div>`;
+        }
+        
+        function updateRecentChanges(changes) {
+            const container = document.getElementById('recentChanges');
+            
+            if (!changes || changes.length === 0) {
+                container.innerHTML = '<p>No recent changes</p>';
+                return;
+            }
+            
+            const tableHtml = `
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Change</th>
+                                <th>New Tier</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${changes.map(change => `
+                                <tr>
+                                    <td>${change.username || 'Unknown User'}</td>
+                                    <td>${change.change_type.replace('_', ' ')}</td>
+                                    <td><span class="tier-badge tier-${change.new_tier}">${change.new_tier}</span></td>
+                                    <td>${new Date(change.created_at).toLocaleDateString()}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            container.innerHTML = tableHtml;
+        }
+        
+        async function loadUserSubscriptions() {
+            try {
+                const tierFilter = document.getElementById('tierFilter')?.value || '';
+                const statusFilter = document.getElementById('statusFilter')?.value || '';
+                
+                const params = new URLSearchParams({
+                    limit: 50,
+                    offset: 0
+                });
+                
+                if (tierFilter) params.append('tier', tierFilter);
+                if (statusFilter) params.append('status', statusFilter);
+                
+                const response = await fetch('/api/admin/subscriptions/users?' + params.toString(), {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    updateUserSubscriptionsTable(data.subscriptions);
+                } else {
+                    throw new Error(data.error);
+                }
+                
+            } catch (error) {
+                console.error('Failed to load user subscriptions:', error);
+                showError('Failed to load user subscriptions: ' + error.message);
+            }
+        }
+        
+        function updateUserSubscriptionsTable(subscriptions) {
+            const container = document.getElementById('userSubscriptions');
+            
+            if (!subscriptions || subscriptions.length === 0) {
+                container.innerHTML = '<p>No subscriptions found</p>';
+                return;
+            }
+            
+            const tableHtml = `
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Store</th>
+                                <th>Tier</th>
+                                <th>Status</th>
+                                <th>Items</th>
+                                <th>Expires</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${subscriptions.map(sub => `
+                                <tr>
+                                    <td>
+                                        <strong>${sub.username}</strong><br>
+                                        <small>${sub.email}</small>
+                                    </td>
+                                    <td>${sub.store_name || 'No store'}</td>
+                                    <td><span class="tier-badge tier-${sub.tier}">${sub.tier}</span></td>
+                                    <td><span class="status-badge status-${sub.status}">${sub.status}</span></td>
+                                    <td>${sub.item_count || 0}</td>
+                                    <td>${sub.expires_at ? new Date(sub.expires_at).toLocaleDateString() : 'Never'}</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-success" onclick="openUpgradeModal(${sub.user_id}, '${sub.username}', '${sub.tier}')">
+                                                ⬆️ Upgrade
+                                            </button>
+                                            <button class="btn btn-warning" onclick="openDowngradeModal(${sub.user_id}, '${sub.username}', '${sub.tier}')">
+                                                ⬇️ Downgrade
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            container.innerHTML = tableHtml;
+        }
+        
+        async function loadTierDetails() {
+            try {
+                const response = await fetch('/api/admin/subscriptions/tiers', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    allTiers = data.tiers;
+                    updateTierDetailsDisplay(data.tiers);
+                } else {
+                    throw new Error(data.error);
+                }
+                
+            } catch (error) {
+                console.error('Failed to load tier details:', error);
+                showError('Failed to load tier details: ' + error.message);
+            }
+        }
+        
+        function updateTierDetailsDisplay(tiers) {
+            const container = document.getElementById('tierDetails');
+            
+            const tiersHtml = Object.entries(tiers).map(([key, tier]) => `
+                <div class="tier-card" style="border: 2px solid var(--light); border-radius: 12px; padding: 2rem; margin-bottom: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3 style="color: var(--primary);">${tier.name}</h3>
+                        <div class="tier-price" style="font-size: 1.5rem; color: var(--success); font-weight: bold;">
+                            ${tier.price === 0 ? 'Free' : '$' + tier.price + '/month'}
+                        </div>
+                    </div>
+                    
+                    <p style="margin-bottom: 1rem; opacity: 0.8;">${tier.description}</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div>
+                            <strong>Max Items:</strong> ${tier.maxItems === -1 ? 'Unlimited' : tier.maxItems}
+                        </div>
+                        <div>
+                            <strong>Platforms:</strong> ${tier.crossPostPlatforms.join(', ')}
+                        </div>
+                        <div>
+                            <strong>Support:</strong> ${tier.support}
+                        </div>
+                        <div>
+                            <strong>Features:</strong> ${tier.featuresIncluded.length} included
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = tiersHtml;
+        }
+        
+        function openUpgradeModal(userId, username, currentTier) {
+            currentUser = { id: userId, username, tier: currentTier };
+            currentAction = 'upgrade';
+            
+            document.getElementById('modalTitle').textContent = 'Upgrade User Subscription';
+            document.getElementById('selectedUserInfo').value = `${username} (Current: ${currentTier})`;
+            
+            populateTierSelection(currentTier, 'upgrade');
+            document.getElementById('upgradeModal').style.display = 'block';
+        }
+        
+        function openDowngradeModal(userId, username, currentTier) {
+            currentUser = { id: userId, username, tier: currentTier };
+            currentAction = 'downgrade';
+            
+            document.getElementById('modalTitle').textContent = 'Downgrade User Subscription';
+            document.getElementById('selectedUserInfo').value = `${username} (Current: ${currentTier})`;
+            
+            populateTierSelection(currentTier, 'downgrade');
+            document.getElementById('upgradeModal').style.display = 'block';
+        }
+        
+        function populateTierSelection(currentTier, action) {
+            const container = document.getElementById('tierSelection');
+            
+            const tierOrder = ['free', 'starter', 'pro', 'premium'];
+            const currentIndex = tierOrder.indexOf(currentTier);
+            
+            let availableTiers;
+            if (action === 'upgrade') {
+                availableTiers = tierOrder.slice(currentIndex + 1);
+            } else {
+                availableTiers = tierOrder.slice(0, currentIndex);
+            }
+            
+            const tierOptions = availableTiers.map(tierKey => {
+                const tier = allTiers[tierKey];
+                if (!tier) return '';
+                
+                return `
+                    <div class="tier-option" data-tier="${tierKey}">
+                        <div class="tier-name">${tier.name}</div>
+                        <div class="tier-price">${tier.price === 0 ? 'Free' : '$' + tier.price + '/month'}</div>
+                        <div class="tier-description">${tier.description}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            container.innerHTML = tierOptions;
+            
+            // Add click handlers
+            container.querySelectorAll('.tier-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    container.querySelectorAll('.tier-option').forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                });
+            });
+        }
+        
+        async function handleSubscriptionChange(e) {
+            e.preventDefault();
+            
+            const selectedTier = document.querySelector('.tier-option.selected')?.dataset.tier;
+            const reason = document.getElementById('reason').value;
+            
+            if (!selectedTier) {
+                alert('Please select a tier');
+                return;
+            }
+            
+            try {
+                const endpoint = `/api/admin/subscriptions/${currentUser.id}/${currentAction}`;
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({
+                        newTier: selectedTier,
+                        reason: reason
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert(data.message);
+                    closeModal();
+                    loadUserSubscriptions(); // Refresh the table
+                    loadDashboardData(); // Refresh stats
+                } else {
+                    throw new Error(data.error);
+                }
+                
+            } catch (error) {
+                console.error('Subscription change failed:', error);
+                alert('Failed to change subscription: ' + error.message);
+            }
+        }
+        
+        function closeModal() {
+            document.getElementById('upgradeModal').style.display = 'none';
+            document.getElementById('subscriptionForm').reset();
+            currentUser = null;
+        }
+        
+        function showError(message) {
+            // Simple error display - could be enhanced with toast notifications
+            console.error(message);
+            alert(message);
+        }
+        
+        async function loadAnalytics() {
+            // Placeholder for additional analytics
+            const container = document.getElementById('revenueAnalytics');
+            container.innerHTML = '<p>Advanced analytics coming soon...</p>';
+        }
+        
+        // Initialize with overview section
+        showSection('overview');
+    </script>
+</body>
+</html>

@@ -55,6 +55,11 @@ class VintageSeller {
         return result.rows[0];
     }
 
+    static async findByStoreName(store_name) {
+        const result = await query('SELECT * FROM vintage_sellers WHERE LOWER(store_name) = LOWER($1)', [store_name]);
+        return result.rows[0];
+    }
+
     static async getAll(limit = 50, offset = 0) {
         const result = await query(
             `SELECT vs.*, u.username 
@@ -70,7 +75,7 @@ class VintageSeller {
     static async updateStats(seller_id, stats) {
         const { total_sales, rating } = stats;
         const result = await query(
-            'UPDATE vintage_sellers SET total_sales = $1, rating = $2, updated_at = NOW() WHERE id = $3 RETURNING *',
+            'UPDATE vintage_sellers SET total_sales = $1, rating = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $3 RETURNING *',
             [total_sales, rating, seller_id]
         );
         return result.rows[0];
@@ -160,7 +165,7 @@ class VintageItem {
         
         values.push(id);
         const result = await query(
-            `UPDATE vintage_items SET ${setClause}, updated_at = NOW() WHERE id = $${values.length} RETURNING *`,
+            `UPDATE vintage_items SET ${setClause}, updated_at = CURRENT_TIMESTAMP WHERE id = $${values.length} RETURNING *`,
             values
         );
         return result.rows[0];
@@ -228,7 +233,7 @@ class CrossPost {
 
     static async updateStatus(id, status, error_message = null) {
         const result = await query(
-            'UPDATE cross_posts SET status = $1, error_message = $2, updated_at = NOW() WHERE id = $3 RETURNING *',
+            'UPDATE cross_posts SET status = $1, error_message = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $3 RETURNING *',
             [status, error_message, id]
         );
         return result.rows[0];

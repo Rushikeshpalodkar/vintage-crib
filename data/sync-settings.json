@@ -1,7 +1,7 @@
 {
   "autoSyncEnabled": true,
   "syncIntervalMinutes": 90,
-  "lastSyncTime": "2025-08-24T07:32:22.404Z",
+  "lastSyncTime": "2025-08-26T19:51:30.919Z",
   "syncTypes": {
     "soldStatus": true,
     "priceChanges": true,
@@ -17,5 +17,5 @@
     "default": "admin-configured"
   },
   "createdAt": "2025-08-14T17:28:45.402Z",
-  "lastUpdated": "2025-08-24T23:44:09.478Z"
+  "lastUpdated": "2025-08-26T19:55:03.701Z"
 }

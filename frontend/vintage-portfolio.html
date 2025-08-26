@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">🏺 Vintage Store - Vintage Crib</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" id="pageDescription" content="Discover authentic vintage fashion curated by independent sellers on Vintage Crib marketplace.">
+    <meta name="keywords" content="vintage clothing, retro fashion, designer vintage, thrift store, sustainable fashion, vintage marketplace, curated vintage">
+    <meta name="author" id="pageAuthor" content="Vintage Crib">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" id="canonicalURL" href="https://vintagecrib.com/vintage-portfolio">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" id="structuredData">
+    {
+        "@context": "https://schema.org",
+        "@type": "Store",
+        "name": "Vintage Store - Vintage Crib",
+        "description": "Curated vintage fashion marketplace",
+        "url": "https://vintagecrib.com",
+        "sameAs": [],
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Vintage Fashion Collection"
+        }
+    }
+    </script>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" id="pageURL" content="https://vintagecrib.com">
+    <meta property="og:title" id="ogTitle" content="Vintage Store - Vintage Crib">
+    <meta property="og:description" id="ogDescription" content="Discover authentic vintage fashion curated by independent sellers.">
+    <meta property="og:image" id="ogImage" content="https://vintagecrib.com/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" id="twitterURL" content="https://vintagecrib.com">
+    <meta property="twitter:title" id="twitterTitle" content="Vintage Store - Vintage Crib">
+    <meta property="twitter:description" id="twitterDescription" content="Discover authentic vintage fashion curated by independent sellers.">
+    <meta property="twitter:image" id="twitterImage" content="https://vintagecrib.com/og-image.jpg">
+    
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #ff6b6b;
+            --success: #4ecdc4;
+            --warning: #f7b731;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --vintage-gold: #d4af37;
+            --vintage-cream: #f5f5dc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, var(--vintage-cream) 0%, #fff 50%, var(--vintage-cream) 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 3px solid var(--vintage-gold);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+        
+        .nav-links a:hover {
+            background: var(--vintage-gold);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect x="0" y="0" width="100" height="100" fill="url(%23pattern)"/></svg>');
+            opacity: 0.5;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .seller-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            background: var(--vintage-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            min-width: 120px;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Verification Badge */
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--success);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin: 0 0 1rem;
+        }
+        
+        /* Items Grid */
+        .items-section {
+            padding: 4rem 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--vintage-gold);
+            border-radius: 2px;
+        }
+        
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--vintage-gold);
+            background: transparent;
+            color: var(--vintage-gold);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--vintage-gold);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .item-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .item-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        
+        .item-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .item-card:hover .item-image {
+            transform: scale(1.05);
+        }
+        
+        .item-content {
+            padding: 1.5rem;
+        }
+        
+        .item-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .item-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .item-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .item-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .item-condition {
+            background: var(--success);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+        
+        .item-size {
+            background: var(--light);
+            color: var(--dark);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .platforms {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .platform-badge {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .platform-ebay { background: #0064d2; }
+        .platform-poshmark { background: #731652; }
+        .platform-depop { background: #000; }
+        .platform-vintage_crib { background: var(--primary); }
+        
+        .contact-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+        }
+        
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Loading State */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            font-size: 1.2rem;
+            color: #666;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            color: var(--vintage-gold);
+            margin-bottom: 1rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 2rem;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: var(--vintage-gold);
+            transform: translateY(-3px);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .stats-bar {
+                gap: 1rem;
+            }
+            
+            .items-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .filters {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .filter-btn {
+                white-space: nowrap;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-bar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+        
+        /* Contact Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .close:hover {
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo">🏺 Vintage Crib</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/frontend/store-advanced.html">Shop</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="seller-avatar" id="sellerAvatar">🏺</div>
+                <div id="verifiedBadge" class="verified-badge" style="display: none;">
+                    ✓ Verified Seller
+                </div>
+                <h1 id="storeName">Loading Store...</h1>
+                <p id="storeBio">Discover unique vintage pieces curated with love and expertise.</p>
+                
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalItems">-</span>
+                        <span class="stat-label">Items</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalLikes">-</span>
+                        <span class="stat-label">Likes</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="avgPrice">$-</span>
+                        <span class="stat-label">Avg Price</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="memberSince">-</span>
+                        <span class="stat-label">Member Since</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Items Section -->
+    <section class="items-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Curated Collection</h2>
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">All Items</button>
+                    <button class="filter-btn" data-filter="clothing">Clothing</button>
+                    <button class="filter-btn" data-filter="accessories">Accessories</button>
+                    <button class="filter-btn" data-filter="shoes">Shoes</button>
+                    <button class="filter-btn" data-filter="bags">Bags</button>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="loading">
+                <div class="spinner"></div>
+                Loading vintage collection...
+            </div>
+
+            <!-- Items Grid -->
+            <div id="itemsGrid" class="items-grid" style="display: none;">
+                <!-- Items will be loaded here -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <div class="empty-icon">📦</div>
+                <h3>No items found</h3>
+                <p>This collection is being updated with new vintage treasures!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Vintage Crib</h3>
+                    <p>Connecting vintage lovers with authentic, curated pieces from independent sellers worldwide.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow This Store</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-link" id="instagramLink" title="Instagram">📷</a>
+                        <a href="#" class="social-link" id="twitterLink" title="Twitter">🐦</a>
+                        <a href="#" class="social-link" id="emailLink" title="Email">✉️</a>
+                    </div>
+                </div>
+            </div>
+            <p>&copy; 2024 Vintage Crib. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Contact Seller</h3>
+            <div id="contactInfo">
+                <p><strong>Store:</strong> <span id="contactStoreName"></span></p>
+                <p><strong>Instagram:</strong> <span id="contactInstagram"></span></p>
+                <p><strong>Message:</strong> Available through platform where item is listed</p>
+                <div class="platforms" id="contactPlatforms">
+                    <!-- Platform links will be added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSeller = null;
+        let allItems = [];
+        let filteredItems = [];
+
+        // Get seller ID from URL or default to 1
+        const urlParams = new URLSearchParams(window.location.search);
+        const sellerId = urlParams.get('seller') || '1';
+        const sellerUsername = urlParams.get('username') || null;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSellerPortfolio();
+            initializeFilters();
+            initializeModal();
+        });
+
+        // Load seller portfolio data
+        async function loadSellerPortfolio() {
+            try {
+                const endpoint = sellerUsername 
+                    ? `/api/vintage/portfolio/username/${sellerUsername}`
+                    : `/api/vintage/portfolio/${sellerId}`;
+                    
+                const response = await fetch(endpoint);
+                
+                if (!response.ok) {
+                    throw new Error('Portfolio not found');
+                }
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentSeller = data.seller;
+                    allItems = data.items || [];
+                    
+                    updatePageMeta(data.seller);
+                    updateHeroSection(data.seller, data.stats);
+                    displayItems(allItems);
+                } else {
+                    showEmptyState();
+                }
+            } catch (error) {
+                console.error('Error loading portfolio:', error);
+                showEmptyState();
+            }
+        }
+
+        // Update page metadata for SEO
+        function updatePageMeta(seller) {
+            const title = `${seller.store_name} - Vintage Crib Marketplace`;
+            const description = `Shop authentic vintage items from ${seller.store_name}. ${seller.bio || 'Curated vintage fashion and accessories.'}`;
+            const url = `https://vintagecrib.com/vintage-portfolio?seller=${seller.id}`;
+            const avatar = seller.profile_image || generateAvatarUrl(seller.store_name);
+
+            // Update title and meta tags
+            document.title = title;
+            document.getElementById('pageTitle').textContent = title;
+            document.getElementById('pageDescription').setAttribute('content', description);
+            document.getElementById('pageAuthor').setAttribute('content', seller.store_name);
+            document.getElementById('pageURL').setAttribute('content', url);
+            document.getElementById('canonicalURL').setAttribute('href', url);
+            
+            // Open Graph
+            document.getElementById('ogTitle').setAttribute('content', title);
+            document.getElementById('ogDescription').setAttribute('content', description);
+            document.getElementById('ogImage').setAttribute('content', avatar);
+            
+            // Twitter
+            document.getElementById('twitterTitle').setAttribute('content', title);
+            document.getElementById('twitterDescription').setAttribute('content', description);
+            document.getElementById('twitterImage').setAttribute('content', avatar);
+            document.getElementById('twitterURL').setAttribute('content', url);
+            
+            // Update structured data
+            updateStructuredData(seller);
+        }
+        
+        // Update JSON-LD structured data for SEO
+        function updateStructuredData(seller) {
+            const structuredData = {
+                "@context": "https://schema.org",
+                "@type": "Store",
+                "name": seller.store_name,
+                "description": seller.bio || "Curated vintage fashion marketplace",
+                "url": `https://vintagecrib.com/vintage-portfolio?seller=${seller.id}`,
+                "image": seller.profile_image || generateAvatarUrl(seller.store_name),
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressCountry": "US"
+                },
+                "hasOfferCatalog": {
+                    "@type": "OfferCatalog",
+                    "name": `${seller.store_name} Vintage Collection`,
+                    "itemListElement": allItems.slice(0, 5).map(item => ({
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Product",
+                            "name": item.title,
+                            "description": item.description,
+                            "image": parseImages(item.images)[0] || '/placeholder-vintage.jpg',
+                            "brand": item.brand || seller.store_name,
+                            "category": item.category || "Vintage Fashion"
+                        },
+                        "price": item.price,
+                        "priceCurrency": "USD",
+                        "availability": "https://schema.org/InStock"
+                    }))
+                }
+            };
+            
+            if (seller.is_verified) {
+                structuredData.award = "Verified Seller";
+            }
+            
+            document.getElementById('structuredData').textContent = JSON.stringify(structuredData, null, 2);
+        }
+
+        // Update hero section with seller info
+        function updateHeroSection(seller, stats) {
+            document.getElementById('storeName').textContent = seller.store_name;
+            document.getElementById('storeBio').textContent = seller.bio || 'Curated vintage collection';
+            
+            // Update avatar
+            const avatar = document.getElementById('sellerAvatar');
+            if (seller.profile_image) {
+                avatar.innerHTML = `<img src="${seller.profile_image}" alt="${seller.store_name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+            } else {
+                avatar.textContent = seller.store_name.charAt(0).toUpperCase();
+            }
+            
+            // Show verified badge if seller is verified
+            if (seller.is_verified) {
+                document.getElementById('verifiedBadge').style.display = 'inline-flex';
+            }
+            
+            // Update stats
+            document.getElementById('totalItems').textContent = stats.totalItems || 0;
+            document.getElementById('totalLikes').textContent = stats.totalLikes || 0;
+            document.getElementById('avgPrice').textContent = stats.avgPrice ? `$${stats.avgPrice.toFixed(0)}` : '$0';
+            
+            // Format member since date
+            const memberSince = new Date(stats.memberSince || seller.created_at).getFullYear();
+            document.getElementById('memberSince').textContent = memberSince;
+            
+            // Update social links
+            if (seller.instagram_handle) {
+                const instagramLink = document.getElementById('instagramLink');
+                instagramLink.href = `https://instagram.com/${seller.instagram_handle}`;
+                instagramLink.style.display = 'flex';
+            }
+        }
+
+        // Display items in grid
+        function displayItems(items) {
+            const loading = document.getElementById('loadingState');
+            const grid = document.getElementById('itemsGrid');
+            const empty = document.getElementById('emptyState');
+            
+            loading.style.display = 'none';
+            
+            if (!items || items.length === 0) {
+                empty.style.display = 'block';
+                grid.style.display = 'none';
+                return;
+            }
+            
+            filteredItems = items;
+            grid.innerHTML = items.map(item => createItemCard(item)).join('');
+            grid.style.display = 'grid';
+            empty.style.display = 'none';
+        }
+
+        // Create item card HTML
+        function createItemCard(item) {
+            const images = parseImages(item.images);
+            const mainImage = images[0] || '/placeholder-vintage.jpg';
+            const publishedTo = parsePublishedPlatforms(item.published_to);
+            
+            return `
+                <div class="item-card" data-category="${item.category || 'other'}">
+                    <img src="${getHighResImage(mainImage)}" alt="${item.title}" class="item-image" 
+                         onerror="this.src='/placeholder-vintage.jpg'">
+                    <div class="item-content">
+                        <h3 class="item-title">${item.title}</h3>
+                        <div class="item-price">$${item.price}</div>
+                        <div class="item-meta">
+                            <span class="item-condition condition-${item.condition || 'good'}">${item.condition || 'Good'}</span>
+                            ${item.size ? `<span class="item-size">Size ${item.size}</span>` : ''}
+                        </div>
+                        <p class="item-description">${item.description || 'Authentic vintage piece'}</p>
+                        <div class="platforms">
+                            ${publishedTo.map(platform => `
+                                <div class="platform-badge platform-${platform}" title="Available on ${platform}">
+                                    ${platform.charAt(0).toUpperCase()}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <button class="contact-btn" onclick="openContactModal('${item.title}', '${publishedTo.join(',')}')">
+                            💌 Contact Seller
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize filter functionality
+        function initializeFilters() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filter items
+                    const filter = this.dataset.filter;
+                    if (filter === 'all') {
+                        displayItems(allItems);
+                    } else {
+                        const filtered = allItems.filter(item => 
+                            (item.category || 'other').toLowerCase() === filter.toLowerCase()
+                        );
+                        displayItems(filtered);
+                    }
+                });
+            });
+        }
+
+        // Initialize contact modal
+        function initializeModal() {
+            const modal = document.getElementById('contactModal');
+            const closeBtn = document.querySelector('.close');
+            
+            closeBtn.onclick = function() {
+                modal.style.display = 'none';
+            }
+            
+            window.onclick = function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            }
+        }
+
+        // Open contact modal
+        function openContactModal(itemTitle, platforms) {
+            if (!currentSeller) return;
+            
+            const modal = document.getElementById('contactModal');
+            document.getElementById('contactStoreName').textContent = currentSeller.store_name;
+            document.getElementById('contactInstagram').textContent = 
+                currentSeller.instagram_handle ? `@${currentSeller.instagram_handle}` : 'Not available';
+            
+            // Show platform links
+            const platformsDiv = document.getElementById('contactPlatforms');
+            const platformList = platforms.split(',').filter(Boolean);
+            platformsDiv.innerHTML = platformList.map(platform => `
+                <div class="platform-badge platform-${platform}" style="margin: 5px;">
+                    ${platform.charAt(0).toUpperCase() + platform.slice(1)}
+                </div>
+            `).join('');
+            
+            modal.style.display = 'block';
+        }
+
+        // Utility functions
+        function parseImages(images) {
+            if (typeof images === 'string') {
+                try {
+                    return JSON.parse(images);
+                } catch {
+                    return [images];
+                }
+            }
+            return Array.isArray(images) ? images : [];
+        }
+
+        function parsePublishedPlatforms(published) {
+            if (typeof published === 'string') {
+                try {
+                    return JSON.parse(published);
+                } catch {
+                    return ['vintage_crib'];
+                }
+            }
+            return Array.isArray(published) ? published : ['vintage_crib'];
+        }
+
+        function getHighResImage(url) {
+            if (!url || url === '/placeholder-vintage.jpg') return url;
+            
+            // Convert eBay images to high resolution
+            if (url.includes('ebayimg.com')) {
+                return url.replace(/\/s-l\d+\./, '/s-l1600.');
+            }
+            
+            return url;
+        }
+
+        function generateAvatarUrl(storeName) {
+            return `https://ui-avatars.com/api/?name=${encodeURIComponent(storeName)}&size=200&background=667eea&color=ffffff&bold=true`;
+        }
+
+        function showEmptyState() {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('itemsGrid').style.display = 'none';
+            document.getElementById('emptyState').style.display = 'block';
+            
+            // Update hero with default content
+            document.getElementById('storeName').textContent = 'Store Not Found';
+            document.getElementById('storeBio').textContent = 'This vintage store is currently unavailable.';
+        }
+
+        // Social sharing
+        function sharePortfolio() {
+            if (navigator.share && currentSeller) {
+                navigator.share({
+                    title: `${currentSeller.store_name} - Vintage Crib`,
+                    text: `Check out ${currentSeller.store_name}'s vintage collection!`,
+                    url: window.location.href
+                });
+            }
+        }
+
+        // Add to favorites (future feature)
+        function addToFavorites() {
+            // Implementation for user favorites
+            console.log('Add to favorites feature coming soon!');
+        }
+    </script>
+</body>
+</html>

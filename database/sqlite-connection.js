@@ -158,8 +158,20 @@ async function initializeSqliteDatabase() {
 // Query helper for SQLite
 function query(sql, params = []) {
     return new Promise((resolve, reject) => {
-        if (sql.trim().toUpperCase().startsWith('SELECT')) {
-            db.all(sql, params, (err, rows) => {
+        // Handle RETURNING clauses (SQLite doesn't support them)
+        let returningClause = '';
+        let cleanSql = sql;
+        const returningMatch = sql.match(/\s+RETURNING\s+(.+)$/i);
+        if (returningMatch) {
+            returningClause = returningMatch[1];
+            cleanSql = sql.replace(/\s+RETURNING\s+.+$/i, '');
+        }
+        
+        // Convert PostgreSQL-style parameters ($1, $2) to SQLite style (?)
+        const sqliteQuery = cleanSql.replace(/\$(\d+)/g, '?');
+        
+        if (sqliteQuery.trim().toUpperCase().startsWith('SELECT')) {
+            db.all(sqliteQuery, params, (err, rows) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -167,15 +179,24 @@ function query(sql, params = []) {
                 }
             });
         } else {
-            db.run(sql, params, function(err) {
+            db.run(sqliteQuery, params, function(err) {
                 if (err) {
                     reject(err);
                 } else {
-                    // For INSERT statements, return the inserted row
-                    if (sql.trim().toUpperCase().startsWith('INSERT') && this.lastID) {
-                        db.get("SELECT * FROM " + sql.match(/INSERT INTO (\w+)/i)[1] + " WHERE id = ?", [this.lastID], (err, row) => {
-                            resolve({ rows: row ? [row] : [], rowCount: this.changes });
-                        });
+                    // For INSERT/UPDATE statements with RETURNING, fetch the row
+                    if (returningClause && this.lastID) {
+                        const tableName = sqliteQuery.match(/(?:INSERT INTO|UPDATE)\s+(\w+)/i)?.[1];
+                        if (tableName) {
+                            db.get(`SELECT * FROM ${tableName} WHERE id = ?`, [this.lastID], (err, row) => {
+                                if (err) {
+                                    resolve({ rows: [], rowCount: this.changes });
+                                } else {
+                                    resolve({ rows: row ? [row] : [], rowCount: this.changes });
+                                }
+                            });
+                        } else {
+                            resolve({ rows: [], rowCount: this.changes });
+                        }
                     } else {
                         resolve({ rows: [], rowCount: this.changes });
                     }

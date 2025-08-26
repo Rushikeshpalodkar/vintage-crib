@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 A/B Testing - Vintage Crib</title>
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #ff6b6b;
+            --success: #4ecdc4;
+            --warning: #f7b731;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--secondary); }
+        .btn-success { background: var(--success); color: white; }
+        .btn-warning { background: var(--warning); color: white; }
+        .btn-danger { background: var(--accent); color: white; }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            background: #f8f9fa;
+            color: var(--dark);
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .test-grid {
+            display: grid;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .test-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .test-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .test-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--dark);
+        }
+        
+        .test-status {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-active { background: var(--success); color: white; }
+        .status-completed { background: var(--warning); color: white; }
+        .status-stopped { background: var(--accent); color: white; }
+        
+        .test-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .metric {
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .metric-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .metric-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .variant-results {
+            display: grid;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .variant {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .variant.winning {
+            border-left-color: var(--success);
+            background: rgba(78, 205, 196, 0.1);
+        }
+        
+        .variant-name {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .variant-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .form-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--dark);
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .variant-config {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        
+        .recommendation {
+            background: linear-gradient(135deg, var(--success), #44a08d);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+        }
+        
+        .recommendation.warning {
+            background: linear-gradient(135deg, var(--warning), #fc4a1a);
+        }
+        
+        .recommendation.danger {
+            background: linear-gradient(135deg, var(--accent), #ee5a24);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .error {
+            background: var(--accent);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        
+        .success {
+            background: var(--success);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>🧪 A/B Testing Dashboard</h1>
+                <p style="margin: 5px 0 0 0; color: #666;">Optimize your vintage items with data-driven experiments</p>
+            </div>
+            <button class="btn btn-primary" onclick="showCreateTest()">
+                ✨ Create New Test
+            </button>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('active')">🟢 Active Tests</div>
+            <div class="tab" onclick="showTab('completed')">📊 Completed Tests</div>
+            <div class="tab" onclick="showTab('create')">➕ Create Test</div>
+        </div>
+        
+        <!-- Active Tests Tab -->
+        <div id="activeTab" class="tab-content active">
+            <div id="activeTests" class="test-grid">
+                <div class="loading">Loading active tests...</div>
+            </div>
+        </div>
+        
+        <!-- Completed Tests Tab -->
+        <div id="completedTab" class="tab-content">
+            <div id="completedTests" class="test-grid">
+                <div class="loading">Loading completed tests...</div>
+            </div>
+        </div>
+        
+        <!-- Create Test Tab -->
+        <div id="createTab" class="tab-content">
+            <div class="form-section">
+                <h3>Create New A/B Test</h3>
+                <form id="createTestForm">
+                    <div class="form-group">
+                        <label class="form-label">Test Name</label>
+                        <input type="text" class="form-input" name="testName" required 
+                               placeholder="e.g., pricing_strategy_winter_2025">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Test Type</label>
+                        <select class="form-select" name="testType" onchange="updateVariantOptions()" required>
+                            <option value="">Select test type</option>
+                            <option value="layout">Layout Testing</option>
+                            <option value="pricing">Pricing Strategy</option>
+                            <option value="cross_posting">Cross-Posting Timing</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" name="description" rows="3" 
+                                  placeholder="Describe what you're testing and why..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Test Duration (days)</label>
+                        <input type="number" class="form-input" name="duration" value="14" min="7" max="90">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Target Metric</label>
+                        <select class="form-select" name="targetMetric">
+                            <option value="conversion_rate">Conversion Rate</option>
+                            <option value="click_rate">Click-through Rate</option>
+                            <option value="engagement_time">Engagement Time</option>
+                            <option value="revenue">Revenue</option>
+                        </select>
+                    </div>
+                    
+                    <div id="variantConfiguration">
+                        <h4>Test Variants</h4>
+                        <div id="variantOptions">
+                            <p style="color: #666;">Select a test type to see variant options</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">🚀 Start A/B Test</button>
+                        <button type="button" class="btn" onclick="showTab('active')" style="margin-left: 10px;">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let authToken = localStorage.getItem('adminToken');
+        let activeTests = [];
+        let completedTests = [];
+
+        // Variant configurations for different test types
+        const variantConfigs = {
+            layout: [
+                { name: 'grid', label: 'Grid Layout', description: '3-column grid with medium images' },
+                { name: 'list', label: 'List Layout', description: '1-column list with large images' },
+                { name: 'card', label: 'Card Layout', description: '2-column cards with large images' }
+            ],
+            pricing: [
+                { name: 'fixed', label: 'Fixed Pricing', description: 'Static prices, no adjustments' },
+                { name: 'dynamic', label: 'Dynamic Pricing', description: 'Market-based price adjustments' },
+                { name: 'markup_10', label: '10% Markup', description: 'Fixed 10% markup strategy' },
+                { name: 'markup_20', label: '20% Markup', description: 'Fixed 20% markup strategy' }
+            ],
+            cross_posting: [
+                { name: 'immediate', label: 'Immediate', description: 'Post to all platforms immediately' },
+                { name: 'delayed_1h', label: '1 Hour Delay', description: 'Wait 1 hour before cross-posting' },
+                { name: 'delayed_24h', label: '24 Hour Delay', description: 'Wait 24 hours before cross-posting' },
+                { name: 'manual', label: 'Manual Only', description: 'No automatic cross-posting' }
+            ]
+        };
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!authToken) {
+                window.location.href = '/admin.html';
+                return;
+            }
+            loadActiveTests();
+            
+            // Set up form submission
+            document.getElementById('createTestForm').addEventListener('submit', createTest);
+        });
+
+        // Tab switching
+        function showTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            
+            // Load appropriate data
+            if (tabName === 'active') {
+                loadActiveTests();
+            } else if (tabName === 'completed') {
+                loadCompletedTests();
+            }
+        }
+
+        // Load active tests
+        async function loadActiveTests() {
+            try {
+                const response = await fetch('/api/analytics/ab-test/active', {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    activeTests = result.tests || [];
+                    renderActiveTests();
+                } else {
+                    throw new Error(result.error);
+                }
+                
+            } catch (error) {
+                document.getElementById('activeTests').innerHTML = `
+                    <div class="error">Failed to load active tests: ${error.message}</div>
+                `;
+            }
+        }
+
+        // Render active tests
+        function renderActiveTests() {
+            const container = document.getElementById('activeTests');
+            
+            if (activeTests.length === 0) {
+                container.innerHTML = `
+                    <div class="loading">
+                        <p>No active tests running</p>
+                        <button class="btn btn-primary" onclick="showTab('create')">Create Your First Test</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            const html = activeTests.map(test => `
+                <div class="test-card">
+                    <div class="test-header">
+                        <div class="test-name">${test.test_name}</div>
+                        <div class="test-status status-${test.status}">${test.status}</div>
+                    </div>
+                    
+                    <div class="test-metrics">
+                        <div class="metric">
+                            <div class="metric-value">${test.variant_count}</div>
+                            <div class="metric-label">Variants</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${test.total_exposures || 0}</div>
+                            <div class="metric-label">Exposures</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${test.total_conversions || 0}</div>
+                            <div class="metric-label">Conversions</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${test.daysRemaining || 0}</div>
+                            <div class="metric-label">Days Left</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 15px;">
+                        <button class="btn btn-primary" onclick="viewTestResults('${test.test_name}')">
+                            📊 View Results
+                        </button>
+                        <button class="btn btn-danger" onclick="stopTest('${test.test_name}')">
+                            ⏹️ Stop Test
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = html;
+        }
+
+        // Update variant options based on test type
+        function updateVariantOptions() {
+            const testType = document.querySelector('[name="testType"]').value;
+            const container = document.getElementById('variantOptions');
+            
+            if (!testType) {
+                container.innerHTML = '<p style="color: #666;">Select a test type to see variant options</p>';
+                return;
+            }
+            
+            const variants = variantConfigs[testType] || [];
+            
+            const html = `
+                <p style="margin-bottom: 15px; color: #666;">Select variants to test (choose at least 2):</p>
+                ${variants.map(variant => `
+                    <div class="variant-config">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                            <input type="checkbox" name="variants" value="${variant.name}" 
+                                   style="transform: scale(1.2);">
+                            <div>
+                                <strong>${variant.label}</strong>
+                                <div style="font-size: 0.9rem; color: #666; margin-top: 5px;">
+                                    ${variant.description}
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                `).join('')}
+            `;
+            
+            container.innerHTML = html;
+        }
+
+        // Create new test
+        async function createTest(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const variants = Array.from(document.querySelectorAll('[name="variants"]:checked')).map(cb => cb.value);
+            
+            if (variants.length < 2) {
+                alert('Please select at least 2 variants to test');
+                return;
+            }
+            
+            const testData = {
+                testName: formData.get('testName'),
+                testType: formData.get('testType'),
+                description: formData.get('description'),
+                duration: parseInt(formData.get('duration')),
+                targetMetric: formData.get('targetMetric'),
+                variants: variants,
+                sellerIds: [1], // Current user
+                itemIds: [] // Will test across all items
+            };
+            
+            try {
+                const response = await fetch('/api/analytics/ab-test/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('A/B Test created successfully!');
+                    e.target.reset();
+                    showTab('active');
+                    loadActiveTests();
+                } else {
+                    throw new Error(result.error);
+                }
+                
+            } catch (error) {
+                alert('Failed to create test: ' + error.message);
+            }
+        }
+
+        // View test results
+        async function viewTestResults(testName) {
+            try {
+                const response = await fetch(`/api/analytics/ab-test/${encodeURIComponent(testName)}/results`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showTestResultsModal(result);
+                } else {
+                    throw new Error(result.error);
+                }
+                
+            } catch (error) {
+                alert('Failed to load test results: ' + error.message);
+            }
+        }
+
+        // Show test results in modal
+        function showTestResultsModal(testResults) {
+            const { testName, variants, recommendation, summary } = testResults;
+            
+            const modalHtml = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; display: flex; align-items: center; justify-content: center;" onclick="this.remove()">
+                    <div style="background: white; padding: 30px; border-radius: 15px; max-width: 800px; width: 90%; max-height: 80%; overflow-y: auto;" onclick="event.stopPropagation()">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h2>📊 Test Results: ${testName}</h2>
+                            <button onclick="this.closest('[style*=\"position: fixed\"]').remove()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✖️</button>
+                        </div>
+                        
+                        <div class="variant-results">
+                            ${variants.map(variant => `
+                                <div class="variant ${variant.isWinning ? 'winning' : ''}">
+                                    <div>
+                                        <div class="variant-name">${variant.variant}</div>
+                                        <div style="font-size: 0.9rem; color: #666; margin-top: 5px;">
+                                            ${variant.isWinning ? '🏆 Winner!' : ''}
+                                            ${variant.significance.isSignificant ? `${variant.significance.improvement}% improvement` : 'Not significant'}
+                                        </div>
+                                    </div>
+                                    <div class="variant-stats">
+                                        <span>${variant.exposures} exposures</span>
+                                        <span>${variant.conversions} conversions</span>
+                                        <span>${variant.conversionRate.toFixed(1)}% rate</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="recommendation ${recommendation.action === 'implement' ? '' : recommendation.action === 'continue' ? 'warning' : 'danger'}">
+                            <h4>🎯 Recommendation: ${recommendation.action.toUpperCase()}</h4>
+                            <p>${recommendation.reason}</p>
+                            ${recommendation.variant ? `<p><strong>Best Variant:</strong> ${recommendation.variant}</p>` : ''}
+                            <p><strong>Confidence:</strong> ${recommendation.confidence}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+
+        // Stop test
+        async function stopTest(testName) {
+            if (!confirm(`Are you sure you want to stop the test "${testName}"?`)) return;
+            
+            try {
+                const response = await fetch(`/api/analytics/ab-test/${encodeURIComponent(testName)}/stop`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('Test stopped successfully');
+                    loadActiveTests();
+                } else {
+                    throw new Error(result.error);
+                }
+                
+            } catch (error) {
+                alert('Failed to stop test: ' + error.message);
+            }
+        }
+
+        // Shortcuts
+        function showCreateTest() {
+            showTab('create');
+        }
+    </script>
+</body>
+</html>
