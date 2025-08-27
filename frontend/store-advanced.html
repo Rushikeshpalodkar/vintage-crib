@@ -790,128 +790,649 @@
                 font-size: 1.6rem;
             }
         }
+
+        /* Modern Pagination Styles */
+        .pagination-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+        }
         
-        /* Image Gallery Modal */
-        .image-gallery-modal {
-            display: none;
+        .pagination-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            background: var(--glass-dark);
+            backdrop-filter: var(--backdrop-blur);
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem 2rem;
+            box-shadow: var(--shadow-3d-dark);
+        }
+        
+        .pagination-btn {
+            background: var(--gradient-secondary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: var(--shadow-3d-mint);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 120px;
+            justify-content: center;
+            transform: translateZ(5px);
+        }
+        
+        .pagination-btn:hover:not(:disabled) {
+            transform: translateZ(15px) translateY(-2px);
+            box-shadow: var(--shadow-3d-heavy), 0 0 25px rgba(78, 205, 196, 0.5);
+        }
+        
+        .pagination-btn.next-btn {
+            background: var(--gradient-primary);
+            box-shadow: var(--shadow-3d-glow);
+        }
+        
+        .pagination-btn.next-btn:hover:not(:disabled) {
+            box-shadow: var(--shadow-3d-heavy), 0 0 25px rgba(255, 107, 107, 0.5);
+        }
+        
+        .pagination-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: translateZ(0px) !important;
+            box-shadow: none !important;
+        }
+        
+        .pagination-numbers {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 1rem;
+        }
+        
+        .page-number {
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            border: 2px solid var(--glass-border);
+            color: var(--off-white);
+            padding: 0.5rem 0.8rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            min-width: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            transform: translateZ(2px);
+        }
+        
+        .page-number:hover {
+            background: var(--gradient-accent);
+            color: var(--dark-accent);
+            transform: translateZ(8px);
+            box-shadow: var(--shadow-3d-medium);
+        }
+        
+        .page-number.active {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: var(--primary);
+            transform: translateZ(10px);
+            box-shadow: var(--shadow-3d-glow);
+        }
+        
+        .pagination-info {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            color: var(--cream);
+            font-size: 0.9rem;
+        }
+        
+        .total-info {
+            font-weight: 600;
+            color: var(--off-white);
+        }
+        
+        .items-per-page {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .items-select {
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            border: 2px solid var(--glass-border);
+            color: var(--off-white);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        
+        /* Mobile Pagination */
+        .mobile-pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: var(--glass-dark);
+            backdrop-filter: var(--backdrop-blur);
+            border: 2px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 1rem;
+        }
+        
+        .mobile-pagination-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: var(--shadow-3d-glow);
+            transition: all 0.3s ease;
+            min-width: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .mobile-pagination-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        .mobile-page-numbers {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+        }
+        
+        .mobile-page-number {
+            background: var(--glass-bg);
+            color: var(--off-white);
+            border: 1px solid var(--glass-border);
+            padding: 0.4rem 0.6rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            min-width: 35px;
+            text-align: center;
+        }
+        
+        .mobile-page-number.active {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .pagination-info.mobile-only {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .mobile-page-info {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--off-white);
+            margin-bottom: 0.5rem;
+        }
+        
+        .mobile-total-info {
+            font-size: 0.9rem;
+            color: var(--cream);
+        }
+
+        /* Scroll to Top Button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 55px;
+            height: 55px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-3d-glow);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            transform: translateZ(20px);
+        }
+        
+        .scroll-to-top:hover {
+            transform: translateZ(25px) scale(1.1);
+            box-shadow: var(--shadow-3d-heavy), 0 0 30px rgba(255, 107, 107, 0.7);
+        }
+        
+        /* Loading Overlay */
+        .loading-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 10000;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .image-gallery-modal.active {
-            display: flex;
-            opacity: 1;
-        }
-        
-        .gallery-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
         }
         
-        .gallery-main-image {
-            max-width: 90%;
-            max-height: 70%;
-            object-fit: contain;
-            border-radius: 10px;
-            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: optimize-contrast;
-            image-rendering: crisp-edges;
-        }
-        
-        .gallery-thumbnails {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            overflow-x: auto;
-            padding: 10px;
-            max-width: 90%;
-        }
-        
-        .gallery-thumbnail {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 8px;
-            cursor: pointer;
-            opacity: 0.6;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            flex-shrink: 0;
-        }
-        
-        .gallery-thumbnail.active,
-        .gallery-thumbnail:hover {
-            opacity: 1;
-            border-color: var(--vintage-gold);
-            transform: scale(1.1);
-        }
-        
-        .gallery-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            font-size: 24px;
-            padding: 10px 15px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .gallery-close:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
-        }
-        
-        .gallery-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            font-size: 24px;
-            padding: 15px 20px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .gallery-nav:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-50%) scale(1.1);
-        }
-        
-        .gallery-prev { left: 20px; }
-        .gallery-next { right: 20px; }
-        
-        .gallery-info {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
+        .loading-spinner {
             text-align: center;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px 20px;
-            border-radius: 20px;
+            color: var(--off-white);
         }
         
+        .loading-spinner p {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        /* Enhanced Product Card Animations */
+        .product-card {
+            animation: fadeInUp 0.6s ease forwards;
+            animation-fill-mode: both;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateZ(0px) translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateZ(10px) translateY(0px);
+            }
+        }
+        
+        /* Skeleton Loading for Products */
+        .skeleton-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2.5rem;
+            padding: 2rem 0;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .skeleton-card {
+            background: var(--glass-dark);
+            border-radius: 25px;
+            overflow: hidden;
+            animation: skeletonPulse 1.5s ease-in-out infinite alternate;
+        }
+        
+        .skeleton-image {
+            height: 300px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        
+        .skeleton-content {
+            padding: 2rem;
+        }
+        
+        .skeleton-title {
+            height: 1.5rem;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .skeleton-text {
+            height: 1rem;
+            background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .skeleton-text:last-child {
+            width: 70%;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        @keyframes skeletonPulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 0.8; }
+        }
+        
+        /* Smooth Transitions */
+        .products-grid {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        /* Fade Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        
+        /* Enhanced Hero Section */
+        .hero {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 0%, rgba(255, 107, 107, 0.1) 50%, transparent 100%);
+            animation: heroShimmer 8s ease-in-out infinite;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        @keyframes heroShimmer {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+        
+        /* Improved Search Section */
+        .search-section {
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .search-input:focus {
+            box-shadow: var(--shadow-3d-glow), 0 0 0 3px rgba(255, 107, 107, 0.2);
+            transform: translateZ(10px);
+        }
+        
+        .filter-select:focus {
+            box-shadow: var(--shadow-3d-mint), 0 0 0 3px rgba(78, 205, 196, 0.2);
+            transform: translateZ(10px);
+        }
+
+        /* Mobile Responsive Pagination */
+        @media (max-width: 768px) {
+            .desktop-pagination,
+            .desktop-only {
+                display: none !important;
+            }
+            
+            .mobile-only {
+                display: block !important;
+            }
+            
+            #paginationControls {
+                margin: 2rem 0;
+                padding: 0 1rem;
+            }
+            
+            .pagination-wrapper {
+                gap: 1rem;
+            }
+            
+            .scroll-to-top {
+                bottom: 1rem;
+                right: 1rem;
+                width: 50px;
+                height: 50px;
+                font-size: 1rem;
+            }
+            
+            .skeleton-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.5rem;
+                padding: 1rem 0;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .mobile-only {
+                display: none !important;
+            }
+            
+            .desktop-only {
+                display: flex !important;
+            }
+        }
+
+        /* Vintage Footer Styles */
+        .vintage-footer {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%, #0a0a0a 100%);
+            color: var(--off-white);
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+            border-top: 2px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .vintage-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+        
+        .footer-section h3,
+        .footer-section h4 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-logo .logo-symbol {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border: 2px solid var(--vintage-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            box-shadow: var(--shadow-3d-glow);
+        }
+        
+        .footer-description {
+            color: var(--cream);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: var(--glass-dark);
+            backdrop-filter: var(--backdrop-blur);
+            border: 2px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            transform: translateZ(5px);
+        }
+        
+        .social-link:hover {
+            background: var(--gradient-secondary);
+            color: white;
+            transform: translateZ(15px) translateY(-3px);
+            box-shadow: var(--shadow-3d-mint);
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--cream);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .footer-links a::before {
+            content: '→';
+            position: absolute;
+            left: -20px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: var(--secondary);
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+            padding-left: 25px;
+        }
+        
+        .footer-links a:hover::before {
+            opacity: 1;
+            left: 0;
+        }
+        
+        .contact-info p {
+            color: var(--cream);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .contact-info i {
+            color: var(--accent);
+            width: 20px;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid var(--glass-border);
+            margin-top: 3rem;
+            padding-top: 2rem;
+        }
+        
+        .footer-bottom-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .footer-badges {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            border: 1px solid var(--glass-border);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--cream);
+            font-weight: 600;
+        }
+        
+        /* Footer Mobile Responsive */
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+            
+            .footer-logo {
+                justify-content: center;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+            
+            .footer-bottom-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-badges {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -946,7 +1467,7 @@
         <div class="search-container">
             <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search vintage collections...">
             <select class="filter-select" id="sortFilter">
-                <option value="price-high" selected>💎 Premium First</option>
+                <option value="price-high">💎 Premium First</option>
                 <option value="newest">🆕 Latest Finds</option>
                 <option value="price-low">💰 Value First</option>
                 <option value="name">🔤 A to Z</option>
@@ -969,58 +1490,66 @@
             <!-- Products will be loaded here -->
         </div>
 
-        <!-- Pagination Controls -->
-        <div id="paginationControls" style="display: none; text-align: center; margin: 3rem 0; padding: 2rem;">
-            <div style="
-                display: flex; 
-                align-items: center; 
-                justify-content: center; 
-                gap: 1rem; 
-                flex-wrap: wrap;
-                background: var(--glass-dark);
-                backdrop-filter: var(--backdrop-blur);
-                border: 2px solid var(--glass-border);
-                border-radius: 20px;
-                padding: 1.5rem;
-                box-shadow: var(--shadow-3d-dark);
-            ">
-                <button id="prevBtn" onclick="goToPage(currentPage - 1)" style="
-                    background: var(--gradient-secondary);
-                    color: white;
-                    border: none;
-                    padding: 0.8rem 1.5rem;
-                    border-radius: 12px;
-                    cursor: pointer;
-                    font-weight: 600;
-                    box-shadow: var(--shadow-3d-mint);
-                    transition: all 0.3s ease;
-                ">← Previous</button>
+        <!-- Modern Pagination Controls -->
+        <div id="paginationControls" style="display: none; margin: 4rem 0; padding: 0 2rem;">
+            <div class="pagination-wrapper">
+                <!-- Mobile Pagination Info -->
+                <div class="pagination-info mobile-only">
+                    <div id="mobilePageInfo" class="mobile-page-info">
+                        Page 1 of 1
+                    </div>
+                    <div id="mobileTotalInfo" class="mobile-total-info">
+                        Showing 1-24 of 87 pieces
+                    </div>
+                </div>
                 
-                <div id="pageInfo" style="
-                    color: var(--off-white);
-                    font-weight: 600;
-                    font-size: 1.1rem;
-                    margin: 0 1rem;
-                ">Page 1 of 1</div>
+                <!-- Desktop Pagination -->
+                <div class="pagination-container desktop-pagination">
+                    <button id="prevBtn" onclick="goToPage(currentPage - 1)" class="pagination-btn prev-btn">
+                        <i class="fas fa-chevron-left"></i>
+                        <span>Previous</span>
+                    </button>
+                    
+                    <div class="pagination-numbers" id="paginationNumbers">
+                        <!-- Page numbers will be dynamically generated -->
+                    </div>
+                    
+                    <button id="nextBtn" onclick="goToPage(currentPage + 1)" class="pagination-btn next-btn">
+                        <span>Next</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
                 
-                <button id="nextBtn" onclick="goToPage(currentPage + 1)" style="
-                    background: var(--gradient-primary);
-                    color: white;
-                    border: none;
-                    padding: 0.8rem 1.5rem;
-                    border-radius: 12px;
-                    cursor: pointer;
-                    font-weight: 600;
-                    box-shadow: var(--shadow-3d-glow);
-                    transition: all 0.3s ease;
-                ">Next →</button>
+                <!-- Desktop Info -->
+                <div class="pagination-info desktop-only">
+                    <div id="totalInfo" class="total-info">
+                        Showing 1-24 of 87 curated pieces
+                    </div>
+                    <div class="items-per-page">
+                        <label for="itemsPerPageSelect">Items per page:</label>
+                        <select id="itemsPerPageSelect" onchange="changeItemsPerPage(this.value)" class="items-select">
+                            <option value="12">12</option>
+                            <option value="24" selected>24</option>
+                            <option value="36">36</option>
+                            <option value="48">48</option>
+                        </select>
+                    </div>
+                </div>
                 
-                <div id="totalInfo" style="
-                    color: var(--cream);
-                    font-size: 0.9rem;
-                    opacity: 0.9;
-                    margin-left: 1rem;
-                ">Showing 1-24 of 87</div>
+                <!-- Mobile Pagination Controls -->
+                <div class="mobile-pagination mobile-only">
+                    <button id="mobilePrevBtn" onclick="goToPage(currentPage - 1)" class="mobile-pagination-btn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    
+                    <div class="mobile-page-numbers" id="mobilePaginationNumbers">
+                        <!-- Mobile page numbers -->
+                    </div>
+                    
+                    <button id="mobileNextBtn" onclick="goToPage(currentPage + 1)" class="mobile-pagination-btn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -1057,6 +1586,77 @@
             </div>
         </div>
     </main>
+    
+    <!-- Vintage Footer -->
+    <footer class="vintage-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <div class="logo-symbol">🏺</div>
+                    <h3>Vintage Crib</h3>
+                </div>
+                <p class="footer-description">Curating extraordinary vintage pieces with timeless character and authentic stories since 2024.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#products">Browse Collection</a></li>
+                    <li><a href="#" onclick="showSoldProducts()">Recently Sold</a></li>
+                    <li><a href="/admin-advanced.html">Admin Portal</a></li>
+                    <li><a href="/resume.html">About Creator</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Categories</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Vintage Electronics</a></li>
+                    <li><a href="#">Classic Clothing</a></li>
+                    <li><a href="#">Home Collectibles</a></li>
+                    <li><a href="#">Rare Finds</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> hello@vintagecrib.com</p>
+                    <p><i class="fas fa-globe"></i> vintagecrib.com</p>
+                    <p><i class="fas fa-clock"></i> New arrivals daily</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p>&copy; 2024 Vintage Crib. All rights reserved. | Curated with ❤️</p>
+                <div class="footer-badges">
+                    <span class="badge">✨ Authenticated Vintage</span>
+                    <span class="badge">🔒 Secure Checkout</span>
+                    <span class="badge">📦 Worldwide Shipping</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="scroll-to-top" onclick="scrollToTop()" style="display: none;">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+    
+    <!-- Loading Overlay for Page Transitions -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner">
+            <div class="spinner-3d"></div>
+            <p>Loading vintage treasures...</p>
+        </div>
+    </div>
 
     <script>
         let allProducts = [];
@@ -1087,18 +1687,6 @@
         let cacheTimestamp = 0;
         const FRONTEND_CACHE_DURATION = 300000; // 5 minutes
         
-        // Get high resolution image URL
-        function getHighResImage(imageUrl) {
-            if (!imageUrl || !imageUrl.includes('ebayimg.com')) return imageUrl;
-            
-            // Convert eBay images to highest quality available
-            return imageUrl
-                .replace('/s-l140.', '/s-l1600.')  // Convert thumbnails to high-res
-                .replace('/s-l400.', '/s-l1600.')  // Convert medium to high-res  
-                .replace('/s-l500.', '/s-l1600.')  // Convert large to highest
-                .replace('/s-l800.', '/s-l1600.'); // Convert to maximum resolution
-        }
-        
         // Load products from API with caching and retry logic
         async function loadProducts(retry = 0) {
             try {
@@ -1107,14 +1695,15 @@
                     console.log('🚀 Using cached products for better performance');
                     allProducts = productsCache;
                     filteredProducts = [...allProducts];
-                    displayProducts();
-                    updateProductsCount();
                     
-                    // Apply frontend dropdown sorting on cached products
-                    filterProducts();
-                    
-                    document.getElementById('loadingState').style.display = 'none';
-                    document.getElementById('productsGrid').style.display = 'grid';
+                    // Smooth transition from skeleton to content
+                    setTimeout(() => {
+                        displayProducts();
+                        updateProductsCount();
+                        
+                        document.getElementById('loadingState').style.display = 'none';
+                        document.getElementById('productsGrid').style.display = 'grid';
+                    }, 500);
                     return;
                 }
                 
@@ -1153,14 +1742,19 @@
                     console.log(`🎯 Products loaded with ${data.settings.sortOrder} sorting (${data.filteredCount}/${data.totalCount} products)`);
                 }
                 
-                displayProducts();
-                updateProductsCount();
-                
-                // Apply frontend dropdown sorting on page load
-                filterProducts();
-                
-                document.getElementById('loadingState').style.display = 'none';
-                document.getElementById('productsGrid').style.display = 'grid';
+                // Smooth transition from loading to content
+                setTimeout(() => {
+                    displayProducts();
+                    updateProductsCount();
+                    
+                    document.getElementById('loadingState').style.display = 'none';
+                    document.getElementById('productsGrid').style.display = 'grid';
+                    
+                    // Observe cards for animations
+                    document.querySelectorAll('.product-card').forEach(card => {
+                        cardObserver.observe(card);
+                    });
+                }, 800);
                 
             } catch (error) {
                 console.error('❌ Failed to load products:', error);
@@ -1212,13 +1806,11 @@
             
             grid.innerHTML = productsToShow.map(product => `
                 <div class="product-card" data-product-id="${product.id}">
-                    <div class="product-image" onclick="openImageGallery(${JSON.stringify(product).replace(/"/g, '&quot;')}, 0)" style="cursor: pointer;">
-                        <img src="${getHighResImage(product.image) || 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'}" 
-                             alt="${product.name}" 
+                    <div class="product-image">
+                        <img src="${product.image || 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'}" 
+                             alt="${product.name || 'Vintage Item'}" 
                              loading="lazy"
-                             style="image-rendering: -webkit-optimize-contrast; image-rendering: optimize-contrast; image-rendering: crisp-edges;"
                              onerror="this.src='https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'; console.warn('⚠️ Image failed to load:', this.alt)">
-                        ${product.images && product.images.length > 1 ? '<div style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px;">📸 ' + product.images.length + ' photos</div>' : ''}
                         <div class="product-overlay"></div>
                         ${product.isVintage ? '<div class="product-badge">🏺 Vintage</div>' : ''}
                         ${product.customTags && product.customTags.length > 0 ? 
@@ -1226,11 +1818,11 @@
                         }
                     </div>
                     <div class="product-info">
-                        <h3 class="product-title">${product.name}</h3>
+                        <h3 class="product-title">${product.name || 'Vintage Item'}</h3>
                         <div class="product-price">$${parseFloat(product.price || 0).toFixed(2)}</div>
                         <p class="product-description">${(product.description || 'A unique vintage piece with authentic character and timeless appeal.').substring(0, 120)}...</p>
                         <div class="product-actions">
-                            <button class="btn btn-primary" onclick="event.stopPropagation(); buyNow('${product.sourceUrl || product.buyLink || product.url || ''}', '${product.name.replace(/'/g, "\\'")}')">
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); buyNow('${product.sourceUrl || product.buyLink || product.url || ''}', '${(product.name || 'Vintage Item').replace(/'/g, "\\'")}')">
                                 💎 Acquire Piece
                             </button>
                             <button class="btn btn-outline" onclick="event.stopPropagation(); viewProductDetail('${product.id}')">
@@ -1297,19 +1889,47 @@
             document.getElementById('productsCount').textContent = countText;
         }
 
-        // Pagination functions
+        // Modern pagination functions
         function updatePagination() {
             const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
             const startProduct = (currentPage - 1) * productsPerPage + 1;
             const endProduct = Math.min(currentPage * productsPerPage, filteredProducts.length);
             
-            // Update page info
-            document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
-            document.getElementById('totalInfo').textContent = `Showing ${startProduct}-${endProduct} of ${filteredProducts.length}`;
+            // Update desktop info
+            const totalInfo = document.getElementById('totalInfo');
+            if (totalInfo) {
+                totalInfo.textContent = `Showing ${startProduct}-${endProduct} of ${filteredProducts.length} curated pieces`;
+            }
+            
+            // Update mobile info
+            const mobilePageInfo = document.getElementById('mobilePageInfo');
+            const mobileTotalInfo = document.getElementById('mobileTotalInfo');
+            if (mobilePageInfo) {
+                mobilePageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+            }
+            if (mobileTotalInfo) {
+                mobileTotalInfo.textContent = `Showing ${startProduct}-${endProduct} of ${filteredProducts.length} pieces`;
+            }
             
             // Update button states
-            document.getElementById('prevBtn').disabled = currentPage === 1;
-            document.getElementById('nextBtn').disabled = currentPage === totalPages;
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const mobilePrevBtn = document.getElementById('mobilePrevBtn');
+            const mobileNextBtn = document.getElementById('mobileNextBtn');
+            
+            const isFirstPage = currentPage === 1;
+            const isLastPage = currentPage === totalPages;
+            
+            [prevBtn, mobilePrevBtn].forEach(btn => {
+                if (btn) btn.disabled = isFirstPage;
+            });
+            
+            [nextBtn, mobileNextBtn].forEach(btn => {
+                if (btn) btn.disabled = isLastPage;
+            });
+            
+            // Generate page numbers
+            generatePageNumbers(totalPages);
             
             // Show/hide pagination controls
             const paginationControls = document.getElementById('paginationControls');
@@ -1318,37 +1938,91 @@
             } else {
                 paginationControls.style.display = 'none';
             }
+        }
+        
+        function generatePageNumbers(totalPages) {
+            const desktopContainer = document.getElementById('paginationNumbers');
+            const mobileContainer = document.getElementById('mobilePaginationNumbers');
             
-            // Update button styles for disabled state
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
+            if (!desktopContainer || !mobileContainer) return;
             
-            if (prevBtn.disabled) {
-                prevBtn.style.opacity = '0.5';
-                prevBtn.style.cursor = 'not-allowed';
+            // Generate desktop page numbers
+            let desktopHTML = '';
+            let mobileHTML = '';
+            
+            if (totalPages <= 7) {
+                // Show all pages if 7 or fewer
+                for (let i = 1; i <= totalPages; i++) {
+                    desktopHTML += `<span class="page-number ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</span>`;
+                    if (i <= 5) { // Show max 5 on mobile
+                        mobileHTML += `<span class="mobile-page-number ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</span>`;
+                    }
+                }
             } else {
-                prevBtn.style.opacity = '1';
-                prevBtn.style.cursor = 'pointer';
+                // Show first page
+                desktopHTML += `<span class="page-number ${1 === currentPage ? 'active' : ''}" onclick="goToPage(1)">1</span>`;
+                
+                if (currentPage > 3) {
+                    desktopHTML += `<span class="page-number">...</span>`;
+                }
+                
+                // Show pages around current
+                const start = Math.max(2, currentPage - 1);
+                const end = Math.min(totalPages - 1, currentPage + 1);
+                
+                for (let i = start; i <= end; i++) {
+                    desktopHTML += `<span class="page-number ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</span>`;
+                }
+                
+                if (currentPage < totalPages - 2) {
+                    desktopHTML += `<span class="page-number">...</span>`;
+                }
+                
+                // Show last page
+                desktopHTML += `<span class="page-number ${totalPages === currentPage ? 'active' : ''}" onclick="goToPage(${totalPages})">${totalPages}</span>`;
+                
+                // Mobile - show current and adjacent pages
+                const mobileStart = Math.max(1, currentPage - 2);
+                const mobileEnd = Math.min(totalPages, currentPage + 2);
+                
+                for (let i = mobileStart; i <= mobileEnd; i++) {
+                    mobileHTML += `<span class="mobile-page-number ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</span>`;
+                }
             }
             
-            if (nextBtn.disabled) {
-                nextBtn.style.opacity = '0.5';
-                nextBtn.style.cursor = 'not-allowed';
-            } else {
-                nextBtn.style.opacity = '1';
-                nextBtn.style.cursor = 'pointer';
-            }
+            desktopContainer.innerHTML = desktopHTML;
+            mobileContainer.innerHTML = mobileHTML;
+        }
+        
+        function changeItemsPerPage(newValue) {
+            productsPerPage = parseInt(newValue);
+            currentPage = 1; // Reset to first page
+            displayProducts();
+            updatePagination();
         }
 
         function goToPage(page) {
             const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
             if (page >= 1 && page <= totalPages) {
                 currentPage = page;
-                displayProducts();
-                updatePagination();
                 
-                // Scroll to top of products
-                document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+                // Add smooth loading transition
+                const productsGrid = document.getElementById('productsGrid');
+                productsGrid.style.opacity = '0.5';
+                productsGrid.style.transform = 'translateY(20px)';
+                productsGrid.style.transition = 'all 0.3s ease';
+                
+                setTimeout(() => {
+                    displayProducts();
+                    updatePagination();
+                    
+                    // Restore visibility with animation
+                    productsGrid.style.opacity = '1';
+                    productsGrid.style.transform = 'translateY(0)';
+                    
+                    // Scroll to top of products
+                    document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+                }, 150);
             }
         }
 
@@ -1360,7 +2034,7 @@
             // Filter by search
             filteredProducts = allProducts.filter(product => {
                 return !searchTerm || 
-                    product.name.toLowerCase().includes(searchTerm) ||
+                    (product.name && product.name.toLowerCase().includes(searchTerm)) ||
                     (product.description && product.description.toLowerCase().includes(searchTerm));
             });
             
@@ -1370,9 +2044,9 @@
                     case 'newest':
                         return new Date(b.dateAdded) - new Date(a.dateAdded);
                     case 'price-low':
-                        return parseFloat(b.price || 0) - parseFloat(a.price || 0);
-                    case 'price-high':
                         return parseFloat(a.price || 0) - parseFloat(b.price || 0);
+                    case 'price-high':
+                        return parseFloat(b.price || 0) - parseFloat(a.price || 0);
                     case 'name':
                         return a.name.localeCompare(b.name);
                     default:
@@ -1634,6 +2308,97 @@
                 // Silent fail - service worker is optional enhancement
             });
         }
+        
+        // Modern UI Features
+        
+        // Scroll to top functionality
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Show/hide scroll to top button
+        function handleScroll() {
+            const scrollButton = document.getElementById('scrollToTop');
+            if (window.pageYOffset > 300) {
+                scrollButton.style.display = 'block';
+                scrollButton.style.animation = 'fadeInUp 0.3s ease';
+            } else {
+                scrollButton.style.display = 'none';
+            }
+        }
+        
+        // Skeleton loading for better UX
+        function showSkeletonLoading() {
+            const productsGrid = document.getElementById('productsGrid');
+            const skeletonHTML = Array(8).fill(0).map(() => `
+                <div class="skeleton-card">
+                    <div class="skeleton-image"></div>
+                    <div class="skeleton-content">
+                        <div class="skeleton-title"></div>
+                        <div class="skeleton-text"></div>
+                        <div class="skeleton-text"></div>
+                        <div class="skeleton-text"></div>
+                    </div>
+                </div>
+            `).join('');
+            
+            productsGrid.innerHTML = skeletonHTML;
+            productsGrid.style.display = 'grid';
+        }
+        
+        // Enhanced loading states
+        function showLoadingOverlay() {
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        }
+        
+        function hideLoadingOverlay() {
+            document.getElementById('loadingOverlay').style.display = 'none';
+        }
+        
+        // Intersection Observer for lazy loading animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                    cardObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        // Smooth page transitions
+        function smoothPageTransition(callback) {
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.style.display = 'flex';
+            overlay.style.opacity = '0';
+            overlay.style.animation = 'fadeIn 0.3s ease forwards';
+            
+            setTimeout(() => {
+                callback();
+                setTimeout(() => {
+                    overlay.style.animation = 'fadeOut 0.3s ease forwards';
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                    }, 300);
+                }, 100);
+            }, 200);
+        }
+        
+        // Event listeners
+        window.addEventListener('scroll', handleScroll);
+        
+        // Enhanced DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show skeleton loading initially
+            showSkeletonLoading();
+        });
 
         // Sold Products Functions
         let soldProducts = [];
@@ -1700,7 +2465,7 @@
                 <div class="product-card" style="opacity: 0.8; border: 2px solid var(--vintage-gold);">
                     <div class="product-image">
                         <img src="${product.image || '/api/placeholder/300/300'}" 
-                             alt="${product.name}" 
+                             alt="${product.name || 'Vintage Item'}" 
                              onerror="this.src='/api/placeholder/300/300'">
                         <div class="product-overlay"></div>
                         <div class="product-badge" style="background: var(--gradient-accent); color: var(--dark-gray);">
@@ -1711,7 +2476,7 @@
                         ).join('') : ''}
                     </div>
                     <div class="product-info">
-                        <h3 class="product-title">${product.name}</h3>
+                        <h3 class="product-title">${product.name || 'Vintage Item'}</h3>
                         <div class="product-price">
                             ${product.salePrice ? `<span style="color: var(--vintage-gold); font-weight: 800;">Sold for $${product.salePrice}</span>` : 
                               `<span style="color: var(--vintage-gold); font-weight: 800;">Sold for $${product.price}</span>`}
@@ -1752,104 +2517,6 @@
             // Refresh the regular products display
             displayProducts();
         }
-        // Image Gallery Functions
-        let currentGalleryImages = [];
-        let currentImageIndex = 0;
-        
-        function openImageGallery(product, imageIndex = 0) {
-            if (!product.images || product.images.length === 0) return;
-            
-            currentGalleryImages = product.images.map(img => getHighResImage(img));
-            currentImageIndex = imageIndex;
-            
-            const modal = document.getElementById('image-gallery-modal');
-            const mainImage = document.getElementById('gallery-main-image');
-            const thumbnailsContainer = document.getElementById('gallery-thumbnails');
-            const info = document.getElementById('gallery-info');
-            
-            // Set main image
-            mainImage.src = currentGalleryImages[currentImageIndex];
-            
-            // Create thumbnails
-            thumbnailsContainer.innerHTML = currentGalleryImages.map((img, index) => 
-                `<img src="${img}" class="gallery-thumbnail ${index === currentImageIndex ? 'active' : ''}" 
-                     onclick="changeGalleryImage(${index})" alt="Image ${index + 1}">`
-            ).join('');
-            
-            // Set info
-            info.innerHTML = `${product.name}<br><small>${currentImageIndex + 1} of ${currentGalleryImages.length}</small>`;
-            
-            // Show modal
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeImageGallery() {
-            const modal = document.getElementById('image-gallery-modal');
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-        
-        function changeGalleryImage(index) {
-            if (index < 0 || index >= currentGalleryImages.length) return;
-            
-            currentImageIndex = index;
-            const mainImage = document.getElementById('gallery-main-image');
-            mainImage.src = currentGalleryImages[currentImageIndex];
-            
-            // Update thumbnails
-            document.querySelectorAll('.gallery-thumbnail').forEach((thumb, i) => {
-                thumb.classList.toggle('active', i === currentImageIndex);
-            });
-            
-            // Update info
-            const info = document.getElementById('gallery-info');
-            const productName = info.innerHTML.split('<br>')[0];
-            info.innerHTML = `${productName}<br><small>${currentImageIndex + 1} of ${currentGalleryImages.length}</small>`;
-        }
-        
-        function nextGalleryImage() {
-            changeGalleryImage((currentImageIndex + 1) % currentGalleryImages.length);
-        }
-        
-        function prevGalleryImage() {
-            changeGalleryImage((currentImageIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length);
-        }
-        
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            const modal = document.getElementById('image-gallery-modal');
-            if (!modal.classList.contains('active')) return;
-            
-            switch(e.key) {
-                case 'Escape':
-                    closeImageGallery();
-                    break;
-                case 'ArrowLeft':
-                    prevGalleryImage();
-                    break;
-                case 'ArrowRight':
-                    nextGalleryImage();
-                    break;
-            }
-        });
-
     </script>
-    
-    <!-- Image Gallery Modal -->
-    <div id="image-gallery-modal" class="image-gallery-modal">
-        <div class="gallery-container">
-            <button class="gallery-close" onclick="closeImageGallery()">×</button>
-            <button class="gallery-nav gallery-prev" onclick="prevGalleryImage()">‹</button>
-            <button class="gallery-nav gallery-next" onclick="nextGalleryImage()">›</button>
-            
-            <img id="gallery-main-image" class="gallery-main-image" alt="Product Image">
-            
-            <div class="gallery-info" id="gallery-info"></div>
-            
-            <div class="gallery-thumbnails" id="gallery-thumbnails"></div>
-        </div>
-    </div>
-    
 </body>
 </html>

@@ -1808,7 +1808,7 @@
                 <div class="product-card" data-product-id="${product.id}">
                     <div class="product-image">
                         <img src="${product.image || 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'}" 
-                             alt="${product.name}" 
+                             alt="${product.name || 'Vintage Item'}" 
                              loading="lazy"
                              onerror="this.src='https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'; console.warn('⚠️ Image failed to load:', this.alt)">
                         <div class="product-overlay"></div>
@@ -1818,11 +1818,11 @@
                         }
                     </div>
                     <div class="product-info">
-                        <h3 class="product-title">${product.name}</h3>
+                        <h3 class="product-title">${product.name || 'Vintage Item'}</h3>
                         <div class="product-price">$${parseFloat(product.price || 0).toFixed(2)}</div>
                         <p class="product-description">${(product.description || 'A unique vintage piece with authentic character and timeless appeal.').substring(0, 120)}...</p>
                         <div class="product-actions">
-                            <button class="btn btn-primary" onclick="event.stopPropagation(); buyNow('${product.sourceUrl || product.buyLink || product.url || ''}', '${product.name.replace(/'/g, "\\'")}')">
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); buyNow('${product.sourceUrl || product.buyLink || product.url || ''}', '${(product.name || 'Vintage Item').replace(/'/g, "\\'")}')">
                                 💎 Acquire Piece
                             </button>
                             <button class="btn btn-outline" onclick="event.stopPropagation(); viewProductDetail('${product.id}')">
@@ -2034,7 +2034,7 @@
             // Filter by search
             filteredProducts = allProducts.filter(product => {
                 return !searchTerm || 
-                    product.name.toLowerCase().includes(searchTerm) ||
+                    (product.name && product.name.toLowerCase().includes(searchTerm)) ||
                     (product.description && product.description.toLowerCase().includes(searchTerm));
             });
             
@@ -2465,7 +2465,7 @@
                 <div class="product-card" style="opacity: 0.8; border: 2px solid var(--vintage-gold);">
                     <div class="product-image">
                         <img src="${product.image || '/api/placeholder/300/300'}" 
-                             alt="${product.name}" 
+                             alt="${product.name || 'Vintage Item'}" 
                              onerror="this.src='/api/placeholder/300/300'">
                         <div class="product-overlay"></div>
                         <div class="product-badge" style="background: var(--gradient-accent); color: var(--dark-gray);">
@@ -2476,7 +2476,7 @@
                         ).join('') : ''}
                     </div>
                     <div class="product-info">
-                        <h3 class="product-title">${product.name}</h3>
+                        <h3 class="product-title">${product.name || 'Vintage Item'}</h3>
                         <div class="product-price">
                             ${product.salePrice ? `<span style="color: var(--vintage-gold); font-weight: 800;">Sold for $${product.salePrice}</span>` : 
                               `<span style="color: var(--vintage-gold); font-weight: 800;">Sold for $${product.price}</span>`}
