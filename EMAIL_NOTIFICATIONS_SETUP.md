@@ -134,11 +134,18 @@ Update the `server_address` and `server_port` in the workflow file:
 - **Yahoo**: `smtp.mail.yahoo.com:587`
 - **Custom SMTP**: Use your provider's settings
 
-## 📊 Current Pipeline Triggers
+## 📊 Current Pipeline Status
 
+**✅ FIXED ISSUES:**
+- Production deployments no longer fail
+- Staging deployments now run correctly on `develop` branch
+- Email notifications are more resilient
+- Simplified pipeline removes problematic steps
+
+**🎯 CURRENT TRIGGERS:**
 - **Production Deploy** → Email sent on push to `main` branch
 - **Staging Deploy** → Email sent on push to `develop` branch  
-- **Failure** → Email sent if any step fails
+- **Success/Failure** → Email notifications sent regardless of outcome
 
 ## 💡 Next Steps
 
