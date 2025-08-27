@@ -34,11 +34,10 @@ copy .env.example .env
 
 ### 2. Edit `.env` file with your credentials:
 ```env
-# Production Environment
-EBAY_APP_ID=YourAppId-12345678-abcd-efgh-ijkl-123456789012
-EBAY_CERT_ID=PRD-1234567890abcdef-12345678-90ab-12cd-ef12-3456
-EBAY_DEV_ID=12345678-abcd-efgh-ijkl-123456789012
-EBAY_USER_TOKEN=v^1.1#i^1#p^3#I^3#f^0#r^1#t^Hl4BMw== (optional)
+# ✅ YOUR EBAY API CREDENTIALS (CONFIGURED IN .env FILE)
+EBAY_APP_ID=your_ebay_app_id_from_developer_portal
+EBAY_CERT_ID=your_ebay_cert_id_from_developer_portal  
+EBAY_DEV_ID=your_ebay_dev_id_from_developer_portal
 
 # Environment (start with sandbox for testing)
 EBAY_ENVIRONMENT=sandbox
@@ -46,6 +45,16 @@ EBAY_ENVIRONMENT=sandbox
 # Server
 PORT=3001
 NODE_ENV=development
+
+# Optional Authentication
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=mystore123
+JWT_SECRET=your_secure_jwt_secret_here
+
+# Email Notifications (for GitHub Actions)
+EMAIL_USERNAME=your_gmail@gmail.com
+EMAIL_PASSWORD=your_gmail_app_password
+NOTIFICATION_EMAIL=notifications@yourdomain.com
 ```
 
 ### 3. For testing, use Sandbox credentials first:
