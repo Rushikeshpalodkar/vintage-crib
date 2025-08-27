@@ -1,0 +1,2533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏺 Vintage Crib - Admin Dashboard</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Fresh 3D Colors - Shining Theme */
+            --primary: #ff6b6b; /* Coral Red - Fresh & Energetic */
+            --primary-dark: #ee5a6f;
+            --secondary: #4ecdc4; /* Mint Green - Fresh & Cool */
+            --secondary-dark: #45b7b8;
+            --accent: #ffe66d; /* Bright Yellow - Sunshine */
+            --accent-dark: #ffd93d;
+            --purple: #a8e6cf; /* Soft Mint Purple */
+            --purple-dark: #88d8c0;
+            
+            /* Supporting Colors */
+            --success: #26de81;
+            --warning: #fed330;
+            --danger: #ff3838;
+            --info: #3742fa;
+            
+            /* 3D Base Colors */
+            --white: #ffffff;
+            --cream: #fef7e0;
+            --light: #f8f9ff;
+            --gray-100: #f1f3f8;
+            --gray-200: #e4e7f0;
+            --gray-300: #c5cae0;
+            --gray-600: #6b7288;
+            --gray-900: #2d3748;
+            
+            /* Vintage Brand Colors */
+            --vintage-gold: #f7b731;
+            --vintage-copper: #ff7675;
+            --dark-accent: #2d3436;
+            
+            /* 3D Shadows & Depth */
+            --shadow-3d-light: 0 8px 32px rgba(255, 107, 107, 0.15);
+            --shadow-3d-medium: 0 12px 40px rgba(78, 205, 196, 0.2);
+            --shadow-3d-heavy: 0 20px 60px rgba(255, 230, 109, 0.25);
+            --shadow-3d-inset: inset 0 2px 8px rgba(255, 255, 255, 0.6);
+            --shadow-glow: 0 0 30px rgba(255, 107, 107, 0.4);
+            
+            /* 3D Gradients */
+            --gradient-primary: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 50%, #ff7675 100%);
+            --gradient-secondary: linear-gradient(135deg, #4ecdc4 0%, #45b7b8 50%, #26de81 100%);
+            --gradient-accent: linear-gradient(135deg, #ffe66d 0%, #ffd93d 50%, #f7b731 100%);
+            --gradient-purple: linear-gradient(135deg, #a8e6cf 0%, #88d8c0 50%, #26de81 100%);
+            
+            /* Glass Effects */
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --backdrop-blur: blur(20px);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite;
+            color: var(--gray-900);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 3D Floating Particles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(78, 205, 196, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 80%, rgba(255, 230, 109, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 10% 60%, rgba(168, 230, 207, 0.09) 0%, transparent 50%);
+            z-index: -2;
+            animation: particleFloat 15s ease-in-out infinite;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.6; }
+            50% { transform: translateY(-30px) scale(1.1); opacity: 0.8; }
+        }
+
+        /* 3D Geometric Shapes */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                conic-gradient(from 0deg at 15% 15%, transparent 0deg, rgba(255, 107, 107, 0.05) 90deg, transparent 180deg),
+                conic-gradient(from 120deg at 85% 25%, transparent 0deg, rgba(78, 205, 196, 0.04) 120deg, transparent 240deg),
+                conic-gradient(from 240deg at 25% 85%, transparent 0deg, rgba(255, 230, 109, 0.06) 60deg, transparent 120deg);
+            background-size: 800px 800px, 600px 600px, 900px 900px;
+            background-position: 0 0, 100% 0, 50% 100%;
+            animation: geometricSpin 20s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes geometricSpin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.05); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        /* 3D Header */
+        .header {
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            border: 1px solid var(--glass-border);
+            border-bottom: 3px solid var(--primary);
+            box-shadow: var(--shadow-3d-light), var(--shadow-3d-inset);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transform-style: preserve-3d;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 90px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: var(--dark-accent);
+            text-decoration: none;
+            transform: translateZ(10px);
+        }
+
+        .logo-symbol {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border: 3px solid var(--vintage-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--white);
+            box-shadow: var(--shadow-3d-light), var(--shadow-3d-inset);
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(15px);
+            animation: logoGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoGlow {
+            0% { box-shadow: var(--shadow-3d-light), 0 0 20px rgba(255, 107, 107, 0.5); }
+            100% { box-shadow: var(--shadow-3d-heavy), 0 0 40px rgba(255, 107, 107, 0.8); }
+        }
+
+        .logo-symbol::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: conic-gradient(transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: logoSpin 4s linear infinite;
+        }
+
+        @keyframes logoSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .admin-title {
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            margin-left: 1rem;
+            font-size: 1.1rem;
+            text-shadow: 0 2px 8px rgba(78, 205, 196, 0.3);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transform: translateZ(8px);
+        }
+
+        .nav-btn {
+            padding: 0.9rem 1.8rem;
+            border: none;
+            border-radius: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+
+        .nav-btn.primary {
+            background: var(--gradient-accent);
+            color: var(--dark-accent);
+            box-shadow: var(--shadow-3d-medium);
+            transform: translateZ(5px);
+        }
+
+        .nav-btn.primary:hover {
+            transform: translateZ(15px) translateY(-3px);
+            box-shadow: var(--shadow-3d-heavy), var(--shadow-glow);
+        }
+
+        .nav-btn.outline {
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            border: 3px solid var(--secondary);
+            color: var(--secondary-dark);
+            box-shadow: var(--shadow-3d-light);
+        }
+
+        .nav-btn.outline:hover {
+            background: var(--gradient-secondary);
+            color: var(--white);
+            transform: translateZ(12px) translateY(-2px);
+            box-shadow: var(--shadow-3d-medium);
+        }
+
+        /* 3D Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            transform-style: preserve-3d;
+        }
+
+        /* 3D Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+            transform: translateZ(0);
+        }
+
+        .dashboard-card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            border: 2px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 3rem 2.5rem;
+            box-shadow: var(--shadow-3d-medium);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            transform-style: preserve-3d;
+            transform: translateZ(10px);
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--gradient-primary);
+            border-radius: 25px 25px 0 0;
+        }
+
+        .dashboard-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .dashboard-card:hover {
+            transform: translateZ(25px) translateY(-8px) rotateX(5deg);
+            box-shadow: var(--shadow-3d-heavy), 0 0 50px rgba(255, 107, 107, 0.3);
+        }
+
+        .dashboard-card:hover::after {
+            opacity: 1;
+        }
+
+        .dashboard-card:nth-child(1) { --card-color: var(--primary); }
+        .dashboard-card:nth-child(2) { --card-color: var(--secondary); }
+        .dashboard-card:nth-child(3) { --card-color: var(--accent); }
+        .dashboard-card:nth-child(4) { --card-color: var(--purple); }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 2rem;
+            position: relative;
+            transform: translateZ(15px);
+            box-shadow: var(--shadow-3d-light);
+            transition: all 0.4s;
+        }
+
+        .card-icon.products {
+            background: var(--gradient-primary);
+            color: var(--white);
+            animation: iconPulse1 4s ease-in-out infinite;
+        }
+
+        .card-icon.import {
+            background: var(--gradient-secondary);
+            color: var(--white);
+            animation: iconPulse2 4s ease-in-out infinite 1s;
+        }
+
+        .card-icon.analytics {
+            background: var(--gradient-accent);
+            color: var(--dark-accent);
+            animation: iconPulse3 4s ease-in-out infinite 2s;
+        }
+
+        .card-icon.tools {
+            background: var(--gradient-purple);
+            color: var(--white);
+            animation: iconPulse4 4s ease-in-out infinite 3s;
+        }
+
+        @keyframes iconPulse1 {
+            0%, 100% { transform: translateZ(15px) scale(1); box-shadow: var(--shadow-3d-light); }
+            50% { transform: translateZ(25px) scale(1.1); box-shadow: var(--shadow-3d-heavy), 0 0 30px rgba(255, 107, 107, 0.6); }
+        }
+
+        @keyframes iconPulse2 {
+            0%, 100% { transform: translateZ(15px) scale(1); box-shadow: var(--shadow-3d-light); }
+            50% { transform: translateZ(25px) scale(1.1); box-shadow: var(--shadow-3d-heavy), 0 0 30px rgba(78, 205, 196, 0.6); }
+        }
+
+        @keyframes iconPulse3 {
+            0%, 100% { transform: translateZ(15px) scale(1); box-shadow: var(--shadow-3d-light); }
+            50% { transform: translateZ(25px) scale(1.1); box-shadow: var(--shadow-3d-heavy), 0 0 30px rgba(255, 230, 109, 0.6); }
+        }
+
+        @keyframes iconPulse4 {
+            0%, 100% { transform: translateZ(15px) scale(1); box-shadow: var(--shadow-3d-light); }
+            50% { transform: translateZ(25px) scale(1.1); box-shadow: var(--shadow-3d-heavy), 0 0 30px rgba(168, 230, 207, 0.6); }
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transform: translateZ(5px);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 0.8rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+            transform: translateZ(10px);
+            animation: numberGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes numberGlow {
+            0% { filter: brightness(1) contrast(1); }
+            100% { filter: brightness(1.2) contrast(1.1); }
+        }
+
+        .stat-label {
+            color: var(--gray-600);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transform: translateZ(5px);
+        }
+
+        /* 3D Sections */
+        .section {
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            border: 2px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 3.5rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-3d-medium);
+            border-left: 8px solid var(--secondary);
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(5px);
+            transition: all 0.4s;
+        }
+
+        .section:hover {
+            transform: translateZ(15px);
+            box-shadow: var(--shadow-3d-heavy);
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(78, 205, 196, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(50%, -50%);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 2.5rem;
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            text-shadow: 0 4px 8px rgba(78, 205, 196, 0.3);
+            transform: translateZ(10px);
+        }
+
+        /* 3D Buttons */
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.95rem;
+            margin: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transform: translateZ(5px);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn.primary {
+            background: var(--gradient-primary);
+            color: var(--white);
+            box-shadow: var(--shadow-3d-light);
+        }
+
+        .btn.primary:hover {
+            transform: translateZ(15px) translateY(-3px);
+            box-shadow: var(--shadow-3d-heavy), 0 0 30px rgba(255, 107, 107, 0.6);
+        }
+
+        .btn.success {
+            background: var(--gradient-secondary);
+            color: var(--white);
+            box-shadow: var(--shadow-3d-light);
+        }
+
+        .btn.success:hover {
+            transform: translateZ(15px) translateY(-3px);
+            box-shadow: var(--shadow-3d-heavy), 0 0 30px rgba(78, 205, 196, 0.6);
+        }
+
+        .btn.outline {
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            border: 2px solid var(--accent);
+            color: var(--accent-dark);
+            box-shadow: var(--shadow-3d-light);
+        }
+
+        .btn.outline:hover {
+            background: var(--gradient-accent);
+            color: var(--dark-accent);
+            transform: translateZ(12px) translateY(-2px);
+            box-shadow: var(--shadow-3d-medium);
+        }
+
+        /* 3D Form Inputs */
+        .url-input, .bulk-textarea, .search-input, .filter-select, .form-input {
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            border: 2px solid var(--glass-border);
+            border-radius: 15px;
+            font-size: 1rem;
+            margin: 1rem 0;
+            transition: all 0.4s;
+            box-shadow: var(--shadow-3d-inset);
+            transform: translateZ(2px);
+        }
+
+        .url-input:focus, .bulk-textarea:focus, .search-input:focus, .filter-select:focus, .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: var(--shadow-3d-light), 0 0 0 3px rgba(255, 107, 107, 0.2);
+            transform: translateZ(8px);
+        }
+
+        .bulk-textarea {
+            height: 130px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+
+        /* 3D Status Messages */
+        .status {
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            margin: 1rem 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            backdrop-filter: var(--backdrop-blur);
+            box-shadow: var(--shadow-3d-light);
+            transform: translateZ(5px);
+            transition: all 0.4s;
+        }
+
+        .status:hover {
+            transform: translateZ(10px);
+        }
+
+        .status.success {
+            background: rgba(38, 222, 129, 0.15);
+            border: 2px solid var(--success);
+            color: #27ae60;
+            box-shadow: var(--shadow-3d-light), 0 0 20px rgba(38, 222, 129, 0.3);
+        }
+
+        .status.error {
+            background: rgba(255, 56, 56, 0.15);
+            border: 2px solid var(--danger);
+            color: #e74c3c;
+            box-shadow: var(--shadow-3d-light), 0 0 20px rgba(255, 56, 56, 0.3);
+        }
+
+        .status.info {
+            background: rgba(55, 66, 250, 0.15);
+            border: 2px solid var(--info);
+            color: #3742fa;
+            box-shadow: var(--shadow-3d-light), 0 0 20px rgba(55, 66, 250, 0.3);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Responsive 3D */
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-container {
+                padding: 1rem;
+                flex-direction: column;
+                height: auto;
+            }
+
+            .logo {
+                margin-bottom: 1rem;
+            }
+
+            .main-content {
+                padding: 2rem 1rem;
+            }
+
+            .section {
+                padding: 2rem;
+            }
+
+            .logo-symbol {
+                width: 50px;
+                height: 50px;
+                font-size: 1.8rem;
+            }
+        }
+
+        /* 3D Loading Animation */
+        .loading-3d {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 107, 107, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin3d 1s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes spin3d {
+            0% { transform: rotateY(0deg) rotateX(0deg); }
+            50% { transform: rotateY(180deg) rotateX(90deg); }
+            100% { transform: rotateY(360deg) rotateX(0deg); }
+        }
+
+        /* 🏺 Product Management Styles */
+        .products-management-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-management-card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-3d-light);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
+            position: relative;
+        }
+
+        .product-management-card:hover {
+            box-shadow: var(--shadow-3d-medium);
+            transform: translateY(-2px);
+        }
+
+        .product-management-card.selected {
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .product-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--gray-100);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .product-select-checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .product-card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn.edit {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .action-btn.edit:hover {
+            background: var(--secondary-dark);
+            transform: scale(1.05);
+        }
+
+        .action-btn.delete {
+            background: var(--danger);
+            color: white;
+        }
+
+        .action-btn.delete:hover {
+            background: #d32f2f;
+            transform: scale(1.05);
+        }
+
+        .product-card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: var(--gray-100);
+        }
+
+        .product-card-content {
+            padding: 1rem;
+        }
+
+        .product-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-card-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-card-description {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        .product-card-category {
+            background: var(--light);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-3d-dark);
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray-500);
+            transition: color 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--gray-900);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .products-management-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Custom Tags Styles */
+        .custom-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .custom-tag-blue {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+        }
+
+        .custom-tag-green {
+            background: linear-gradient(135deg, #28a745, #1e7e34);
+            color: white;
+        }
+
+        .custom-tag-red {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+        }
+
+        .custom-tag-purple {
+            background: linear-gradient(135deg, #6f42c1, #5a32a3);
+            color: white;
+        }
+
+        .custom-tag-orange {
+            background: linear-gradient(135deg, #fd7e14, #e8590c);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-symbol">🏺</div>
+                Vintage Crib
+                <span class="admin-title">✨ Admin Dashboard</span>
+            </a>
+            <div class="nav-actions">
+                <a href="vintage-store.html" target="_blank" class="nav-btn outline">
+                    <i class="fas fa-eye"></i>
+                    👀 View Store
+                </a>
+                <button class="nav-btn primary">
+                    <i class="fas fa-plus"></i>
+                    ➕ Quick Add
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- 3D Dashboard Cards -->
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="card-icon products">
+                    <i class="fas fa-boxes"></i>
+                </div>
+                <div class="card-title">Total Products</div>
+                <div class="stat-number" id="totalProducts">127</div>
+                <div class="stat-label">Curated vintage pieces</div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-icon import">
+                    <i class="fas fa-download"></i>
+                </div>
+                <div class="card-title">Recent Imports</div>
+                <div class="stat-number" id="recentImports">23</div>
+                <div class="stat-label">Added this week</div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-icon analytics">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="card-title">Store Views</div>
+                <div class="stat-number" id="storeViews">1.2K</div>
+                <div class="stat-label">This month</div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-icon tools">
+                    <i class="fas fa-magic"></i>
+                </div>
+                <div class="card-title">Success Rate</div>
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Customer satisfaction</div>
+            </div>
+        </div>
+
+        <!-- 3D Import Section -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-upload"></i>
+                Import Products
+            </h2>
+            
+            <!-- Store Import -->
+            <div style="margin-bottom: 3rem;">
+                <h3 style="margin-bottom: 1.5rem; color: var(--gray-900); font-size: 1.3rem; font-weight: 700;">
+                    🏪 Auto-Import from eBay Store
+                </h3>
+                <input type="text" class="url-input" id="storeUrl" placeholder="https://www.ebay.com/usr/yourstore">
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn success" onclick="getStoreUrls()">
+                        <i class="fas fa-link"></i>
+                        🔗 Get URLs
+                    </button>
+                    <button class="btn primary" onclick="autoImportStore()">
+                        <i class="fas fa-rocket"></i>
+                        🚀 Auto-Import
+                    </button>
+                </div>
+                
+                <!-- Quick Import CJJ-3227 Store -->
+                <div style="margin-top: 2rem; padding: 1.5rem; border: 2px dashed var(--accent); border-radius: 15px; background: linear-gradient(135deg, rgba(255, 230, 109, 0.05), rgba(255, 230, 109, 0.1));">
+                    <h4 style="color: var(--accent-dark); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-star"></i>
+                        ⚡ Quick Import: CJJ-3227 Store
+                    </h4>
+                    <p style="color: var(--gray-600); margin-bottom: 1rem; font-size: 0.9rem;">
+                        One-click import from your designated eBay store with automatic product processing.
+                    </p>
+                    <button class="btn accent" onclick="importCJJStore()" id="cjjImportBtn">
+                        <i class="fas fa-magic"></i>
+                        ✨ Import CJJ-3227 Store
+                    </button>
+                </div>
+            </div>
+
+            <!-- Manual Import -->
+            <div>
+                <h3 style="margin-bottom: 1.5rem; color: var(--gray-900); font-size: 1.3rem; font-weight: 700;">
+                    📋 Manual URL Import
+                </h3>
+                <textarea class="bulk-textarea" id="bulkUrls" placeholder="Paste your eBay product URLs here (one per line):
+https://www.ebay.com/itm/123456
+https://www.ebay.com/itm/789012
+https://www.ebay.com/itm/345678"></textarea>
+                <button class="btn primary" onclick="bulkImport()">
+                    <i class="fas fa-upload"></i>
+                    📥 Import URLs
+                </button>
+            </div>
+
+            <div id="importStatus" class="status hidden"></div>
+        </div>
+
+        <!-- 3D Management Tools -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-tools"></i>
+                Management Tools
+            </h2>
+            
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button class="btn outline" onclick="removeDuplicates()">
+                    <i class="fas fa-copy"></i>
+                    Remove Duplicates
+                </button>
+                <button class="btn accent" onclick="fixAllCategories()">
+                    <i class="fas fa-magic"></i>
+                    🔧 Fix All Categories
+                </button>
+                <button class="btn outline" onclick="removeNoPhotos()">
+                    <i class="fas fa-images"></i>
+                    Clean Images
+                </button>
+                <button class="btn success" onclick="publishToStore()">
+                    <i class="fas fa-rocket"></i>
+                    Publish All
+                </button>
+                <button class="btn primary" onclick="optimizeStore()">
+                    <i class="fas fa-magic"></i>
+                    Optimize Store
+                </button>
+                <button class="btn success" onclick="syncSoldStatus()" id="syncSoldBtn">
+                    <i class="fas fa-sync"></i>
+                    💰 Auto-Detect Sold Items
+                </button>
+            </div>
+        </div>
+
+        <!-- 🏺 Advanced Product Management Section -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-box-open"></i>
+                🏺 Product Management
+            </h2>
+            
+            <!-- Product Search and Filters -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                <input type="text" id="adminSearchInput" placeholder="🔍 Search products..." 
+                       style="flex: 1; min-width: 300px; padding: 12px; border: 1px solid var(--gray-300); border-radius: 8px; font-size: 14px;">
+                <select id="adminCategoryFilter" style="padding: 12px; border: 1px solid var(--gray-300); border-radius: 8px;">
+                    <option value="">🏷️ All Categories</option>
+                    <option value="clothing">👕 Clothing</option>
+                    <option value="collectibles">🏺 Collectibles</option>
+                    <option value="electronics">📱 Electronics</option>
+                    <option value="home">🏠 Home & Garden</option>
+                    <option value="vintage">✨ Vintage</option>
+                </select>
+                <button class="btn primary" onclick="addNewProduct()">
+                    <i class="fas fa-plus"></i>
+                    ➕ Add New Product
+                </button>
+            </div>
+
+            <!-- Bulk Operations -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                <button class="btn outline" onclick="selectAllProducts()">
+                    <i class="fas fa-check-square"></i>
+                    ☑️ Select All
+                </button>
+                <button class="btn danger" onclick="bulkDeleteSelected()" id="bulkDeleteBtn" disabled>
+                    <i class="fas fa-trash"></i>
+                    🗑️ Delete Selected (<span id="selectedCount">0</span>)
+                </button>
+                <button class="btn success" onclick="bulkExport()">
+                    <i class="fas fa-download"></i>
+                    📥 Export Products
+                </button>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="productsManagementGrid" class="products-management-grid">
+                <div id="loadingProducts" style="text-align: center; padding: 2rem; color: var(--gray-600);">
+                    <i class="fas fa-spinner fa-spin"></i> Loading products...
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div id="paginationControls" style="text-align: center; margin-top: 2rem;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn outline" onclick="prevPage()" id="prevBtn" disabled>← Previous</button>
+                    <span id="pageInfo" style="color: var(--gray-600); font-weight: 500;">Page 1 of 1</span>
+                    <button class="btn outline" onclick="nextPage()" id="nextBtn" disabled>Next →</button>
+                    
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-left: 1rem;">
+                        <label for="productsPerPageSelect" style="color: var(--gray-600); font-size: 0.9rem;">Show:</label>
+                        <select id="productsPerPageSelect" onchange="changeProductsPerPage()" style="
+                            padding: 0.5rem;
+                            border: 2px solid var(--gray-300);
+                            border-radius: 8px;
+                            background: white;
+                            color: var(--gray-900);
+                            font-size: 0.9rem;
+                        ">
+                            <option value="12">12</option>
+                            <option value="24" selected>24</option>
+                            <option value="48">48</option>
+                            <option value="96">96</option>
+                            <option value="all">All</option>
+                        </select>
+                        <span style="color: var(--gray-600); font-size: 0.9rem;">per page</span>
+                    </div>
+                    
+                    <div id="totalProductsInfo" style="color: var(--gray-600); font-size: 0.9rem; margin-left: 1rem;">
+                        Total: 0 products
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 💰 Sold Products Section -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-coins"></i>
+                💰 Sold Products
+            </h2>
+            
+            <!-- Sold Products Stats -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                <div style="background: var(--gradient-secondary); color: white; padding: 1.5rem; border-radius: 15px; text-align: center;">
+                    <div style="font-size: 2rem; font-weight: 800;" id="soldCount">0</div>
+                    <div style="opacity: 0.9;">Total Sold</div>
+                </div>
+                <div style="background: var(--gradient-accent); color: white; padding: 1.5rem; border-radius: 15px; text-align: center;">
+                    <div style="font-size: 2rem; font-weight: 800;" id="totalRevenue">$0</div>
+                    <div style="opacity: 0.9;">Total Revenue</div>
+                </div>
+                <div style="background: var(--gradient-primary); color: white; padding: 1.5rem; border-radius: 15px; text-align: center;">
+                    <div style="font-size: 2rem; font-weight: 800;" id="avgSalePrice">$0</div>
+                    <div style="opacity: 0.9;">Avg Sale Price</div>
+                </div>
+            </div>
+
+            <!-- Sold Products Controls -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                <button class="btn primary" onclick="loadSoldProducts()">
+                    <i class="fas fa-refresh"></i>
+                    🔄 Refresh Sold Items
+                </button>
+                <button class="btn outline" onclick="exportSoldProducts()">
+                    <i class="fas fa-file-excel"></i>
+                    📊 Export Sales Report
+                </button>
+            </div>
+
+            <!-- Sold Products Grid -->
+            <div id="soldProductsGrid" class="products-management-grid">
+                <div id="loadingSoldProducts" style="text-align: center; padding: 2rem; color: var(--gray-600);">
+                    <i class="fas fa-coins fa-spin"></i> Loading sold products...
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 🏺 Product Edit Modal -->
+    <div id="productModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">✏️ Edit Product</h3>
+                <button class="modal-close" onclick="closeProductModal()">&times;</button>
+            </div>
+            <form id="productForm">
+                <div class="form-group">
+                    <label class="form-label">📝 Product Name *</label>
+                    <input type="text" id="productName" class="form-input" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">💰 Price *</label>
+                        <input type="number" id="productPrice" class="form-input" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">🏷️ Category</label>
+                        <select id="productCategory" class="form-select">
+                            <option value="clothing">👕 Clothing</option>
+                            <option value="collectibles">🏺 Collectibles</option>
+                            <option value="electronics">📱 Electronics</option>
+                            <option value="home">🏠 Home & Garden</option>
+                            <option value="vintage">✨ Vintage</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="checkbox" id="productVintage" style="transform: scale(1.2);">
+                        <label for="productVintage" class="form-label" style="margin: 0;">🏺 Mark as Vintage (will auto-mark if price > $35)</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">🏷️ Custom Tags</label>
+                    <div style="margin-bottom: 1rem;">
+                        <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;" id="currentTags">
+                            <!-- Tags will be displayed here -->
+                        </div>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="text" id="newTagText" placeholder="Enter tag name..." style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" onkeypress="if(event.key==='Enter') addCustomTag()">
+                            <select id="tagColor" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="blue">🔵 Blue</option>
+                                <option value="green">🟢 Green</option>
+                                <option value="red">🔴 Red</option>
+                                <option value="purple">🟣 Purple</option>
+                                <option value="orange">🟠 Orange</option>
+                            </select>
+                            <button type="button" onclick="addCustomTag()" style="padding: 8px 15px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">➕ Add Tag</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">📸 Main Image URL</label>
+                    <input type="url" id="productImage" class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">📝 Description</label>
+                    <textarea id="productDescription" class="form-textarea" placeholder="Describe this vintage piece..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">🛒 Source URL</label>
+                        <input type="url" id="productSourceUrl" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">💳 Buy Link</label>
+                        <input type="url" id="productBuyLink" class="form-input">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">🖼️ Additional Images (JSON array)</label>
+                    <textarea id="productImages" class="form-textarea" placeholder='["url1", "url2", "url3"]'></textarea>
+                </div>
+
+                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+                    <button type="button" class="btn outline" onclick="closeProductModal()">❌ Cancel</button>
+                    <button type="submit" class="btn primary" id="saveProductBtn">💾 Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Authentication check - MUST BE FIRST
+        if (sessionStorage.getItem('adminLoggedIn') !== 'true') {
+            alert('🔒 Access denied! Please login first.');
+            window.location.href = '/admin.html';
+        }
+
+        // Global error handler for admin
+        window.addEventListener('error', function(e) {
+            console.error('❌ Admin error:', e.error);
+        });
+
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('❌ Unhandled rejection:', e.reason);
+            e.preventDefault();
+        });
+
+        // Show status message function
+        function showStatus(message, type = 'info') {
+            // Remove existing status messages
+            const existingStatus = document.querySelector('.status-message');
+            if (existingStatus) {
+                existingStatus.remove();
+            }
+            
+            // Create status element
+            const statusElement = document.createElement('div');
+            statusElement.className = `status-message status-${type}`;
+            statusElement.innerHTML = message;
+            
+            // Style the status message
+            statusElement.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 10000;
+                padding: 15px 20px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 500;
+                max-width: 400px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                animation: slideIn 0.3s ease-out;
+                ${type === 'success' ? 'background: linear-gradient(135deg, #4ecdc4, #26de81);' : ''}
+                ${type === 'error' ? 'background: linear-gradient(135deg, #ff6b6b, #ee5a6f);' : ''}
+                ${type === 'info' ? 'background: linear-gradient(135deg, #ffe66d, #ffd93d);color: #333;' : ''}
+            `;
+            
+            // Add animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Add to page
+            document.body.appendChild(statusElement);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (statusElement.parentNode) {
+                    statusElement.style.animation = 'slideIn 0.3s ease-out reverse';
+                    setTimeout(() => statusElement.remove(), 300);
+                }
+            }, 5000);
+        }
+
+        // Logout function
+        function adminLogout() {
+            sessionStorage.removeItem('adminLoggedIn');
+            alert('👋 Logged out successfully!');
+            window.location.href = '/admin.html';
+        }
+
+        // 3D Interactive Effects
+        document.addEventListener('mousemove', function(e) {
+            const cards = document.querySelectorAll('.dashboard-card');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            cards.forEach((card, index) => {
+                const xRotation = (mouseY - 0.5) * 10;
+                const yRotation = (mouseX - 0.5) * 10;
+                
+                card.style.transform = `translateZ(10px) rotateX(${xRotation}deg) rotateY(${yRotation}deg)`;
+            });
+        });
+
+        // Reset on mouse leave
+        document.addEventListener('mouseleave', function() {
+            const cards = document.querySelectorAll('.dashboard-card');
+            cards.forEach(card => {
+                card.style.transform = 'translateZ(10px)';
+            });
+        });
+
+        // Dummy functions for demonstration
+        function getStoreUrls() {
+            showImportStatus('<i class="loading-3d"></i> Extracting store URLs...', 'info');
+            setTimeout(() => {
+                showImportStatus('<i class="fas fa-check"></i> Found 87 products! Ready to import.', 'success');
+            }, 2000);
+        }
+
+        // Smart eBay Store Auto-Import - only new products
+        async function autoImportStore() {
+            try {
+                const storeUrl = 'https://www.ebay.com/usr/cjj-3227';
+                showImportStatus('<i class="loading-3d"></i> 🔄 Smart syncing with eBay store...', 'info');
+                
+                // Step 1: Get store URLs
+                const urlsResponse = await fetch('/api/ebay/get-store-urls', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ storeUrl })
+                });
+                
+                if (!urlsResponse.ok) {
+                    throw new Error('Failed to get store URLs');
+                }
+                
+                const urlsResult = await urlsResponse.json();
+                
+                if (urlsResult.success) {
+                    showImportStatus(`<i class="fas fa-sync"></i> 📊 Found ${urlsResult.productUrls.length} products. Checking for new items...`, 'info');
+                    
+                    // Step 2: Smart import - only new products
+                    const importResponse = await fetch('/api/ebay/smart-import', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            productUrls: urlsResult.productUrls,
+                            storeName: urlsResult.storeName,
+                            storeUrl: storeUrl,
+                            smartSync: true // Flag for smart syncing
+                        })
+                    });
+                    
+                    const importResult = await importResponse.json();
+                    
+                    if (importResult.success) {
+                        loadProductsForManagement(); // Refresh the product list
+                        showImportStatus(`<i class="fas fa-check"></i> ✅ Smart sync complete! Added ${importResult.newProducts || 0} new products, updated ${importResult.updatedProducts || 0} existing ones.`, 'success');
+                    } else {
+                        throw new Error(importResult.error || 'Smart import failed');
+                    }
+                } else {
+                    // Fallback to manual instructions
+                    showImportStatus(`<i class="fas fa-info-circle"></i> 📋 Manual sync required. ${urlsResult.instructions.join(' ')}`, 'warning');
+                }
+                
+            } catch (error) {
+                console.error('❌ Auto-import error:', error);
+                showImportStatus(`<i class="fas fa-exclamation-triangle"></i> ❌ Auto-import failed: ${error.message}`, 'error');
+            }
+        }
+
+        function bulkImport() {
+            showImportStatus('<i class="loading-3d"></i> Importing products...', 'info');
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 20;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    showImportStatus('<i class="fas fa-check-circle"></i> Successfully imported 45 products!', 'success');
+                } else {
+                    showImportStatus(`<i class="loading-3d"></i> Importing... ${Math.round(progress)}% complete`, 'info');
+                }
+            }, 500);
+        }
+
+        function removeDuplicates() {
+            showImportStatus('<i class="loading-3d"></i> Scanning for duplicates...', 'info');
+            setTimeout(() => {
+                showImportStatus('<i class="fas fa-trash"></i> Removed 12 duplicate products!', 'success');
+            }, 1500);
+        }
+
+        function removeNoPhotos() {
+            showImportStatus('<i class="loading-3d"></i> Checking product images...', 'info');
+            setTimeout(() => {
+                showImportStatus('<i class="fas fa-images"></i> Cleaned 8 products without photos!', 'success');
+            }, 1800);
+        }
+
+        function publishToStore() {
+            showImportStatus('<i class="loading-3d"></i> Publishing to store...', 'info');
+            setTimeout(() => {
+                showImportStatus('<i class="fas fa-rocket"></i> Store updated successfully! 127 products live.', 'success');
+            }, 1200);
+        }
+
+        function optimizeStore() {
+            showImportStatus('<i class="loading-3d"></i> Optimizing store performance...', 'info');
+            setTimeout(() => {
+                showImportStatus('<i class="fas fa-magic"></i> Store optimized! Loading speed improved by 40%.', 'success');
+            }, 2500);
+        }
+
+        async function syncSoldStatus() {
+            try {
+                const btn = document.getElementById('syncSoldBtn');
+                const originalText = btn.innerHTML;
+                
+                // Disable button and show loading
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking eBay items...';
+                
+                showImportStatus('<i class="loading-3d"></i> Checking eBay listings for sold items...', 'info');
+                
+                const response = await fetch('/api/products/sync-sold-status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showImportStatus(
+                        `<i class="fas fa-check-circle"></i> ${result.message}`, 
+                        'success'
+                    );
+                    
+                    // Refresh product displays
+                    loadProductsForManagement();
+                    loadSoldProducts();
+                    
+                    // Show detailed results in console for debugging
+                    console.log('🔄 Sold Status Sync Results:', result);
+                    
+                    if (result.markedSoldCount > 0) {
+                        // Show alert for newly sold items
+                        setTimeout(() => {
+                            alert(`🎉 Found ${result.markedSoldCount} sold items!\n\nThese items have been automatically moved to the sold section.`);
+                        }, 1000);
+                    }
+                } else {
+                    showImportStatus(
+                        `<i class="fas fa-exclamation-triangle"></i> Sync failed: ${result.error}`, 
+                        'error'
+                    );
+                }
+                
+            } catch (error) {
+                console.error('❌ Sync error:', error);
+                
+                // Provide specific error messages based on error type
+                let errorMessage = 'Failed to sync sold status';
+                
+                if (error.name === 'SyntaxError' && error.message.includes('Unexpected token')) {
+                    errorMessage = 'Server is restarting... Please wait 30 seconds and try again.';
+                } else if (error.message && error.message.includes('404')) {
+                    errorMessage = 'Sync feature is loading... Please try again in a moment.';
+                } else if (error.message && error.message.includes('502')) {
+                    errorMessage = 'Server is restarting... Please wait 30 seconds and try again.';
+                } else if (error.message && error.message.includes('network')) {
+                    errorMessage = 'Network error. Please check your connection.';
+                } else if (!navigator.onLine) {
+                    errorMessage = 'No internet connection. Please check your network.';
+                }
+                
+                showImportStatus(
+                    `<i class="fas fa-exclamation-triangle"></i> ${errorMessage}`, 
+                    'error'
+                );
+            } finally {
+                // Re-enable button
+                const btn = document.getElementById('syncSoldBtn');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sync"></i> 💰 Auto-Detect Sold Items';
+            }
+        }
+
+        function showImportStatus(message, type) {
+            const statusEl = document.getElementById('importStatus');
+            statusEl.className = `status ${type}`;
+            statusEl.innerHTML = message;
+            statusEl.classList.remove('hidden');
+            
+            if (type !== 'info') {
+                setTimeout(() => {
+                    statusEl.classList.add('hidden');
+                }, 4000);
+            }
+        }
+
+        // Animate numbers on load
+        function animateNumbers() {
+            const numbers = document.querySelectorAll('.stat-number');
+            numbers.forEach(number => {
+                const targetText = number.textContent;
+                const targetValue = parseInt(targetText.replace(/[^\d]/g, ''));
+                if (!isNaN(targetValue)) {
+                    let currentValue = 0;
+                    const increment = targetValue / 50;
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= targetValue) {
+                            number.textContent = targetText;
+                            clearInterval(timer);
+                        } else {
+                            number.textContent = Math.floor(currentValue).toString();
+                        }
+                    }, 30);
+                }
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(animateNumbers, 500);
+            loadProductsForManagement();
+            setupProductSearchAndFilter();
+        });
+
+        // 🏺 Advanced Product Management System
+        let allProducts = [];
+        let filteredProducts = [];
+        let selectedProducts = [];
+        let currentPage = 1;
+        let productsPerPage = 24;
+        let currentEditingProduct = null;
+        let currentProductTags = []; // Store current product's custom tags
+
+        // Custom Tag Functions
+        function addCustomTag() {
+            const tagText = document.getElementById('newTagText').value.trim();
+            const tagColor = document.getElementById('tagColor').value;
+            
+            if (!tagText) {
+                alert('Please enter a tag name');
+                return;
+            }
+            
+            // Check if tag already exists
+            if (currentProductTags.some(tag => tag.text.toLowerCase() === tagText.toLowerCase())) {
+                alert('Tag already exists!');
+                return;
+            }
+            
+            const newTag = {
+                text: tagText,
+                color: tagColor
+            };
+            
+            currentProductTags.push(newTag);
+            renderCurrentTags();
+            
+            // Clear input
+            document.getElementById('newTagText').value = '';
+        }
+        
+        function removeCustomTag(index) {
+            currentProductTags.splice(index, 1);
+            renderCurrentTags();
+        }
+        
+        function renderCurrentTags() {
+            const container = document.getElementById('currentTags');
+            container.innerHTML = currentProductTags.map((tag, index) => `
+                <span class="custom-tag custom-tag-${tag.color}" style="display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: 600;">
+                    ${tag.text}
+                    <button type="button" onclick="removeCustomTag(${index})" style="background: none; border: none; color: inherit; cursor: pointer; font-size: 1.2rem; line-height: 1;">&times;</button>
+                </span>
+            `).join('');
+        }
+
+        // Load products for management
+        async function loadProductsForManagement() {
+            try {
+                const response = await fetch('/api/products');
+                const products = await response.json();
+                allProducts = products;
+                filteredProducts = [...allProducts];
+                displayProductsGrid();
+                updatePagination();
+            } catch (error) {
+                console.error('Error loading products:', error);
+                document.getElementById('productsManagementGrid').innerHTML = 
+                    '<div style="text-align: center; padding: 2rem; color: var(--danger);">❌ Error loading products. Please refresh the page.</div>';
+            }
+        }
+
+        // Display products in management grid
+        function displayProductsGrid() {
+            const grid = document.getElementById('productsManagementGrid');
+            let productsToShow;
+            
+            if (productsPerPage === 'all') {
+                productsToShow = filteredProducts;
+            } else {
+                const startIndex = (currentPage - 1) * productsPerPage;
+                const endIndex = startIndex + productsPerPage;
+                productsToShow = filteredProducts.slice(startIndex, endIndex);
+            }
+
+            if (productsToShow.length === 0) {
+                grid.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray-600);">🔍 No products found</div>';
+                return;
+            }
+
+            grid.innerHTML = productsToShow.map(product => `
+                <div class="product-management-card ${selectedProducts.includes(product.id) ? 'selected' : ''}" data-product-id="${product.id}">
+                    <div class="product-card-header">
+                        <input type="checkbox" class="product-select-checkbox" 
+                               onchange="toggleProductSelection(${product.id})" 
+                               ${selectedProducts.includes(product.id) ? 'checked' : ''}>
+                        <div class="product-card-actions">
+                            <button class="action-btn edit" onclick="editProduct(${product.id})" title="Edit Product">
+                                ✏️ Edit
+                            </button>
+                            <button class="action-btn" style="background: var(--gradient-secondary); color: white;" 
+                                    onclick="markAsSold(${product.id})" title="Mark as Sold">
+                                💰 Sold
+                            </button>
+                            <button class="action-btn delete" onclick="confirmDeleteProduct(${product.id})" title="Delete Product">
+                                🗑️ Delete
+                            </button>
+                        </div>
+                    </div>
+                    <img src="${product.image || 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'}" 
+                         alt="${product.name}" class="product-card-image" 
+                         onerror="this.src='https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=400&fit=crop'">
+                    <div class="product-card-content">
+                        <div class="product-card-title">${product.name}</div>
+                        <div class="product-card-price">$${parseFloat(product.price || 0).toFixed(2)}</div>
+                        <div class="product-card-description">${(product.description || 'No description available').substring(0, 150)}...</div>
+                        <div class="product-card-meta">
+                            <span class="product-card-category">${product.category || 'uncategorized'}</span>
+                            <span>ID: ${product.id}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Product selection management
+        function toggleProductSelection(productId) {
+            if (selectedProducts.includes(productId)) {
+                selectedProducts = selectedProducts.filter(id => id !== productId);
+            } else {
+                selectedProducts.push(productId);
+            }
+            updateSelectionUI();
+        }
+
+        function selectAllProducts() {
+            let productsOnPage;
+            
+            if (productsPerPage === 'all') {
+                productsOnPage = filteredProducts;
+            } else {
+                const startIndex = (currentPage - 1) * productsPerPage;
+                const endIndex = startIndex + productsPerPage;
+                productsOnPage = filteredProducts.slice(startIndex, endIndex);
+            }
+            
+            const allSelected = productsOnPage.every(p => selectedProducts.includes(p.id));
+            
+            if (allSelected) {
+                selectedProducts = selectedProducts.filter(id => !productsOnPage.find(p => p.id === id));
+            } else {
+                productsOnPage.forEach(product => {
+                    if (!selectedProducts.includes(product.id)) {
+                        selectedProducts.push(product.id);
+                    }
+                });
+            }
+            
+            displayProductsGrid();
+            updateSelectionUI();
+        }
+
+        function updateSelectionUI() {
+            document.getElementById('selectedCount').textContent = selectedProducts.length;
+            document.getElementById('bulkDeleteBtn').disabled = selectedProducts.length === 0;
+            displayProductsGrid();
+        }
+
+        // Edit product functionality
+        function editProduct(productId) {
+            currentEditingProduct = allProducts.find(p => p.id === productId);
+            if (!currentEditingProduct) return;
+
+            document.getElementById('modalTitle').textContent = '✏️ Edit Product';
+            document.getElementById('productName').value = currentEditingProduct.name || '';
+            document.getElementById('productPrice').value = currentEditingProduct.price || '';
+            document.getElementById('productCategory').value = currentEditingProduct.category || 'vintage';
+            document.getElementById('productImage').value = currentEditingProduct.image || '';
+            document.getElementById('productDescription').value = currentEditingProduct.description || '';
+            document.getElementById('productSourceUrl').value = currentEditingProduct.sourceUrl || '';
+            document.getElementById('productVintage').checked = currentEditingProduct.isVintage || false;
+            document.getElementById('productBuyLink').value = currentEditingProduct.buyLink || '';
+            document.getElementById('productImages').value = JSON.stringify(currentEditingProduct.images || [], null, 2);
+            document.getElementById('saveProductBtn').textContent = '💾 Update Product';
+            
+            // Load custom tags
+            currentProductTags = currentEditingProduct.customTags || [];
+            renderCurrentTags();
+
+            openProductModal();
+        }
+
+        // Add new product
+        function addNewProduct() {
+            currentEditingProduct = null;
+            document.getElementById('modalTitle').textContent = '➕ Add New Product';
+            document.getElementById('productForm').reset();
+            document.getElementById('productVintage').checked = false; // Explicitly clear vintage checkbox
+            document.getElementById('saveProductBtn').textContent = '💾 Create Product';
+            
+            // Clear custom tags
+            currentProductTags = [];
+            renderCurrentTags();
+            openProductModal();
+        }
+
+        // Modal management
+        function openProductModal() {
+            document.getElementById('productModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            currentEditingProduct = null;
+        }
+
+        // Save product (create or update)
+        document.getElementById('productForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const productData = {
+                name: document.getElementById('productName').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                category: document.getElementById('productCategory').value,
+                image: document.getElementById('productImage').value,
+                description: document.getElementById('productDescription').value,
+                sourceUrl: document.getElementById('productSourceUrl').value,
+                isVintage: document.getElementById('productVintage').checked,
+                customTags: currentProductTags,
+                buyLink: document.getElementById('productBuyLink').value,
+                platform: 'manual',
+                dateAdded: new Date().toISOString()
+            };
+
+            // Parse additional images
+            try {
+                const imagesText = document.getElementById('productImages').value.trim();
+                if (imagesText) {
+                    productData.images = JSON.parse(imagesText);
+                }
+            } catch (error) {
+                alert('❌ Invalid JSON format for additional images');
+                return;
+            }
+
+            try {
+                let response;
+                if (currentEditingProduct) {
+                    // Update existing product
+                    response = await fetch(`/api/products/${currentEditingProduct.id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(productData)
+                    });
+                } else {
+                    // Create new product
+                    response = await fetch('/api/products', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(productData)
+                    });
+                }
+
+                if (response.ok) {
+                    closeProductModal();
+                    loadProductsForManagement();
+                    showImportStatus(
+                        currentEditingProduct ? 
+                        '<i class="fas fa-check"></i> ✅ Product updated successfully!' : 
+                        '<i class="fas fa-check"></i> ✅ Product created successfully!', 
+                        'success'
+                    );
+                } else {
+                    throw new Error('Failed to save product');
+                }
+            } catch (error) {
+                console.error('Error saving product:', error);
+                alert('❌ Error saving product. Please try again.');
+            }
+        });
+
+        // Delete product
+        async function confirmDeleteProduct(productId) {
+            const product = allProducts.find(p => p.id === productId);
+            if (!product) return;
+
+            if (confirm(`🗑️ Are you sure you want to delete "${product.name}"? This action cannot be undone.`)) {
+                try {
+                    const response = await fetch(`/api/products/${productId}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (response.ok) {
+                        loadProductsForManagement();
+                        showImportStatus('<i class="fas fa-trash"></i> 🗑️ Product deleted successfully!', 'success');
+                    } else {
+                        throw new Error('Failed to delete product');
+                    }
+                } catch (error) {
+                    console.error('Error deleting product:', error);
+                    alert('❌ Error deleting product. Please try again.');
+                }
+            }
+        }
+
+        // Bulk delete
+        async function bulkDeleteSelected() {
+            if (selectedProducts.length === 0) return;
+
+            if (confirm(`🗑️ Are you sure you want to delete ${selectedProducts.length} selected product(s)? This action cannot be undone.`)) {
+                try {
+                    const deletePromises = selectedProducts.map(id => 
+                        fetch(`/api/products/${id}`, { method: 'DELETE' })
+                    );
+                    
+                    await Promise.all(deletePromises);
+                    selectedProducts = [];
+                    loadProductsForManagement();
+                    showImportStatus('<i class="fas fa-trash"></i> 🗑️ Selected products deleted successfully!', 'success');
+                } catch (error) {
+                    console.error('Error bulk deleting products:', error);
+                    alert('❌ Error deleting products. Please try again.');
+                }
+            }
+        }
+
+        // Export products
+        function bulkExport() {
+            const dataStr = JSON.stringify(filteredProducts, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `vintage-crib-products-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+            showImportStatus('<i class="fas fa-download"></i> 📥 Products exported successfully!', 'success');
+        }
+
+        // Search and filter setup
+        function setupProductSearchAndFilter() {
+            const searchInput = document.getElementById('adminSearchInput');
+            const categoryFilter = document.getElementById('adminCategoryFilter');
+
+            searchInput.addEventListener('input', debounce(filterProducts, 300));
+            categoryFilter.addEventListener('change', filterProducts);
+        }
+
+        function filterProducts() {
+            const searchTerm = document.getElementById('adminSearchInput').value.toLowerCase();
+            const category = document.getElementById('adminCategoryFilter').value;
+
+            filteredProducts = allProducts.filter(product => {
+                const matchesSearch = !searchTerm || 
+                    product.name.toLowerCase().includes(searchTerm) ||
+                    (product.description && product.description.toLowerCase().includes(searchTerm));
+                
+                const matchesCategory = !category || product.category === category;
+
+                return matchesSearch && matchesCategory;
+            });
+
+            currentPage = 1;
+            displayProductsGrid();
+            updatePagination();
+        }
+
+        // Pagination
+        function updatePagination() {
+            const totalPages = productsPerPage === 'all' ? 1 : Math.ceil(filteredProducts.length / productsPerPage);
+            const startProduct = productsPerPage === 'all' ? 1 : (currentPage - 1) * productsPerPage + 1;
+            const endProduct = productsPerPage === 'all' ? filteredProducts.length : Math.min(currentPage * productsPerPage, filteredProducts.length);
+            
+            if (productsPerPage === 'all') {
+                document.getElementById('pageInfo').textContent = `Showing all ${filteredProducts.length} products`;
+                document.getElementById('prevBtn').disabled = true;
+                document.getElementById('nextBtn').disabled = true;
+            } else {
+                document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages} (${startProduct}-${endProduct} of ${filteredProducts.length})`;
+                document.getElementById('prevBtn').disabled = currentPage === 1;
+                document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
+            }
+            
+            document.getElementById('totalProductsInfo').textContent = `Total: ${allProducts.length} products${filteredProducts.length !== allProducts.length ? ` (${filteredProducts.length} filtered)` : ''}`;
+        }
+
+        function changeProductsPerPage() {
+            const select = document.getElementById('productsPerPageSelect');
+            productsPerPage = select.value === 'all' ? 'all' : parseInt(select.value);
+            currentPage = 1;
+            displayProductsGrid();
+            updatePagination();
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayProductsGrid();
+                updatePagination();
+                selectedProducts = []; // Clear selection on page change
+                updateSelectionUI();
+            }
+        }
+
+        function nextPage() {
+            const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayProductsGrid();
+                updatePagination();
+                selectedProducts = []; // Clear selection on page change
+                updateSelectionUI();
+            }
+        }
+
+        // Utility function for debouncing
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Close modal on outside click
+        document.getElementById('productModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeProductModal();
+            }
+        });
+
+        // Close modal on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('productModal').classList.contains('active')) {
+                closeProductModal();
+            }
+        });
+
+        // 🏪 CJJ Store Import Function
+        async function importCJJStore() {
+            const btn = document.getElementById('cjjImportBtn');
+            const originalText = btn.innerHTML;
+            
+            try {
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Importing...';
+                btn.disabled = true;
+                
+                const response = await fetch('/api/ebay/auto-import-store', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        storeUrl: 'https://www.ebay.com/usr/cjj-3227'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showStatus(`✅ Successfully imported ${result.importedCount} products from ${result.storeName}!`, 'success');
+                    
+                    // Update product count
+                    loadProductsForManagement();
+                    
+                    // Show import details
+                    let importDetails = `<div style="margin-top: 1rem; padding: 1rem; background: rgba(78, 205, 196, 0.1); border-radius: 8px;">
+                        <strong>Import Details:</strong><br>
+                        📦 Store: ${result.storeName}<br>
+                        📋 Products: ${result.importedCount}<br>
+                        🏷️ Auto-vintage tagging applied<br>
+                        🔗 Buy links preserved
+                    </div>`;
+                    
+                    showStatus(`✅ Import Complete!${importDetails}`, 'success');
+                } else {
+                    throw new Error(result.error || 'Import failed');
+                }
+                
+            } catch (error) {
+                console.error('❌ Import error:', error);
+                showStatus(`❌ Import failed: ${error.message}`, 'error');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // 💰 Sold Products Management
+        let soldProductsData = [];
+
+        async function loadSoldProducts() {
+            try {
+                const loadingElement = document.getElementById('loadingSoldProducts');
+                if (loadingElement) {
+                    loadingElement.style.display = 'block';
+                }
+                
+                const response = await fetch('/api/products/sold');
+                const soldProducts = await response.json();
+                
+                soldProductsData = soldProducts;
+                displaySoldProducts(soldProducts);
+                updateSoldStats(soldProducts);
+                
+            } catch (error) {
+                console.error('❌ Error loading sold products:', error);
+                const gridElement = document.getElementById('soldProductsGrid');
+                if (gridElement) {
+                    gridElement.innerHTML = 
+                        '<div style="text-align: center; padding: 2rem; color: var(--danger);">❌ Failed to load sold products</div>';
+                }
+            }
+        }
+
+        function displaySoldProducts(soldProducts) {
+            const grid = document.getElementById('soldProductsGrid');
+            if (!grid) {
+                console.warn('❌ Sold products grid element not found');
+                return;
+            }
+            
+            if (soldProducts.length === 0) {
+                grid.innerHTML = '<div style="text-align: center; padding: 3rem; color: var(--gray-600);"><i class="fas fa-coins" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i><br>No sold products yet</div>';
+                return;
+            }
+
+            grid.innerHTML = soldProducts.map(product => `
+                <div class="product-management-card" data-product-id="${product.id}">
+                    <div style="position: relative;">
+                        <img src="${product.image || 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=200&h=200&fit=crop'}" 
+                             alt="${product.name}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+                        <div style="position: absolute; top: 8px; right: 8px; background: var(--success); color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 700;">
+                            💰 SOLD
+                        </div>
+                    </div>
+                    
+                    <div style="padding: 1rem;">
+                        <h4 style="margin-bottom: 0.5rem; font-size: 1rem; font-weight: 600; color: var(--gray-900); line-height: 1.3;">
+                            ${product.name}
+                        </h4>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <span style="font-weight: 700; color: var(--success); font-size: 1.1rem;">
+                                $${parseFloat(product.salePrice || product.price).toFixed(2)}
+                            </span>
+                            <small style="color: var(--gray-600);">
+                                ${new Date(product.soldDate).toLocaleDateString()}
+                            </small>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                            <small style="color: var(--gray-600);">
+                                👤 ${product.buyerInfo || 'Customer'}
+                            </small>
+                            <button class="btn outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" 
+                                    onclick="returnToInventory(${product.id})">
+                                🔄 Return
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateSoldStats(soldProducts) {
+            const totalSold = soldProducts.length;
+            const totalRevenue = soldProducts.reduce((sum, product) => 
+                sum + parseFloat(product.salePrice || product.price), 0);
+            const avgSalePrice = totalSold > 0 ? totalRevenue / totalSold : 0;
+
+            const soldCountEl = document.getElementById('soldCount');
+            const totalRevenueEl = document.getElementById('totalRevenue');
+            const avgSalePriceEl = document.getElementById('avgSalePrice');
+
+            if (soldCountEl) soldCountEl.textContent = totalSold;
+            if (totalRevenueEl) totalRevenueEl.textContent = `$${totalRevenue.toFixed(2)}`;
+            if (avgSalePriceEl) avgSalePriceEl.textContent = `$${avgSalePrice.toFixed(2)}`;
+        }
+
+        async function returnToInventory(productId) {
+            if (!confirm('Return this item to available inventory?')) return;
+
+            try {
+                const response = await fetch(`/api/products/${productId}/sold`, {
+                    method: 'DELETE'
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    showStatus('✅ Product returned to inventory', 'success');
+                    loadSoldProducts();
+                    loadProductsForManagement(); // Refresh main inventory
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                console.error('❌ Error returning product:', error);
+                showStatus(`❌ Failed to return product: ${error.message}`, 'error');
+            }
+        }
+
+        function exportSoldProducts() {
+            if (soldProductsData.length === 0) {
+                showStatus('❌ No sold products to export', 'error');
+                return;
+            }
+
+            // Create CSV content
+            const csvContent = [
+                ['Product Name', 'Sale Price', 'Original Price', 'Sold Date', 'Buyer', 'Platform', 'Category'],
+                ...soldProductsData.map(product => [
+                    product.name,
+                    product.salePrice || product.price,
+                    product.price,
+                    product.soldDate,
+                    product.buyerInfo || 'Customer',
+                    product.platform,
+                    product.category
+                ])
+            ].map(row => row.join(',')).join('\n');
+
+            // Download CSV
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `sold-products-${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+            URL.revokeObjectURL(url);
+
+            showStatus('✅ Sales report exported successfully!', 'success');
+        }
+
+        // Fix all product categories
+        async function fixAllCategories() {
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            
+            if (!confirm('Fix categories for all products using intelligent classification?')) return;
+            
+            try {
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Fixing...';
+                btn.disabled = true;
+                
+                const response = await fetch('/api/products/fix-categories', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showStatus(`✅ ${result.message}! Fixed ${result.fixedCount} out of ${result.totalProducts} products.`, 'success');
+                    
+                    // Show detailed results
+                    let details = `<div style="margin-top: 1rem; padding: 1rem; background: rgba(78, 205, 196, 0.1); border-radius: 8px;">
+                        <strong>Category Fix Results:</strong><br>
+                        📊 Total Products: ${result.totalProducts}<br>
+                        🔧 Fixed Categories: ${result.fixedCount}<br>
+                        ✅ Already Correct: ${result.totalProducts - result.fixedCount}<br>
+                        🎯 Intelligent classification applied<br>
+                        📝 Clothing items properly categorized
+                    </div>`;
+                    
+                    showStatus(`✅ Categories Fixed!${details}`, 'success');
+                    
+                    // Refresh product display
+                    loadProductsForManagement();
+                } else {
+                    throw new Error(result.error || 'Category fix failed');
+                }
+                
+            } catch (error) {
+                console.error('❌ Category fix error:', error);
+                showStatus(`❌ Category fix failed: ${error.message}`, 'error');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // Mark product as sold
+        async function markAsSold(productId) {
+            // Create a simple modal for sold details
+            const salePrice = prompt('Enter sale price (leave empty to use original price):');
+            if (salePrice === null) return; // User cancelled
+            
+            const buyerInfo = prompt('Enter buyer information (optional):') || 'Customer';
+            
+            try {
+                const response = await fetch(`/api/products/${productId}/sold`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        salePrice: salePrice ? parseFloat(salePrice) : undefined,
+                        soldDate: new Date().toISOString(),
+                        buyerInfo: buyerInfo
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    showStatus('💰 Product marked as sold!', 'success');
+                    loadProductsForManagement(); // Refresh main inventory
+                    loadSoldProducts(); // Refresh sold products
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                console.error('❌ Error marking product as sold:', error);
+                showStatus(`❌ Failed to mark as sold: ${error.message}`, 'error');
+            }
+        }
+
+        // Load sold products on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSoldProducts();
+        });
+        // Add modern scroll-to-top functionality to admin
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function handleAdminScroll() {
+            const scrollButton = document.getElementById('adminScrollToTop');
+            if (scrollButton) {
+                if (window.pageYOffset > 300) {
+                    scrollButton.style.display = 'block';
+                } else {
+                    scrollButton.style.display = 'none';
+                }
+            }
+        }
+        
+        window.addEventListener('scroll', handleAdminScroll);
+    </script>
+    
+    <!-- Admin Footer -->
+    <footer style="
+        background: var(--glass-bg);
+        backdrop-filter: var(--backdrop-blur);
+        border-top: 2px solid var(--primary);
+        padding: 3rem 0 2rem;
+        margin-top: 4rem;
+        position: relative;
+    ">
+        <div style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem;">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="
+                            width: 50px; height: 50px;
+                            background: var(--gradient-primary);
+                            border: 2px solid var(--vintage-gold);
+                            border-radius: 50%;
+                            display: flex; align-items: center; justify-content: center;
+                            font-size: 1.8rem; color: white;
+                            box-shadow: var(--shadow-3d-light);
+                        ">🏺</div>
+                        <h3 style="color: var(--dark-accent); font-family: 'Playfair Display', serif; margin: 0;">Admin Portal</h3>
+                    </div>
+                    <p style="color: var(--gray-600); line-height: 1.6; margin-bottom: 2rem;">
+                        Manage your vintage collection with professional tools. Import from eBay, organize inventory, and optimize your store performance.
+                    </p>
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="/store-advanced.html" style="
+                            background: var(--gradient-secondary);
+                            color: white; padding: 0.8rem 1.5rem;
+                            border-radius: 12px; text-decoration: none;
+                            font-weight: 600; box-shadow: var(--shadow-3d-mint);
+                            transition: all 0.3s ease;
+                        ">View Store</a>
+                        <a href="/resume.html" style="
+                            background: var(--gradient-accent);
+                            color: var(--dark-accent); padding: 0.8rem 1.5rem;
+                            border-radius: 12px; text-decoration: none;
+                            font-weight: 600; box-shadow: var(--shadow-3d-medium);
+                            transition: all 0.3s ease;
+                        ">About Creator</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 style="color: var(--primary); margin-bottom: 1.5rem; font-family: 'Playfair Display', serif;">Quick Actions</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.8rem;"><a href="#import" style="color: var(--gray-600); text-decoration: none;">Import Products</a></li>
+                        <li style="margin-bottom: 0.8rem;"><a href="#manage" style="color: var(--gray-600); text-decoration: none;">Manage Inventory</a></li>
+                        <li style="margin-bottom: 0.8rem;"><a href="#analytics" style="color: var(--gray-600); text-decoration: none;">View Analytics</a></li>
+                        <li style="margin-bottom: 0.8rem;"><a href="#settings" style="color: var(--gray-600); text-decoration: none;">Store Settings</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 style="color: var(--primary); margin-bottom: 1.5rem; font-family: 'Playfair Display', serif;">System</h4>
+                    <div style="color: var(--gray-600);">
+                        <p style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.8rem;">
+                            <i class="fas fa-server" style="color: var(--success); width: 20px;"></i>
+                            Server: Online
+                        </p>
+                        <p style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.8rem;">
+                            <i class="fas fa-database" style="color: var(--success); width: 20px;"></i>
+                            Database: Connected
+                        </p>
+                        <p style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.8rem;">
+                            <i class="fas fa-shield-alt" style="color: var(--success); width: 20px;"></i>
+                            Secure: SSL Enabled
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="
+                border-top: 1px solid var(--gray-200);
+                margin-top: 3rem; padding-top: 2rem;
+                display: flex; justify-content: space-between;
+                align-items: center; flex-wrap: wrap; gap: 1rem;
+            ">
+                <p style="color: var(--gray-600); margin: 0;">&copy; 2024 Vintage Crib Admin Portal. All rights reserved.</p>
+                <div style="display: flex; gap: 1rem;">
+                    <span style="
+                        background: var(--glass-bg); border: 1px solid var(--glass-border);
+                        padding: 0.4rem 0.8rem; border-radius: 15px;
+                        font-size: 0.8rem; color: var(--gray-600);
+                    ">🔒 Admin Only</span>
+                    <span style="
+                        background: var(--glass-bg); border: 1px solid var(--glass-border);
+                        padding: 0.4rem 0.8rem; border-radius: 15px;
+                        font-size: 0.8rem; color: var(--gray-600);
+                    ">⚡ High Performance</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Admin Scroll to Top Button -->
+    <button id="adminScrollToTop" onclick="scrollToTop()" style="
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 55px;
+        height: 55px;
+        background: var(--gradient-primary);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.2rem;
+        box-shadow: var(--shadow-3d-light);
+        transition: all 0.3s ease;
+        z-index: 1000;
+        display: none;
+    " onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='var(--shadow-3d-heavy)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='var(--shadow-3d-light)'">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+</body>
+</html>

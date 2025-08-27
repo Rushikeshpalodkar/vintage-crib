@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📜 Our Story - Vintage Crib | The Journey Behind Curated Vintage</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="description" content="Discover the inspiring story behind Vintage Crib - how passion for vintage treasures and technology came together to create a unique curated marketplace experience.">
+    <meta name="keywords" content="vintage crib story, founder story, vintage marketplace origin, curated vintage passion, vintage collector journey">
+    <meta property="og:title" content="📜 Our Story - Vintage Crib">
+    <meta property="og:description" content="The inspiring journey behind Vintage Crib - where passion meets technology in vintage curation">
+    <meta property="og:image" content="https://vintage-crib.onrender.com/favicon.ico">
+    <meta property="og:url" content="https://vintage-crib.onrender.com/story.html">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ff6b6b;
+            --primary-dark: #ee5a6f;
+            --secondary: #4ecdc4;
+            --secondary-dark: #45b7b8;
+            --accent: #ffe66d;
+            --accent-dark: #ffd93d;
+            --vintage-gold: #d4af37;
+            
+            --black: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --medium-gray: #2a2a2a;
+            --light-gray: #404040;
+            --off-white: #f8f8f6;
+            --cream: #f4f1eb;
+            
+            --shadow-3d-dark: 0 12px 40px rgba(0, 0, 0, 0.6);
+            --shadow-3d-glow: 0 8px 32px rgba(255, 107, 107, 0.3);
+            --shadow-3d-mint: 0 8px 32px rgba(78, 205, 196, 0.3);
+            --shadow-3d-gold: 0 8px 32px rgba(255, 230, 109, 0.3);
+            
+            --glass-dark: rgba(42, 42, 42, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --backdrop-blur: blur(20px);
+            
+            --gradient-primary: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 50%, #ff7675 100%);
+            --gradient-secondary: linear-gradient(135deg, #4ecdc4 0%, #45b7b8 50%, #26de81 100%);
+            --gradient-accent: linear-gradient(135deg, #ffe66d 0%, #ffd93d 50%, #f7b731 100%);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%, #0a0a0a 100%);
+            background-size: 400% 400%;
+            animation: darkGradientShift 15s ease infinite;
+            color: var(--off-white);
+            line-height: 1.7;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes darkGradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating particles background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(255, 107, 107, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 85% 25%, rgba(78, 205, 196, 0.06) 0%, transparent 60%),
+                radial-gradient(circle at 50% 85%, rgba(255, 230, 109, 0.1) 0%, transparent 60%);
+            z-index: -2;
+            animation: darkParticleFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes darkParticleFloat {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.4; }
+            50% { transform: translateY(-40px) scale(1.1); opacity: 0.7; }
+        }
+
+        /* Header */
+        .header {
+            background: var(--glass-dark);
+            backdrop-filter: var(--backdrop-blur);
+            border-bottom: 2px solid var(--primary);
+            box-shadow: var(--shadow-3d-dark), var(--shadow-3d-glow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 85px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--off-white);
+            text-decoration: none;
+        }
+
+        .logo-symbol {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: var(--shadow-3d-glow);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--cream);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .back-btn {
+            background: var(--gradient-secondary);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-3d-mint);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-3d-mint), 0 15px 40px rgba(78, 205, 196, 0.4);
+        }
+
+        /* Main Content */
+        .story-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .story-hero {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .story-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            text-shadow: var(--shadow-3d-glow);
+        }
+
+        .story-subtitle {
+            font-size: 1.4rem;
+            color: var(--cream);
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        .story-content {
+            display: grid;
+            gap: 4rem;
+        }
+
+        .story-section {
+            background: var(--glass-dark);
+            backdrop-filter: var(--backdrop-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: var(--shadow-3d-dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .section-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--off-white);
+        }
+
+        .section-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--cream);
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .quote {
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--accent);
+            border-left: 4px solid var(--accent);
+            padding-left: 2rem;
+            margin: 2rem 0;
+            background: rgba(255, 230, 109, 0.05);
+            padding: 1.5rem 1.5rem 1.5rem 3rem;
+            border-radius: 0 15px 15px 0;
+        }
+
+        /* Creator Section */
+        .creator-section {
+            background: linear-gradient(135deg, var(--glass-dark) 0%, rgba(78, 205, 196, 0.1) 100%);
+            border: 2px solid var(--secondary);
+            text-align: center;
+        }
+
+        .creator-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 3rem;
+            color: white;
+            box-shadow: var(--shadow-3d-glow);
+            font-weight: 900;
+        }
+
+        .creator-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .creator-title {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .resume-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--gradient-accent);
+            color: var(--black);
+            padding: 1.2rem 3rem;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-3d-gold);
+            margin-top: 1rem;
+        }
+
+        .resume-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: var(--shadow-3d-gold), 0 20px 50px rgba(255, 230, 109, 0.5);
+        }
+
+        .resume-btn i {
+            font-size: 1.3rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            display: grid;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .timeline-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: var(--shadow-3d-glow);
+            flex-shrink: 0;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-date {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-text {
+            color: var(--cream);
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .story-title {
+                font-size: 2.5rem;
+                line-height: 1.2;
+            }
+            
+            .story-subtitle {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+            
+            .story-container {
+                padding: 1rem;
+            }
+            
+            .story-section {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .nav-container {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+                justify-content: center;
+            }
+            
+            .nav-link, .back-btn {
+                font-size: 0.9rem;
+                padding: 0.8rem 1.5rem;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .logo-symbol {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+            
+            .creator-avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+            
+            .resume-btn {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+                margin-top: 2rem;
+            }
+            
+            .quote {
+                font-size: 1.1rem;
+                padding: 1.5rem;
+                margin: 2rem 0;
+            }
+            
+            .section-icon {
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+            }
+        }
+        
+        /* Small Mobile Devices */
+        @media (max-width: 480px) {
+            .story-title {
+                font-size: 2rem;
+            }
+            
+            .story-container {
+                padding: 0.5rem;
+            }
+            
+            .story-section {
+                padding: 1rem;
+            }
+            
+            .nav-container {
+                padding: 0.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Mobile Resume Popup Optimizations */
+        @media (max-width: 768px) {
+            .resume-popup-content {
+                max-width: 95vw !important;
+                max-height: 95vh !important;
+                padding: 2rem 1.5rem !important;
+                margin: 1rem auto !important;
+                border-radius: 20px !important;
+            }
+            
+            .resume-popup-content h3 {
+                font-size: 2rem !important;
+            }
+            
+            .resume-popup-content h4 {
+                font-size: 1.3rem !important;
+            }
+            
+            .resume-popup-content h5 {
+                font-size: 1.1rem !important;
+            }
+            
+            .resume-contact-grid {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 1rem !important;
+            }
+            
+            .resume-action-buttons button {
+                padding: 0.8rem 1.5rem !important;
+                font-size: 1rem !important;
+                margin: 0.5rem !important;
+                display: block !important;
+                width: 100% !important;
+                margin-bottom: 1rem !important;
+            }
+            
+            .resume-skills-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+            
+            .resume-projects-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .resume-popup-content {
+                padding: 1rem !important;
+                margin: 0.5rem auto !important;
+            }
+            
+            .resume-contact-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <div class="logo-symbol">🏺</div>
+                Vintage Crib
+            </a>
+            <nav class="nav-links">
+                <a href="/store-advanced.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Store
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Story Content -->
+    <div class="story-container">
+        <!-- Hero Section -->
+        <div class="story-hero">
+            <h1 class="story-title">📜 Our Story</h1>
+            <p class="story-subtitle">How passion for vintage treasures met modern technology to create something extraordinary</p>
+        </div>
+
+        <!-- Story Content -->
+        <div class="story-content">
+            <!-- The Beginning -->
+            <div class="story-section">
+                <div class="section-icon">🌟</div>
+                <h2 class="section-title">The Spark of an Idea</h2>
+                <p class="section-text">
+                    It all started with a simple frustration. As a passionate collector and technology enthusiast, I found myself 
+                    spending countless hours browsing through various vintage marketplaces, eBay listings, and estate sales, 
+                    searching for that perfect piece with <span class="highlight">authentic character and untold stories</span>.
+                </p>
+                <p class="section-text">
+                    The problem wasn't finding vintage items - it was finding the <span class="highlight">right ones</span>. 
+                    Quality pieces with genuine history, fair pricing, and authentic stories were scattered across dozens of platforms, 
+                    buried under mass-produced items and overpriced collectibles.
+                </p>
+                <div class="quote">
+                    "Every vintage piece has a story to tell - but finding those stories was like searching for treasure without a map."
+                </div>
+            </div>
+
+            <!-- The Vision -->
+            <div class="story-section">
+                <div class="section-icon">💡</div>
+                <h2 class="section-title">The Vision Takes Shape</h2>
+                <p class="section-text">
+                    What if there was a place where <span class="highlight">technology met nostalgia</span>? 
+                    A curated marketplace that didn't just sell vintage items, but celebrated their stories, verified their authenticity, 
+                    and presented them in a modern, immersive 3D experience?
+                </p>
+                <p class="section-text">
+                    I envisioned a platform where collectors could discover extraordinary pieces without the endless scrolling, 
+                    where each item was carefully selected for its historical significance, aesthetic appeal, and authentic provenance. 
+                    A place where <span class="highlight">vintage meets innovation</span>.
+                </p>
+                
+                <!-- Timeline of Development -->
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-icon">1</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">Phase 1: Research & Discovery</div>
+                            <div class="timeline-text">Spent months analyzing vintage marketplaces, studying collector behavior, and identifying pain points in the current ecosystem.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">2</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">Phase 2: Technology Integration</div>
+                            <div class="timeline-text">Developed AI-powered curation algorithms and 3D visualization technology to create an immersive shopping experience.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">3</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">Phase 3: Community Building</div>
+                            <div class="timeline-text">Connected with vintage dealers, collectors, and historians to build a network of authentic, quality sources.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- The Mission -->
+            <div class="story-section">
+                <div class="section-icon">🎯</div>
+                <h2 class="section-title">Our Mission Today</h2>
+                <p class="section-text">
+                    Vintage Crib is more than just a marketplace - it's a <span class="highlight">celebration of history, craftsmanship, and storytelling</span>. 
+                    We believe that every vintage piece deserves to be appreciated for its unique journey through time.
+                </p>
+                <p class="section-text">
+                    Our mission is to bridge the gap between vintage collectors and extraordinary pieces, using cutting-edge technology 
+                    to create an experience that honors the past while embracing the future. We're not just selling vintage items - 
+                    we're <span class="highlight">preserving stories, connecting generations, and celebrating the art of living with history</span>.
+                </p>
+                <div class="quote">
+                    "In a world of mass production, we choose to celebrate the unique, the handcrafted, and the irreplaceable."
+                </div>
+            </div>
+
+            <!-- Meet the Creator -->
+            <div class="story-section creator-section">
+                <div class="section-icon">👨‍💻</div>
+                <h2 class="section-title">Meet the Creator</h2>
+                
+                <div class="creator-avatar">RC</div>
+                <h3 class="creator-name">Rushikesh Palodkar</h3>
+                <p class="creator-title">Founder & Lead Developer | Vintage Enthusiast | Technology Innovator</p>
+                
+                <p class="section-text">
+                    A passionate full-stack developer with a deep love for vintage collectibles and modern technology. 
+                    Combining years of experience in software development with an eye for authentic vintage pieces, 
+                    Rushikesh created Vintage Crib to solve a problem he experienced personally as a collector.
+                </p>
+                
+                <p class="section-text">
+                    When not coding or curating vintage treasures, you can find him exploring local antique shops, 
+                    attending estate sales, or working on the next innovative feature for Vintage Crib.
+                </p>
+                
+                <a href="#" class="resume-btn" onclick="showResume()">
+                    <i class="fas fa-user-tie"></i>
+                    View Creator's Resume & Portfolio
+                </a>
+            </div>
+
+            <!-- What's Next -->
+            <div class="story-section">
+                <div class="section-icon">🚀</div>
+                <h2 class="section-title">What's Next</h2>
+                <p class="section-text">
+                    We're just getting started! Our roadmap includes AI-powered authenticity verification, 
+                    virtual reality showrooms, collector community features, and partnerships with museums and historical societies.
+                </p>
+                <p class="section-text">
+                    Join us on this journey as we continue to revolutionize how people discover, appreciate, and collect vintage treasures. 
+                    <span class="highlight">Every piece has a story - let's discover yours together</span>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Advanced Resume popup function with fashion-tech design
+        function showResume() {
+            const resumeContent = `
+                <div class="resume-popup-content" style="
+                    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+                    backdrop-filter: blur(20px);
+                    border: 3px solid #D4AF37;
+                    border-radius: 30px;
+                    padding: 3rem;
+                    color: #FEFEFE;
+                    max-width: 90vw;
+                    max-height: 90vh;
+                    overflow-y: auto;
+                    margin: 2rem auto;
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 50px rgba(212, 175, 55, 0.3);
+                    position: relative;
+                    font-family: 'Inter', sans-serif;
+                ">
+                    <!-- Fashion-Tech Header -->
+                    <div style="text-align: center; margin-bottom: 3rem; position: relative;">
+                        <div style="
+                            position: absolute;
+                            top: -20px;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            width: 200px;
+                            height: 4px;
+                            background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+                            animation: scanLine 3s linear infinite;
+                        "></div>
+                        
+                        <div style="
+                            width: 120px;
+                            height: 120px;
+                            border-radius: 50%;
+                            background: linear-gradient(45deg, #D4AF37, #FFD700);
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            margin: 0 auto 2rem;
+                            font-size: 3rem;
+                            color: #0a0a0a;
+                            font-weight: 900;
+                            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+                            position: relative;
+                            overflow: hidden;
+                        ">
+                            <div style="
+                                position: absolute;
+                                top: 0;
+                                left: -100%;
+                                width: 100%;
+                                height: 100%;
+                                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+                                animation: shimmer 2s ease-in-out infinite;
+                            "></div>
+                            RP
+                        </div>
+                        
+                        <h3 style="
+                            font-family: 'Playfair Display', serif;
+                            font-size: 3rem;
+                            font-weight: 900;
+                            margin-bottom: 1rem;
+                            background: linear-gradient(45deg, #FEFEFE, #D4AF37, #3B82F6);
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                            background-clip: text;
+                        ">
+                            Rushikesh Palodkar
+                        </h3>
+                        
+                        <p style="
+                            color: #D4AF37;
+                            font-size: 1.3rem;
+                            font-weight: 600;
+                            margin-bottom: 1rem;
+                        ">
+                            Visionary Tech Entrepreneur | Fashion-Tech Innovation Pioneer
+                        </p>
+                        
+                        <p style="color: #B0B0B0; font-size: 1rem;">
+                            Where Technology Walks the Runway of Innovation
+                        </p>
+                    </div>
+                    
+                    <!-- Contact & Networking Hub -->
+                    <div style="
+                        background: linear-gradient(135deg, #1a1a2e, #16213e);
+                        border-radius: 20px;
+                        padding: 2rem;
+                        margin-bottom: 2rem;
+                        border: 2px solid #D4AF37;
+                        position: relative;
+                        overflow: hidden;
+                    ">
+                        <div style="
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            height: 2px;
+                            background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+                            animation: scanLine 3s linear infinite;
+                        "></div>
+                        
+                        <h4 style="
+                            color: #D4AF37;
+                            font-size: 1.8rem;
+                            margin-bottom: 2rem;
+                            text-align: center;
+                            font-family: 'Playfair Display', serif;
+                        ">
+                            🤝 Let's Connect & Collaborate
+                        </h4>
+                        
+                        <div class="resume-contact-grid" style="
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                            gap: 1.5rem;
+                            margin-bottom: 2rem;
+                        ">
+                            <div onclick="window.open('mailto:rpalodkar15@gmail.com?subject=Collaboration Opportunity&body=Hi Rushikesh, I found your portfolio impressive and would like to discuss collaboration opportunities.', '_blank')" style="
+                                background: rgba(59, 130, 246, 0.1);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                text-align: center;
+                                cursor: pointer;
+                                transition: all 0.3s ease;
+                                border: 1px solid transparent;
+                            " onmouseover="this.style.borderColor='#3B82F6'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='transparent'; this.style.transform='translateY(0)'">
+                                <div style="color: #3B82F6; font-size: 2rem; margin-bottom: 10px;">📧</div>
+                                <strong>Email</strong><br>
+                                <small>rpalodkar15@gmail.com</small>
+                            </div>
+                            
+                            <div onclick="window.open('tel:+19349498516', '_blank')" style="
+                                background: rgba(236, 72, 153, 0.1);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                text-align: center;
+                                cursor: pointer;
+                                transition: all 0.3s ease;
+                                border: 1px solid transparent;
+                            " onmouseover="this.style.borderColor='#EC4899'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='transparent'; this.style.transform='translateY(0)'">
+                                <div style="color: #EC4899; font-size: 2rem; margin-bottom: 10px;">📱</div>
+                                <strong>Phone</strong><br>
+                                <small>(934) 949-8516</small>
+                            </div>
+                            
+                            <div onclick="window.open('https://linkedin.com/in/rushikeshpalodkar', '_blank')" style="
+                                background: rgba(212, 175, 55, 0.1);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                text-align: center;
+                                cursor: pointer;
+                                transition: all 0.3s ease;
+                                border: 1px solid transparent;
+                            " onmouseover="this.style.borderColor='#D4AF37'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='transparent'; this.style.transform='translateY(0)'">
+                                <div style="color: #D4AF37; font-size: 2rem; margin-bottom: 10px;">💼</div>
+                                <strong>LinkedIn</strong><br>
+                                <small>Professional Network</small>
+                            </div>
+                            
+                            <div onclick="window.open('https://github.com/rushikeshpalodkar', '_blank')" style="
+                                background: rgba(139, 92, 246, 0.1);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                text-align: center;
+                                cursor: pointer;
+                                transition: all 0.3s ease;
+                                border: 1px solid transparent;
+                            " onmouseover="this.style.borderColor='#8B5CF6'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='transparent'; this.style.transform='translateY(0)'">
+                                <div style="color: #8B5CF6; font-size: 2rem; margin-bottom: 10px;">💻</div>
+                                <strong>GitHub</strong><br>
+                                <small>Code Portfolio</small>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <button onclick="scheduleNetworkingCall()" style="
+                                background: linear-gradient(45deg, #D4AF37, #FFD700);
+                                color: #0a0a0a;
+                                padding: 1rem 2.5rem;
+                                border: none;
+                                border-radius: 50px;
+                                font-size: 1.1rem;
+                                font-weight: 700;
+                                cursor: pointer;
+                                transition: all 0.4s ease;
+                                margin: 0 1rem;
+                                position: relative;
+                                overflow: hidden;
+                            " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 40px rgba(212, 175, 55, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                                🚀 Schedule Networking Call
+                            </button>
+                            
+                            <button onclick="downloadVCard()" style="
+                                background: linear-gradient(45deg, #3B82F6, #8B5CF6);
+                                color: white;
+                                padding: 1rem 2.5rem;
+                                border: none;
+                                border-radius: 50px;
+                                font-size: 1.1rem;
+                                font-weight: 700;
+                                cursor: pointer;
+                                transition: all 0.4s ease;
+                                margin: 0 1rem;
+                                position: relative;
+                                overflow: hidden;
+                            " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 40px rgba(59, 130, 246, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                                📇 Save Contact
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Professional Experience -->
+                    <div style="
+                        background: rgba(255,255,255,0.05);
+                        border-radius: 20px;
+                        padding: 2rem;
+                        margin-bottom: 2rem;
+                        border: 1px solid rgba(212, 175, 55, 0.3);
+                    ">
+                        <h4 style="
+                            color: #D4AF37;
+                            font-size: 1.5rem;
+                            margin-bottom: 2rem;
+                            border-bottom: 2px solid #D4AF37;
+                            padding-bottom: 0.5rem;
+                            font-family: 'Playfair Display', serif;
+                        ">
+                            💼 Professional Experience
+                        </h4>
+                        
+                        <div style="margin-bottom: 2rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                                <div>
+                                    <h5 style="color: #FEFEFE; font-size: 1.2rem; margin-bottom: 0.5rem;">🚀 Vintage Crib - Founder & Lead Developer</h5>
+                                    <p style="color: #D4AF37; font-weight: 600;">E-commerce Platform Development</p>
+                                </div>
+                                <span style="color: #3B82F6; font-weight: 600; font-size: 0.9rem;">2024-Present</span>
+                            </div>
+                            <ul style="color: #B0B0B0; line-height: 1.6; margin-left: 1rem;">
+                                <li>Built full-stack marketplace with React, Node.js, and MongoDB</li>
+                                <li>Integrated real-time eBay API with automated product synchronization</li>
+                                <li>Developed admin dashboard with analytics and inventory management</li>
+                                <li>Implemented 3D UI/UX design with responsive animations</li>
+                                <li>Achieved 99.9% uptime with optimized performance architecture</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-bottom: 2rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                                <div>
+                                    <h5 style="color: #FEFEFE; font-size: 1.2rem; margin-bottom: 0.5rem;">💼 Financial Systems Developer</h5>
+                                    <p style="color: #D4AF37; font-weight: 600;">High-Performance Algorithm Development</p>
+                                </div>
+                                <span style="color: #3B82F6; font-weight: 600; font-size: 0.9rem;">Experience</span>
+                            </div>
+                            <ul style="color: #B0B0B0; line-height: 1.6; margin-left: 1rem;">
+                                <li>Developed derivatives risk analysis using Monte Carlo simulations</li>
+                                <li>Optimized database queries achieving 40% latency reduction</li>
+                                <li>Built ETL pipelines processing 100K+ records weekly</li>
+                                <li>Implemented automated forecasting saving 60% processing time</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Skills Showcase -->
+                    <div style="
+                        background: linear-gradient(135deg, #1a1a2e, #16213e);
+                        border-radius: 20px;
+                        padding: 2rem;
+                        margin-bottom: 2rem;
+                        border: 2px solid #D4AF37;
+                    ">
+                        <h4 style="
+                            color: #D4AF37;
+                            font-size: 1.5rem;
+                            margin-bottom: 2rem;
+                            text-align: center;
+                            font-family: 'Playfair Display', serif;
+                        ">
+                            🎯 Technical Expertise
+                        </h4>
+                        
+                        <div class="resume-skills-grid" style="
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                            gap: 1.5rem;
+                        ">
+                            <div style="
+                                background: rgba(59, 130, 246, 0.1);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                text-align: center;
+                                border: 1px solid rgba(59, 130, 246, 0.3);
+                            ">
+                                <div style="color: #3B82F6; font-size: 2.5rem; margin-bottom: 1rem;">💻</div>
+                                <h5 style="color: #FEFEFE; margin-bottom: 1rem;">Languages</h5>
+                                <p style="color: #B0B0B0; font-size: 0.9rem;">C++, Python, JavaScript, TypeScript, Java</p>
+                            </div>
+                            
+                            <div style="
+                                background: rgba(236, 72, 153, 0.1);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                text-align: center;
+                                border: 1px solid rgba(236, 72, 153, 0.3);
+                            ">
+                                <div style="color: #EC4899; font-size: 2.5rem; margin-bottom: 1rem;">⚛️</div>
+                                <h5 style="color: #FEFEFE; margin-bottom: 1rem;">Frameworks</h5>
+                                <p style="color: #B0B0B0; font-size: 0.9rem;">React, Node.js, Express, Spring Boot, FastAPI</p>
+                            </div>
+                            
+                            <div style="
+                                background: rgba(139, 92, 246, 0.1);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                text-align: center;
+                                border: 1px solid rgba(139, 92, 246, 0.3);
+                            ">
+                                <div style="color: #8B5CF6; font-size: 2.5rem; margin-bottom: 1rem;">🗄️</div>
+                                <h5 style="color: #FEFEFE; margin-bottom: 1rem;">Databases</h5>
+                                <p style="color: #B0B0B0; font-size: 0.9rem;">PostgreSQL, MongoDB, Redis, MySQL</p>
+                            </div>
+                            
+                            <div style="
+                                background: rgba(212, 175, 55, 0.1);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                text-align: center;
+                                border: 1px solid rgba(212, 175, 55, 0.3);
+                            ">
+                                <div style="color: #D4AF37; font-size: 2.5rem; margin-bottom: 1rem;">☁️</div>
+                                <h5 style="color: #FEFEFE; margin-bottom: 1rem;">Cloud & DevOps</h5>
+                                <p style="color: #B0B0B0; font-size: 0.9rem;">AWS, Docker, Kubernetes, CI/CD, Git</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Key Projects -->
+                    <div style="
+                        background: rgba(255,255,255,0.05);
+                        border-radius: 20px;
+                        padding: 2rem;
+                        margin-bottom: 2rem;
+                        border: 1px solid rgba(212, 175, 55, 0.3);
+                    ">
+                        <h4 style="
+                            color: #D4AF37;
+                            font-size: 1.5rem;
+                            margin-bottom: 2rem;
+                            border-bottom: 2px solid #D4AF37;
+                            padding-bottom: 0.5rem;
+                            font-family: 'Playfair Display', serif;
+                        ">
+                            🚀 Flagship Projects
+                        </h4>
+                        
+                        <div class="resume-projects-grid" style="
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                            gap: 1.5rem;
+                        ">
+                            <div style="
+                                background: linear-gradient(135deg, #1a1a2e, #16213e);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                border: 1px solid #D4AF37;
+                            ">
+                                <h5 style="color: #D4AF37; margin-bottom: 1rem;">🏺 Vintage Crib Platform</h5>
+                                <p style="color: #B0B0B0; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                                    Revolutionary e-commerce platform with eBay API integration, real-time analytics, and 3D user experience.
+                                </p>
+                                <div style="color: #3B82F6; font-size: 0.8rem;">React • Node.js • MongoDB • eBay API</div>
+                            </div>
+                            
+                            <div style="
+                                background: linear-gradient(135deg, #1a1a2e, #16213e);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                border: 1px solid #D4AF37;
+                            ">
+                                <h5 style="color: #D4AF37; margin-bottom: 1rem;">📊 Financial Risk Engine</h5>
+                                <p style="color: #B0B0B0; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                                    High-performance derivatives risk analysis with Monte Carlo simulations and automated reporting.
+                                </p>
+                                <div style="color: #3B82F6; font-size: 0.8rem;">C++ • Python • PostgreSQL • Monte Carlo</div>
+                            </div>
+                            
+                            <div style="
+                                background: linear-gradient(135deg, #1a1a2e, #16213e);
+                                padding: 1.5rem;
+                                border-radius: 15px;
+                                border: 1px solid #D4AF37;
+                            ">
+                                <h5 style="color: #D4AF37; margin-bottom: 1rem;">⚡ Data Pipeline System</h5>
+                                <p style="color: #B0B0B0; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                                    Enterprise ETL pipeline processing 100K+ records with 35% performance optimization.
+                                </p>
+                                <div style="color: #3B82F6; font-size: 0.8rem;">Python • C++ • PostgreSQL • ETL</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="resume-action-buttons" style="text-align: center; margin-top: 2rem;">
+                        <button onclick="viewFullResume()" style="
+                            background: linear-gradient(45deg, #3B82F6, #8B5CF6);
+                            color: white;
+                            padding: 1rem 2.5rem;
+                            border: none;
+                            border-radius: 50px;
+                            font-size: 1.1rem;
+                            font-weight: 700;
+                            cursor: pointer;
+                            transition: all 0.4s ease;
+                            margin: 0 1rem 1rem;
+                        " onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                            📄 View Full Resume
+                        </button>
+                        
+                        <button onclick="closeResume()" style="
+                            background: linear-gradient(45deg, #D4AF37, #FFD700);
+                            color: #0a0a0a;
+                            padding: 1rem 2.5rem;
+                            border: none;
+                            border-radius: 50px;
+                            font-size: 1.1rem;
+                            font-weight: 700;
+                            cursor: pointer;
+                            transition: all 0.4s ease;
+                            margin: 0 1rem 1rem;
+                        " onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                            ✨ Close
+                        </button>
+                    </div>
+                </div>
+                
+                <style>
+                    @keyframes scanLine {
+                        0% { transform: translateX(-100%); }
+                        100% { transform: translateX(100%); }
+                    }
+                    
+                    @keyframes shimmer {
+                        0% { left: -100%; }
+                        100% { left: 100%; }
+                    }
+                </style>
+            `;
+            
+            // Create overlay
+            const overlay = document.createElement('div');
+            overlay.id = 'resume-overlay';
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                backdrop-filter: blur(10px);
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 2rem;
+                overflow-y: auto;
+            `;
+            overlay.innerHTML = resumeContent;
+            document.body.appendChild(overlay);
+            
+            // Close on overlay click
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                    closeResume();
+                }
+            });
+        }
+        
+        function closeResume() {
+            const overlay = document.getElementById('resume-overlay');
+            if (overlay) {
+                overlay.remove();
+            }
+        }
+        
+        // Advanced networking functions
+        function scheduleNetworkingCall() {
+            const calendlyUrl = 'https://calendly.com/rushikeshpalodkar';
+            const subject = 'Networking Call Request - Fashion-Tech Innovation Discussion';
+            const body = `Hello Rushikesh,
+
+I was impressed by your portfolio and would love to schedule a networking call to discuss:
+
+🚀 Your innovative work at Vintage Crib
+💼 Potential collaboration opportunities
+🎯 Fashion-tech industry insights
+📈 Technology and business strategy
+
+Please let me know your availability for a 30-minute call.
+
+Best regards!`;
+
+            // Try to open Calendly first, fallback to email
+            try {
+                window.open(calendlyUrl, '_blank');
+            } catch (e) {
+                window.open(`mailto:rpalodkar15@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
+            }
+        }
+        
+        function downloadVCard() {
+            const vCardData = `BEGIN:VCARD
+VERSION:3.0
+FN:Rushikesh Palodkar
+N:Palodkar;Rushikesh;;;
+ORG:Vintage Crib
+TITLE:Founder & Lead Developer - Fashion-Tech Innovation Pioneer
+EMAIL:rpalodkar15@gmail.com
+TEL:+1-934-949-8516
+URL:https://vintage-crib.onrender.com
+NOTE:Visionary Tech Entrepreneur specializing in fashion-tech innovation, high-performance algorithms, and e-commerce platform development. Experience with React, Node.js, C++, Python, and database optimization. Currently building the future of fashion retail through innovative technology solutions.
+CATEGORIES:Technology,Fashion-Tech,E-commerce,Software Development,Innovation
+END:VCARD`;
+
+            const blob = new Blob([vCardData], { type: 'text/vcard' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'Rushikesh_Palodkar_Contact.vcf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+            
+            // Show success message
+            alert('📇 Contact card downloaded! Add Rushikesh to your contacts and start networking! 🚀');
+        }
+        
+        function viewFullResume() {
+            // Open the full fashion-tech resume in a new window
+            window.open('/resume.html', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+        }
+        
+        // Close with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeResume();
+            }
+        });
+    </script>
+</body>
+</html>
