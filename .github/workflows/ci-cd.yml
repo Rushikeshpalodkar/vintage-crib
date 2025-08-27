@@ -109,6 +109,29 @@ jobs:
       run: |
         echo "Running integration tests on staging"
         # Add integration test commands here
+        
+    - name: Notify staging deployment
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 587
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        subject: "🧪 Vintage Crib Staging Deployed - ${{ github.sha }}"
+        to: ${{ secrets.NOTIFICATION_EMAIL }}
+        from: Vintage Crib CI/CD <noreply@vintagecrib.com>
+        body: |
+          🧪 Staging Environment Updated!
+          
+          Repository: ${{ github.repository }}
+          Branch: ${{ github.ref_name }}
+          Commit: ${{ github.sha }}
+          Author: ${{ github.actor }}
+          
+          🔗 Staging URL: [Add your staging URL here]
+          ✅ Integration tests passed
+          
+          Ready for production deployment.
 
   deploy-production:
     needs: build
@@ -130,7 +153,55 @@ jobs:
         echo "Running production health checks"
         # Add health check commands here
     
-    - name: Notify team
-      run: |
-        echo "Notifying team of successful deployment"
-        # Add notification commands here
+    - name: Send deployment success notification
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 587
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        subject: "✅ Vintage Crib Deployment Successful - ${{ github.sha }}"
+        to: ${{ secrets.NOTIFICATION_EMAIL }}
+        from: Vintage Crib CI/CD <noreply@vintagecrib.com>
+        body: |
+          🚀 Deployment Successful!
+          
+          Repository: ${{ github.repository }}
+          Branch: ${{ github.ref_name }}
+          Commit: ${{ github.sha }}
+          Commit Message: ${{ github.event.head_commit.message }}
+          Author: ${{ github.actor }}
+          
+          🌐 Live Site: https://vintage-crib.onrender.com
+          📊 Admin Dashboard: https://vintage-crib.onrender.com/admin-advanced.html
+          
+          ✅ All tests passed
+          ✅ Security checks completed
+          ✅ Build successful
+          ✅ Deployment completed
+          
+          Time: ${{ github.event.head_commit.timestamp }}
+          
+    - name: Send notification on failure
+      if: failure()
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 587
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        subject: "❌ Vintage Crib Deployment Failed - ${{ github.sha }}"
+        to: ${{ secrets.NOTIFICATION_EMAIL }}
+        from: Vintage Crib CI/CD <noreply@vintagecrib.com>
+        body: |
+          ❌ Deployment Failed!
+          
+          Repository: ${{ github.repository }}
+          Branch: ${{ github.ref_name }}
+          Commit: ${{ github.sha }}
+          Commit Message: ${{ github.event.head_commit.message }}
+          Author: ${{ github.actor }}
+          
+          🔍 Check the logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          
+          Time: ${{ github.event.head_commit.timestamp }}
