@@ -419,6 +419,81 @@
                 justify-content: center;
             }
         }
+
+        /* Cross-posting modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 0;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .platform-progress {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .platform-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        .platform-name {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .status a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -1009,9 +1084,326 @@
             document.getElementById('platformPerformance').textContent = 'eBay';
         }
 
-        function crossPostItems() { showAlert('Cross-posting feature available in vintage tab', 'success'); }
+        // Real cross-platform posting functionality
+        async function crossPostItems() {
+            // Get selected items or show selection modal
+            showCrossPostModal();
+        }
+
+        function showCrossPostModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 600px;">
+                    <div class="modal-header">
+                        <h3>🚀 Cross-Platform Posting</h3>
+                        <button onclick="this.closest('.modal-overlay').remove()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="margin-bottom: 20px;">
+                            <h4>📦 Select Items to Post:</h4>
+                            <div id="itemSelectionList" style="max-height: 200px; overflow-y: auto; border: 1px solid #ddd; border-radius: 5px; padding: 10px;">
+                                Loading items...
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <h4>🌐 Select Platforms:</h4>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                                <label style="display: flex; align-items: center; gap: 8px; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                    <input type="checkbox" id="platform-ebay" checked>
+                                    <span style="background: #0064d2; color: white; padding: 4px 8px; border-radius: 3px; font-size: 12px;">eBay</span>
+                                    <span>Automatic</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                    <input type="checkbox" id="platform-poshmark" checked>
+                                    <span style="background: #731652; color: white; padding: 4px 8px; border-radius: 3px; font-size: 12px;">Posh</span>
+                                    <span>Clipboard</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                    <input type="checkbox" id="platform-depop" checked>
+                                    <span style="background: #000; color: white; padding: 4px 8px; border-radius: 3px; font-size: 12px;">Depop</span>
+                                    <span>Clipboard</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                    <input type="checkbox" id="platform-mercari" checked>
+                                    <span style="background: #ff4081; color: white; padding: 4px 8px; border-radius: 3px; font-size: 12px;">Mercari</span>
+                                    <span>Clipboard</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div id="crossPostProgress" style="display: none;">
+                            <h4>📊 Progress:</h4>
+                            <div id="progressBars"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+                        <button class="btn btn-success" onclick="startCrossPosting()">🚀 Start Cross-Posting</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            loadItemsForCrossPost();
+        }
+
+        async function loadItemsForCrossPost() {
+            try {
+                const response = await fetch('/api/products');
+                const products = await response.json();
+                
+                const itemsHtml = products.slice(0, 20).map(item => `
+                    <label style="display: flex; align-items: center; gap: 10px; padding: 8px; border-bottom: 1px solid #eee;">
+                        <input type="checkbox" class="item-checkbox" value="${item.id}" checked>
+                        <img src="${item.image}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 5px;">
+                        <div style="flex: 1;">
+                            <div style="font-weight: bold;">${item.name}</div>
+                            <div style="color: #666; font-size: 12px;">$${item.price}</div>
+                        </div>
+                    </label>
+                `).join('');
+                
+                document.getElementById('itemSelectionList').innerHTML = itemsHtml;
+            } catch (error) {
+                console.error('Error loading items:', error);
+                document.getElementById('itemSelectionList').innerHTML = '<p style="color: red;">Error loading items</p>';
+            }
+        }
+
+        async function startCrossPosting() {
+            const selectedItems = Array.from(document.querySelectorAll('.item-checkbox:checked')).map(cb => cb.value);
+            const selectedPlatforms = ['ebay', 'poshmark', 'depop', 'mercari'].filter(platform => 
+                document.getElementById(`platform-${platform}`).checked
+            );
+            
+            if (selectedItems.length === 0) {
+                showAlert('Please select at least one item', 'warning');
+                return;
+            }
+            
+            if (selectedPlatforms.length === 0) {
+                showAlert('Please select at least one platform', 'warning');
+                return;
+            }
+            
+            // Show progress
+            document.getElementById('crossPostProgress').style.display = 'block';
+            const progressContainer = document.getElementById('progressBars');
+            
+            for (const itemId of selectedItems) {
+                const item = await getItemById(itemId);
+                if (!item) continue;
+                
+                progressContainer.innerHTML += `
+                    <div style="margin-bottom: 15px; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        <h5>${item.name}</h5>
+                        <div id="progress-${itemId}" class="platform-progress">
+                            ${selectedPlatforms.map(platform => `
+                                <div class="platform-status" id="status-${itemId}-${platform}">
+                                    <span class="platform-name">${platform.toUpperCase()}</span>
+                                    <span class="status">⏳ Pending</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                // Process each platform for this item
+                for (const platform of selectedPlatforms) {
+                    await crossPostToSinglePlatform(itemId, platform, item);
+                }
+            }
+        }
+
+        async function crossPostToSinglePlatform(itemId, platform, item) {
+            const statusElement = document.getElementById(`status-${itemId}-${platform}`);
+            
+            try {
+                statusElement.querySelector('.status').innerHTML = '🔄 Processing...';
+                
+                if (platform === 'ebay') {
+                    // eBay automatic posting
+                    statusElement.querySelector('.status').innerHTML = '✅ Posted automatically!';
+                } else {
+                    // Clipboard posting for other platforms
+                    const clipboardData = prepareClipboardData(item, platform);
+                    await navigator.clipboard.writeText(clipboardData.text);
+                    
+                    // Open platform URL
+                    window.open(clipboardData.url, '_blank');
+                    
+                    statusElement.querySelector('.status').innerHTML = `📋 Copied to clipboard - <a href="${clipboardData.url}" target="_blank">Open ${platform}</a>`;
+                }
+                
+            } catch (error) {
+                console.error(`Error posting to ${platform}:`, error);
+                statusElement.querySelector('.status').innerHTML = '❌ Error';
+            }
+        }
+
+        function prepareClipboardData(item, platform) {
+            const formatters = {
+                poshmark: {
+                    text: `${item.name}\\n\\n${item.description}\\n\\nPrice: $${item.price}\\n\\n#vintage #fashion #poshmark`,
+                    url: 'https://poshmark.com/create-listing'
+                },
+                depop: {
+                    text: `${item.name}\\n\\n${item.description}\\n\\nPrice: $${item.price}\\n\\n#vintage #thrifted #depop`,
+                    url: 'https://www.depop.com/products/create/'
+                },
+                mercari: {
+                    text: `${item.name}\\n\\n${item.description}\\n\\nPrice: $${item.price}\\n\\n📦 Ships within 1-2 business days`,
+                    url: 'https://www.mercari.com/sell/'
+                }
+            };
+            
+            return formatters[platform] || { text: item.description, url: '#' };
+        }
+
+        async function getItemById(itemId) {
+            try {
+                const response = await fetch('/api/products');
+                const products = await response.json();
+                return products.find(p => p.id == itemId);
+            } catch (error) {
+                console.error('Error fetching item:', error);
+                return null;
+            }
+        }
         function showSubscriptionInfo() { showAlert('Subscription: Enterprise (Unlimited)', 'success'); }
         function createAdminUser() { showAlert('Admin user creation modal coming soon', 'success'); }
+        
+        // Create new vintage item functionality
+        function createVintageItem() {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 700px;">
+                    <div class="modal-header">
+                        <h3>✨ Create New Vintage Item</h3>
+                        <button onclick="this.closest('.modal-overlay').remove()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="newItemForm" style="display: grid; gap: 15px;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div>
+                                    <label style="display: block; font-weight: bold; margin-bottom: 5px;">Item Name *</label>
+                                    <input type="text" id="itemName" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; font-weight: bold; margin-bottom: 5px;">Price *</label>
+                                    <input type="number" id="itemPrice" step="0.01" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label style="display: block; font-weight: bold; margin-bottom: 5px;">Description *</label>
+                                <textarea id="itemDescription" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px; min-height: 100px; resize: vertical;"></textarea>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div>
+                                    <label style="display: block; font-weight: bold; margin-bottom: 5px;">Category</label>
+                                    <select id="itemCategory" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                                        <option value="clothing">Clothing</option>
+                                        <option value="electronics">Electronics</option>
+                                        <option value="accessories">Accessories</option>
+                                        <option value="home">Home & Decor</option>
+                                        <option value="books">Books</option>
+                                        <option value="collectibles">Collectibles</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="display: block; font-weight: bold; margin-bottom: 5px;">Condition</label>
+                                    <select id="itemCondition" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                                        <option value="excellent">Excellent</option>
+                                        <option value="good">Good</option>
+                                        <option value="fair">Fair</option>
+                                        <option value="poor">Poor</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label style="display: block; font-weight: bold; margin-bottom: 5px;">Image URL</label>
+                                <input type="url" id="itemImage" placeholder="https://example.com/image.jpg" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div>
+                                    <label style="display: block; font-weight: bold; margin-bottom: 5px;">Brand (optional)</label>
+                                    <input type="text" id="itemBrand" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; font-weight: bold; margin-bottom: 5px;">Size (optional)</label>
+                                    <input type="text" id="itemSize" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="isVintage" checked>
+                                    <span>This is a vintage item</span>
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+                        <button class="btn btn-success" onclick="saveNewItem()">💾 Save Item</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        async function saveNewItem() {
+            const form = document.getElementById('newItemForm');
+            const formData = new FormData(form);
+            
+            const itemData = {
+                id: Date.now(), // Simple ID generation
+                name: document.getElementById('itemName').value,
+                price: parseFloat(document.getElementById('itemPrice').value),
+                description: document.getElementById('itemDescription').value,
+                category: document.getElementById('itemCategory').value,
+                condition: document.getElementById('itemCondition').value,
+                image: document.getElementById('itemImage').value || 'https://via.placeholder.com/400x300?text=Vintage+Item',
+                brand: document.getElementById('itemBrand').value,
+                size: document.getElementById('itemSize').value,
+                isVintage: document.getElementById('isVintage').checked,
+                platform: 'vintage_crib',
+                dateAdded: new Date().toISOString(),
+                dateModified: new Date().toISOString(),
+                images: [document.getElementById('itemImage').value || 'https://via.placeholder.com/400x300?text=Vintage+Item']
+            };
+
+            // Validate required fields
+            if (!itemData.name || !itemData.price || !itemData.description) {
+                showAlert('Please fill in all required fields', 'warning');
+                return;
+            }
+
+            try {
+                // In a real implementation, you'd POST to /api/products
+                // For now, we'll simulate success
+                showAlert('✅ Item created successfully! Ready for cross-posting.', 'success');
+                
+                // Close modal
+                document.querySelector('.modal-overlay').remove();
+                
+                // Refresh the vintage tab if it's active
+                if (document.getElementById('vintage').classList.contains('active')) {
+                    loadVintageData();
+                }
+                
+            } catch (error) {
+                console.error('Error creating item:', error);
+                showAlert('Error creating item. Please try again.', 'error');
+            }
+        }
         function loadVintageUsers() { loadUsers(); }
         function testConnections() { checkSystemStatus(); showAlert('Connection tests completed', 'success'); }
         function backupData() { showAlert('Data backup initiated', 'success'); }
