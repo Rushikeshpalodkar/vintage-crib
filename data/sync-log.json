@@ -2,6 +2,74 @@
   "logs": [
     {
       "status": "success",
+      "startTime": "2025-08-28T02:02:34.956Z",
+      "endTime": "2025-08-28T02:02:35.021Z",
+      "type": "intelligent_automatic",
+      "itemsChecked": 0,
+      "itemsSold": 0,
+      "pricesUpdated": 0,
+      "productsUpdated": 0,
+      "itemsImported": 0,
+      "retryAttempts": 0,
+      "blockedRequests": 0,
+      "errors": [],
+      "details": [],
+      "duration": 0,
+      "timestamp": "2025-08-28T02:02:35.028Z"
+    },
+    {
+      "status": "success",
+      "startTime": "2025-08-28T00:32:34.954Z",
+      "endTime": "2025-08-28T00:32:35.160Z",
+      "type": "intelligent_automatic",
+      "itemsChecked": 0,
+      "itemsSold": 0,
+      "pricesUpdated": 0,
+      "productsUpdated": 0,
+      "itemsImported": 0,
+      "retryAttempts": 0,
+      "blockedRequests": 0,
+      "errors": [],
+      "details": [],
+      "duration": 0,
+      "timestamp": "2025-08-28T00:32:35.222Z"
+    },
+    {
+      "status": "success",
+      "startTime": "2025-08-27T22:54:01.110Z",
+      "endTime": "2025-08-27T22:54:05.417Z",
+      "type": "intelligent_automatic",
+      "itemsChecked": 0,
+      "itemsSold": 0,
+      "pricesUpdated": 0,
+      "productsUpdated": 0,
+      "itemsImported": 0,
+      "retryAttempts": 0,
+      "blockedRequests": 0,
+      "errors": [],
+      "details": [],
+      "duration": 4,
+      "timestamp": "2025-08-27T22:54:05.433Z"
+    },
+    {
+      "status": "success",
+      "startTime": "2025-08-27T06:13:43.906Z",
+      "endTime": "2025-08-27T06:13:52.261Z",
+      "type": "intelligent_automatic",
+      "itemsChecked": 0,
+      "itemsSold": 0,
+      "pricesUpdated": 0,
+      "productsUpdated": 0,
+      "itemsImported": 0,
+      "retryAttempts": 0,
+      "blockedRequests": 0,
+      "errors": [],
+      "details": [],
+      "duration": 8,
+      "timestamp": "2025-08-27T06:13:52.331Z"
+    },
+    {
+      "status": "success",
       "startTime": "2025-08-27T00:17:01.006Z",
       "endTime": "2025-08-27T00:20:42.728Z",
       "type": "intelligent_automatic",
@@ -291,8 +359,8 @@
     }
   ],
   "stats": {
-    "totalSyncs": 15,
-    "successfulSyncs": 15,
+    "totalSyncs": 19,
+    "successfulSyncs": 19,
     "failedSyncs": 0
   }
 }
