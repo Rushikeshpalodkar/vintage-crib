@@ -423,7 +423,7 @@ async function performAutoSync() {
 
                 if (eBay) {
                     try {
-                        itemData = await eBay.browse.getItem(ebayItemId);
+                        itemData = await eBay.buy.browse.getItem(ebayItemId);
                         
                         // Check if price changed
                         if (syncSettings.syncTypes.priceChanges && itemData.price) {
@@ -1441,7 +1441,7 @@ app.get('/api/ebay/item/:itemId', async (req, res) => {
             });
         }
 
-        const item = await eBay.browse.getItem(itemId);
+        const item = await eBay.buy.browse.getItem(itemId);
         
         // Transform to our product format
         const product = {
@@ -1576,13 +1576,22 @@ function extractProductData(page, url) {
                   $('h1').first().text().trim() ||
                   $('title').text().split('|')[0].trim();
         
-        // Extract price
-        let priceText = $('.price .ur-money .ur-units').text().trim() ||
+        // Extract price with updated eBay selectors (2024-2025)
+        let priceText = 
+                       // Current eBay price selectors
+                       $('.display-price .ux-textspans').text().trim() ||
+                       $('.x-price-primary .ux-textspans').text().trim() ||
+                       $('.u-flL.condText .notranslate').text().trim() ||
+                       $('.x-bin-action .ux-textspans').text().trim() ||
+                       // Legacy selectors
+                       $('.price .ur-money .ur-units').text().trim() ||
                        $('.price-current .ur-money').text().trim() ||
-                       $('.u-flL.condText .ur-money').text().trim() ||
                        $('[data-testid="price"] .ur-money').text().trim() ||
+                       // Fallback to any price-like text
                        $('.notranslate').text().match(/\$[\d,]+\.?\d*/)?.[0] ||
                        ($('script').text().match(/price[\"\\']:\\s*[\"\\']([\\d,.]+)[\"\\']/) || [])[1] ||
+                       // Final fallback - check page title for price
+                       ($('title').text().match(/\$[\d,]+\.?\d*/) || [])[0] ||
                        '0';
         
         const priceMatch = priceText.replace(/[,$]/g, '').match(/[\d.]+/);
@@ -2566,7 +2575,7 @@ app.post('/api/products/sync-sold-status', async (req, res) => {
                 
                 try {
                     // Method 1: Try eBay Browse API
-                    const itemResponse = await eBay.browse.getItem(ebayItemId);
+                    const itemResponse = await eBay.buy.browse.getItem(ebayItemId);
                     itemStatus = 'active';
                     itemAvailable = true;
                 } catch (apiError) {
