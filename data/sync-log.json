@@ -2,6 +2,23 @@
   "logs": [
     {
       "status": "success",
+      "startTime": "2025-08-29T15:49:23.130Z",
+      "endTime": "2025-08-29T15:52:37.104Z",
+      "type": "intelligent_automatic",
+      "itemsChecked": 20,
+      "itemsSold": 0,
+      "pricesUpdated": 0,
+      "productsUpdated": 0,
+      "itemsImported": 0,
+      "retryAttempts": 0,
+      "blockedRequests": 0,
+      "errors": [],
+      "details": [],
+      "duration": 194,
+      "timestamp": "2025-08-29T15:52:37.109Z"
+    },
+    {
+      "status": "success",
       "startTime": "2025-08-29T04:10:13.014Z",
       "endTime": "2025-08-29T04:13:28.772Z",
       "type": "intelligent_automatic",
@@ -427,8 +444,8 @@
     }
   ],
   "stats": {
-    "totalSyncs": 23,
-    "successfulSyncs": 23,
+    "totalSyncs": 24,
+    "successfulSyncs": 24,
     "failedSyncs": 0
   }
 }
