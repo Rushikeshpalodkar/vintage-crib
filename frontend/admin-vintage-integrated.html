@@ -1408,6 +1408,115 @@
         function testConnections() { checkSystemStatus(); showAlert('Connection tests completed', 'success'); }
         function backupData() { showAlert('Data backup initiated', 'success'); }
         function clearCache() { showAlert('Cache cleared successfully', 'success'); }
+
+        // 🔐 SECURITY: Authentication Management
+        async function checkAuthentication() {
+            try {
+                const response = await fetch('/api/auth/status');
+                const data = await response.json();
+                
+                if (!data.authenticated) {
+                    // Not authenticated, redirect to login
+                    window.location.href = '/secure-login.html';
+                    return false;
+                }
+                
+                // Update user info
+                if (data.user) {
+                    document.getElementById('userName').textContent = data.user.username || 'Admin User';
+                    document.getElementById('userAvatar').textContent = (data.user.username || 'Admin').charAt(0).toUpperCase();
+                }
+                
+                console.log('🔐 Authentication verified');
+                return true;
+                
+            } catch (error) {
+                console.error('Authentication check failed:', error);
+                // On error, redirect to login for security
+                window.location.href = '/secure-login.html';
+                return false;
+            }
+        }
+
+        async function logout() {
+            try {
+                showAlert('Logging out...', 'info');
+                
+                const response = await fetch('/api/auth/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAlert('Logged out successfully', 'success');
+                    
+                    // Clear any cached data
+                    if (typeof clearCache === 'function') {
+                        clearCache();
+                    }
+                    
+                    // Redirect to login after delay
+                    setTimeout(() => {
+                        window.location.href = '/secure-login.html';
+                    }, 1000);
+                } else {
+                    showAlert('Logout failed: ' + (data.message || 'Unknown error'), 'error');
+                }
+                
+            } catch (error) {
+                console.error('Logout error:', error);
+                showAlert('Logout failed. Redirecting...', 'error');
+                
+                // Force redirect on error
+                setTimeout(() => {
+                    window.location.href = '/secure-login.html';
+                }, 2000);
+            }
+        }
+
+        // Enhance existing fetch calls to handle authentication errors
+        const originalFetch = window.fetch;
+        window.fetch = async function(...args) {
+            const response = await originalFetch(...args);
+            
+            // Check for authentication errors
+            if (response.status === 401) {
+                showAlert('Session expired. Please log in again.', 'error');
+                setTimeout(() => {
+                    window.location.href = '/secure-login.html';
+                }, 2000);
+                throw new Error('Authentication required');
+            }
+            
+            return response;
+        };
+
+        // Check authentication when page loads
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('🔐 Checking authentication...');
+            const isAuthenticated = await checkAuthentication();
+            
+            if (isAuthenticated) {
+                console.log('✅ Authentication successful, loading dashboard');
+                // Continue with existing initialization
+                if (typeof loadStats === 'function') {
+                    loadStats();
+                }
+            }
+        });
+
+        // Security: Check authentication periodically
+        setInterval(async () => {
+            const isAuthenticated = await checkAuthentication();
+            if (!isAuthenticated) {
+                console.log('🚨 Authentication lost, redirecting to login');
+            }
+        }, 5 * 60 * 1000); // Check every 5 minutes
+
     </script>
 </body>
 </html>

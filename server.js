@@ -6,6 +6,8 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const EBay = require('ebay-api');
 const helmet = require('helmet');
+const session = require('express-session');
+const securityManager = require('./auth/security');
 const { authenticateAdmin, verifyToken } = require('./auth');
 require('dotenv').config();
 
@@ -65,7 +67,7 @@ let syncInterval = null;
 let syncInProgress = false;
 let lastAutoSyncTime = null;
 
-// Security middleware
+// Enhanced Security middleware
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
@@ -79,25 +81,183 @@ app.use(helmet({
     }
 }));
 
-// Middleware
+// Security headers and input sanitization
+app.use(securityManager.securityHeaders);
+
+// Session configuration for secure authentication
+app.use(session(securityManager.getSessionConfig()));
+
+// Rate limiting middleware - SPECIFIC ROUTES ONLY
+if (process.env.ENABLE_RATE_LIMITING === 'true') {
+    console.log('🛡️ Rate limiting enabled');
+    app.use('/api/auth/login', securityManager.createLoginLimiter());
+    app.use('/api/ebay/sync', securityManager.createSyncLimiter());
+    // Admin endpoints only - not public ones
+    app.use('/api/products', (req, res, next) => {
+        // Only rate limit non-GET requests (admin operations)
+        if (req.method !== 'GET') {
+            return securityManager.createAPILimiter()(req, res, next);
+        }
+        next();
+    });
+}
+
+// Enhanced middleware with input sanitization
 app.use(cors());
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ 
+    limit: '10mb',
+    verify: (req, res, buf) => {
+        // Basic input size validation
+        if (buf.length > 10 * 1024 * 1024) {
+            throw new Error('Request body too large');
+        }
+    }
+}));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Database API routes (new multi-seller marketplace)
-app.use('/api/db', databaseAPI);
+// Secure Authentication Routes (MUST come first)
+const secureAuthRoutes = require('./routes/secure-auth');
+app.use('/api', secureAuthRoutes);
 
-// Vintage marketplace routes
-const vintageRoutes = require('./routes/vintage');
-app.use('/api', vintageRoutes);
-
-// Vintage authentication routes
-const authVintageRoutes = require('./routes/auth-vintage');
-app.use('/api', authVintageRoutes);
-
-// Public vintage routes (portfolios, integration)
+// Public vintage routes (portfolios, integration) - NO AUTH REQUIRED
 const publicVintageRoutes = require('./routes/public-vintage');
 app.use('/api', publicVintageRoutes);
+
+// 📂 PUBLIC ENDPOINTS - NO AUTHENTICATION REQUIRED
+// GET products - reads from file with optional vintage integration
+app.get('/api/products', async (req, res) => {
+    try {
+        // Add strong cache-busting headers
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+        
+        console.log('📦 Products API: Reading from file...');
+        const products = await readProducts();
+        
+        // Check if vintage integration is requested
+        const includeVintage = req.query.include_vintage === 'true';
+        const vintageLimit = parseInt(req.query.vintage_limit) || 10;
+        
+        let finalProducts = products;
+        
+        if (includeVintage) {
+            try {
+                const StoreIntegrationService = require('./services/StoreIntegrationService');
+                const integrationService = new StoreIntegrationService();
+                
+                finalProducts = await integrationService.getIntegratedProducts(products, {
+                    includeVintage: true,
+                    vintageLimit: vintageLimit,
+                    mixRatio: 0.2, // 20% vintage items
+                    category: req.query.category,
+                    priceRange: req.query.min_price && req.query.max_price 
+                        ? [parseFloat(req.query.min_price), parseFloat(req.query.max_price)]
+                        : null
+                });
+                
+                console.log('🏺 Integrated', finalProducts.filter(p => p.isVintage).length, 'vintage items');
+            } catch (vintageError) {
+                console.error('⚠️ Vintage integration failed, using regular products:', vintageError.message);
+                finalProducts = products;
+            }
+        }
+        
+        console.log('📦 Sending', finalProducts.length, 'total products (', finalProducts.filter(p => p.isVintage).length, 'vintage )');
+        res.json(finalProducts);
+    } catch (error) {
+        console.error('❌ Error reading products:', error);
+        res.status(500).json({ error: 'Failed to read products' });
+    }
+});
+
+// GET sold products - public endpoint
+app.get('/api/products/sold', async (req, res) => {
+    try {
+        console.log('📦 Getting sold products...');
+        const products = await readProducts();
+        const soldProducts = products.filter(product => product.isSold);
+        console.log('📦 Found', soldProducts.length, 'sold products');
+        res.json(soldProducts);
+    } catch (error) {
+        console.error('❌ Error reading sold products:', error);
+        res.status(500).json({ error: 'Failed to read sold products' });
+    }
+});
+
+// GET sorted products - public endpoint
+app.get('/api/products/sorted', async (req, res) => {
+    try {
+        const products = await readProducts();
+        
+        // Get sort parameters from query
+        const sortBy = req.query.sortBy || 'dateAdded';
+        const order = req.query.order || 'desc';
+        
+        // Sort products
+        const sortedProducts = products.sort((a, b) => {
+            let aVal = a[sortBy];
+            let bVal = b[sortBy];
+            
+            // Handle different data types
+            if (sortBy === 'price' || sortBy === 'salePrice') {
+                aVal = parseFloat(aVal) || 0;
+                bVal = parseFloat(bVal) || 0;
+            } else if (sortBy === 'dateAdded' || sortBy === 'dateModified') {
+                aVal = new Date(aVal);
+                bVal = new Date(bVal);
+            } else if (typeof aVal === 'string' && typeof bVal === 'string') {
+                aVal = aVal.toLowerCase();
+                bVal = bVal.toLowerCase();
+            }
+            
+            if (order === 'asc') {
+                return aVal > bVal ? 1 : -1;
+            } else {
+                return aVal < bVal ? 1 : -1;
+            }
+        });
+        
+        console.log('📦 Sorted', sortedProducts.length, 'products by', sortBy, order);
+        res.json(sortedProducts);
+    } catch (error) {
+        console.error('❌ Error sorting products:', error);
+        res.status(500).json({ error: 'Failed to sort products' });
+    }
+});
+
+// GET single product - public endpoint
+app.get('/api/products/:id', async (req, res) => {
+    try {
+        const productId = parseInt(req.params.id);
+        console.log('📦 Getting product with ID:', productId);
+        
+        const products = await readProducts();
+        const product = products.find(p => p.id === productId);
+        
+        if (product) {
+            console.log('📦 Found product:', product.name);
+            res.json(product);
+        } else {
+            console.log('❌ Product not found:', productId);
+            res.status(404).json({ error: 'Product not found' });
+        }
+    } catch (error) {
+        console.error('❌ Error getting product:', error);
+        res.status(500).json({ error: 'Failed to get product' });
+    }
+});
+
+// Database API routes (new multi-seller marketplace) - PROTECTED
+app.use('/api/db', securityManager.requireAuth.bind(securityManager), databaseAPI);
+
+// Vintage marketplace routes - PROTECTED ADMIN ROUTES
+const vintageRoutes = require('./routes/vintage');
+app.use('/api', securityManager.requireAuth.bind(securityManager), vintageRoutes);
+
+// Legacy authentication routes - DEPRECATED (will be removed)
+const authVintageRoutes = require('./routes/auth-vintage');
+app.use('/api', authVintageRoutes);
 
 // Admin subscription management routes
 const adminSubscriptionRoutes = require('./routes/admin-subscriptions');
@@ -865,7 +1025,7 @@ app.get('/api/products', async (req, res) => {
 });
 
 // Clear all products - for admin use - MUST be before /:id route
-app.delete('/api/products/clear-all', async (req, res) => {
+app.delete('/api/products/clear-all', securityManager.requireAuth.bind(securityManager), async (req, res) => {
     try {
         console.log('🗑️ Clearing all products');
         
@@ -979,7 +1139,7 @@ app.get('/api/products/:id', async (req, res) => {
 });
 
 // POST products - adds new product to file
-app.post('/api/products', async (req, res) => {
+app.post('/api/products', securityManager.requireAuth.bind(securityManager), securityManager.validateInput(securityManager.getValidationSchemas().productUpdate), async (req, res) => {
     try {
         console.log('💾 Adding product to backend:', req.body.name);
         
@@ -1024,7 +1184,7 @@ app.post('/api/products', async (req, res) => {
 });
 
 // DELETE product - NEW ROUTE FOR DELETING PRODUCTS
-app.delete('/api/products/:id', async (req, res) => {
+app.delete('/api/products/:id', securityManager.requireAuth.bind(securityManager), async (req, res) => {
     try {
         const productId = parseInt(req.params.id);
         console.log('🗑️ Deleting product with ID:', productId);
@@ -1238,8 +1398,8 @@ app.post('/api/sync-trigger', async (req, res) => {
     }
 });
 
-// Get eBay store URLs (for auto-import)
-app.post('/api/ebay/get-store-urls', async (req, res) => {
+// Get eBay store URLs (for auto-import) - PROTECTED
+app.post('/api/ebay/get-store-urls', securityManager.requireAuth.bind(securityManager), async (req, res) => {
     try {
         console.log('🔍 Getting eBay store URLs');
         
@@ -1757,8 +1917,8 @@ app.post('/api/ebay/get-store-urls', async (req, res) => {
     }
 });
 
-// Step 2: Import products from URLs (heavier request with delays)
-app.post('/api/ebay/import-from-urls', async (req, res) => {
+// Step 2: Import products from URLs (heavier request with delays) - PROTECTED
+app.post('/api/ebay/import-from-urls', securityManager.requireAuth.bind(securityManager), securityManager.validateInput(securityManager.getValidationSchemas().bulkImport), async (req, res) => {
     try {
         const { productUrls, storeName, storeUrl, maxProducts = 5 } = req.body;
         
@@ -2065,8 +2225,8 @@ app.post('/api/ebay/auto-import-store', async (req, res) => {
     }
 });
 
-// Smart eBay Import - Only imports new products and updates existing ones
-app.post('/api/ebay/smart-import', async (req, res) => {
+// Smart eBay Import - Only imports new products and updates existing ones - PROTECTED
+app.post('/api/ebay/smart-import', securityManager.requireAuth.bind(securityManager), securityManager.validateInput(securityManager.getValidationSchemas().bulkImport), async (req, res) => {
     try {
         const { productUrls, storeName, storeUrl, smartSync = true } = req.body;
         
@@ -2207,7 +2367,7 @@ app.post('/api/ebay/smart-import', async (req, res) => {
 });
 
 // Fix all product categories using intelligent categorization
-app.post('/api/products/fix-categories', async (req, res) => {
+app.post('/api/products/fix-categories', securityManager.requireAuth.bind(securityManager), async (req, res) => {
     try {
         console.log('🔧 Fixing product categories...');
         
@@ -2315,7 +2475,7 @@ app.delete('/api/products/:id/sold', async (req, res) => {
 });
 
 // Update product
-app.put('/api/products/:id', async (req, res) => {
+app.put('/api/products/:id', securityManager.requireAuth.bind(securityManager), securityManager.validateInput(securityManager.getValidationSchemas().productUpdate), async (req, res) => {
     try {
         const productId = parseInt(req.params.id);
         const updatedData = req.body;
@@ -2535,7 +2695,7 @@ function requireAdminAuth(req, res, next) {
 }
 
 // Auto-detect sold items using eBay API - v2 (BEFORE admin auth)
-app.post('/api/products/sync-sold-status', async (req, res) => {
+app.post('/api/products/sync-sold-status', securityManager.requireAuth.bind(securityManager), async (req, res) => {
     try {
         console.log('🔄 Starting sold items sync...');
         
@@ -2678,7 +2838,7 @@ app.post('/api/products/sync-sold-status', async (req, res) => {
 });
 
 // Fix products with insufficient images by re-scraping
-app.post('/api/products/fix-images', async (req, res) => {
+app.post('/api/products/fix-images', securityManager.requireAuth.bind(securityManager), async (req, res) => {
     try {
         console.log('🖼️ Starting image fix process...');
         

@@ -3738,5 +3738,16 @@
     "customTags": [],
     "importedFrom": "eBay Store",
     "storeName": "Unknown Store"
+  },
+  {
+    "id": 1756443595999,
+    "name": "Test Product",
+    "price": 10.99,
+    "description": "Test",
+    "category": "electronics",
+    "images": [],
+    "dateAdded": "2025-08-29T04:59:55.999Z",
+    "isVintage": false,
+    "customTags": []
   }
 ]
