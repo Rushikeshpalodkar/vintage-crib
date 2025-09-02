@@ -1,4 +1,24 @@
-# 🏺 Vintage Crib - Complete System Documentation
+# ✨ Vintage Crib - Aesthetic Vintage Marketplace ✨
+
+<div align="center">
+  
+  🏺 **Beautiful • Modern • Curated Vintage Experience** 🏺
+  
+  *A stunning, fully operational cross-platform vintage marketplace*
+  
+  🌟 **Connecting vintage treasures with modern technology** 🌟
+  
+</div>
+
+---
+
+## 📧 Contact Information
+
+**Developer**: Rushikesh Palodkar  
+**Email**: vintagecrip90s@gmail.com | rpalodkar15@gmail.com  
+**Phone**: +91 9349498516  
+
+---
 
 ## 🎯 System Overview
 
