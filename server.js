@@ -229,7 +229,7 @@ app.get('/api/products/sorted', async (req, res) => {
 // GET single product - public endpoint
 app.get('/api/products/:id', async (req, res) => {
     try {
-        const productId = parseInt(req.params.id);
+        const productId = parseFloat(req.params.id);
         console.log('📦 Getting product with ID:', productId);
         
         const products = await readProducts();
@@ -1119,7 +1119,7 @@ app.get('/api/products/sorted', async (req, res) => {
 // GET single product by ID
 app.get('/api/products/:id', async (req, res) => {
     try {
-        const productId = parseInt(req.params.id);
+        const productId = parseFloat(req.params.id);
         console.log('🔍 Getting single product with ID:', productId);
         
         const products = await readProducts();
@@ -1186,7 +1186,7 @@ app.post('/api/products', securityManager.requireAuth.bind(securityManager), sec
 // DELETE product - NEW ROUTE FOR DELETING PRODUCTS
 app.delete('/api/products/:id', securityManager.requireAuth.bind(securityManager), async (req, res) => {
     try {
-        const productId = parseInt(req.params.id);
+        const productId = parseFloat(req.params.id);
         console.log('🗑️ Deleting product with ID:', productId);
         
         // Read existing products
@@ -2405,7 +2405,7 @@ app.post('/api/products/fix-categories', securityManager.requireAuth.bind(securi
 // Mark product as sold
 app.post('/api/products/:id/sold', async (req, res) => {
     try {
-        const productId = parseInt(req.params.id);
+        const productId = parseFloat(req.params.id);
         const { salePrice, soldDate, buyerInfo } = req.body;
         
         console.log('💰 Marking product as sold:', productId);
@@ -2442,7 +2442,7 @@ app.post('/api/products/:id/sold', async (req, res) => {
 // Remove product from sold (mark as available again)
 app.delete('/api/products/:id/sold', async (req, res) => {
     try {
-        const productId = parseInt(req.params.id);
+        const productId = parseFloat(req.params.id);
         console.log('🔄 Unmarking product as sold:', productId);
         
         const products = await readProducts();
@@ -2477,7 +2477,7 @@ app.delete('/api/products/:id/sold', async (req, res) => {
 // Update product
 app.put('/api/products/:id', securityManager.requireAuth.bind(securityManager), securityManager.validateInput(securityManager.getValidationSchemas().productUpdate), async (req, res) => {
     try {
-        const productId = parseInt(req.params.id);
+        const productId = parseFloat(req.params.id);
         const updatedData = req.body;
         
         console.log('📝 Updating product:', productId, updatedData);
