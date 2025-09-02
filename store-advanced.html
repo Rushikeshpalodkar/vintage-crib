@@ -70,13 +70,13 @@
             --accent-dark: #ffd93d;
             --purple: #a8e6cf; /* Soft Mint Purple */
             
-            /* Dark Base */
-            --black: #0a0a0a;
-            --dark-gray: #1a1a1a;
-            --medium-gray: #2a2a2a;
-            --light-gray: #404040;
-            --off-white: #f8f8f6;
-            --cream: #f4f1eb;
+            /* Light Base */
+            --black: #ffffff;
+            --dark-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --light-gray: #dee2e6;
+            --off-white: #212529;
+            --cream: #495057;
             
             /* Vintage Brand */
             --vintage-gold: #d4af37;
@@ -90,8 +90,8 @@
             --shadow-inset-dark: inset 0 2px 8px rgba(0, 0, 0, 0.4);
             
             /* Glass Effects */
-            --glass-dark: rgba(42, 42, 42, 0.8);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-dark: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.08);
             --backdrop-blur: blur(20px);
             
             /* 3D Gradients */
@@ -103,9 +103,9 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%, #0a0a0a 100%);
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 25%, #e9ecef 50%, #f8f9fa 75%, #ffffff 100%);
             background-size: 400% 400%;
-            animation: darkGradientShift 15s ease infinite;
+            animation: lightGradientShift 15s ease infinite;
             color: var(--off-white);
             line-height: 1.6;
             min-height: 100vh;
@@ -113,7 +113,7 @@
             overflow-x: hidden;
         }
 
-        @keyframes darkGradientShift {
+        @keyframes lightGradientShift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
