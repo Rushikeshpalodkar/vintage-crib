@@ -2,6 +2,74 @@
   "logs": [
     {
       "status": "success",
+      "startTime": "2025-09-03T04:01:34.971Z",
+      "endTime": "2025-09-03T04:05:46.413Z",
+      "type": "intelligent_automatic",
+      "itemsChecked": 20,
+      "itemsSold": 0,
+      "pricesUpdated": 0,
+      "productsUpdated": 0,
+      "itemsImported": 0,
+      "retryAttempts": 2,
+      "blockedRequests": 0,
+      "errors": [],
+      "details": [],
+      "duration": 251,
+      "timestamp": "2025-09-03T04:05:46.441Z"
+    },
+    {
+      "status": "success",
+      "startTime": "2025-09-03T00:21:54.950Z",
+      "endTime": "2025-09-03T00:32:36.732Z",
+      "type": "intelligent_automatic",
+      "itemsChecked": 20,
+      "itemsSold": 0,
+      "pricesUpdated": 0,
+      "productsUpdated": 0,
+      "itemsImported": 0,
+      "retryAttempts": 14,
+      "blockedRequests": 0,
+      "errors": [],
+      "details": [],
+      "duration": 642,
+      "timestamp": "2025-09-03T00:32:36.771Z"
+    },
+    {
+      "status": "success",
+      "startTime": "2025-09-02T19:22:10.090Z",
+      "endTime": "2025-09-02T19:26:11.239Z",
+      "type": "intelligent_automatic",
+      "itemsChecked": 19,
+      "itemsSold": 0,
+      "pricesUpdated": 0,
+      "productsUpdated": 0,
+      "itemsImported": 0,
+      "retryAttempts": 2,
+      "blockedRequests": 0,
+      "errors": [],
+      "details": [],
+      "duration": 241,
+      "timestamp": "2025-09-02T19:26:11.279Z"
+    },
+    {
+      "status": "success",
+      "startTime": "2025-09-02T07:15:50.854Z",
+      "endTime": "2025-09-02T07:19:01.876Z",
+      "type": "intelligent_automatic",
+      "itemsChecked": 20,
+      "itemsSold": 0,
+      "pricesUpdated": 0,
+      "productsUpdated": 0,
+      "itemsImported": 0,
+      "retryAttempts": 0,
+      "blockedRequests": 0,
+      "errors": [],
+      "details": [],
+      "duration": 191,
+      "timestamp": "2025-09-02T07:19:01.878Z"
+    },
+    {
+      "status": "success",
       "startTime": "2025-09-02T06:15:50.856Z",
       "endTime": "2025-09-02T06:18:51.998Z",
       "type": "intelligent_automatic",
@@ -461,8 +529,8 @@
     }
   ],
   "stats": {
-    "totalSyncs": 25,
-    "successfulSyncs": 25,
+    "totalSyncs": 29,
+    "successfulSyncs": 29,
     "failedSyncs": 0
   }
 }
