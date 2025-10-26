@@ -1,5 +1,5 @@
 {
-  "autoSyncEnabled": true,
+  "autoSyncEnabled": false,
   "syncIntervalMinutes": 90,
   "lastSyncTime": "2025-09-03T04:01:34.971Z",
   "syncTypes": {
